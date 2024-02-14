@@ -1,0 +1,75 @@
+---
+title: "Hello Typst!"
+format:
+  typst:
+    toc: true
+    section-numbering: 1.1.a
+    columns: 2
+---
+
+Restriction du champ: méthodes ensemblistes à base d'arbres.
+
+# Théorie
+
+## Pourquoi utiliser des méthodes ensemblistes?
+
+Avantages/inconvénients
+
+## Comment fonctionnent les méthodes ensemblistes?
+
+- Présentation intuitive et peu matheuse
+
+### Qu'est-ce qu'un arbre?
+
+### Qu'est-ce qu'une forêt aléatoire?
+
+- Présentation;
+- Limites à l'overfitting.
+
+### Qu'est-ce qu'un algorithme de boosting?
+
+- Présentation;
+- Pas de limite à l'overfitting.
+
+### Différence entre RF et GBRT
+
+Comment choisir entre forêt aléatoire
+
+
+## Détail mathématique
+
+### Qu'est-ce qu'un arbre?
+
+### Comment on construit un arbre?
+
+## Rôle et interprétation des principaux hyperparamètres
+
+gamma, beta, alpha, lambda, eta, M, T, nb de quantiles;
+method = "hist"
+
+## Diagnostics post-entraînement
+
+Mesure d'importance: intérêt et limites.
+
+# Cas d'usage
+
+- Données (pouvant être rendues) publiques
+- Notebooks déployables sur le datalab
+- Code en Python
+
+## Régression
+
+### Cas général
+
+### Régression en présence d'outliers
+
+=> Changement de fonction de perte
+
+## Classification
+
+### Cas général
+
+### Classification déséquilibrée
+
+=> Pondération de la classe minoritaire
+
