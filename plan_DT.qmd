@@ -11,38 +11,106 @@ format:
 
 Restriction du champ: méthodes ensemblistes à base d'arbres.
 
-# Théorie
+Lecture de base: chapitres 9-12: https://bradleyboehmke.github.io/HOML/
+
+# Survol des méthodes ensemblistes
+
+## Principe des méthodes ensemblistes
+
+Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
+
+Il existe trois grandes approches ensemblistes: 
+
+- le _bagging_;
+- le _stacking_;
+- le _boosting_.
+
+Le présent document se concentre sur deux approches: le _bagging_ et le _boosting_.
 
 ## Pourquoi utiliser des méthodes ensemblistes?
 
-Avantages/inconvénients
+Avantages:
+
+Inconvénients:
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
-- Présentation intuitive et peu matheuse
+Présentation intuitive et peu matheuse
 
-### Qu'est-ce qu'un arbre?
 
-### Qu'est-ce qu'une forêt aléatoire?
+# Présentation des algorithmes
+
+Quatre temps:
+
+- arbres de décision et de régression;
+- bagging;
+- forêts aléatoires;
+- boosting.
+
+## Le point de départ: les arbres de décision et de régression
+
+Présenter _decision tree_ et _regression tree_. Reprendre des éléments du chapitre 9 de https://bradleyboehmke.github.io/HOML/
+
+Principes d'un arbre: 
+
+- fonction constante par morceaux;
+- partition de l'espace;
+
+
+
+- interactions entre variables.
+
+Illustration, et représentation graphique.
+
+## Le _bagging_
+
+Reprendre des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML/
+
+## Les _random forests_
+
+Reprendre des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/
+
+<!-- https://neptune.ai/blog/ensemble-learning-guide -->
+<!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
 
 - Présentation;
-- Limites à l'overfitting.
+- Bien insister sur les avantages des RF: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
 
-### Qu'est-ce qu'un algorithme de boosting?
+## Le _boosting_
+
+Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.
+
+
+
 
 - Présentation;
-- Pas de limite à l'overfitting.
-
-### Différence entre RF et GBRT
-
-Comment choisir entre forêt aléatoire
+- Avantage du boosting: performances particulièrement élevées.
+- Inconvénients: 1/ nombre élevé d'hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d'overfitting.
 
 
-## Détail mathématique
+# Présentation détaillée du _gradient boosting_
 
-### Qu'est-ce qu'un arbre?
+Le _gradient boosting_ tient à la façon dont
 
-### Comment on construit un arbre?
+Bien préciser que cette approche permet de construire des forêts aléatoires
+
+## Rappels sur l'apprentissage supervisé
+
+Reprendre les éléments figurant dans la formation boosting.
+
+## La mécanique du boosting
+
+Reprendre les éléments figurant dans la formation boosting.
+
+## Comment construire un arbre?
+
+
+
+# Comment utiliser ces algorithmes
+
+## Différence entre RF et _boosting_
+
+Comment choisir entre forêt aléatoire et boosting
 
 ## Rôle et interprétation des principaux hyperparamètres
 
