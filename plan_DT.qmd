@@ -75,3 +75,11 @@ Mesure d'importance: intérêt et limites.
 
 => Pondération de la classe minoritaire
 
+
+
+
+Petites notes complémentaires
+Interprétabilité: https://selfexplainml.github.io/PiML-Toolbox/_build/html/index.html
+Comparaison arbres et autres (Papier R Avouac): https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf
+
+
