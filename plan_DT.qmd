@@ -75,11 +75,21 @@ Mesure d'importance: intérêt et limites.
 
 => Pondération de la classe minoritaire
 
+<!-- IMPORTANT -->
+<!-- Formations sur le ML -->
+<!-- https://github.com/davidrpugh/machine-learning-for-tabular-data -->
+<!-- IMPORTANT -->
+
+<!-- Petites questions: -->
+<!-- - Quelle implémentation des RF veut-on présenter? Je suis favorable à avoir un seul framework RF/Boosting, mais c'est peut-être pas standard. Quelques références: -->
+
+<!--     - https://konfuzio.com/en/random-forest/ -->
+<!--     - https://xgboost.readthedocs.io/en/stable/tutorials/rf.html -->
 
 
 
-Petites notes complémentaires
-Interprétabilité: https://selfexplainml.github.io/PiML-Toolbox/_build/html/index.html
-Comparaison arbres et autres (Papier R Avouac): https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf
+<!-- Petites notes complémentaires -->
+<!-- - Interprétabilité: https://selfexplainml.github.io/PiML-Toolbox/_build/html/index.html -->
+<!-- - Comparaison arbres et autres (Papier R Avouac): https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf -->
 
 
