@@ -66,9 +66,13 @@ Illustration, et représentation graphique.
 
 Reprendre des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML/
 
+Mettre une description de l'algorithme en pseudo-code?
+
 ## Les _random forests_
 
 Reprendre des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/
+
+Mettre une description de l'algorithme en pseudo-code?
 
 <!-- https://neptune.ai/blog/ensemble-learning-guide -->
 <!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
@@ -80,19 +84,21 @@ Reprendre des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML
 
 Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.
 
+Le *boosting* combine l'[**approche ensembliste**]{.orange} avec une [**modélisation additive par étapes**]{.orange} (*forward stagewise additive modeling*).
 
-
+Mettre une description de l'algorithme en pseudo-code?
 
 - Présentation;
 - Avantage du boosting: performances particulièrement élevées.
 - Inconvénients: 1/ nombre élevé d'hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d'overfitting.
 
+- Préciser qu'il est possible d'utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.
 
 # Présentation détaillée du _gradient boosting_
 
-Le _gradient boosting_ tient à la façon dont
+Attention présentation détaillée
 
-Bien préciser que cette approche permet de construire des forêts aléatoires
+Bien préciser que cette approche permet de construire des forêts aléatoires et des modèles de _boosting_. Il existe de multiples implémentations du _gradient boosting_ (GBM, lightGBM, XGBoost, Catboost...). L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2016).
 
 ## Rappels sur l'apprentissage supervisé
 
@@ -102,7 +108,14 @@ Reprendre les éléments figurant dans la formation boosting.
 
 Reprendre les éléments figurant dans la formation boosting.
 
-## Comment construire un arbre?
+## La construction d'un arbre par la descente de gradient
+
+Donner les formules d'XGBoost. Donner un algorithme en pseudo code décrivant la façon dont XGBoost énumère les splits possibles.
+
+## Deux points importants
+
+- La gestion des variables continues (quantization par histogram);
+- La gestion des variables catégorielles.
 
 
 
