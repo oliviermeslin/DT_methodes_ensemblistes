@@ -114,7 +114,7 @@ Donner les formules d'XGBoost. Donner un algorithme en pseudo code décrivant la
 
 ## Deux points importants
 
-- La gestion des variables continues (quantization par histogram);
+- La gestion des variables continues (quantization par histogramme);
 - La gestion des variables catégorielles.
 
 
