@@ -44,7 +44,7 @@ Présentation intuitive et peu matheuse
 
 Quatre temps:
 
-- arbres de décision et de régression;
+- arbres de décision et de régression (CART);
 - bagging;
 - forêts aléatoires;
 - boosting.
@@ -98,9 +98,15 @@ Mettre une description de l'algorithme en pseudo-code?
 
 # Présentation détaillée du _gradient boosting_
 
-Attention présentation détaillée
+Attention présentation détaillée et matheuse. Cette partie porte précisément sur l'optimisation par le gradient.
 
-Bien préciser que cette approche permet de construire des forêts aléatoires et des modèles de _boosting_. Il existe de multiples implémentations du _gradient boosting_ (GBM, lightGBM, XGBoost, Catboost...). L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2016).
+Bien préciser:
+
+- il existe des implémentations du _boosting_ qui ne sont pas du _gradient boosting_ (exemple: l'_adaptative boosting_ de l'algorithme AdaBoost).
+- Il existe de multiples implémentations du _gradient boosting_ (GBM, lightGBM, XGBoost, Catboost...), globalement similaires mais qui diffèrent sur des points de détail. La présentation qui suit doit donc être complétée par la lecture de la documentation des différents algorithmes.  
+- cette approche permet de construire des forêts aléatoires et des modèles de _boosting_. 
+
+L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2016). Il est important de numéroter les équations pour faire le lien entre la partie qui liste les hyperparamètres et les équations dans lesquels ils interviennent.
 
 ## Rappels sur l'apprentissage supervisé
 
@@ -116,7 +122,7 @@ Donner les formules d'XGBoost. Donner un algorithme en pseudo code décrivant la
 
 ## Deux points importants
 
-- La gestion des variables continues (quantization par histogram);
+- La gestion des variables continues (quantization par histogramme);
 - La gestion des variables catégorielles.
 
 
