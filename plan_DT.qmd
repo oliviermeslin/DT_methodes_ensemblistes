@@ -15,7 +15,7 @@ Lecture de base: chapitres 9-12: https://bradleyboehmke.github.io/HOML/
 
 # Survol des méthodes ensemblistes
 
-__Principe__: 
+__Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
 
 ## Principe des méthodes ensemblistes
 
@@ -31,9 +31,26 @@ Le présent document se concentre sur deux approches: le _bagging_ et le _boosti
 
 ## Pourquoi utiliser des méthodes ensemblistes?
 
-Avantages:
+Avantages: 
+
+- Méthodes adaptées à un grand nombre de cas d'usage de la statistique publique:
+
+    - Elles sont notamment applicables à tous les problèmes pour lesquels on utilise une régression linéaire ou une régression logistisque);
+    - Elles s'appliquent à des données tabulaires (enregistrements en lignes, variables en colonnes), situation très fréquente dans la statistique publique.
+    
+    
+- Performances quasi systématiquement supérieures aux méthodes économétriques traditionnelles;
+- Scalabilité: ces méthodes peuvent être appliquées à des données volumineuses;
+- Coût d'entrée modéré (comparé à des approches plus avancées comme le _deep learning_)
 
 Inconvénients:
+
+- Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
+- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis).
+- Temps d'entraînement potentiellement long
+- Risque de surapprentissage.
+
+
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
