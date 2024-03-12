@@ -15,6 +15,8 @@ Lecture de base: chapitres 9-12: https://bradleyboehmke.github.io/HOML/
 
 # Survol des méthodes ensemblistes
 
+__Principe__: 
+
 ## Principe des méthodes ensemblistes
 
 Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
