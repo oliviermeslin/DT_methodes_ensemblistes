@@ -97,7 +97,7 @@ Expliquer que les _random forests_ sont une amélioration du _bagging_, en repre
 <!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
 
 - Présentation avec la figure en SVG;
-- Pas besoin d'illustrer
+- Difficile d'illustrer avec un exemple (car on ne peut pas vraiment représenter le _feature sampling_);
 - Bien insister sur les avantages des RF: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
 
 ## Le _boosting_
@@ -154,6 +154,13 @@ Expliquer:
 
 Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour permettre des renvois depuis la liste des hyperparamètres?
 
+## Le choix d'une fonction de perte
+
+Exemple: Huber?
+
+## L'utilisation des pondérations
+
+Bien expliquer où elles interviennent.
 
 # Comment (bien) utiliser les approches ensemblistes
 
@@ -161,10 +168,30 @@ Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour perm
 
 Comment choisir entre forêt aléatoire et boosting:
 
+- Temps dont on dispose: RF si peu de temps;
+- Puissance de calcul dont on dispose: RF si peu de puissance;
+- Compréhension des algorithmes: RF si on est débutant;
+- Nombre de _features_; RF si nombreuses;
+- Nature du problème: y a-t-il des spécificités locales (au sens mathématique) qu'un arbre assez profond aura du mal à prendre en compte? Si oui, le _boosting_ peut aider
+- Présence d'_outliers_: si oui, RF, ou alors _boosting_ avec _subsampling_.
+
+
 ## La préparation des données
 
-- La gestion des variables continues (quantization par histogramme);
-- La gestion des variables catégorielles.
+### La _target_
+
+- Penser aux transformations préalables (log, ratio...).
+- Quid des variables catégorielles ordonnées?
+
+### Les _features_
+
+- Que faire des variables continues? 
+    - les transformations monotones sont inutiles;
+    - les transformations non monotones peuvent être utiles;
+    - attention aux paramètres de la _quantization_ par histogramme;
+- La gestion des variables catégorielles:
+    - one hot encoding?
+    - support expérimental des variables catégorielles?
 
 ## Rôle et interprétation des principaux hyperparamètres
 
@@ -175,7 +202,13 @@ Faire systématiquement le renvoi vers la partie matheuse, pour que les lecteurs
 
 ## Diagnostics post-entraînement
 
-Mesure d'importance: intérêt et limites.
+- Mesure d'importance: intérêt et limites.
+- Y a-t-il d'autres diagnostics standards?
+
+# Interprétabilité
+
+Quels frameworks veut-on présenter?
+
 
 # Cas d'usage
 
