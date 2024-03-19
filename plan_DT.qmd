@@ -19,17 +19,6 @@ __Principe__: cette partie propose une présentation intuitive des méthodes ens
 
 ## Principe des méthodes ensemblistes
 
-### L'union fait la force
-
-Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
-
-Il existe trois grandes approches ensemblistes: 
-
-- le _bagging_;
-- le _stacking_;
-- le _boosting_.
-
-Le présent document se concentre sur deux approches: le _bagging_ et le _boosting_.
 
 ### Pourquoi utiliser des méthodes ensemblistes?
 
@@ -53,6 +42,23 @@ Inconvénients:
 - Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
 - Risque de surapprentissage.
 
+
+### L'union fait la force
+
+Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
+
+Il existe trois grandes approches ensemblistes: 
+
+- le _bagging_;
+- le _stacking_;
+- le _boosting_.
+
+Le présent document se concentre sur deux approches: le _bagging_ et le _boosting_.
+
+
+### Critères de performance et sélection d'un modèle 
+
+La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
