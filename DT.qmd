@@ -19,7 +19,6 @@ __Principe__: cette partie propose une présentation intuitive des méthodes ens
 
 ## Principe des méthodes ensemblistes
 
-
 ### Pourquoi utiliser des méthodes ensemblistes?
 
 Avantages: 
@@ -36,7 +35,7 @@ Avantages:
 
 Inconvénients:
   
-- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis).
+- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis) -> comme toutes les méthodes statistiques je dirais. Et avec l'arrivée de chat GPT & co ou avec une bonne documentation le coût d'entrée est moindre.
 - Temps d'entraînement potentiellement long, notamment pour l'optimisation des hyperparamètres.
 - Ces méthodes peuvent nécessiter une puissance de calcul importante et/ou une mémoire vive de grande taille.
 - Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
@@ -47,18 +46,22 @@ Inconvénients:
 
 Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
 
-Il existe trois grandes approches ensemblistes: 
+Il existe quatre grandes approches ensemblistes: 
 
 - le _bagging_;
+- la _random forest_
 - le _stacking_;
 - le _boosting_.
 
-Le présent document se concentre sur deux approches: le _bagging_ et le _boosting_.
+Le présent document se concentre sur deux approches: la _radom forest_ et le _boosting_.
 
 
-### Critères de performance et sélection d'un modèle 
+Les méthodes ensemblistes désignent les approches qui consistent à entraîner plusieurs modèles, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les performance des méthodes ensemblistes sont souvent supérieures à celles des modèles individuels.
 
-La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
+Les modèles utilisés dans les méthodes ensemblistes, appelés modèles de base ou "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
+
+Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée. Dans le premier cas, chaque modèle de base est entraîné pour la même tâche de prédiction en utilisant un sous-ensemble de l'échantillon d'entraînement, un sous-ensemble de variables, ou une combinaison des deux. Les techniques les plus populaires sont le bagging et la forêt aléatoire. Dans la seconde approche, appelée boosting, les modèles de base sont entraînés de manière séquentielle, chaque modèle visant à minimiser l'erreur de prédiction du modèle précédent. Les implémentations les plus courantes du boosting sont actuellement XGBoost, CatBoost et LightGBM.
+
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
@@ -80,17 +83,22 @@ Principes d'un arbre:
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 
-## Le _bagging_
 
-Reprendre des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML/
 
-Mettre une description de l'algorithme en pseudo-code?
+### Critères de performance et sélection d'un modèle 
+
+La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
+
+
+
 
 ## Le _bagging_ et les _random forests_
 
 ### Le _bagging_
 
 Présenter le _bagging_ en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML.
+Mettre une description de l'algorithme en pseudo-code?
+
 
 - Présentation avec la figure en SVG;
 - Illustration avec un cas d'usage de classification en deux dimensions.
@@ -119,9 +127,13 @@ Le *boosting* combine l'[**approche ensembliste**]{.orange} avec une [**modélis
 
 - Préciser qu'il est possible d'utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.
 
-# Présentation détaillée du _gradient boosting_
 
-Attention présentation détaillée et matheuse. Cette partie porte précisément sur l'optimisation par le gradient.
+
+
+# Les méthodes d'entraînement
+
+
+Présentation détaillée des algorithmes utilisés et des fondements statistiques. Cette partie porte précisément sur l'optimisation par le gradient.
 
 Bien préciser:
 
@@ -135,19 +147,66 @@ L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2
 
 Reprendre les éléments figurant dans la formation boosting.
 
+
 ## La mécanique des approches ensemblistes
 
-### La mécanique de la _random forest_
+### La  _random forest_
 
 Mettre une description de l'algorithme en pseudo-code
 
 Reprendre les éléments figurant dans la formation boosting.
 
-### La mécanique du boosting
+Random Forest :
+
+La Random Forest est un algorithme d'apprentissage ensembliste basé sur le bagging (Bootstrap Aggregating) qui combine les prédictions de multiples arbres de décision pour améliorer les performances de prédiction et réduire le surapprentissage. 
+
+Etapes de construction du modèle :
+
+    Sous-échantillonnage bootstrap :
+        Pour chaque arbre de décision dans la forêt, un échantillon bootstrap est généré à partir de l'ensemble d'entraînement initial. Cela signifie qu'un échantillon est tiré au hasard avec remplacement à partir des données d'entraînement, ce qui crée un nouvel ensemble de données de la même taille mais avec des exemples potentiellement dupliqués.
+
+    Construction de l'arbre de décision :
+        Sur la base de chaque échantillon bootstrap, un arbre de décision est construit. À chaque nœud de l'arbre, un sous-ensemble aléatoire de caractéristiques est considéré pour le split.
+        L'arbre est construit en divisant récursivement les données en sous-ensembles homogènes jusqu'à ce qu'un critère d'arrêt soit atteint, tel que la profondeur maximale de l'arbre ou le nombre minimum d'exemples par feuille.
+
+    Entraînement de la forêt :
+        Une fois que tous les arbres de décision sont construits, les prédictions de chaque arbre sont agrégées. Pour une classification, le mode (classe la plus fréquente) est utilisé comme prédiction finale, tandis que pour une régression, la moyenne des prédictions est prise.
+
+    Prédiction :
+        Pour faire une prédiction sur de nouvelles données, chaque arbre de la forêt donne sa prédiction et la prédiction finale est déterminée selon la méthode d'agrégation mentionnée ci-dessus.
+    
+        
+
+### Le boosting
 
 Mettre une description de l'algorithme en pseudo-code
 
 Reprendre les éléments figurant dans la formation boosting.
+
+
+Le boosting est une famille d'algorithmes d'apprentissage ensembliste où les modèles sont formés séquentiellement, chaque modèle tentant de corriger les erreurs des modèles précédents. L'algorithme de boosting le plus populaire est AdaBoost (Adaptive Boosting), et ses variantes les plus récentes incluent Gradient Boosting, XGBoost et LightGBM. 
+
+Etapes de construction du modèle :
+
+    Initialisation des poids :
+        Les observations de l'échantillon d'entraînement reçoivent un poids égal.
+
+    Construction du modèle de base :
+        Le modèle de base accorde une importance (poids) plus élevée aux exemples mal classés par les modèles précédents.
+
+    Calcul de l'erreur pondérée :
+        L'erreur pondérée du modèle de base est calculée en utilisant les poids associés à chaque observation. Cela permet de quantifier l'ampleur du problème lié aux observations mal classées.
+
+    Mise à jour des poids :
+        Les poids des observations sont mis à jour à chaque itération en augmentant le poids des observations mal classés et en diminuant le poids des observations correctement classés.
+
+    Répétition du processus :
+        Les étapes précédentes sont répétées pour former un ensemble de modèles, où chaque modèle est entraîné pour corriger les erreurs des modèles précédents.
+
+    Agrégation des prédictions :
+        Pour faire une prédiction sur de nouvelles données, les prédictions de chaque modèle sont agrégées, souvent en utilisant une moyenne pondérée.
+
+
 
 ## La construction d'un arbre par la descente de gradient
 
@@ -161,6 +220,10 @@ Expliquer:
 
 Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour permettre des renvois depuis la liste des hyperparamètres?
 
+
+## Présentation détaillée du _gradient boosting_
+
+
 ## Le choix d'une fonction de perte
 
 Exemple: Huber?
@@ -168,6 +231,9 @@ Exemple: Huber?
 ## L'utilisation des pondérations
 
 Bien expliquer où elles interviennent.
+
+
+
 
 # Comment (bien) utiliser les approches ensemblistes
 
@@ -217,7 +283,7 @@ Faire systématiquement le renvoi vers la partie matheuse, pour que les lecteurs
 Quels frameworks veut-on présenter?
 
 
-# Cas d'usage
+# Cas d'usage: exemples d'application
 
 - Données (pouvant être rendues) publiques
 - Notebooks déployables sur le datalab
