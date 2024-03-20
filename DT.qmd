@@ -156,25 +156,20 @@ Mettre une description de l'algorithme en pseudo-code
 
 Reprendre les éléments figurant dans la formation boosting.
 
-Random Forest :
-
-La Random Forest est un algorithme d'apprentissage ensembliste basé sur le bagging (Bootstrap Aggregating) qui combine les prédictions de multiples arbres de décision pour améliorer les performances de prédiction et réduire le surapprentissage. 
-
-Etapes de construction du modèle :
+La Random Forest est un algorithme d'apprentissage ensembliste basé sur le bagging (Bootstrap Aggregating) qui combine les prédictions de multiples arbres de décision pour améliorer les performances de prédiction et réduire le surapprentissage. Voici les étapes principales :
 
     Sous-échantillonnage bootstrap :
-        Pour chaque arbre de décision dans la forêt, un échantillon bootstrap est généré à partir de l'ensemble d'entraînement initial. Cela signifie qu'un échantillon est tiré au hasard avec remplacement à partir des données d'entraînement, ce qui crée un nouvel ensemble de données de la même taille mais avec des exemples potentiellement dupliqués.
+      Chaque arbre de décision est construit à partir d'un échantillon aléatoire (tirage avec remise, échantillon de même taille que l'échantillon initial) généré par bootstrap à partir de l'ensemble d'entraînement initial. 
 
     Construction de l'arbre de décision :
-        Sur la base de chaque échantillon bootstrap, un arbre de décision est construit. À chaque nœud de l'arbre, un sous-ensemble aléatoire de caractéristiques est considéré pour le split.
-        L'arbre est construit en divisant récursivement les données en sous-ensembles homogènes jusqu'à ce qu'un critère d'arrêt soit atteint, tel que la profondeur maximale de l'arbre ou le nombre minimum d'exemples par feuille.
+        À chaque nœud de l'arbre, un sous-ensemble aléatoire de caractéristiques (variables) est considéré pour le split.
+        L'arbre est construit en divisant récursivement les données en sous-ensembles homogènes jusqu'à ce qu'un critère d'arrêt soit atteint, tel que la profondeur maximale de l'arbre ou le nombre minimum d'observations par feuille.
 
     Entraînement de la forêt :
-        Une fois que tous les arbres de décision sont construits, les prédictions de chaque arbre sont agrégées. Pour une classification, le mode (classe la plus fréquente) est utilisé comme prédiction finale, tandis que pour une régression, la moyenne des prédictions est prise.
+        Une fois les arbres de décision construits, les prédictions de chaque arbre sont agrégées. Pour une classification, le mode (classe la plus fréquente) est utilisé comme prédiction finale ; pour une régression, la moyenne des prédictions est considérée
 
     Prédiction :
         Pour faire une prédiction sur de nouvelles données, chaque arbre de la forêt donne sa prédiction et la prédiction finale est déterminée selon la méthode d'agrégation mentionnée ci-dessus.
-    
         
 
 ### Le boosting
@@ -192,7 +187,7 @@ Etapes de construction du modèle :
         Les observations de l'échantillon d'entraînement reçoivent un poids égal.
 
     Construction du modèle de base :
-        Le modèle de base accorde une importance (poids) plus élevée aux exemples mal classés par les modèles précédents.
+        Le modèle de base accorde une importance (poids) plus élevée aux observations mal classées par les modèles précédents.
 
     Calcul de l'erreur pondérée :
         L'erreur pondérée du modèle de base est calculée en utilisant les poids associés à chaque observation. Cela permet de quantifier l'ampleur du problème lié aux observations mal classées.
@@ -208,7 +203,10 @@ Etapes de construction du modèle :
 
 
 
-## La construction d'un arbre par la descente de gradient
+## La construction d'un arbre 
+
+
+## L'optimisation du modèle de random forest par descente de gradient
 
 Donner les formules d'XGBoost. Donner un algorithme en pseudo code décrivant la façon dont XGBoost énumère les splits possibles.
 
