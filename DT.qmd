@@ -56,11 +56,10 @@ Il existe quatre grandes approches ensemblistes:
 Le présent document se concentre sur deux approches: la _radom forest_ et le _boosting_.
 
 
-Les méthodes ensemblistes désignent les approches qui consistent à entraîner plusieurs modèles, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les performance des méthodes ensemblistes sont souvent supérieures à celles des modèles individuels.
+Les méthodes ensemblistes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
 
-Les modèles utilisés dans les méthodes ensemblistes, appelés modèles de base ou "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
-
-Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée. Dans le premier cas, chaque modèle de base est entraîné pour la même tâche de prédiction en utilisant un sous-ensemble de l'échantillon d'entraînement, un sous-ensemble de variables, ou une combinaison des deux. Les techniques les plus populaires sont le bagging et la forêt aléatoire. Dans la seconde approche, appelée boosting, les modèles de base sont entraînés de manière séquentielle, chaque modèle visant à minimiser l'erreur de prédiction du modèle précédent. Les implémentations les plus courantes du boosting sont actuellement XGBoost, CatBoost et LightGBM.
+Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont entrainés en parallèle, chaque modèle de base est entraîné pour la même tâche de prédiction en utilisant un sous-ensemble de l'échantillon d'entraînement, un sous-ensemble de variables, ou une combinaison des deux. Les techniques les plus populaires sont le bagging et la forêt aléatoire. 
+Lorsque les modèles de base sont entrainés de manière séquentielle, appelée boosting, chaque modèle vise à minimiser l'erreur de prédiction du modèle précédent. Les implémentations les plus courantes du boosting sont actuellement XGBoost, CatBoost et LightGBM.
 
 
 ## Comment fonctionnent les méthodes ensemblistes?
