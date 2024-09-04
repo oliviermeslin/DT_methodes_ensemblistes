@@ -13,6 +13,34 @@ Restriction du champ: méthodes ensemblistes à base d'arbres.
 
 Lecture de base: chapitres 9-12: https://bradleyboehmke.github.io/HOML/
 
+
+# Introduction
+
+Enjeux pour la statistique publique:
+
+  - Qualité des données produites et diffusées (biais et précision des indicateurs/estimateurs)
+  
+  
+Contexte: des méthodes traditionelles qui peuvent être mise en concurrence avec des méthodes plus performantes 
+
+  - Une approche puissante pour traiter les relations complexes (relations non linéaires, interactions entre variables etc.)
+  
+  - Une infrastructure plus adaptée à l'utilisation de ces méthodes
+  
+
+Objectif de ce document méthodologique:
+
+  - diminuer le coup d'appropriation et d'expérimentation de ces méthodes
+
+
+Brève présentation des méthodes ensemblistes
+
+Brève présentation des applications dans la statistique publique (imputation, détection des valeurs aberrantes etc.)
+
+
+
+
+
 # Survol des méthodes ensemblistes
 
 __Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
@@ -91,18 +119,39 @@ La performance d'un modèle augmente généralement avec sa complexité, jusqu'�
 
 
 
-## Le _bagging_ et les _random forests_
+## Le _bagging_, les _random forests_ et le _boosting_
 
-### Le _bagging_
+Il existe plusieurs types de méthodes ensemblistes, toutes ayant en commun la combinaison de modèles élémentaires. Le présent document présente les 3 principales méthodes : le Bagging, la Random Forests et le Boosting.
+
+### Le _bagging_ (Bootstrap Aggregating)
 
 Présenter le _bagging_ en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML.
 Mettre une description de l'algorithme en pseudo-code?
-
 
 - Présentation avec la figure en SVG;
 - Illustration avec un cas d'usage de classification en deux dimensions.
 
 
+
+Le bagging, ou Bootstrap Aggregating, est une méthode ensembliste qui comporte trois étapes principales :
+
+    Création de sous-échantillons : À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (bootstrapping). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises. Cette technique permet de diversifier les données d'entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.
+
+    Entraînement parallèle : Un modèle distinct est entraîné sur chaque sous-échantillon de manière indépendante. Cette technique permet un gain d'efficacité et un meilleur contrôle du surapprentissage (overfitting).
+
+    Agrégation des prédictions : Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu'en régression, elle correspond généralement à la moyenne des prédictions. En combinant les prédictions de plusieurs modèles, le bagging renforce la stabilité et la performance globale de l'algorithme, notamment en réduisant la variance des prédictions.
+
+
+Le bagging appliqué aux arbres de décision est la forme la plus courante de cette technique.
+
+Le bagging est particulièrement efficace pour réduire la variance des modèles, ce qui les rend moins vulnérables au surapprentissage. Cette caractéristique est particulièrement utile dans les situations où la robustesse et la capacité de généralisation des modèles sont cruciales. De plus, comme le bagging repose sur des processus indépendants, l'exécution est plus plus rapide dans des environnements distribués.
+
+Cependant, bien que chaque modèle de base soit construit indépendamment sur des sous-échantillons distincts, les variables utilisées pour générer ces modèles ne sont pas forcément indépendantes d'un modèle à l'autre. Dans le cas du bagging appliqué aux arbres de décision, cela conduit souvent à des arbres ayant une structure similaire. 
+
+Les forêts aléatoires apportent une amélioration à cette approche en réduisant cette corrélation entre les arbres, ce qui permet d'augmenter la précision de l'ensemble du modèle.
+
+
+    
 ### Les _random forests_
 
 Expliquer que les _random forests_ sont une amélioration du _bagging_, en reprenant des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/
@@ -114,7 +163,7 @@ Expliquer que les _random forests_ sont une amélioration du _bagging_, en repre
 - Difficile d'illustrer avec un exemple (car on ne peut pas vraiment représenter le _feature sampling_);
 - Bien insister sur les avantages des RF: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
 
-## Le _boosting_
+### Le _boosting_
 
 Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.
 
