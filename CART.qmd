@@ -56,6 +56,9 @@ Cette méthode "gloutonne" permet de construire le découpage de l'espace de man
 
 Le terme "arbre de décision" provient de la structure descendante en forme d'arbre inversé qui émerge lorsqu'on utilise un algorithme glouton (greedy) pour découper l'espace des caractéristiques en sous-ensemble de réponses homogènes de manière récursive. A chaque étape, deux nouvelles branches sont créées et forment une nouvelle partition de l'espace des caractéristiques.
 
+Note: Les arbres de décision produisent des **prédictions constantes par morceaux** dans l'espace des caractéristiques. En raison de leur nature **non-continue** et **non-différentiable**, il est impossible d'utiliser des méthodes d'optimisation classiques reposant sur le calcul de gradients.
+
+
 
 ### Terminologie et structure d'un arbre de décision
 
@@ -100,76 +103,99 @@ _Figure illustrative_
 
 L'algorithme CART (Classification and Regression Trees) proposé par Breiman (1984) est une méthode utilisée pour construire des arbres de décision, que ce soit pour des tâches de classification ou de régression. L'algorithme CART fonctionne en partitionnant l'espace des caractéristiques en sous-ensembles de manière récursive, en suivant une logique de décisions binaires à chaque étape. Ce processus est itératif et suit plusieurs étapes clés.
 
-### Définir une fonction de perte adaptée au problème
 
-La première étape dans la construction d'un arbre de décision est de définir une **fonction de perte** appropriée au type de problème rencontré. Cette fonction, également appelée **critère de qualité**, mesure l'impureté d'un nœud, c'est-à-dire le degré de dispersion des observations par rapport à la variable cible (classe pour la classification ou valeur continue pour la régression). Un nœud est dit pur lorsque toutes les observations qu'il contient appartiennent à la même classe (classification) ou présentent des valeurs très proches (régression).
+### Définir une fonction d'impureté adaptée au problème
 
-L'objectif de l'algorithme CART est de diviser l'espace des caractéristiques de manière récursive pour créer des sous-ensembles de plus en plus homogènes. À chaque étape de division, l'algorithme sélectionne le découpage qui minimise le plus efficacement la fonction de perte, garantissant ainsi une réduction progressive de l'impureté des nœuds au fur et à mesure que l'arbre se développe.
+La **fonction d'impureté** est une mesure locale utilisée dans la construction des arbres de décision pour évaluer la qualité des divisions à chaque nœud. Elle quantifie le degré d'hétérogénéité des observations dans un nœud par rapport à la variable cible (classe pour la classification, ou valeur continue pour la régression). Plus précisément, une mesure d'impureté est conçue pour croître avec la dispersion dans un nœud. Un nœud est dit **pur** lorsque toutes les observations qu'il contient appartiennent à la même classe (classification) ou présentent des valeurs similaires/identiques (régression).
 
-Le choix de la fonction de perte dépend du type de problème rencontré:
+L'algorithme CART utilise ce type de mesure pour choisir les divisions qui créent des sous-ensembles plus homogènes que le nœud parent. À chaque étape de construction, l'algorithme sélectionne la division qui réduit le plus l'impureté, afin de garantir des nœuds de plus en plus homogènes au fur et à mesure que l'arbre se développe.
 
-- **Classification**: des mesures comme l'**indice de Gini** ou l'**entropie** sont utilisées pour évaluer la pureté des classes dans chaque nœud. L'objectif est de maximiser l'homogénéité des sous-ensembles formés après chaque division.
-- **Régression** : la somme des erreurs quadratiques (SSE) est utilisée pour mesurer la variance des valeurs dans chaque nœud. L'algorithme cherche à minimiser cette variance, afin de rendre les sous-ensembles aussi homogènes que possible.
+Le choix de la fonction d'impureté dépend du type de problème :
+
+- **Classification** : Des mesures comme l'**indice de Gini** ou l'**entropie** sont utilisées pour évaluer l'homogénéité des classes dans chaque nœud. L'objectif est de maximiser la pureté des sous-ensembles créés après chaque division.
+
+- **Régression** : La **somme des erreurs quadratiques** (SSE) est utilisée pour mesurer la variance des valeurs cibles dans chaque nœud. L'objectif est de minimiser cette variance pour obtenir des sous-ensembles aussi homogènes que possible.
 
 
 #### Problèmes de classification
 
 Dans le cadre de la classification, l'objectif est de partitionner les données de manière à ce que chaque sous-ensemble (ou région) soit le plus homogène possible en termes de classe prédite. Plusieurs mesures d'impureté sont couramment utilisées pour évaluer la qualité des divisions.
 
+
+
+**Propriété-définition d'une mesure d'impureté**
+
+Pour un nœud \( t \) contenant \( K \) classes, une **mesure d'impureté** \( I(t) \) est une fonction qui quantifie l'hétérogénéité des classes dans ce nœud. Elle doit satisfaire les propriétés suivantes :
+
+- **Pureté maximale** : Lorsque toutes les observations du nœud appartiennent à une seule classe, c'est-à-dire que la proportion \( p_k = 1 \) pour une classe \( k \) et \( p_j = 0 \) pour toutes les autres classes \( j \neq k \), l'impureté est minimale et \( I(t) = 0 \). Cela indique que le nœud est **entièrement pur**, ou homogène.
+
+- **Impureté maximale** : Lorsque les observations sont réparties de manière égale entre toutes les classes, c'est-à-dire que \( p_k = \frac{1}{K} \) pour chaque classe \( k \), l'impureté atteint son maximum. Cette situation reflète une **impureté élevée**, car le nœud est très hétérogène et contient une forte incertitude sur la classe des observations.
+
+
+
+
+
+
 **1. L'indice de Gini**
 
 L'**indice de Gini** est l'une des fonctions de perte les plus couramment utilisées pour la classification. Il mesure la probabilité qu'un individu sélectionné au hasard dans un nœud soit mal classé si on lui attribue une classe au hasard, en fonction de la distribution des classes dans ce nœud.
 
-**Formule** :
-Pour un nœud \( t \) contenant \( K \) classes, l'indice de Gini \( G(t) \) est donné par :
+Pour un nœud $t$ contenant $K$ classes, l'indice de Gini $G(t)$ est donné par :
 
-\[G(t) = 1 - \sum_{k=1}^{K} p_k^2\]
+$$
+G(t) = 1 - \sum_{k=1}^{K} p_k^2
+$$
 
-où \( p_k \) est la proportion d'observations appartenant à la classe \( k \) dans le nœud \( t \).
+où $p_k$ est la proportion d'observations appartenant à la classe $k$ dans le nœud $t$.
 
-**Intuition** :
 
-- Lorsque toutes les observations appartiennent à une même classe, \( p_k = 1 \) pour cette classe et \( G(t) = 0 \), ce qui signifie que le nœud est **pur**.
+**Propriété** :
 
-- À l'inverse, lorsque les observations sont également réparties entre les classes, \( p_k \) tend vers des valeurs égales pour chaque classe, et \( G(t) \) atteint son maximum, indiquant une **impureté élevée**.
+- Lorsque toutes les observations appartiennent à une même classe, $p_k = 1$ pour cette classe et $G(t) = 0$, ce qui signifie que le nœud est **pur**.
+
+- À l'inverse, lorsque les observations sont également réparties entre les classes, $p_k$ tend vers des valeurs égales pour chaque classe, et $G(t)$ atteint son maximum, indiquant une **impureté élevée**.
 
 **Critère de choix** :
 L'indice de Gini est souvent utilisé parce qu'il est simple à calculer et capture bien l'homogénéité des classes au sein d'un nœud. Il privilégie les partitions où une classe domine fortement dans chaque sous-ensemble.
 
 **2. L'entropie (ou entropie de Shannon)**
 
-L'**entropie** est une autre mesure de l'impureté utilisée dans les arbres de décision, notamment dans l'algorithme **ID3**. Elle mesure la quantité d'incertitude ou de désordre dans un nœud, en s'appuyant sur la théorie de l'information.
+L'**entropie** est une autre mesure de l'impureté utilisée dans les arbres de décision. Elle mesure la quantité d'incertitude ou de désordre dans un nœud, en s'appuyant sur la théorie de l'information.
 
-**Formule** :
-Pour un nœud \( t \) contenant \( K \) classes, l'entropie \( E(t) \) est définie par :
+Pour un nœud $t$ contenant $K$ classes, l'entropie $E(t)$ est définie par :
 
-\[
+$$
 E(t) = - \sum_{k=1}^{K} p_k \log(p_k)
-\]
+$$
 
-où \( p_k \) est la proportion d'observations de la classe \( k \) dans le nœud \( t \).
+où $p_k$ est la proportion d'observations de la classe $k$ dans le nœud $t$.
 
-**Intuition** :
+**Propriété** :
 
-- Comme pour l'indice de Gini, si toutes les observations d'un nœud appartiennent à la même classe, l'entropie est nulle (\( E(t) = 0 \)), indiquant un nœud pur.
+- Comme pour l'indice de Gini, si toutes les observations d'un nœud appartiennent à la même classe, l'entropie est nulle ($E(t) = 0$), indiquant un nœud pur.
 
 - L'entropie atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.
 
 **Critère de choix** :
-L'entropie a tendance à être plus sensible aux changements dans les distributions des classes que l'indice de Gini, car elle pèse plus lourdement les événements rares (valeurs de \( p_k \) très faibles). Elle est souvent utilisée dans les arbres de décision où la précision des probabilités de classes est particulièrement importante.
+L'entropie a tendance à être plus sensible aux changements dans les distributions des classes que l'indice de Gini, car elle pèse plus lourdement les événements rares (valeurs de $p_k$ très faibles). Elle est souvent utilisée dans les arbres de décision où la précision des probabilités de classes est particulièrement importante.
 
 **3. Taux d'erreur**
 
 Le **taux d'erreur** est une autre mesure utilisée pour évaluer la qualité d'une partition dans les arbres de décision. Il représente la proportion d'observations mal classées dans un nœud.
 
-**Formule** :
-Pour un nœud \( t \), le taux d'erreur \( \text{TE}(t) \) est donné par :
+Pour un nœud $t$, le taux d'erreur $\text{TE}(t)$ est donné par :
 
-\[
+$$
 \text{TE}(t) = 1 - \max(p_k)
-\]
+$$
 
-où \( \max(p_k) \) est la proportion d'observations appartenant à la classe majoritaire dans le nœud.
+où $\max(p_k)$ est la proportion d'observations appartenant à la classe majoritaire dans le nœud.
+
+**Propriété** :
+
+- Si toutes les observations d'un nœud appartiennent à la même classe, le taux d'erreur est nul ($\text{TE}(t) = 0$), indiquant un nœud pur.
+
+- Le taux d'erreur atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.
 
 **Critère de choix** :
 Bien que le taux d'erreur soit simple à comprendre, il est souvent moins utilisé dans la construction des arbres de décision parce qu'il est moins sensible que l'indice de Gini ou l'entropie aux changements subtils dans la distribution des classes.
@@ -183,16 +209,16 @@ Dans les problèmes de régression, l'objectif est de diviser les données de ma
 La **somme des erreurs quadratiques** (ou **SSE**, pour *Sum of Squared Errors*) est une mesure qui quantifie la dispersion des valeurs dans un nœud par rapport à la moyenne des valeurs dans ce nœud.
 
 **Formule** :
-Pour un nœud \( t \), contenant \( N \) observations avec des valeurs \( y_i \), la SSE est donnée par :
+Pour un nœud $t$, contenant $N$ observations avec des valeurs $y_i$, la SSE est donnée par :
 
-\[
+$$
 \text{SSE}(t) = \sum_{i=1}^{N} (y_i - \hat{y})^2
-\]
+$$
 
-où \( \hat{y} \) est la moyenne des valeurs \( y_i \) dans le nœud \( t \).
+où $\hat{y}$ est la moyenne des valeurs $y_i$ dans le nœud $t$.
 
 **Intuition** :
-- Si toutes les valeurs de \( y_i \) dans un nœud sont proches de la moyenne \( \hat{y} \), la SSE sera faible, indiquant une homogénéité élevée dans le nœud.
+- Si toutes les valeurs de $y_i$ dans un nœud sont proches de la moyenne $\hat{y}$, la SSE sera faible, indiquant une homogénéité élevée dans le nœud.
 - En revanche, une SSE élevée indique une grande variabilité dans les valeurs, donc un nœud impur.
 
 **Critère de choix** :
