@@ -1,0 +1,131 @@
+---
+title: "Les arbres de décision"
+author: |
+  [Olivier Meslin](https://github.com/oliviermeslin)
+  [Mélina Hillion](https://github.com/melinahillion)
+format:
+  typst:
+    toc: true
+    section-numbering: 1.1.1
+---
+  
+
+# La brique élémentaire: l'arbre de décision
+
+Les arbres de décision sont de puissants outils d'apprentissage automatique utilisés pour la classification et la régression. Il s'agit de modèles/algorithmes non paramétriques dont le principe consiste à diviser l'espace des caractéristiques en sous-ensembles homogènes afin de faire des prédictions précises à partir de règles simples. Malgré leur simplicité, les arbres de décision sont capables de saisir des relations complexes et non linéaires dans les données.
+
+
+## Le principe fondamental : partitionner pour prédire
+
+Imaginez que vous souhaitiez prédire le prix d'une maison en fonction de sa superficie et de son nombre de chambres. L'espace des caractéristiques (ici, la superficie et le nombre de chambres) est vaste et complexe. Pour faire une prédiction précise, l'idée est de diviser cet espace en zones plus petites où les maisons ont des prix similaires.
+
+### Les défis du partitionnement optimal
+
+Le principal objectif est donc de trouver le découpage de l'espace des caractéristiques qui offre les meilleures prédictions possibles. Cependant, cela pose plusieurs défis :
+
+1. **Infinité des découpages possibles** : Il existe une infinité de façons de diviser l'espace des caractéristiques.
+2. **Complexité de la paramétrisation** : Il est difficile de représenter tous ces découpages avec un nombre limité de paramètres.
+3. **Optimisation complexe** : Même avec une paramétrisation, trouver le meilleur découpage nécessite une optimisation complexe, souvent irréaliste en pratique.
+
+
+### Les solutions apportées par les arbres de décision
+
+Pour surmonter ces défis, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree) (Breiman 1984), adoptent deux approches clés :
+
+
+  1. **Simplification des découpages / du partitionnement de l'espace**
+
+Au lieu de considérer tous les découpages possibles, les arbres de décision partitionnent l'espace des caractéristiques en plusieurs régions non chevauchantes en imposant des règles simples. On retrouve généralement les règles suivantes:
+
+- **Découpages binaires simples** : Chaque région de l'espace est obtenue en divisant une région plus grande en deux sous-ensembles, grâce à une règle de décision simple qui utilise une seule caractéristique et un seul seuil. Cela revient à poser une question du type : "La valeur de la caractéristique X est-elle supérieure à un certain seuil ?" Par exemple : "La superficie est-elle supérieure à 100 m² ?". Les deux réponses possible ("Oui" ou "Non") conduisent à deux régions distinctes de l'espace.
+
+- **Prédictions locales** : Dans chaque région, une prédiction simple est faite, souvent la moyenne des valeurs cibles dans cette région.
+
+Ces règles de découpage rendent le problème d'optimisation plus simple et plus compréhensible/interprétable.
+
+
+  2. **Optimisation Gloutonne (Greedy)**
+
+Plutôt que d'optimiser toutes les divisions simultanément, les arbres de décision utilisent une approche simplifiée, récursive et séquentielle :
+
+- **Division étape par étape** : À chaque étape, l'arbre choisit la meilleure division possible à ce moment précis, sans considérer les étapes futures.
+- **Critère local** : La décision est basée sur la réduction immédiate de l'impureté ou de l'erreur de prédiction (par exemple, la réduction de la variance pour la régression).
+
+Cette méthode "gloutonne" permet de construire le découpage de l'espace de manière efficace: le résultat obtenu n'est pas toujours l'optimum global, mais il s'en approche raisonnablement et rapidement. 
+
+Le terme "arbre de décision" provient de la structure descendante en forme d'arbre inversé qui émerge lorsqu'on utilise un algorithme glouton (greedy) pour découper l'espace des caractéristiques en sous-ensemble de réponses homogènes de manière récursive. A chaque étape, deux nouvelles branches sont créées et forment une nouvelle partition de l'espace des caractéristiques.
+
+
+### Illustration par un Exemple
+
+Supposons que nous voulions prédire si un étudiant réussira un examen en fonction de son temps d'étude et de sa fréquentation en classe. Un arbre de décision pourrait procéder ainsi :
+
+1. **Première division** : "Le temps d'étude est-il supérieur à 5 heures ?"
+   - Oui : Aller à la branche de gauche.
+   - Non : Aller à la branche de droite.
+2. **Deuxième division (branche de gauche)** : "La fréquentation en classe est-elle supérieure à 80 % ?"
+   - Oui : Forte probabilité de réussite.
+   - Non : Probabilité moyenne de réussite.
+3. **Deuxième division (branche de droite)** : "La fréquentation en classe est-elle supérieure à 90 % ?"
+   - Oui : Probabilité moyenne de réussite.
+   - Non : Faible probabilité de réussite.
+
+_Figure illustrative_
+
+Cet arbre utilise des règles simples pour diviser l'espace des caractéristiques et fournir une prédiction basée sur des sous-groupes homogènes.
+
+
+## Construire un arbre de décision: l'algorithme CART en détail
+
+### Terminologie et structure d'un arbre de décision
+
+- **Nœud Racine (Root Node)** : Il s'agit du nœud situé au sommet de l'arbre. Ce nœud contient l'ensemble complet des données d'entraînement. Point de départ du processus de décision, il initie la première division des données basée sur la caractéristique la plus discriminante.
+
+- **Nœuds Internes (Internal Nodes)** : Ce sont les nœuds intermédiaires qui résultent des divisions successives du nœud racine. À chaque nœud interne, une question ou une condition est posée sur une caractéristique spécifique pour partitionner les données en sous-ensembles plus petits. Par exemple, "La superficie est-elle supérieure à 100 m² ?".
+
+- **Branches**:  Les connexions entre les nœuds de l'arbre. Elles représentent le chemin suivi en fonction des réponses aux questions posées aux nœuds internes. Par exemple, si la réponse à "Superficie > 100 ?" est "Oui", on suit la branche de gauche ; sinon, on suit la branche de droite.
+
+- **Nœuds Terminaux ou Feuilles (Leaf Nodes ou Terminal Nodes)** : Ce sont les nœuds finaux de l'arbre, situés au bas de la structure. Ils fournissent la prédiction finale du modèle. Dans ces nœuds, aucune division supplémentaire n'est effectuée.
+    - **Classification** : La feuille indique la classe prédite (par exemple, "Oui" ou "Non").
+    - **Régression** : La feuille fournit une valeur numérique prédite (par exemple, le prix estimé d'une maison).
+
+_Figure illustrative_
+
+
+### Partitionnement binaire
+
+**Définir/choisir une fonction de perte adaptée au problème**
+
+
+**Trouver la partition binaire qui minimise la fonction de perte**
+
+
+**Réitérer le processus jusqu'à atteindre un critère d'arrêt**
+
+
+**Prédire**
+
+
+
+
+
+
+
+## Avantages et limites de cette Approche
+
+### Avantages
+
+- **Interprétabilité** : Les arbres de décision sont faciles à comprendre et à visualiser.
+- **Simplicité** : Pas besoin de transformations complexes des données.
+- **Flexibilité** : Ils peuvent gérer des caractéristiques numériques et catégorielles.
+- **Gestion des interactions** : Ils capturent naturellement les interactions entre les caractéristiques.
+
+### Limites
+
+- **Surapprentissage** : Les arbres trop profonds peuvent surapprendre les données d'entraînement.
+- **Optimisation locale** : L'approche gloutonne peut conduire à des solutions sous-optimales globalement.
+- **Stabilité** : De petits changements dans les données peuvent entraîner des changements significatifs dans la structure de l'arbre.
+
+
+
+
