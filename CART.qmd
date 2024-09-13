@@ -226,9 +226,9 @@ La SSE est utilisée parce qu'elle est sensible aux écarts importants entre les
 
 
 
-### Trouver la partition binaire qui minimise la fonction de perte
+### Trouver la partition binaire qui conduit à la plus forte baisse de l'impureté
 
-Une fois la fonction de perte définie, l'algorithme CART explore toutes les divisions possibles de l'ensemble des données. Pour chaque caractéristique, il cherche le **seuil optimal** qui divise les données en deux sous-ensembles et minimise la fonction de perte.
+Une fois la mesure d'impureté définie, l'algorithme CART explore toutes les divisions possibles de l'ensemble des données. Pour chaque caractéristique, il cherche le **seuil optimal** qui divise les données en deux sous-ensembles et réduit au maximum la mesure d'impureté.
 
 Pour un nœud, associé à une mesure d’impureté, le critère de division de CART consiste à résoudre un problème d'optimisation. L'algorithme identifie la division qui maximise la réduction de l’impureté à chaque nœud et choisit cette division pour séparer les données.
 
