@@ -207,7 +207,9 @@ Une fois la fonction de perte définie, l'algorithme CART explore toutes les div
 Pour un nœud, associé à une mesure d’impureté, le critère de division de CART consiste à résoudre un problème d'optimisation. L'algorithme identifie la division qui maximise la réduction de l’impureté à chaque nœud et choisit cette division pour séparer les données.
 
 Prenons l'exemple d'une caractéristique continue, telle que la superficie d'une maison :
+
 - Si l'algorithme teste la règle "Superficie > 100 m²", il calcule la fonction de perte pour les deux sous-ensembles générés par cette règle ("Oui" et "Non").
+
 - Ce processus est répété pour différentes valeurs seuils afin de trouver la partition qui minimise le plus efficacement l’impureté au sein des sous-ensembles.
 
 
