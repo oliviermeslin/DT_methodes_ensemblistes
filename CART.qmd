@@ -7,6 +7,7 @@ format:
   typst:
     toc: true
     section-numbering: 1.1.1
+    bibliography: references.bib
 ---
   
 ffff
@@ -31,7 +32,7 @@ L'objectif principal est de trouver la partition de l'espace des caractéristiqu
 
 ### Les solutions apportées par les arbres de décision
 
-Pour surmonter ces défis, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree) (Breiman 1984), adoptent deux approches clés :
+Pour surmonter ces défis, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree, @breiman1984cart), adoptent deux approches clés :
 
 
   1. **Simplification du partitionnement de l'espace**
@@ -101,7 +102,7 @@ _Figure illustrative_
 
 ## L'algorithme CART, un partitionnement binaire récursif
 
-L'algorithme CART (Classification and Regression Trees) proposé par Breiman (1984) est une méthode utilisée pour construire des arbres de décision, que ce soit pour des tâches de classification ou de régression. L'algorithme CART fonctionne en partitionnant l'espace des caractéristiques en sous-ensembles de manière récursive, en suivant une logique de décisions binaires à chaque étape. Ce processus est itératif et suit plusieurs étapes clés.
+L'algorithme CART (Classification and Regression Trees) proposé par @breiman1984cart est une méthode utilisée pour construire des arbres de décision, que ce soit pour des tâches de classification ou de régression. L'algorithme CART fonctionne en partitionnant l'espace des caractéristiques en sous-ensembles de manière récursive, en suivant une logique de décisions binaires à chaque étape. Ce processus est itératif et suit plusieurs étapes clés.
 
 
 ### Définir une fonction d'impureté adaptée au problème
