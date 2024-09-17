@@ -10,7 +10,6 @@ format:
     bibliography: references.bib
 ---
   
-ffff
 # La brique élémentaire: l'arbre de décision
 
 Les arbres de décision sont des outils puissants en apprentissage automatique, utilisés pour des tâches de classification et de régression. Ces algorithmes non paramétriques consistent à diviser l'espace des caractéristiques en sous-ensembles homogènes à l'aide de règles simples, afin de faire des prédictions. Malgré leur simplicité apparente, les arbres de décision sont capable de saisir des relations complexes et non linéaires entre les variables (ou _caractéristiques_) d'un jeu de données.
@@ -32,26 +31,26 @@ L'objectif principal est de trouver la partition de l'espace des caractéristiqu
 
 ### Les solutions apportées par les arbres de décision
 
-Pour surmonter ces défis, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree, @breiman1984cart), adoptent deux approches clés :
+Pour surmonter ces difficultés, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree, @breiman1984cart), adoptent deux approches clés :
 
 
   1. **Simplification du partitionnement de l'espace**
 
-Au lieu d'explorer tous les découpages possibles, les arbres de décision partitionnent l'espace des caractéristiques en plusieurs régions distinctes (non chevauchantes) en appliquant des règles de décision simples. Ces règles permettent de diviser les données de manière séquentielle et sont généralement définies comme suit :
+Au lieu d'explorer tous les découpages possibles, les arbres de décision partitionnent l'espace des caractéristiques en plusieurs régions distinctes (non chevauchantes) en appliquant des règles de décision simples. Les règles suivantes sont communément adoptées:
 
-- **Découpages binaires simples** : Chaque région de l'espace des caractéristiques est obtenue en divisant une région plus grande en deux sous-ensembles, en se basant sur une règle de décision qui utilise une seule caractéristique (ou _variable_) et un seul seuil (ou _critère_). Cette règle prend la forme d'une question de type : "La valeur de la caractéristique X est-elle supérieure à un certain seuil ?" Par exemple : "La superficie de la maison est-elle supérieure à 100 m² ?". Les deux réponses possibles ("Oui" ou "Non") définissent deux nouvelles régions distinctes de l'espace, chacune correspondant à un sous-ensemble de données plus homogène.
+- **Découpages binaires simples** : À chaque étape, l'algorithme divise une région de l'espace en deux sous-régions en se basant sur une seule caractéristique (ou _variable_) et en définissant un seul seuil (ou _critère_) pour cette segmentation. Concrètement, cela revient à poser une question du type : "La valeur de la caractéristique X dépasse-t-elle un certain seuil ?" Par exemple : "La superficie de la maison est-elle supérieure à 100 m² ?". Les deux réponses possibles ("Oui" ou "Non") génèrent deux nouvelles sous-régions distinctes de l'espace, chacune correspondant à un sous-ensemble de données plus homogène. 
 
-- **Prédictions locales** : Dans chaque région, une prédiction simple est faite, souvent la moyenne des valeurs cibles dans cette région.
+- **Prédictions locales** : Lorsque l'algorithme s'arrête, une prédiction simple est faite dans chaque région. Il s'agit souvent de la moyenne des valeurs cibles dans cette région (régression) ou de la classe majoritaire (classification).
 
-Ces règles de découpage rendent le problème d'optimisation plus simple et plus interprétable.
+Ces règles de découpage rendent le problème d'optimisation plus simple mais également plus interprétable.
 
 
   2. **Optimisation Gloutonne (Greedy)**
 
 Plutôt que d'optimiser toutes les divisions simultanément, les arbres de décision utilisent une approche simplifiée, récursive et séquentielle :
 
-- **Division étape par étape** : À chaque étape, l'arbre choisit la meilleure division possible à ce moment précis, sans considérer les étapes futures.
-- **Critère local** : La décision est basée sur la réduction immédiate de l'impureté ou de l'erreur de prédiction (par exemple, la réduction de la variance pour la régression).
+- **Division étape par étape** : À chaque étape, l'arbre choisit la meilleure division possible sur la  base d'un critère de réduction de l'hétérogénéité intra-région. En revanche, il ne prend pas en compte les étapes d'optimisation futures.
+- **Critère local** : La décision est basée sur la réduction immédiate de l'impureté ou de l'erreur de prédiction (par exemple, la réduction de la variance pour la régression). Ce processus est répété pour chaque sous-région, ce qui permet d'affiner progressivement la partition de l'espace en fonction des caractéristiques les plus discriminantes.
 
 Cette méthode "gloutonne" s'avère efficace pour construire un partitionnement de l'espace des caractéristiques, car elle décompose un problème d'optimisation complexe en une succession de problèmes plus simples et plus rapides à résoudre. Le résultat obtenu n'est pas alors nécessairement un optimum global, mais il s'en approche raisonnablement et surtout rapidement.
 
@@ -113,27 +112,23 @@ L'algorithme CART utilise ce type de mesure pour choisir les divisions qui crée
 
 Le choix de la fonction d'impureté dépend du type de problème :
 
-- **Classification** : Des mesures comme l'**indice de Gini** ou l'**entropie** sont utilisées pour évaluer l'homogénéité des classes dans chaque nœud. L'objectif est de maximiser la pureté des sous-ensembles créés après chaque division.
+- **Classification** : L'**indice de Gini** ou l'**entropie** sont très souvent utilisées pour évaluer la dispersion des classes dans chaque nœud. 
 
-- **Régression** : La **somme des erreurs quadratiques** (SSE) est utilisée pour mesurer la variance des valeurs cibles dans chaque nœud. L'objectif est de minimiser cette variance pour obtenir des sous-ensembles aussi homogènes que possible.
+- **Régression** : La **somme des erreurs quadratiques** (SSE) est souvent utilisée pour mesurer la variance des valeurs cibles dans chaque nœud. 
 
 
-#### Problèmes de classification
+#### Mesures d'impureté classiques pour les problèmes de classification
 
 Dans le cadre de la classification, l'objectif est de partitionner les données de manière à ce que chaque sous-ensemble (ou région) soit le plus homogène possible en termes de classe prédite. Plusieurs mesures d'impureté sont couramment utilisées pour évaluer la qualité des divisions.
 
 
-
 **Propriété-définition d'une mesure d'impureté**
 
-Pour un nœud \( t \) contenant \( K \) classes, une **mesure d'impureté** \( I(t) \) est une fonction qui quantifie l'hétérogénéité des classes dans ce nœud. Elle doit satisfaire les propriétés suivantes :
+Pour un nœud $t$ contenant $K$ classes, une **mesure d'impureté** $I(t)$ est une fonction qui quantifie l'hétérogénéité des classes dans ce nœud. Elle doit satisfaire les propriétés suivantes :
 
-- **Pureté maximale** : Lorsque toutes les observations du nœud appartiennent à une seule classe, c'est-à-dire que la proportion \( p_k = 1 \) pour une classe \( k \) et \( p_j = 0 \) pour toutes les autres classes \( j \neq k \), l'impureté est minimale et \( I(t) = 0 \). Cela indique que le nœud est **entièrement pur**, ou homogène.
+- **Pureté maximale** : Lorsque toutes les observations du nœud appartiennent à une seule classe, c'est-à-dire que la proportion $p_k = 1$ pour une classe $k$ et $p_j = 0$ pour toutes les autres classes $j \neq k$, l'impureté est minimale et $I(t) = 0$. Cela indique que le nœud est **entièrement pur**, ou homogène.
 
-- **Impureté maximale** : Lorsque les observations sont réparties de manière égale entre toutes les classes, c'est-à-dire que \( p_k = \frac{1}{K} \) pour chaque classe \( k \), l'impureté atteint son maximum. Cette situation reflète une **impureté élevée**, car le nœud est très hétérogène et contient une forte incertitude sur la classe des observations.
-
-
-
+- **Impureté maximale** : Lorsque les observations sont réparties de manière uniforme entre toutes les classes, c'est-à-dire que $p_k = \frac{1}{K}$ pour chaque classe $k$, l'impureté atteint son maximum. Cette situation reflète une **impureté élevée**, car le nœud est très hétérogène et contient une forte incertitude sur la classe des observations.
 
 
 
@@ -150,11 +145,11 @@ $$
 où $p_k$ est la proportion d'observations appartenant à la classe $k$ dans le nœud $t$.
 
 
-**Propriété** :
+<!-- **Propriété** :
 
 - Lorsque toutes les observations appartiennent à une même classe, $p_k = 1$ pour cette classe et $G(t) = 0$, ce qui signifie que le nœud est **pur**.
 
-- À l'inverse, lorsque les observations sont également réparties entre les classes, $p_k$ tend vers des valeurs égales pour chaque classe, et $G(t)$ atteint son maximum, indiquant une **impureté élevée**.
+- À l'inverse, lorsque les observations sont également réparties entre les classes, $p_k$ tend vers des valeurs égales pour chaque classe, et $G(t)$ atteint son maximum, indiquant une **impureté élevée**.-->
 
 **Critère de choix** :
 L'indice de Gini est souvent utilisé parce qu'il est simple à calculer et capture bien l'homogénéité des classes au sein d'un nœud. Il privilégie les partitions où une classe domine fortement dans chaque sous-ensemble.
@@ -171,18 +166,18 @@ $$
 
 où $p_k$ est la proportion d'observations de la classe $k$ dans le nœud $t$.
 
-**Propriété** :
+<!-- **Propriété** :
 
 - Comme pour l'indice de Gini, si toutes les observations d'un nœud appartiennent à la même classe, l'entropie est nulle ($E(t) = 0$), indiquant un nœud pur.
 
-- L'entropie atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.
+- L'entropie atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.-->
 
 **Critère de choix** :
-L'entropie a tendance à être plus sensible aux changements dans les distributions des classes que l'indice de Gini, car elle pèse plus lourdement les événements rares (valeurs de $p_k$ très faibles). Elle est souvent utilisée dans les arbres de décision où la précision des probabilités de classes est particulièrement importante.
+L'entropie a tendance à être plus sensible aux changements dans les distributions des classes que l'indice de Gini, car elle attribut un poids plus élevé aux événements rares (valeurs de $p_k$ très faibles). Elle est souvent utilisée lorsque l'erreur de classification des classes minoritaires est particulièrement importante.
 
 **3. Taux d'erreur**
 
-Le **taux d'erreur** est une autre mesure utilisée pour évaluer la qualité d'une partition dans les arbres de décision. Il représente la proportion d'observations mal classées dans un nœud.
+Le **taux d'erreur** est une autre mesure de l'impureté parfois utilisée dans les arbres de décision. Il représente la proportion d'observations mal classées dans un nœud.
 
 Pour un nœud $t$, le taux d'erreur $\text{TE}(t)$ est donné par :
 
@@ -192,18 +187,19 @@ $$
 
 où $\max(p_k)$ est la proportion d'observations appartenant à la classe majoritaire dans le nœud.
 
-**Propriété** :
+<!-- **Propriété** :
 
 - Si toutes les observations d'un nœud appartiennent à la même classe, le taux d'erreur est nul ($\text{TE}(t) = 0$), indiquant un nœud pur.
 
-- Le taux d'erreur atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.
+- Le taux d'erreur atteint son maximum lorsque les observations sont uniformément réparties entre les classes, reflétant une grande incertitude dans la classification.-->
 
 **Critère de choix** :
-Bien que le taux d'erreur soit simple à comprendre, il est souvent moins utilisé dans la construction des arbres de décision parce qu'il est moins sensible que l'indice de Gini ou l'entropie aux changements subtils dans la distribution des classes.
+Bien que le taux d'erreur soit simple à comprendre, il est moins souvent utilisé dans la construction des arbres de décision parce qu'il est moins sensible que l'indice de Gini ou l'entropie aux petits changements dans la distribution des classes.
 
-#### Problèmes de régression
+#### Mesures d'impureté classiques pour les problèmes de régression
 
-Dans les problèmes de régression, l'objectif est de diviser les données de manière à minimiser la variance des valeurs dans chaque sous-ensemble, rendant les valeurs dans chaque région aussi proches que possible de la moyenne locale. La **somme des erreurs quadratiques** (SSE) est la fonction de perte la plus couramment utilisée pour mesurer l'impureté dans ce contexte.
+Dans les problèmes de régression, l'objectif est de partitionner les données de manière à réduire au maximum la variabilité des valeurs au sein de chaque sous-ensemble. Pour mesurer cette variabilité, la somme des erreurs quadratiques (SSE) est la fonction d'impureté la plus couramment employée. Elle évalue l'impureté d'une région en quantifiant à quel point les valeurs de cette région s'écartent de la moyenne locale.
+
 
 **1.Somme des erreurs quadratiques (SSE) ou variance**
 
@@ -218,20 +214,19 @@ $$
 
 où $\hat{y}$ est la moyenne des valeurs $y_i$ dans le nœud $t$.
 
-**Intuition** :
+**Propriété** :
+
 - Si toutes les valeurs de $y_i$ dans un nœud sont proches de la moyenne $\hat{y}$, la SSE sera faible, indiquant une homogénéité élevée dans le nœud.
+
 - En revanche, une SSE élevée indique une grande variabilité dans les valeurs, donc un nœud impur.
 
 **Critère de choix** :
-La SSE est utilisée parce qu'elle est sensible aux écarts importants entre les valeurs réelles et la moyenne prédite. En minimisant la SSE, l'algorithme CART cherche à former des nœuds où les valeurs des observations sont aussi proches que possible, ce qui améliore la précision des prédictions.
+La somme des erreurs quadratiques (SSE) est particulièrement sensible aux écarts élevés entre les valeurs observées et la moyenne prédite. En cherchant à minimiser la SSE, les modèles visent à former des nœuds dans lesquels les valeurs des observations sont aussi proches que possible de la moyenne locale. 
 
 
+### Identifier la partition binaire maximisant la réduction de l'impureté
 
-### Trouver la partition binaire qui conduit à la plus forte baisse de l'impureté
-
-Une fois la mesure d'impureté définie, l'algorithme CART explore toutes les divisions possibles de l'ensemble des données. Pour chaque caractéristique, il cherche le **seuil optimal** qui divise les données en deux sous-ensembles et réduit au maximum la mesure d'impureté.
-
-Pour un nœud, associé à une mesure d’impureté, le critère de division de CART consiste à résoudre un problème d'optimisation. L'algorithme identifie la division qui maximise la réduction de l’impureté à chaque nœud et choisit cette division pour séparer les données.
+Une fois la mesure d'impureté définie, l'algorithme CART examine toutes les divisions binaires possibles de l'espace des caractéristiques. À chaque nœud, et pour chaque caractéristique, il cherche à identifier le **seuil optimal**, c'est-à-dire le seuil qui minimise le plus efficacement l'impureté des deux sous-ensembles générés. L'algorithme compare ensuite toutes les divisions potentielles (caractéristiques et seuils optimaux associés à chaque nœud) et sélectionne celle qui entraîne la réduction maximale de l'impureté. 
 
 Prenons l'exemple d'une caractéristique continue, telle que la superficie d'une maison :
 
@@ -242,10 +237,11 @@ Prenons l'exemple d'une caractéristique continue, telle que la superficie d'une
 
 ### Réitérer le processus jusqu'à atteindre un critère d'arrêt
 
-L'algorithme CART continue à diviser l'espace des caractéristiques en appliquant récursivement les mêmes étapes (définition du seuil optimal et partitionnement binaire) à chaque sous-ensemble créé. Ce processus est répété jusqu'à ce qu'un **critère d'arrêt** soit atteint, par exemple :
+L'algorithme CART poursuit le partitionnement de l'espace des caractéristiques en appliquant de manière récursive les mêmes étapes : identification de la caractéristique et du seuil optimal pour chaque nœud, puis sélection du partitionnement binaire qui maximise la réduction de l'impureté. Ce processus est répété jusqu'à ce qu'un **critère d'arrêt** soit atteint, par exemple :
 
 - **Profondeur maximale de l'arbre** : Limiter le nombre de divisions successives pour éviter un arbre trop complexe.
 - **Nombre minimum d'observations par feuille** : Empêcher la création de feuilles contenant très peu d'observations, ce qui réduirait la capacité du modèle à généraliser.
+- **Réduction minimale de l'impureté à chaque étape**
 
 
 ### Elagage (_pruning_)
@@ -253,10 +249,11 @@ L'algorithme CART continue à diviser l'espace des caractéristiques en appliqua
 
 ### Prédire
 
-Une fois l'arbre construit, la prédiction se fait en suivant le chemin de l'arbre à partir du nœud racine. Pour une nouvelle observation, chaque décision prise dans les nœuds internes (basée sur les valeurs de ses caractéristiques) oriente l'observation vers une feuille où la prédiction finale est donnée.
+Une fois l'arbre construit, la prédiction pour une nouvelle observation s'effectue en suivant les branches de l'arbre, en partant du nœud racine jusqu'à un nœud terminal (ou feuille). À chaque nœud interne, une décision est prise en fonction des valeurs des caractéristiques de l'observation, ce qui détermine la direction à suivre vers l'un des sous-ensembles. Ce cheminement se poursuit jusqu'à ce que l'observation atteigne une feuille, où la prédiction finale est effectuée.
 
 - En **classification**, la classe attribuée est celle majoritaire dans la feuille atteinte.
 - En **régression**, la valeur prédite est généralement la moyenne des valeurs cibles des observations dans la feuille.
+
 
 ### Critères de qualité et ajustements 
 
