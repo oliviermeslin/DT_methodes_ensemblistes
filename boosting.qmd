@@ -46,21 +46,36 @@ C'est un problème très compliqué dès que $M$ est élevé!
 
 ## Le *boosting*
 
-Le *boosting* combine une approche ensembliste avec une **modélisation additive par étapes** (*forward stagewise additive modeling*). La modélisation additive par étapes consite à décomposer l'entraînement d'un modèle très complexe en une __séquence d'entraînements de petits modèles__, procédure beaucoup plus simple. 
+### Introduction
 
-D'autre part, chacun de ces modèles simples est entraîné de façon à améliorer la prédiction par rapport à 
+Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle peu performant en un modèle très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé  (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. 
 
-. . .
+S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent une même logique :
 
-- Chaque _base learner_ essaie de [corriger les erreurs du modèle issu des étapes précédentes]{.blue2}.
+- Un premier modèle simple et peu performant est entraîné sur les données.
+- Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);
+- Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l'ensemble des modèles précédents;
+- Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
+
+D'un point de vue technique, il s'agit d'une **modélisation additive par étapes** qui revient à décomposer l'entraînement d'un modèle très complexe en une __séquence d'entraînements de petits modèles__, procédure beaucoup plus simple. 
+
+METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s'affinent.
 
 
-## Modélisation additive par étapes {.small90}
+### Une première implémentation du _boosting_ : Adaboost
 
-Un point important est que __la modélisation additive par étapes simplifie considérablement l'entraînement du modèle__: - On commence par entraîner un seul _base learner_;
-- On ajoute au modèle un deuxième _base learner_ sans modifier les paramètres du premier _base learner_ déjà entraîné;
-- On entraîne ce deuxième _base learner_ de façon à améliorer le plus possible le modèle global (la somme des deux _base learners_).
-- On ajoute un troisième _base learner_ et on l'entraîne...
+Dans les années 1990, de nombreux travaux ont tâché de proposer des implémentations du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Le modèle Adaboost (Adaptive Boosting, @freund1997decision) est la plus connue de ces implémentations pionnières. Adaboost pondère les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites. Voici une esquisse du fonctionnement d'AdaBoost:
+
+- Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
+- A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
+- Cette procédure est répétée en ajoutant de nouveaux modèles et en adaptant les pondérations. 
+- Le modèle final est obtenu par une moyenne pondérée des modèles.
+
+
+### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_ de Friedman
+
+A REPRENDRE DES SLIDES DE LA FORMATION BOOSTING
+
 
 <!--
 ```{=typst} 
@@ -80,7 +95,7 @@ Un point important est que __la modélisation additive par étapes simplifie con
 -->
 
 
-1.  Commencer par $f_0\left(\mathbf{x}\right) = 0$.
+1.  Commencer par $f_0\left(\mathbf{x}\right) = y_0$.
 2.  Pour $m = 1, \dots, M:$
     (a) Entraîner le $m$-ième modèle:
     $$\left(\hat{\beta}_m, \hat{\theta}_m\right) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L\left(y_i, f_{m-1}\left(\mathbf{x}_i\right) + \beta b\left(\mathbf{x}_i, \mathbf{\theta}\right)\right)$$
@@ -88,12 +103,18 @@ Un point important est que __la modélisation additive par étapes simplifie con
 
 ## La mécanique du _gradient boosting_
 
-Depuis la publication de @friedman2001greedy, la méthode de _gradient boosting_ a connu de multiples implémentations, parmi lesquelles celle proposée par Friedman lui-même, XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
+Depuis la publication de @friedman2001greedy, la méthode de _gradient boosting_ a connu de multiples développements et raffinements, parmi lesquels XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
 
 Choses importantes à mettre en avant:
 
 - Toute la mécanique est indépendante de la fonction de perte choisie. En particulier, elle est applicable indifféremment à des problèmes de classification et de régression.
 - Les poids sont calculés par une formule explicite, ce qui rend les calculs extrêmement rapides.
+- Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.
+- Le boosting est fait pour overfitter; contrairement aux RF, il n'y a pas de limite à l'overfitting. Donc lutter contre le surapprentissage est un élément particulièrement important de l'usage des algorithmes de boosting.
+
+
+
+
 
 ### Le modèle à entraîner
 
@@ -103,7 +124,7 @@ $$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{
 
 Chaque arbre $F$ est défini par trois paramètres: sa structure (une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $x$ de dimension $m$ associe une feuille terminale de l'arbre), son nombre de feuilles terminales $T$ et les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou _weights_).
 
-Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ dérivable et convexe $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$; la fonction de perte pénalise la complexité du modèle.
+Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivante: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_j$ élevés en valeur absolue).
 
 ```{=typst} 
 #mitex(`
@@ -186,7 +207,7 @@ Dans la dernière expression, on voit que la fonction de perte simplifiée se re
 Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), le poids optimal `#mi("w_j^{\ast}")`{=typst} de la feuille $j$ est donné par la formule: 
 
 ```{=typst} 
-$ w_j^* = -frac(sum_(i in I_j) g_i, sum_(i in I_j) h_i + lambda) "$ <w_j_optimal>
+$ w_j^* = -frac(sum_(i in I_j) g_i, sum_(i in I_j) h_i + lambda) $ <w_j_optimal>
 ```
 
 Par conséquent, la valeur optimale de la fonction objectif pour l'arbre $q$ est égale à
@@ -197,8 +218,12 @@ $$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\i
 `) <fct_obj_optimal>
 ```
 
+### Construire le $k$-ième arbre
 
-Si elles peuvent sembler complexes au premier abord, ces deux formules s'avèrent très utiles en pratique pour deux raisons. Tout d'abord, la formule `@w_j_optimal`{=typst} permet de calculer très rapidement les poids d'un arbre donné, ce qui contribue aux performances des approches de _gradient boosting_. Ensuite et surtout, on peut utiliser directement la formule `@fct_obj_optimal`{=typst} pour comparer deux arbres, et donc pour évaluer le gain induit par un _split_ marginal. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$). Le gain potentiel induit par ce _split_ est égal à:
+
+Dans la mesure où l'équation `@fct_obj_optimal`{=typst} permet de mesurer la qualité globale d'un arbre (et donc de comparer des arbres entre eux), on pourrait penser qu'elle est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne REFERENCE A LA PARTIE CART/RF.
+
+Pour chaque noeud de l'arbre, on essaie d'ajouter un _split_ et on utilise la formule `@fct_obj_optimal`{=typst} pour évaluer le gain induit par ce _split_ marginal. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de la formule @fct_obj_optimal, le gain potentiel induit par ce _split_ est égal à:
 
 ```{=typst} 
 #mitex(`
@@ -207,7 +232,14 @@ $$\mathcal{L}_{\text{split}} = \frac{1}{2} \left[\frac{\left(\sum_{i\in I_L} g_i
 ```
 Cette dernière formule est au coeur de la mécanique du _gradient boosting_: à chaque étape de l'entraînement d'un arbre, elle permet de comparer entre eux les _splits_ possibles et de choisir le _split_ qui réduit le plus la fonction de perte.
 
+### Choisir les _splits_
 
+ENUMERATION DES VARIABLES ET DES VALEURS
+
+
+
+
+<!-- 
 ## Encore des équations
 
 
@@ -278,7 +310,7 @@ $Gain = \frac{1}{2} \left[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\f
 `)
 ```
 
-
+ -->
 
 
 
