@@ -7,6 +7,7 @@ format:
   typst:
     toc: true
     section-numbering: 1.1.1
+    bibliography: references.bib
 ---
   
 # La brique élémentaire: l'arbre de décision
@@ -30,7 +31,7 @@ L'objectif principal est de trouver la partition de l'espace des caractéristiqu
 
 ### Les solutions apportées par les arbres de décision
 
-Pour surmonter ces difficultés, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree) (Breiman 1984), adoptent deux approches clés que nous introduisons ici.
+Pour surmonter ces difficultés, les méthodes d'arbres de décision, et notamment la plus célèbre, l'algorithme CART (Classication And Regression Tree, @breiman1984cart), adoptent deux approches clés :
 
 
   1. **Simplification du partitionnement de l'espace**
@@ -51,11 +52,11 @@ Plutôt que d'optimiser toutes les divisions simultanément, les arbres de déci
 - **Division étape par étape** : À chaque étape, l'arbre choisit la meilleure division possible sur la  base d'un critère de réduction de l'hétérogénéité intra-région. En revanche, il ne prend pas en compte les étapes d'optimisation futures.
 - **Critère local** : La décision est basée sur la réduction immédiate de l'impureté ou de l'erreur de prédiction (par exemple, la réduction de la variance pour la régression). Ce processus est répété pour chaque sous-région, ce qui permet d'affiner progressivement la partition de l'espace en fonction des caractéristiques les plus discriminantes.
 
-Cette méthode "gloutonne" permet de construire le découpage de l'espace de manière efficace: le résultat obtenu n'est pas toujours l'optimum global, mais il s'en approche raisonnablement et surtout rapidement. 
+Cette méthode "gloutonne" s'avère efficace pour construire un partitionnement de l'espace des caractéristiques, car elle décompose un problème d'optimisation complexe en une succession de problèmes plus simples et plus rapides à résoudre. Le résultat obtenu n'est pas alors nécessairement un optimum global, mais il s'en approche raisonnablement et surtout rapidement.
 
 Le terme "arbre de décision" provient de la structure descendante en forme d'arbre inversé qui émerge lorsqu'on utilise un algorithme glouton (greedy) pour découper l'espace des caractéristiques en sous-ensemble de réponses homogènes de manière récursive. A chaque étape, deux nouvelles branches sont créées et forment une nouvelle partition de l'espace des caractéristiques.
 
-Note: Les arbres de décision produisent des **prédictions constantes par morceaux** dans l'espace des caractéristiques. En raison de leur nature **non-continue** et **non-différentiable**, il est impossible d'utiliser des méthodes d'optimisation classiques reposant sur le calcul de gradients.
+Une fois entraîné, un arbre de décision est une fonction **constante par morceaux** défini sur l'espace des caractéristiques. En raison de leur nature **non-continue** et **non-différentiable**, il est impossible d'utiliser des méthodes d'optimisation classiques reposant sur le calcul de gradients.
 
 
 
@@ -100,7 +101,7 @@ _Figure illustrative_
 
 ## L'algorithme CART, un partitionnement binaire récursif
 
-L'algorithme CART (Classification and Regression Trees) proposé par Breiman (1984) est une méthode utilisée pour construire des arbres de décision, que ce soit pour des tâches de classification ou de régression. L'algorithme CART fonctionne en partitionnant l'espace des caractéristiques en sous-ensembles de manière récursive, en suivant une logique de décisions binaires à chaque étape. Ce processus est itératif et suit plusieurs étapes clés.
+L'algorithme CART (Classification and Regression Trees) proposé par @breiman1984cart est une méthode utilisée pour construire des arbres de décision, que ce soit pour des tâches de classification ou de régression. L'algorithme CART fonctionne en partitionnant l'espace des caractéristiques en sous-ensembles de manière récursive, en suivant une logique de décisions binaires à chaque étape. Ce processus est itératif et suit plusieurs étapes clés.
 
 
 ### Définir une fonction d'impureté adaptée au problème
