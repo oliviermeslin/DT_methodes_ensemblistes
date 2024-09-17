@@ -222,7 +222,7 @@ $$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\i
 
 Dans la mesure où l'équation `@fct_obj_optimal`{=typst} permet de mesurer la qualité globale d'un arbre (et donc de comparer des arbres entre eux), on pourrait penser qu'elle est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne REFERENCE A LA PARTIE CART/RF.
 
-Pour chaque noeud de l'arbre, on essaie d'ajouter un _split_ et on utilise la formule `@fct_obj_optimal`{=typst} pour évaluer le gain induit par ce _split_ marginal. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de la formule @fct_obj_optimal, le gain potentiel induit par ce _split_ est égal à:
+Pour chaque noeud de l'arbre, on essaie d'ajouter un _split_ et on utilise la formule `@fct_obj_optimal`{=typst} pour évaluer le gain induit par ce _split_ marginal. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de la formule `@fct_obj_optimal`{=typst}, le gain potentiel induit par ce _split_ est égal à:
 
 ```{=typst} 
 #mitex(`
