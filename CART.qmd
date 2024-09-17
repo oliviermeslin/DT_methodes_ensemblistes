@@ -111,9 +111,9 @@ L'algorithme CART utilise ce type de mesure pour choisir les divisions qui crée
 
 Le choix de la fonction d'impureté dépend du type de problème :
 
-- **Classification** : Des mesures comme l'**indice de Gini** ou l'**entropie** sont utilisées pour évaluer l'homogénéité des classes dans chaque nœud. L'objectif est de maximiser la pureté des sous-ensembles créés après chaque division.
+- **Classification** : L'**indice de Gini** ou l'**entropie** sont très souvent utilisées pour évaluer la dispersion des classes dans chaque nœud. 
 
-- **Régression** : La **somme des erreurs quadratiques** (SSE) est utilisée pour mesurer la variance des valeurs cibles dans chaque nœud. L'objectif est de minimiser cette variance pour obtenir des sous-ensembles aussi homogènes que possible.
+- **Régression** : La **somme des erreurs quadratiques** (SSE) est souvent utilisée pour mesurer la variance des valeurs cibles dans chaque nœud. 
 
 
 #### Mesures d'impureté classiques pour les problèmes de classification
@@ -225,7 +225,7 @@ La somme des erreurs quadratiques (SSE) est particulièrement sensible aux écar
 
 ### Identifier la partition binaire maximisant la réduction de l'impureté
 
-Une fois la mesure d'impureté définie, l'algorithme CART examine toutes les divisions binaires possibles de l'espace des caractéristiques. À chaque nœud, et pour chaque caractéristique, il cherche à identifier le **seuil optimal**, c'est-à-dire le seuil qui minimise le plus efficacement l'impureté dans les deux sous-ensembles générés. L'algorithme compare ensuite toutes les divisions potentielles (caractéristiques et seuils optimaux associés à chaque nœud) et sélectionne celle qui entraîne la réduction maximale de l'impureté. Cette division, qui devient un nouveau nœud, est utilisée pour scinder les données en deux sous-ensembles distincts.
+Une fois la mesure d'impureté définie, l'algorithme CART examine toutes les divisions binaires possibles de l'espace des caractéristiques. À chaque nœud, et pour chaque caractéristique, il cherche à identifier le **seuil optimal**, c'est-à-dire le seuil qui minimise le plus efficacement l'impureté des deux sous-ensembles générés. L'algorithme compare ensuite toutes les divisions potentielles (caractéristiques et seuils optimaux associés à chaque nœud) et sélectionne celle qui entraîne la réduction maximale de l'impureté. 
 
 Prenons l'exemple d'une caractéristique continue, telle que la superficie d'une maison :
 
