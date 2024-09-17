@@ -32,18 +32,6 @@ $
 
 Le _boosting_ est une approche ensembliste qui ne traite pas les modèles de base séparément les uns des autres.
 
-
-Imaginons qu'on veuille entraîner le modèle suivant:
-
-$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
-
-
-$\hat{F}$ est caractérisée par les paramètres $\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}$ tels que
-$\argmin_{\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}} \sum_{i=1}^N L\left(y_i, \sum_{m=1}^M \beta_m f\left(\mathbf{x}_i, \mathbf{\theta}_m\right)\right)$
-
-
-C'est un problème très compliqué dès que $M$ est élevé!
-
 ## Le *boosting*
 
 ### Introduction
@@ -75,6 +63,17 @@ Dans les années 1990, de nombreux travaux ont tâché de proposer des implémen
 ### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_ de Friedman
 
 A REPRENDRE DES SLIDES DE LA FORMATION BOOSTING
+
+Imaginons qu'on veuille entraîner le modèle suivant:
+
+$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
+
+
+$\hat{F}$ est caractérisée par les paramètres $\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}$ tels que
+$\argmin_{\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}} \sum_{i=1}^N L\left(y_i, \sum_{m=1}^M \beta_m f\left(\mathbf{x}_i, \mathbf{\theta}_m\right)\right)$
+
+
+C'est un problème très compliqué dès que $M$ est élevé!
 
 
 <!--
