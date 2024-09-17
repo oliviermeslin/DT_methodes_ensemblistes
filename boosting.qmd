@@ -36,35 +36,41 @@ Le _boosting_ est une approche ensembliste qui ne traite pas les modèles de bas
 
 ### Introduction
 
-Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle peu performant en un modèle très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé  (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. 
+Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle peu performant en un modèle très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. 
 
-S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent une même logique :
+S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent la même logique :
 
 - Un premier modèle simple et peu performant est entraîné sur les données.
 - Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);
 - Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l'ensemble des modèles précédents;
 - Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
 
-D'un point de vue technique, il s'agit d'une **modélisation additive par étapes** qui revient à décomposer l'entraînement d'un modèle très complexe en une __séquence d'entraînements de petits modèles__, procédure beaucoup plus simple. 
+En termes plus techniques, les algorithmes de _boosting_ partagent trois caractéristiques communes:
 
-METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s'affinent.
+- Ils visent à __approximer une fonction inconnue `#mi("$F: \mathbf{x} \mapsto y$")`{=typst}__ à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
+- Ils supposent que la fonction $F$ peut être exprimée comme une __somme pondérée de modèles simples__:
+```{=typst} #mitex(` 
+$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right) $
+`)```
+- ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une __séquence d'entraînements de petits modèles__.
+
+<!-- ```{=typst} 
+#import "@preview/algo:0.3.3": algo, i, d, comment, code
+
+#algo(
+  line-numbers: false,
+  title: "Modélisation additive par étape"
+)[
+  if $n < 0$:#i\        // use #i to indent the following lines
+    return null#d\      // use #d to dedent the following lines
+  if $n = 0$ or $n = 1$:#i #comment[you can also]\
+    return $n$#d #comment[add comments!]\
+  return #smallcaps("Fib")$(n-1) +$ #smallcaps("Fib")$(n-2)$
+]    
+``` -->
 
 
-### Une première implémentation du _boosting_ : Adaboost
-
-Dans les années 1990, de nombreux travaux ont tâché de proposer des implémentations du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Le modèle Adaboost (Adaptive Boosting, @freund1997decision) est la plus connue de ces implémentations pionnières. Adaboost pondère les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites. Voici une esquisse du fonctionnement d'AdaBoost:
-
-- Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
-- A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
-- Cette procédure est répétée en ajoutant de nouveaux modèles et en adaptant les pondérations. 
-- Le modèle final est obtenu par une moyenne pondérée des modèles.
-
-
-### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_ de Friedman
-
-A REPRENDRE DES SLIDES DE LA FORMATION BOOSTING
-
-Imaginons qu'on veuille entraîner le modèle suivant:
+<!-- Imaginons qu'on veuille entraîner le modèle suivant:
 
 $F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
 
@@ -73,32 +79,80 @@ $\hat{F}$ est caractérisée par les paramètres $\{\beta_m, \mathbf{\theta}_m\}
 $\argmin_{\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}} \sum_{i=1}^N L\left(y_i, \sum_{m=1}^M \beta_m f\left(\mathbf{x}_i, \mathbf{\theta}_m\right)\right)$
 
 
-C'est un problème très compliqué dès que $M$ est élevé!
+C'est un problème très compliqué dès que $M$ est élevé! -->
 
 
-<!--
-```{=typst} 
-#import "@preview/algo:0.3.3": algo, i, d, comment, code
 
-#algo(
-  line-numbers: false,
-  title: Modélisation additive par étape
-)[
-  if $n < 0$:#i\        // use #i to indent the following lines
-    return null#d\      // use #d to dedent the following lines
-  if $n = 0$ or $n = 1$:#i #comment[you can also]\
-    return $n$#d #comment[add comments!]\
-  return #smallcaps("Fib")$(n-1) +$ #smallcaps("Fib")$(n-2)$
-]    
-```
--->
+METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s'affinent.
+
+### Les premières approches du _boosting_ : Adaboost et la _Gradient Boosting Machine_
+
+Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, @freund1997decision) et la _Gradient Boosting Machine_ (@friedman2001greedy).
+
+Le principe d'Adaboost consiste à pondérer les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites. Voici une esquisse du fonctionnement d'AdaBoost:
+
+- Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
+- A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
+- Cette procédure est répétée en ajoutant de nouveaux modèles et en adaptant les pondérations. 
+- Le modèle final est obtenu par une moyenne pondérée des modèles.
+
+La _Gradient Boosting Machine_ propose une approche assez différente: elle établit un lien entre le _boosting_ et l'utilisation d'une fonction de perte.
+
+Faire court.
 
 
-1.  Commencer par $f_0\left(\mathbf{x}\right) = y_0$.
+1.  Commencer par $f_0\left(\mathbf{x}\right) = 0$.
 2.  Pour $m = 1, \dots, M:$
     (a) Entraîner le $m$-ième modèle:
     $$\left(\hat{\beta}_m, \hat{\theta}_m\right) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L\left(y_i, f_{m-1}\left(\mathbf{x}_i\right) + \beta b\left(\mathbf{x}_i, \mathbf{\theta}\right)\right)$$
     (b) Définir $f_m\left(\mathbf{x}\right) = f_{m-1}\left(\mathbf{x}\right) + \hat{\beta}_m b\left(\mathbf{x}_i, \mathbf{\hat{\theta}_m}\right)$
+
+### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_ de Friedman
+
+
+@friedman2001greedy
+fait le lien entre le _boosting_ et l'utilisation d'une fonction de perte.
+
+
+
+L'objectif de l'apprentissage supervisé est d'[**approximer une fonction
+inconnue**]{.orange} $F: \mathbf{x} \mapsto y$ en minimisant l'espérance
+conditionnelle d'une fonction de perte
+$L\left(y, F\left(\mathbf{x}\right)\right)$ sur un ensemble
+d'entraînement $\left(y_i, \mathbf{x_i} \right)_{i= 1,\dots,n}$.
+Formellement:
+
+$$\hat{F} = \argmin_F \mathbb{E}_{y,\mathbf{x}}\left[ L\left(y, F\left(\mathbf{x}\right)\right)\right] $$
+
+-   Principe: rechercher $F\left(\mathbf{x}\right)$ dans un ensemble de
+    fonctions paramétrisées par un vecteur fini de paramètres $\theta$.
+    <br/> [Exemple: $F\left(\mathbf{x}\right) = \mathbf{x\beta}$ avec
+    $\mathbf{\beta} = \{\beta_1, \dots, \beta_d\}$]{.small90}
+
+-   Cette restriction permet de se ramener à un problème d'optimisation
+    sur l'espace des paramètres: $\hat{F}$ est caractérisée par ses
+    paramètres $\hat{\bf\theta}$ tels que <br/>
+    $$\hat{\bf\theta} = \argmin_{\bf\theta} \mathbb{E}_{y,\mathbf{x}}\left[ L\left(y, F\left(\mathbf{x}, \mathbf{\theta}\right)\right)\right]$$
+
+-   Si on veut obtenir un modèle performant, le nombre de paramètres
+    peut devenir élevé et l'entraînement du modèle très compliqué...
+
+
+### La modélisation additive par étapes
+
+La modélisation additive par étapes parvient à approximer la fonction FFF en ajoutant progressivement des modèles simples ffffff sans modifier les modèles simples qui ont déjà été entraînés. A chaque itération, on recherche la fonction $f(x, theta_m)$ qui améliore le plus possible la fonction $f_(m-1)(x)$. On obtient alors la fonction $f_m(x)$, et la procédure recommence.
+
+1.  Initialiser `#mi("$f_0(\mathbf{x}) = \delta$")`{=typst}.
+2.  Pour `#mi("$m = 1, \dots, M:$")`{=typst}
+    (a) Entraîner le $m$-ième modèle:
+    ```{=typst} 
+    mitex(`$(\hat{\beta}_m, \hat{\theta}_m) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L(y_i, f_{m-1}(\mathbf{x}_i) + \beta b(\mathbf{x}_i, \mathbf{\theta}))$
+    `)
+    ```
+
+    (b) Définir `#mi("$f_m(\mathbf{x}) = f_{m-1}(\mathbf{x}) + \hat{\beta}_m b(\mathbf{x}_i, \mathbf{\hat{\theta}_m})$")`{=typst}
+
+
 
 ## La mécanique du _gradient boosting_
 
@@ -106,6 +160,7 @@ Depuis la publication de @friedman2001greedy, la méthode de _gradient boosting_
 
 Choses importantes à mettre en avant:
 
+- Le boosting est fondamentalement différent des forêts aléatoires. See ESL, chapitre 10.
 - Toute la mécanique est indépendante de la fonction de perte choisie. En particulier, elle est applicable indifféremment à des problèmes de classification et de régression.
 - Les poids sont calculés par une formule explicite, ce qui rend les calculs extrêmement rapides.
 - Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.
@@ -119,9 +174,9 @@ Choses importantes à mettre en avant:
 
 On veut entraîner un modèle comprenant $K$ arbres de régression ou de classification: 
 
-$$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right), f_k \epsilon \mathcal{F}$$
+$$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right)$$
 
-Chaque arbre $F$ est défini par trois paramètres: sa structure (une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $x$ de dimension $m$ associe une feuille terminale de l'arbre), son nombre de feuilles terminales $T$ et les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou _weights_).
+Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres: sa structure (une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $x$ de dimension $m$ associe une feuille terminale de l'arbre), son nombre de feuilles terminales $T$ et les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou _weights_).
 
 Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivante: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_j$ élevés en valeur absolue).
 
