@@ -133,7 +133,8 @@
   show math.equation: set text(weight: 400)
 
   // Configure citation and bibliography styles.
-  set cite(style: "numerical", brackets: true)
+  // set cite(style: "numerical", brackets: true)
+  set cite(style: "apa", form: "prose")
   set bibliography(style: "apa", title: "References")
 
   show figure: it => {
