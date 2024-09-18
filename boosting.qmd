@@ -8,7 +8,7 @@ format:
   typst:
     toc: true
     section-numbering: 1.1.1
-    bibliography: references.bib
+bibliography: references.bib
 ---
 
 ```{=typst} 
