@@ -35,9 +35,11 @@ En termes plus techniques, les algorithmes de _boosting_ partagent trois caract�
 
 - Ils visent à __approximer une fonction inconnue `#mi("$F: \mathbf{x} \mapsto y$")`{=typst}__ à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
 - Ils supposent que la fonction $F$ peut être exprimée comme une __somme pondérée de modèles simples__:
-```{=typst} #mitex(` 
-$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right) $
-`)```
+```{=typst} 
+#mitex(` 
+$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
+`)
+```
 - ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une __séquence d'entraînements de petits modèles__.
 
 
