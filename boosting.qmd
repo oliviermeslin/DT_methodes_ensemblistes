@@ -85,73 +85,39 @@ C'est un problème très compliqué dès que $M$ est élevé! -->
 
 METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s'affinent.
 
-### Les premières approches du _boosting_ : Adaboost et la _Gradient Boosting Machine_
+### Les premières approches du _boosting_
 
-Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, @freund1997decision) et la _Gradient Boosting Machine_ (@friedman2001greedy).
+#### Le _boosting_ par repondération: Adaboost
 
-Le principe d'Adaboost consiste à pondérer les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites. Voici une esquisse du fonctionnement d'AdaBoost:
+Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, @freund1997decision) et la _Gradient Boosting Machine_ (@friedman2001greedy). Ces deux approches reposent sur des principes très différents.
+
+Le principe d'Adaboost consiste à pondérer les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites, de façon à obliger les modèles simples à se concentrer sur les observations les plus difficiles à prédire. Voici une esquisse du fonctionnement d'AdaBoost:
 
 - Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
 - A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
-- Cette procédure est répétée en ajoutant de nouveaux modèles et en adaptant les pondérations. 
-- Le modèle final est obtenu par une moyenne pondérée des modèles.
+- Ce deuxième modèle est ajouté au premier, puis on repondère à nouveau les observations en fonction de la qualité de prédiction de ce nouveau modèle.
+- Cette procédure est répétée en ajoutant de nouveaux modèles et en ajustant les pondérations. 
 
-La _Gradient Boosting Machine_ propose une approche assez différente: elle établit un lien entre le _boosting_ et l'utilisation d'une fonction de perte.
+L'algorithme Adaboost a été au coeur de la littérature sur le _boosting_ à la fin des années 1990 et dans les années 2000, en raison de ses performances sur les problèmes de classification binaire. Il a toutefois été progressivement remplacé par les algorithmes de _gradient boosting_ inventé quelques années plus tard.
 
-Faire court.
+#### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_
 
+La _Gradient Boosting Machine_ (GBM) propose une approche assez différente: elle introduit le _gradient boosting_ en reformulant le _boosting_ sous la forme d'un problème de descente de gradient. Voici une esquisse du fonctionnement de la _Gradient Boosting Machine_:
 
-1.  Commencer par $f_0\left(\mathbf{x}\right) = 0$.
+- Un premier modèle simple est entraîné sur un jeu d'entraînement, de façon à minimiser une fonction de perte qui mesure l'écart entre la variable à prédire et la prédiction du modèle.
+- A l'issue de cette première itération, on calcule la dérivée partielle (_gradient_) de la fonction de perte par rapport à la prédiction en chaque point de l'ensemble d'entraînement. Ce gradient indique dans quelle direction et dans quelle ampleur la prédiction devrait être modifiée afin de réduire la perte.
+- A la deuxième itération, on ajoute un deuxième modèle qui va tâcher d'améliorer le modèle complet en prédisant le mieux possible l'opposé de ce gradient.
+- Ce deuxième modèle est ajouté au premier, puis on recalcule la dérivée partielle de la fonction de perte par rapport à la prédiction de ce nouveau modèle.
+- Cette procédure est répétée en ajoutant de nouveaux modèles et en recalculant le gradient à chaque étape.
+
+L'approche de _gradient boosting_ proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, _learning-to-rank_...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de _boosting_. Le _gradient boosting_ est donc devenue l'approche de référence en matière de _boosting_. En particulier, les implémentations modernes du _gradient boosting_ comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de.= la _Gradient Boosting Machine_.
+
+<!-- 1.  Initialiser le modèle avec $f_0\left(\mathbf{x}\right) = y_0$.
 2.  Pour $m = 1, \dots, M:$
     (a) Entraîner le $m$-ième modèle:
     $$\left(\hat{\beta}_m, \hat{\theta}_m\right) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L\left(y_i, f_{m-1}\left(\mathbf{x}_i\right) + \beta b\left(\mathbf{x}_i, \mathbf{\theta}\right)\right)$$
     (b) Définir $f_m\left(\mathbf{x}\right) = f_{m-1}\left(\mathbf{x}\right) + \hat{\beta}_m b\left(\mathbf{x}_i, \mathbf{\hat{\theta}_m}\right)$
-
-### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_ de Friedman
-
-
-@friedman2001greedy
-fait le lien entre le _boosting_ et l'utilisation d'une fonction de perte.
-
-
-
-L'objectif de l'apprentissage supervisé est d'[**approximer une fonction
-inconnue**]{.orange} $F: \mathbf{x} \mapsto y$ en minimisant l'espérance
-conditionnelle d'une fonction de perte
-$L\left(y, F\left(\mathbf{x}\right)\right)$ sur un ensemble
-d'entraînement $\left(y_i, \mathbf{x_i} \right)_{i= 1,\dots,n}$.
-Formellement:
-
-$$\hat{F} = \argmin_F \mathbb{E}_{y,\mathbf{x}}\left[ L\left(y, F\left(\mathbf{x}\right)\right)\right] $$
-
--   Principe: rechercher $F\left(\mathbf{x}\right)$ dans un ensemble de
-    fonctions paramétrisées par un vecteur fini de paramètres $\theta$.
-    <br/> [Exemple: $F\left(\mathbf{x}\right) = \mathbf{x\beta}$ avec
-    $\mathbf{\beta} = \{\beta_1, \dots, \beta_d\}$]{.small90}
-
--   Cette restriction permet de se ramener à un problème d'optimisation
-    sur l'espace des paramètres: $\hat{F}$ est caractérisée par ses
-    paramètres $\hat{\bf\theta}$ tels que <br/>
-    $$\hat{\bf\theta} = \argmin_{\bf\theta} \mathbb{E}_{y,\mathbf{x}}\left[ L\left(y, F\left(\mathbf{x}, \mathbf{\theta}\right)\right)\right]$$
-
--   Si on veut obtenir un modèle performant, le nombre de paramètres
-    peut devenir élevé et l'entraînement du modèle très compliqué...
-
-
-### La modélisation additive par étapes
-
-La modélisation additive par étapes parvient à approximer la fonction FFF en ajoutant progressivement des modèles simples ffffff sans modifier les modèles simples qui ont déjà été entraînés. A chaque itération, on recherche la fonction $f(x, theta_m)$ qui améliore le plus possible la fonction $f_(m-1)(x)$. On obtient alors la fonction $f_m(x)$, et la procédure recommence.
-
-1.  Initialiser `#mi("$f_0(\mathbf{x}) = \delta$")`{=typst}.
-2.  Pour `#mi("$m = 1, \dots, M:$")`{=typst}
-    (a) Entraîner le $m$-ième modèle:
-    ```{=typst} 
-    mitex(`$(\hat{\beta}_m, \hat{\theta}_m) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L(y_i, f_{m-1}(\mathbf{x}_i) + \beta b(\mathbf{x}_i, \mathbf{\theta}))$
-    `)
-    ```
-
-    (b) Définir `#mi("$f_m(\mathbf{x}) = f_{m-1}(\mathbf{x}) + \hat{\beta}_m b(\mathbf{x}_i, \mathbf{\hat{\theta}_m})$")`{=typst}
-
+ -->
 
 
 ## La mécanique du _gradient boosting_
