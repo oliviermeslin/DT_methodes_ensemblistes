@@ -133,6 +133,7 @@
   show math.equation: set text(weight: 400)
 
   // Configure citation and bibliography styles.
+  // Cette ligne fait bugguer le template. Arguments deprecated?
   // set cite(style: "numerical", brackets: true)
   set cite(style: "apa", form: "prose")
   set bibliography(style: "apa", title: "References")
