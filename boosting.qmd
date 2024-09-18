@@ -18,25 +18,11 @@ format:
   )
 ```
 
-
-$
-\DeclareMathOperator*{\argmin}{arg\,min}
-\makeatletter
-\let\ams@underbrace=\underbrace
-\def\underbrace#1_#2{%
-  \setbox0=\hbox{$\displaystyle#1$}%
-  \ams@underbrace{#1}_{\parbox[t]{\the\wd0}{#2}}%
-}
-\makeatother
-$
-
-Le _boosting_ est une approche ensembliste qui ne traite pas les modèles de base séparément les uns des autres.
-
 ## Le *boosting*
 
 ### Introduction
 
-Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle peu performant en un modèle très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. Bien qu'une approche de _boosting_ puisse en théorie mobiliser différentes classes de _weak learners_, en pratique les _weak learners_ utilisés par les algorithmes de _boosting_ sont presque toujours des arbres de décision.
+Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle prédictif peu performant en un modèle prédictif très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. Bien qu'une approche de _boosting_ puisse en théorie mobiliser différentes classes de _weak learners_, en pratique les _weak learners_ utilisés par les algorithmes de _boosting_ sont presque toujours des arbres de décision.
 
 S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent la même logique :
 
@@ -142,7 +128,7 @@ $$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{
 
 Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres: sa structure (une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $x$ de dimension $m$ associe une feuille terminale de l'arbre), son nombre de feuilles terminales $T$ et les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou _weights_).
 
-Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivante: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_j$ élevés en valeur absolue).
+Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivantes: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_j$ élevés en valeur absolue).
 
 ```{=typst} 
 #mitex(`
