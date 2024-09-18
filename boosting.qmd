@@ -4,6 +4,7 @@ author: |
   [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
 format:
+  ams-typst: default
   typst:
     toc: true
     section-numbering: 1.1.1
