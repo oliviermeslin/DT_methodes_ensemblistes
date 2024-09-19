@@ -100,9 +100,9 @@ La _Gradient Boosting Machine_ (GBM) propose une approche assez différente: ell
 - Ce deuxième modèle est ajouté au premier, puis on recalcule la dérivée partielle de la fonction de perte par rapport à la prédiction de ce nouveau modèle.
 - Cette procédure est répétée en ajoutant de nouveaux modèles et en recalculant le gradient à chaque étape.
 
-L'approche de _gradient boosting_ proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, _learning-to-rank_...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de _boosting_. Le _gradient boosting_ est donc devenue l'approche de référence en matière de _boosting_. En particulier, les implémentations modernes du _gradient boosting_ comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la _Gradient Boosting Machine_.
-
-<!-- 1.  Initialiser le modèle avec $f_0\left(\mathbf{x}\right) = y_0$.
+<!-- 
+Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c'est peut-être inutile. 
+1.  Initialiser le modèle avec $f_0\left(\mathbf{x}\right) = y_0$.
 2.  Pour $m = 1, \dots, M:$
     (a) Entraîner le $m$-ième modèle:
     $$\left(\hat{\beta}_m, \hat{\theta}_m\right) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L\left(y_i, f_{m-1}\left(\mathbf{x}_i\right) + \beta b\left(\mathbf{x}_i, \mathbf{\theta}\right)\right)$$
