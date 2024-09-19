@@ -110,6 +110,9 @@ Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c
  -->
 
 
+L'approche de _gradient boosting_ proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, _learning-to-rank_...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de _boosting_. Le _gradient boosting_ d'arbres de décision (_Gradient boosted Decision Trees_ - GBDT) est donc devenue l'approche de référence en matière de _boosting_. En particulier, les implémentations modernes du _gradient boosting_ comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la _Gradient Boosting Machine_.
+
+
 ## La mécanique du _gradient boosting_
 
 Depuis la publication de @friedman2001greedy, la méthode de _gradient boosting_ a connu de multiples développements et raffinements, parmi lesquels XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
