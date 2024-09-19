@@ -1,8 +1,8 @@
 ---
 title: "Le boosting"
 author: |
-  [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
+  [Olivier Meslin](https://github.com/oliviermeslin)
 format:
   ams-typst: default
   typst:
