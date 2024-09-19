@@ -282,8 +282,9 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 
 Les forêts aléatoires et le _gradient boosting_ paraissent très similaires au premier abord: il s'agit de deux approches ensemblistes, qui construisent des modèles très prédictifs performants en combinant un grand nombre d'arbres de décision. Mais en réalité, ces deux approches présentent plusieurs différences fondamentales: 
 
+- Dans une forêt aléatoire, les arbres 
 
-- Dans une forêt aléatoire, chaque arbre constitue un modèle à part entière (bien que souvent peu performant), ce qui signifie qu'il peut être utilisé, représenté et interprété indépendamment des autres arbres. Dans un modèle de _boosting_, chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement.
+- Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres. Par conséquent, chaque arbre constitue un modèle à part entière (bien que souvent peu performant), ce qui signifie qu'il peut être utilisé, représenté et interprété indépendamment des autres arbres. Dans un modèle de _boosting_, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement. Par ailleurs, les arbres d'une forêt aléatoire sont souvent relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont généralement simples et peu profonds.
 
 - _overfitting_: borne théorique à l'_overfitting_ dans les RF, contre pas de borne dans le _boosting_. Deux conséquences: 1/ lutter contre l'overfitting est essentiel dans l'usage du _boosting_; 2/ le _boosting_ est plus sensible au bruit et aux erreurs sur $y$ que la RF.
 
