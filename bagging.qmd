@@ -36,7 +36,7 @@ Le bagging comporte trois étapes clés:
 
 ## Pourquoi ça marche: propriétés du bagging
 
-Un modèle avec une variance élevée va produire des prédictions très variables d'un jeu de données à l'autre. L'objectif du bagging est d'améliorer la précision globale en agrégeant les prédictions de plusieurs modèles entraînés sur des échantillons (légèrement) différents les uns des autres. Dans un article fondateur, Breiman (1996) montre que, sous certaines conditions, la variance du modèle agrégé est inférieure à la variance moyenne de chaque modèle pris individuellement. Cette méthode est particulièrement efficace lorsqu'elle est appliquée à des familles de modèles très instables, dont les performances sont particulièrement sensibles aux fluctuations aléatoires du jeu de données d'apprentissage/d'entraînement.
+Un modèle avec une variance élevée va produire des prédictions très variables, instables, d'un jeu de données à l'autre. Cela signifie qu'il est très sensible aux variations dans les données d'apprentissage. L'objectif du bagging est d'améliorer la précision globale en agrégeant les prédictions de plusieurs modèles entraînés sur des échantillons (légèrement) différents les uns des autres. Dans un article fondateur, Breiman (1996) montre que, sous certaines conditions, la variance du modèle agrégé est inférieure à la variance moyenne de chaque modèle pris individuellement. Cette méthode est particulièrement efficace lorsqu'elle est appliquée à des familles de modèles très instables, dont les performances sont particulièrement sensibles aux fluctuations aléatoires du jeu de données d'apprentissage/d'entraînement.
 
 Afin de mieux comprendre comment, et dans quelles conditions, l'agrégation de modèles par bagging peut améliorer la performance d'un modèle individuel, nous présentons dans cette section les principaux éléments de la démonstration de Breiman (1996). Ces considérations seront utiles pour décider s'il convient ou non d'agréger les prédictions de plusieurs modèles dans une situation donnée. 
 
@@ -86,23 +86,24 @@ $$(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$$
 
 Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. 
 
-Breiman (1996) montre ainsi que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne des modèles individuels :
+Breiman (1996) montre ainsi que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne d'un modèle individuel :
 
 $$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$$
-Le processus d'agrégation par bagging **réduit la variance globale** des prédictions tout en maintenant un biais constant, ce qui a pour conséquence de réduire l'erreur de prédiction globale.
+
+Le processus d'agrégation par bagging réduit la **variance** des prédictions, tout en maintenant un biais constant, ce qui a pour conséquence de réduire l'erreur de prédiction globale.
 
 
-### La classification
+### La classification: vers un classificateur presque optimal par agrégation
 
-Dans le cas de la classification, le mécanisme de réduction de la variance est légèrement différent et conduit à ce que Breiman appelle un classificateur presque optimal (*nearly optimal classifier*).
+Dans le cas de la classification, le mécanisme de réduction de la variance par le bagging est légèrement différent de celui de la régression, mais il aboutit à un résultat puissant : un classificateur presque optimal (*nearly optimal classifier*). Ce concept a été introduit par Breiman (1996) pour décrire un modèle (agrégé) qui tend à classer une observation dans la classe la plus probable, avec une performance approchant celle du classificateur Bayésien optimal.
 
-Breiman (1996) montre que le bagging peut transformer un classificateur "mostly order-correct" (c'est-à-dire un modèle qui attribue majoritairement/le plus souvent la bonne classe à l'observation considérée) en un classificateur presque optimal (c'est-à-dire le modèle qui classe toujours l'observation $x$ dans la classe ayant la plus grande probabilité conditionelle $P(j∣x)$). Cette démonstration repose sur l'idée que l'agrégation via le vote majoritaire élimine ou réduit les erreurs aléatoires des classificateurs individuels, rendant le classificateur agrégé presque optimal (plus précisément, le classificateur agrégé est optimal dans toutes les régions de l'espace où le classificateur de base est order correct).
+Breiman (1996) montre que le bagging peut transformer un classificateur "mostly order-correct" (c'est-à-dire un modèle qui attribue majoritairement/le plus souvent la bonne classe à l'observation considérée, mais pas toujours) en un classificateur presque optimal (c'est-à-dire le modèle qui classe toujours l'observation $x$ dans la classe ayant la plus grande probabilité conditionelle $P(j∣x)$). Cette démonstration repose sur l'idée que l'agrégation via le vote majoritaire élimine ou réduit les erreurs aléatoires des classificateurs individuels, rendant le classificateur agrégé presque optimal (plus précisément, le classificateur agrégé est optimal dans toutes les régions de l'espace où le classificateur de base est order correct).
 
 Pour comprendre ce résutlat, introduisons $Q(j|x) = P(φ(x, L) = j)$, la probabilité que le modèle $φ(x, L)$ prédise la classe $j$ pour l'observation $x$, et $P(j|x)$, la vraie probabilité que $x$ appartienne à la classe $j$.
 
 En pratique $Q(j|x)$, est estimée à partir des prédictions des différents modèles entraînés sur les ensembles d'apprentissage L. Chaque modèle prédit une classe pour l'entrée $x$, et $Q(j∣x)$ est la proportion de fois où la classe $j$ est prédite parmi l'ensemble des modèles.
 
--   **Concept d'ordre-correct (order correctness)**
+-   **Définition du classificateur order correct**
 
 Un classificateur est dit **order-correct** pour une observation $x$ si, même si les probabilités attribuées $Q(j|x)$ ne correspondent pas aux vraies probabilités $P(j|x)$), il classe toujours l'observation $x$ dans la classe la plus probable selon la distribution vraie $P(j|x)$ (c'est-à-dire la classe qui a la plus grande probabilité $P(j|x)$).
 
@@ -152,4 +153,4 @@ Breiman (1996) conclut que si un prédicteur est "bon" (c'est-à-dire qu'il pré
 
 ### Les limites
 
-Qu'il s'agisse de la régression ou de la classification, les performances des modèles peuvent se dégrader dans certaines circonstances, en particulier lorsque la variance du modèle est faible, et que les modèles sont biaisés (c'est le cas d'un modèle globalement non order correct dans le cas de la classification par exemple). Cela vient du fait que, en pratique, les différents ensembles d'apprentissage L utilisés pour construire le prédicteur agrégé sont construits par la méthode du bootstrap, en tirant aléatoirement avec remise des observations dans le jeu de données initial.
+Qu'il s'agisse de la régression ou de la classification, les performances des modèles peuvent se dégrader dans certaines circonstances, en particulier lorsque la variance du modèle est faible, et que les modèles sont biaisés (c'est le cas d'un modèle globalement non order correct dans le cas de la classification par exemple). Cela vient du fait que, en pratique, les différents ensembles d'apprentissage L utilisés pour construire le prédicteur agrégé sont construits par la méthode du bootstrap, en tirant aléatoirement avec remise des observations dans le jeu de données initial, et non sur l'ensemble des jeux de données possibles.
