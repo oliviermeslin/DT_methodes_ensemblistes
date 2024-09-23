@@ -10,47 +10,142 @@ format:
     section-numbering: 1.1.1
 bibliography: references.bib
 ---
-  
-```{=typst} 
+
+```{=typst}
 #import "@preview/mitex:0.2.4": *
 #set math.equation(
 numbering: "(1)",
 supplement: none
 )
 ```
-
 # Le bagging
 
-Le bagging, ou "bootstrap aggregating", est une méthode ensembliste conçue pour améliorer la stabilité et la précision des algorithmes d'apprentissage automatique (Breiman, 1996). Elle repose sur la construction de plusieurs modèles élémentaires (_estimateurs_) entraînés sur des échantillons distincts grâce à la technique du bootstrap, qui consiste à créer des échantillons aléatoires avec remise à partir du jeu de données initial. Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.
-
+Le bagging, ou "bootstrap aggregating", est une méthode ensembliste conçue pour améliorer la stabilité et la précision des algorithmes d'apprentissage automatique (Breiman, 1996). Elle repose sur la construction de plusieurs modèles élémentaires (il s'agit souvent de plusieurs versions d'un même modèle) entraînés sur des échantillons distincts grâce à la technique du bootstrap, qui consiste à créer des échantillons aléatoires avec remise à partir du jeu de données initial. Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent (mais pas toujours) plus robuste et généralisable que celle obtenue par un modèle unique.
 
 ## Principe du bagging
 
-Le bagging peut se décomposer en trois étapes clés: 
+Le bagging comporte trois étapes clés:
 
-**Échantillonnage bootstrap** : L'échantillonnage bootstrap consiste à créer de nouveaux échantillons en tirant aléatoirement avec remise des observations dans le jeu de données initial. Chaque échantillon _bootstrap_ contient le même nombre d'observations que le jeu de données initial, mais certaines observations peuvent être répétées (car sélectionnées plusieurs fois), tandis que d'autres peuvent être omises.
+-   **Échantillonnage bootstrap** : L'échantillonnage bootstrap consiste à créer de nouveaux échantillons en tirant aléatoirement avec remise des observations dans le jeu de données initial. Chaque échantillon *bootstrap* contient le même nombre d'observations que le jeu de données initial, mais certaines observations peuvent être répétées (car sélectionnées plusieurs fois), tandis que d'autres peuvent être omises.
 
+-   **Entraînement de plusieurs modèles** : Un modèle (aussi appelé *apprenant de base* ou *weak learner*) est entraîné/construit pour chaque échantillon bootstrap. Les modèles peuvent être des arbres de décision, des régressions ou tout autre algorithme d'apprentissage. Le bagging est particulièrement efficace - et souvent utilisé - avec les arbres de décision.
 
-**Entraînement de plusieurs modèles** : Un modèle (aussi appelé _apprenant de base_ ou _weak learner_) est entraîné/construit pour chaque échantillon bootstrap. Les modèles peuvent être des arbres de décision, des régressions ou tout autre algorithme d'apprentissage. Le bagging est particulièrement efficace - et souvent utilisé - avec les arbres de décision. 
-    
-
-**Agrégation des prédictions** : Les prédictions de tous les modèles sont ensuite agrégées, en procédant généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification, afin d'obtenir des prédictions plus précises et généralisables.
-
-
+-   **Agrégation des prédictions** : Les prédictions de tous les modèles sont ensuite agrégées, en procédant généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification, afin d'obtenir des prédictions plus précises et généralisables.
 
 ## Pourquoi ça marche: propriétés du bagging
 
-### Cas de la régression
+Un modèle à forte variance produit des prédictions très variables d'un jeu de données à l'autre. Le principe du bagging est d'améliorer la précision globale en agrégeant les prédictions de plusieurs modèles entraînés sur des échantillons (légèrement) différents. En effet, il est possible de montrer, sous certaines conditions, que la variance du modèle agrégé est inférieure à la variance de chaque modèle pris individuellement. Cette méthode est particulièrement efficace pour les familles de modèles très instables et dont les performances sont particulièrement sensibles aux fluctuations aléatoires du jeu de données sur lequel ils sont entraînés.
 
-### Cas de la classification
+Formellement, notons $φ(x, L)$ un prédicteur (d'une valeur numérique dans le cas de la *régression* ou d'un label dans le cas de la *classification*), entraîné sur un ensemble d'apprentissage L, et prenant en entrée un vecteur de caractéristiques x. Notons également Y la variable que l'on cherche à prédire.
+
+Nous présentons dans cette section les points essentiels de la démonstration de Breiman (1996) afin de comprendre comment, et sous quelles conditions, l'agrégation de modèles par bagging peut améliorer les performances d'un modèle individuel.
+
+### La régression: réduction de l'erreur quadratique moyenne par agrégation
+
+Dans le contexte de la **régression**, l'objectif est de prédire une valeur numérique $Y$ à partir d'un vecteur de caractéristiques $x$. Un modèle de régression $\phi(x, L)$ est construit à partir d'un ensemble d'apprentissage $L$, et produit une estimation de $Y$ pour chaque observation $x$. Le **bagging** vise à améliorer la précision de ces prédictions en réduisant la variance des estimations.
+
+
+- **Définition du prédicteur agrégé**
+
+Formellement, le **prédicteur agrégé** obtenu par bagging est défini comme suit :
+
+$\phi_A(x) = E_L[\phi(x, L)]$
+
+où $\phi_A(x)$ représente la prédiction agrégée, $E_L[.]$ correspond à l'espérance prise sur tous les échantillons d'apprentissage $L$ possibles, chacun étant tiré selon la même distribution que le jeu de données initial, et $\phi(x, L)$ correspond à la prédiction du modèle construit sur l'échantillon d'apprentissage $L$.
+
+
+- **La décomposition biais-variance** 
+
+Pour mieux comprendre comment le bagging améliore la performance globale d'un modèle, revenons à la **décomposition biais-variance** de l'erreur quadratique moyenne. Cette décomposition sépare l'erreur totale en trois composantes : le biais, la variance et le bruit. Pour un modèle ($\phi(x, L)$), l'erreur quadratique moyenne s'écrit comme suit :
+
+$E_L[(Y - \phi(x, L))^2] = \underbrace{(E_L[\phi(x, L)] - f(x))^2}_{\text{Biais}^2} + \underbrace{E_L[(\phi(x, L) - E_L[\phi(x, L)])^2]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Bruit}}$
+
+  - **Biais**: C'est la différence entre la valeur observée ($Y = f(x)$) que l'on souhaite prédire et la prédiction moyenne ($E_L[\phi(x, L)]$). Si le modèle est sous-ajusté, le biais sera élevé.
+
+  - **Variance**: C'est la variabilité des prédictions ($\phi(x, L)$) autour de leur moyenne ($E_L[\phi(x, L)]$). Un modèle avec une variance élevée est très sensible aux fluctuations dans les données d'entraînement.
+  
+  - **Bruit** : C'est une composante intrinsèque des données qui ne peut être réduite, quel que soit le modèle.
+
+Nous allons voir que le bagging agit principalement sur la  **variance**. En moyenne, le biais reste inchangé, car le bagging ne modifie pas la structure du modèle. Cependant, en agrégant plusieurs modèles, le bagging **moyenne les variations** dues aux différents échantillons d'entraînement, ce qui **réduit la variance** globale.
+
+
+- **L'inégalité de Breiman (1996)** 
+
+La démonstration de la réduction de la variance grâce au bagging repose sur une **inégalité clé** introduite par Breiman (1996). Cette inégalité compare l'erreur quadratique moyenne d'un modèle individuel avec celle du modèle agrégé. Elle est formulée ainsi :
+
+$(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$
+
+  - Le terme $(Y - \phi_A(x))^2$ représente l'erreur quadratique du **prédicteur agrégé** $\phi_A(x)$
+  - Le terme $E_L[(Y - \phi(x, L))^2]$ est l'erreur quadratique moyenne d'un **prédicteur individuel** ($\phi(x, L)$) entraîné sur un échantillon aléatoire $L$. Cette erreur varie en fonction des données d'entraînement.
+
+Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. 
+
+En d'autres termes, Breiman (1996) montre que la **variance du modèle agrégé** ($\phi_A(x)$) est **toujours inférieure ou égale** à la variance moyenne des modèles individuels :
+
+$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$
+
+Le processus d'agrégation par bagging **réduit la variance globale** des prédictions, tout en maintenant un biais constant, ce qui permet de réduire l'erreur globale de prédiction.
 
 
 
+### La classification
 
+Dans le cas de la classification, le mécanisme de réduction de la variance est légèrement différent et conduit à ce que Breiman appelle un classificateur presque optimal (*nearly optimal classifier*).
 
+Breiman (1996) montre que le bagging peut transformer un classificateur "mostly order-correct" (c'est-à-dire un modèle qui attribue majoritairement/le plus souvent la bonne classe à l'observation considérée) en un classificateur presque optimal (c'est-à-dire le modèle qui classe toujours l'observation $x$ dans la classe ayant la plus grande probabilité conditionelle $P(j∣x)$). Cette démonstration repose sur l'idée que l'agrégation via le vote majoritaire élimine ou réduit les erreurs aléatoires des classificateurs individuels, rendant le classificateur agrégé presque optimal (plus précisément, le classificateur agrégé est optimal dans toutes les régions de l'espace où le classificateur de base est order correct).
+
+Pour comprendre ce résutlat, introduisons $Q(j|x) = P(φ(x, L) = j)$, la probabilité que le modèle $φ(x, L)$ prédise la classe $j$ pour l'observation $x$, et $P(j|x)$, la vraie probabilité que $x$ appartienne à la classe $j$.
+
+En pratique $Q(j|x)$, est estimée à partir des prédictions des différents modèles entraînés sur les ensembles d'apprentissage L. Chaque modèle prédit une classe pour l'entrée $x$, et $Q(j∣x)$ est la proportion de fois où la classe $j$ est prédite parmi l'ensemble des modèles.
+
+-   **Concept d'ordre-correct (order correctness)**
+
+Un classificateur est dit **order-correct** pour une observation $x$ si, même si les probabilités attribuées $Q(j|x)$ ne correspondent pas aux vraies probabilités $P(j|x)$), il classe toujours l'observation $x$ dans la classe la plus probable selon la distribution vraie $P(j|x)$ (c'est-à-dire la classe qui a la plus grande probabilité $P(j|x)$).
+
+Formellement, un prédicteur est dit "order-correct" pour une entrée x si :
+
+$argmax_j Q(j|x) = argmax_j P(j|x)$
+
+En d'autres termes, **en moyenne**, le prédicteur identifie correctement la classe la plus probable (l’ordre des classes en termes de probabilité est correct), même si la probabilité estimée qui lui est attribuée $Q(j|x)$ peut être inexacte.
+
+-   **Prédicteur agrégé en classification**
+
+Dans le cas de la classification, le prédicteur agrégé est défini par le **vote majoritaire**:
+
+$φA(x) = argmax_j Q(j|x)$
+
+En pratique, $argmax_j Q(j|x)$ sélectionne la classe $j$ qui recueille le plus de prédictions parmi tous les modèles, ou en d'autres termes, celle qui a obtenu le plus grand nombre de votes.
+
+Breiman (1996) montre que si le prédicteur $φ(x, L)$ est order-correct pour une entrée $x$, alors le prédicteur agrégé $φA(x)$ atteint la performance optimale pour cette entrée.
+
+-   **Performance globale: nearly optimal classifier**
+
+La probabilité que le classificateur agrégé $ϕA$ prédise correctement la classe d'une observation $x$, étant donné les vraies probabilités $P(j|x)$, est la suivante :
+
+$Σ_j I(argmax_i Q(i|x) = j)P(j|x)$
+
+où $Q(i∣x)$ est la probabilité que le modèle prédise la classe $i$ pour l'entrée $x$, $argmax_i Q(i∣x)$ est la classe prédite par le vote majoritaire, $P(j∣x)$ est la véritable probabilité que $x$ appartienne à la classe $j$, $I(⋅)$ est la fonction indicatrice, qui vaut 1 si la condition à l'intérieur est vraie et 0 sinon.
+
+Si le classificateur $ϕA$ est order-correct pour l'entrée x, c'est-à-dire qu'il identifie correctement la classe à laquelle celle-ci a la plus grande probabilité d'appartenir ($P(j∣x)$), alors la formule $Σ_j I(argmax_i Q(i|x) = j)P(j|x)$ devient : $\max_j P(j|x)$, ce qui correspond à la probabilité maximale que $x$ appartienne à une classe particulière $j$.
+
+Cela signifie que le classificateur agrégé $ϕA$ prédit systématiquement la classe la plus probable pour l'observation $x$, autrement dit que la probabilité de classification correcte est **optimale**, ce qui minimise les erreurs de classification.
+
+Par conséquent, dans les régions (définies par les caractéristiques $x$) où le prédicteur élémentaire est order-correct, le bagging conduit à des décisions optimales. En revanche, dans les régions où le prédicteur élémentaire ne prédit pas correctement en moyenne la classe majoritaire, le bagging peut laisser inchangées voire dans certains cas dégrader les performances du modèle.
 
 ## Quand utiliser le bagging
 
+### Les implications des propriétés précédentes dans le cas de la régression:
 
+-   Si φ(x, L) varie fortement (variance élevée, instabilité des prédiction) selon l'ensemble d'entraînement L, l'inégalité $Var(φA(x)) ≤ EL[Var(φ(x, L))]$ sera d'autant plus forte et le bagging sera d'autant plus efficace.
 
+-   Si au contraire φ(x, L) ne varie peu (variance faible, stabilité des prédiction) d'un ensemble d'entraînement L à l'autre, alors $Var(φA(x))$ est proche de $EL[Var(φ(x, L))]$, la réduction de variance apportée par le bagging sera faible.
 
+Ce résultat justifie que le bagging soit particulièrement efficace pour améliorer les performances des modèles instables, comme les arbres de décision, mais pas celles des modèles stables comme la méthode des K plus proches voisins (K-means).
+
+### Les implications des propriétés précédentes dans le cas de la classification:
+
+Breiman (1996) conclut que si un prédicteur est "bon" (c'est-à-dire qu'il prédit correctement l'ordre des classes pour la plupart des entrées $x$), l'agrégation peut le transformer en un prédicteur presque optimal. Cependant, l'agrégation de mauvais prédicteurs (c'est-à-dire ne prédisant pas correctement la classe majoritaire) peut aggraver les performances du modèle initial.
+
+### Les limites
+
+Qu'il s'agisse de la régression ou de la classification, les performances des modèles peuvent se dégrader dans certaines circonstances, en particulier lorsque la variance du modèle est faible, et que les modèles sont biaisés (c'est le cas d'un modèle globalement non order correct dans le cas de la classification par exemple). Cela vient du fait que, en pratique, les différents ensembles d'apprentissage L utilisés pour construire le prédicteur agrégé sont construits par la méthode du bootstrap, en tirant aléatoirement avec remise des observations dans le jeu de données initial.

@@ -1,9 +1,9 @@
 
-#let script-size = 7.97224pt
-#let footnote-size = 8.50012pt
-#let small-size = 9.24994pt
-#let normal-size = 10.00002pt
-#let large-size = 11.74988pt
+#let script-size = 8pt
+#let footnote-size = 9pt
+#let small-size = 10pt
+#let normal-size = 11pt
+#let large-size = 12pt
 
 // This function gets your whole document as its `body` and formats
 // it as an article in the style of the American Mathematical Society.
@@ -51,8 +51,8 @@
     margin: if paper-size != "a4" {
       (
         top: (116pt / 279mm) * 100%,
-        left: (126pt / 216mm) * 100%,
-        right: (128pt / 216mm) * 100%,
+        left: (96pt / 216mm) * 100%,
+        right: (98pt / 216mm) * 100%,
         bottom: (94pt / 279mm) * 100%,
       )
     } else {
@@ -105,6 +105,7 @@
     // The other ones are run-in.
     set text(size: normal-size, weight: 400)
     if it.level == 1 {
+      v(15pt) // Ajoute un espace avant le titre de niveau 1
       set align(center)
       set text(size: normal-size)
       smallcaps[
@@ -113,13 +114,16 @@
         #it.body
         #v(normal-size, weak: true)
       ]
+      v(5pt)
       counter(figure.where(kind: "theorem")).update(0)
     } else {
+      v(15pt) // Ajoute un espace avant les sous-titres
       v(11pt, weak: true)
       number
       let styled = if it.level == 2 { strong } else { emph }
       styled(it.body + [. ])
       h(7pt, weak: true)
+      v(5pt)
     }
   }
 
@@ -185,8 +189,8 @@
   }))
 
   // Configure paragraph properties.
-  set par(first-line-indent: 1.2em, justify: true, leading: 0.58em)
-  show par: set block(spacing: 0.58em)
+  set par(first-line-indent: 1.2em, justify: true, leading: 0.8em) // (interligne) previously:0.58em
+  show par: set block(spacing: 1.2em) // (space between paragraphs) previously:0.58em
 
   // Display the abstract
   if abstract != none {
