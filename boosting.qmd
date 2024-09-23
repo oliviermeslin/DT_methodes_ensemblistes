@@ -34,14 +34,19 @@ S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent la même 
 
 En termes plus techniques, les algorithmes de _boosting_ partagent trois caractéristiques communes:
 
-- Ils visent à __approximer une fonction inconnue `#mi("$F: \mathbf{x} \mapsto y$")`{=typst}__ à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
-- Ils supposent que la fonction $F$ peut être exprimée comme une __somme pondérée de modèles simples__:
+- Ils visent à __trouver une approximation `#mi("$\hat{F}$")`{=typst} d'une fonction inconnue `#mi("$F*: \mathbf{x} \mapsto y$")`{=typst}__ à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
+- Ils supposent que la fonction $F*$ peut être approchée par une __somme pondérée de modèles simples__ $f$ de paramètres $\theta$:
 ```{=typst} 
 #mitex(` 
 $F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
 `)
 ```
-- ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une __séquence d'entraînements de petits modèles__.
+- ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une __séquence d'entraînements de petits modèles__. Chaque étape de l'entraînement cherche le modèle simple $f$ qui améliore la puissance prédictive du modèle complet, sans modifier les modèles précédents, puis l'ajoute de façon incrémentale à ces derniers:
+```{=typst} 
+#mitex(` 
+$F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\hat{\theta}_m})$
+`)
+```
 
 
 <!-- ```{=typst} 
@@ -284,13 +289,36 @@ Les forêts aléatoires et le _gradient boosting_ paraissent très similaires au
 
 - Les deux approches reposent sur des fondements théoriques différents: la loi des grands nombres pour les forêts aléatoires, la théorie de l'apprentissage statistique pour le _boosting_. 
 
-- Les arbres n'ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres. Par conséquent, chaque arbre constitue un modèle à part entière (bien que souvent peu performant), ce qui signifie qu'il peut être utilisé, représenté et interprété indépendamment des autres arbres. Dans un modèle de _boosting_, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement. Par ailleurs, les arbres d'une forêt aléatoire sont souvent relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont généralement simples et peu profonds.
+- Les arbres n'ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de _boosting_, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement.
+
+- Les points d'attention dans l'entraînement ne sont pas les mêmes: arbitrage puissance-corrélation dans la RF, arbitrage puissance-overfitting dans le _boosting_.
+
+<!-- Par ailleurs, les arbres d'une forêt aléatoire sont souvent relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont généralement simples et peu profonds. -->
 
 - _overfitting_: borne théorique à l'_overfitting_ dans les RF, contre pas de borne dans le _boosting_. Deux conséquences: 1/ lutter contre l'overfitting est essentiel dans l'usage du _boosting_; 2/ le _boosting_ est plus sensible au bruit et aux erreurs sur $y$ que la RF.
 
 - Conditions d'utilisation: la RF peut être utilisée en OOB, pas le _boosting_.
 
 - Complexité d'usage: peu d'hyperparamètres dans les RF, contre un grand nombre dans le _boosting_.
+
+
+
+### Liste des hyperparamètres d'une RF
+
+Source: @probst2019hyperparameters
+
+- structure of each individual tree:
+    - dudu
+    - dudu
+    - dudu
+
+- structure and size of the forest:
+
+- The level of randomness (je dirais plutôt : )
+
+### Questions pour 
+
+
 
 
 
