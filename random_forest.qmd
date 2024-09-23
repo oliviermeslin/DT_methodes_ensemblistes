@@ -1,0 +1,42 @@
+---
+title: "La forêt aléatoire"
+author: |
+  [Mélina Hillion](https://github.com/melinahillion)
+  [Olivier Meslin](https://github.com/oliviermeslin)
+format:
+  ams-typst: default
+  typst:
+    toc: true
+    section-numbering: 1.1.1
+bibliography: references.bib
+---
+  
+```{=typst} 
+#import "@preview/mitex:0.2.4": *
+#set math.equation(
+numbering: "(1)",
+supplement: none
+)
+```
+
+# La forêt aléatoire
+
+La forêt aléatoire (_random forests_) est une méthode d'apprentissage automatique supervisé qui combine plusieurs arbres de décision pour former un modèle d'ensemble plus performant et robuste/stable que les arbres individuels (Breiman en 2001).
+
+L'idée des forêts aléatoires est de tirer parti de la diversité entre les arbres pour réduire la variance du modèle final. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

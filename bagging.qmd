@@ -1,0 +1,56 @@
+---
+title: "Le bagging"
+author: |
+  [Mélina Hillion](https://github.com/melinahillion)
+  [Olivier Meslin](https://github.com/oliviermeslin)
+format:
+  ams-typst: default
+  typst:
+    toc: true
+    section-numbering: 1.1.1
+bibliography: references.bib
+---
+  
+```{=typst} 
+#import "@preview/mitex:0.2.4": *
+#set math.equation(
+numbering: "(1)",
+supplement: none
+)
+```
+
+# Le bagging
+
+Le bagging, ou "bootstrap aggregating", est une méthode ensembliste conçue pour améliorer la stabilité et la précision des algorithmes d'apprentissage automatique (Breiman, 1996). Elle repose sur la construction de plusieurs modèles élémentaires (_estimateurs_) entraînés sur des échantillons distincts grâce à la technique du bootstrap, qui consiste à créer des échantillons aléatoires avec remise à partir du jeu de données initial. Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.
+
+
+## Principe du bagging
+
+Le bagging peut se décomposer en trois étapes clés: 
+
+**Échantillonnage bootstrap** : L'échantillonnage bootstrap consiste à créer de nouveaux échantillons en tirant aléatoirement avec remise des observations dans le jeu de données initial. Chaque échantillon _bootstrap_ contient le même nombre d'observations que le jeu de données initial, mais certaines observations peuvent être répétées (car sélectionnées plusieurs fois), tandis que d'autres peuvent être omises.
+
+
+**Entraînement de plusieurs modèles** : Un modèle (aussi appelé _apprenant de base_ ou _weak learner_) est entraîné/construit pour chaque échantillon bootstrap. Les modèles peuvent être des arbres de décision, des régressions ou tout autre algorithme d'apprentissage. Le bagging est particulièrement efficace - et souvent utilisé - avec les arbres de décision. 
+    
+
+**Agrégation des prédictions** : Les prédictions de tous les modèles sont ensuite agrégées, en procédant généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification, afin d'obtenir des prédictions plus précises et généralisables.
+
+
+
+## Pourquoi ça marche: propriétés du bagging
+
+### Cas de la régression
+
+### Cas de la classification
+
+
+
+
+
+
+## Quand utiliser le bagging
+
+
+
+
