@@ -143,7 +143,7 @@
   set bibliography(style: "apa", title: "References")
 
   show figure: it => {
-    show: pad.with(x: 23pt)
+    show: pad.with(x: 0pt)
     set align(center)
 
     v(12.5pt, weak: true)
