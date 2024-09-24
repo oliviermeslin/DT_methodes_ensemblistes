@@ -262,7 +262,6 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 
 #### Les hyperparamètres
 
-::: {.fullwidth}
 | Hyperparamètre                                                      | Description                                                                 | Valeur par défaut |
 |:--------------------------------------------------------------------|:----------------------------------------------------------------------------|-------------------|
 | `booster`                                                           | Le type de _weak learner_ utilisé                                           | `'gbtree'`        |
