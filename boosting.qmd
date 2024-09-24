@@ -11,44 +11,44 @@ format:
 bibliography: references.bib
 ---
 
-```{=typst} 
+```{=typst}
 #import "@preview/mitex:0.2.4": *
 #set math.equation(
   numbering: "(1)",
   supplement: none
   )
 ```
-
 ## Le *boosting*
 
 ### Introduction
 
-Le fondement théorique du _boosting_ est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle prédictif peu performant en un modèle prédictif très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé _strong learner_) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé _weak learners_). Le _boosting_ est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. Bien qu'une approche de _boosting_ puisse en théorie mobiliser différentes classes de _weak learners_, en pratique les _weak learners_ utilisés par les algorithmes de _boosting_ sont presque toujours des arbres de décision.
+Le fondement théorique du *boosting* est un article de de 1990 (@shapire1990strength) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle prédictif peu performant en un modèle prédictif très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé *strong learner*) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé *weak learners*). Le *boosting* est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d'améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. Bien qu'une approche de *boosting* puisse en théorie mobiliser différentes classes de *weak learners*, en pratique les *weak learners* utilisés par les algorithmes de *boosting* sont presque toujours des arbres de décision.
 
-S'il existe plusieurs variantes, les algorithmes de _boosting_ suivent la même logique :
+S'il existe plusieurs variantes, les algorithmes de *boosting* suivent la même logique :
 
-- Un premier modèle simple et peu performant est entraîné sur les données.
-- Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);
-- Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l'ensemble des modèles précédents;
-- Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
+-   Un premier modèle simple et peu performant est entraîné sur les données.
+-   Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);
+-   Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l'ensemble des modèles précédents;
+-   Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
 
-En termes plus techniques, les algorithmes de _boosting_ partagent trois caractéristiques communes:
+En termes plus techniques, les algorithmes de *boosting* partagent trois caractéristiques communes:
 
-- Ils visent à __trouver une approximation `#mi("$\hat{F}$")`{=typst} d'une fonction inconnue `#mi("$F*: \mathbf{x} \mapsto y$")`{=typst}__ à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
-- Ils supposent que la fonction $F*$ peut être approchée par une __somme pondérée de modèles simples__ $f$ de paramètres $\theta$:
-```{=typst} 
+-   Ils visent à **trouver une approximation** `#mi("$\hat{F}$")`{=typst} d'une fonction inconnue `#mi("$F*: \mathbf{x} \mapsto y$")`{=typst} à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
+-   Ils supposent que la fonction $F*$ peut être approchée par une **somme pondérée de modèles simples** $f$ de paramètres $\theta$:
+
+```{=typst}
 #mitex(` 
 $F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
 `)
 ```
-- ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une __séquence d'entraînements de petits modèles__. Chaque étape de l'entraînement cherche le modèle simple $f$ qui améliore la puissance prédictive du modèle complet, sans modifier les modèles précédents, puis l'ajoute de façon incrémentale à ces derniers:
-```{=typst} 
+-   ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une **séquence d'entraînements de petits modèles**. Chaque étape de l'entraînement cherche le modèle simple $f$ qui améliore la puissance prédictive du modèle complet, sans modifier les modèles précédents, puis l'ajoute de façon incrémentale à ces derniers:
+
+```{=typst}
 #mitex(` 
 $F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\hat{\theta}_m})$
 `)
 ```
-
-
+````{=html}
 <!-- ```{=typst} 
 #import "@preview/algo:0.3.3": algo, i, d, comment, code
 
@@ -63,7 +63,7 @@ $F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\
   return #smallcaps("Fib")$(n-1) +$ #smallcaps("Fib")$(n-2)$
 ]    
 ``` -->
-
+````
 
 <!-- Imaginons qu'on veuille entraîner le modèle suivant:
 
@@ -76,34 +76,32 @@ $\argmin_{\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}} \sum_{i=1}^N L\left(y_i, \su
 
 C'est un problème très compliqué dès que $M$ est élevé! -->
 
-
-
 METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s'affinent.
 
-### Les premières approches du _boosting_
+### Les premières approches du *boosting*
 
-#### Le _boosting_ par repondération: Adaboost
+#### Le *boosting* par repondération: Adaboost
 
-Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du _boosting_ (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, @freund1997decision) et la _Gradient Boosting Machine_ (@friedman2001greedy). Ces deux approches reposent sur des principes très différents.
+Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du *boosting* (@breiman1998rejoinder, @grove1998boosting) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, @freund1997decision) et la *Gradient Boosting Machine* (@friedman2001greedy). Ces deux approches reposent sur des principes très différents.
 
 Le principe d'Adaboost consiste à pondérer les erreurs commises à chaque itération en donnant plus d'importance aux observations mal prédites, de façon à obliger les modèles simples à se concentrer sur les observations les plus difficiles à prédire. Voici une esquisse du fonctionnement d'AdaBoost:
 
-- Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
-- A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
-- Ce deuxième modèle est ajouté au premier, puis on repondère à nouveau les observations en fonction de la qualité de prédiction de ce nouveau modèle.
-- Cette procédure est répétée en ajoutant de nouveaux modèles et en ajustant les pondérations. 
+-   Un premier modèle simple est entraîné sur un jeu d'entraînement dans lequel toutes les observations ont le même poids.
+-   A l'issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d'entraînement pondéré.
+-   Ce deuxième modèle est ajouté au premier, puis on repondère à nouveau les observations en fonction de la qualité de prédiction de ce nouveau modèle.
+-   Cette procédure est répétée en ajoutant de nouveaux modèles et en ajustant les pondérations.
 
-L'algorithme Adaboost a été au coeur de la littérature sur le _boosting_ à la fin des années 1990 et dans les années 2000, en raison de ses performances sur les problèmes de classification binaire. Il a toutefois été progressivement remplacé par les algorithmes de _gradient boosting_ inventé quelques années plus tard.
+L'algorithme Adaboost a été au coeur de la littérature sur le *boosting* à la fin des années 1990 et dans les années 2000, en raison de ses performances sur les problèmes de classification binaire. Il a toutefois été progressivement remplacé par les algorithmes de *gradient boosting* inventé quelques années plus tard.
 
-#### L'invention du _boosting boosting_ : la _Gradient Boosting Machine_
+#### L'invention du *boosting boosting* : la *Gradient Boosting Machine*
 
-La _Gradient Boosting Machine_ (GBM) propose une approche assez différente: elle introduit le _gradient boosting_ en reformulant le _boosting_ sous la forme d'un problème de descente de gradient. Voici une esquisse du fonctionnement de la _Gradient Boosting Machine_:
+La *Gradient Boosting Machine* (GBM) propose une approche assez différente: elle introduit le *gradient boosting* en reformulant le *boosting* sous la forme d'un problème de descente de gradient. Voici une esquisse du fonctionnement de la *Gradient Boosting Machine*:
 
-- Un premier modèle simple est entraîné sur un jeu d'entraînement, de façon à minimiser une fonction de perte qui mesure l'écart entre la variable à prédire et la prédiction du modèle.
-- A l'issue de cette première itération, on calcule la dérivée partielle (_gradient_) de la fonction de perte par rapport à la prédiction en chaque point de l'ensemble d'entraînement. Ce gradient indique dans quelle direction et dans quelle ampleur la prédiction devrait être modifiée afin de réduire la perte.
-- A la deuxième itération, on ajoute un deuxième modèle qui va tâcher d'améliorer le modèle complet en prédisant le mieux possible l'opposé de ce gradient.
-- Ce deuxième modèle est ajouté au premier, puis on recalcule la dérivée partielle de la fonction de perte par rapport à la prédiction de ce nouveau modèle.
-- Cette procédure est répétée en ajoutant de nouveaux modèles et en recalculant le gradient à chaque étape.
+-   Un premier modèle simple est entraîné sur un jeu d'entraînement, de façon à minimiser une fonction de perte qui mesure l'écart entre la variable à prédire et la prédiction du modèle.
+-   A l'issue de cette première itération, on calcule la dérivée partielle (*gradient*) de la fonction de perte par rapport à la prédiction en chaque point de l'ensemble d'entraînement. Ce gradient indique dans quelle direction et dans quelle ampleur la prédiction devrait être modifiée afin de réduire la perte.
+-   A la deuxième itération, on ajoute un deuxième modèle qui va tâcher d'améliorer le modèle complet en prédisant le mieux possible l'opposé de ce gradient.
+-   Ce deuxième modèle est ajouté au premier, puis on recalcule la dérivée partielle de la fonction de perte par rapport à la prédiction de ce nouveau modèle.
+-   Cette procédure est répétée en ajoutant de nouveaux modèles et en recalculant le gradient à chaque étape.
 
 <!-- 
 Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c'est peut-être inutile. 
@@ -114,234 +112,259 @@ Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c
     (b) Définir $f_m\left(\mathbf{x}\right) = f_{m-1}\left(\mathbf{x}\right) + \hat{\beta}_m b\left(\mathbf{x}_i, \mathbf{\hat{\theta}_m}\right)$
  -->
 
+L'approche de *gradient boosting* proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, *learning-to-rank*...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de *boosting*. Le *gradient boosting* d'arbres de décision (*Gradient boosted Decision Trees* - GBDT) est donc devenue l'approche de référence en matière de *boosting*. En particulier, les implémentations modernes du *gradient boosting* comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la *Gradient Boosting Machine*.
 
-L'approche de _gradient boosting_ proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, _learning-to-rank_...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de _boosting_. Le _gradient boosting_ d'arbres de décision (_Gradient boosted Decision Trees_ - GBDT) est donc devenue l'approche de référence en matière de _boosting_. En particulier, les implémentations modernes du _gradient boosting_ comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la _Gradient Boosting Machine_.
+## La mécanique du *gradient boosting*
 
-
-## La mécanique du _gradient boosting_
-
-Depuis la publication de @friedman2001greedy, la méthode de _gradient boosting_ a connu de multiples développements et raffinements, parmi lesquels XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
+Depuis la publication de @friedman2001greedy, la méthode de *gradient boosting* a connu de multiples développements et raffinements, parmi lesquels XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[\^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
 
 Choses importantes à mettre en avant:
 
-- Le boosting est fondamentalement différent des forêts aléatoires. See ESL, chapitre 10.
-- Toute la mécanique est indépendante de la fonction de perte choisie. En particulier, elle est applicable indifféremment à des problèmes de classification et de régression.
-- Les poids sont calculés par une formule explicite, ce qui rend les calculs extrêmement rapides.
-- Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.
-- Le boosting est fait pour overfitter; contrairement aux RF, il n'y a pas de limite à l'overfitting. Donc lutter contre le surapprentissage est un élément particulièrement important de l'usage des algorithmes de boosting.
-
+-   Le boosting est fondamentalement différent des forêts aléatoires. See ESL, chapitre 10.
+-   Toute la mécanique est indépendante de la fonction de perte choisie. En particulier, elle est applicable indifféremment à des problèmes de classification et de régression.
+-   Les poids sont calculés par une formule explicite, ce qui rend les calculs extrêmement rapides.
+-   Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.
+-   Le boosting est fait pour overfitter; contrairement aux RF, il n'y a pas de limite à l'overfitting. Donc lutter contre le surapprentissage est un élément particulièrement important de l'usage des algorithmes de boosting.
 
 ### Le modèle à entraîner
 
-On veut entraîner un modèle comprenant $K$ arbres de régression ou de classification: 
+On veut entraîner un modèle comprenant $K$ arbres de régression ou de classification:
 
 $$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right)$$
 
-Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres: sa structure (une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $x$ de dimension $m$ associe une feuille terminale de l'arbre), son nombre de feuilles terminales $T$ et les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou _weights_).
+Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres:
 
-Le modèle est entraîné avec une __fonction-objectif__ constituée d'une __fonction de perte__ $l$ et d'une __fonction de régularisation__ $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivantes: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_j$ élevés en valeur absolue).
+-   sa structure qui est une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $\mathbf{x}$ de dimension $m$ associe une feuille terminale de l'arbre);
+-   son nombre de feuilles terminales $T$;
+-   les valeurs figurant sur ses feuilles terminales $\mathbf{w}\in \mathbb{R}^T$ (appelées poids ou *weights*).
 
-```{=typst} 
-#mitex(`
-$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2$
-
-`)
-```
-
-<!-- ```{=typst} 
-#mitex(`
-$$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2$$ + \alpha \sum_{j=1}^T |w_i|$$
-`)
-``` -->
-
-<!-- $\mathcal{F} = \{f(\mathbf{x}) = w_{q(\mathbf{x})}\}(q:\mathbb{R}^m \rightarrow T,w \in \mathbb{R}^T)$ -->
-
-<!-- $\hat{y}_i^{(0)} = 0\\ \hat{y}_i^{(1)} = f_1(x_i) = \hat{y}_i^{(0)} + f_1(x_i)\\ \hat{y}_i^{(2)} = f_1(x_i) + f_2(x_i)= \hat{y}_i^{(1)} + f_2(x_i)\\ ....\\ \hat{y}_i^{(t)} = \sum_{k=1}^t f_k(x_i)= \hat{y}_i^{(t-1)} + f_t(x_i)$ -->
-
-
-
-### Isoler le $k$-ième arbre
-
-La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le $t$-ième arbre, qui pourra ensuite être entraîné seul, une fois que les $t-1$ arbres précédents auront été entraînés. Pour cela, on note $\hat{y}_i^{(t)}$ la prédiction à l'issue de l'étape $t$: $\hat{y}_i^{(t)} = \sum_{k=1}^t f_k(\mathbf{x}_i)$, et on écrit la fonction-objectif `#mi("\mathcal{L}^{(t)}")`{=typst} au moment de l'entraînement du $t$-ième arbre: 
-
-```{=typst} 
-#mitex(`
-$\begin{align*}
-\mathcal{L}^{(t)} 
-&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(t)})                         & + \sum_{k=1}^t\Omega(f_k) \\
-&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(t-1)} + f_{t}(\mathbf{x}_i)) & + \sum_{k=1}^{t-1}\Omega(f_k) + \Omega(f_k)
-\end{align*}$
-`)
-```
-
-### Faire apparaître le gradient
-
-Une fois isolé le $k$-ième arbre, on fait un développement limité d'ordre 2 de $l(y_i, \hat{y}_{i}^{(t-1)} + f_{k}(\mathbf{x}_i))$ au voisinage de $\hat{y}_{i}^{(t-1)}$: 
-
-```{=typst} 
-#mitex(`
-$\mathcal{L}^{(t)} \approx \sum_{i=1}^{n} [\underbrace{l(y_i, \hat{y}_{i}^{(t-1)})}_{\text{(A)}} + g_i f_k(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \underbrace{\sum_{k=1}^{t-1}\Omega(f_k)}_{\text{(B)}} + \Omega(f_t)$
-`)
-```
+Le modèle est entraîné avec une **fonction-objectif** constituée d'une **fonction de perte** $l$ et d'une **fonction de régularisation** $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivantes: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_t$ élevés en valeur absolue).
 
 ```{=typst}
 #mitex(`
-$\text{avec}\hspace{4mm} 
-g_i = \frac{\partial l(y_i, \hat{y}_i^{(t-1)})}{\partial\hat{y}_i^{(t-1)}} \hspace{4mm}\text{et}\hspace{4mm}
-h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(t-1)})}{\partial \left(\hat{y}_i^{(t-1)}\right)^2}$
-`)
+$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{t=1}^T w_j^2$
+
+`) <fct_obj_initial>
 ```
-
-Il est important de noter que les termes (A) et (B) sont constants car les $t-1$ arbres précédents ont déjà été entraînés et ne sont pas modifiés par l'entraînement du $t$-ième arbre. 
-<!-- Autrement dit, la seule façon d'améliorer le modèle sera de trouver un $t$-ième arbre $f_t$ qui minimise la fonction-objectif `#mi("\mathcal{L}^{(t)}")`{=typst} ainsi réécrite.  -->
-On peut donc retirer les termes constants pour obtenir la fonction-objectif simplifiée qui sera utilisée pour l'entraînement du $t$-ième arbre.
-
-```{=typst} 
+````{=html}
+<!-- ```{=typst} 
 #mitex(`
-$\mathcal{\tilde{L}}^{(t)} = \sum_{i=1}^{n} [g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2$
+$$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$$ + \alpha \sum_{j=1}^T |w_j|$$
+`)
+``` -->
+````
+
+<!-- $\mathcal{F} = \{f(\mathbf{x}) = w_{q(\mathbf{x})}\}(q:\mathbb{R}^m \rightarrow T,w \in \mathbb{R}^T)$ -->
+
+<!-- $\hat{y}_i^{(0)} = 0\\ \hat{y}_i^{(1)} = f_1(x_i) = \hat{y}_i^{(0)} + f_1(x_i)\\ \hat{y}_i^{(2)} = f_1(x_i) + f_2(x_i)= \hat{y}_i^{(1)} + f_2(x_i)\\ ....\\ \hat{y}_i^{(k)} = \sum_{k=1}^t f_k(x_i)= \hat{y}_i^{(k-1)} + f_t(x_i)$ -->
+
+### Isoler le $k$-ième arbre
+
+La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le $k$-ième arbre, qui pourra ensuite être entraîné seul, une fois que les $k-1$ arbres précédents auront été entraînés. Pour cela, on note `#mi("$\hat{y}_i^{(k)}$")`{=typst} la prédiction à l'issue de l'étape $k$: `#mi("$\hat{y}_i^{(k)} = \sum_{j=1}^t f_j(\mathbf{x}_i)$")`{=typst}, et on écrit la fonction-objectif `#mi("\mathcal{L}^{(k)}")`{=typst} au moment de l'entraînement du $k$-ième arbre:
+
+```{=typst}
+#mitex(`
+$\begin{align*}
+\mathcal{L}^{(k)} 
+&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(k)})                         & + \sum_{j=1}^k\Omega(f_j) \\
+&= \sum_{i=1}^{n} l\biggl(y_i, \hat{y}_{i}^{(k-1)} + \underbrace{f_{k}(\mathbf{x}_i)}_{\text{\(k\)-ième arbre}}\biggr) & + \sum_{j=1}^{k-1}\Omega(f_j) + \Omega(f_k)
+\end{align*}$
 `)
 ```
+### Faire apparaître le gradient
+
+Une fois isolé le $k$-ième arbre, on fait un développement limité d'ordre 2 de $l(y_i, \hat{y}_{i}^{(k-1)} + f_{k}(\mathbf{x}_i))$ au voisinage de $\hat{y}_{i}^{(k-1)}$, en considérant que la prédiction du $k$-ième arbre $f_{k}(\mathbf{x}_i)$ est
+
+```{=typst}
+#mitex(`
+$\mathcal{L}^{(k)} \approx \sum_{i=1}^{n} [\underbrace{l\biggl(y_i, \hat{y}_{i}^{(k-1)})}_{\text{(A)}} + g_i f_k(\mathbf{x}_i\biggr)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \underbrace{\sum_{j=1}^{k-1}\Omega(f_j)}_{\text{(B)}} + \Omega(f_k)$
+`)
+```
+```{=typst}
+#mitex(`
+$\text{avec}\hspace{4mm} 
+g_i = \frac{\partial l(y_i, \hat{y}_i^{(k-1)})}{\partial\hat{y}_i^{(k-1)}} \hspace{4mm}\text{et}\hspace{4mm}
+h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(k-1)})}{\partial \left(\hat{y}_i^{(k-1)}\right)^2}$
+`)
+```
+Il est important de noter que les termes (A) et (B) sont constants car les $k-1$ arbres précédents ont déjà été entraînés et ne sont pas modifiés par l'entraînement du $k$-ième arbre. <!-- Autrement dit, la seule façon d'améliorer le modèle sera de trouver un $k$-ième arbre $f_t$ qui minimise la fonction-objectif `#mi("\mathcal{L}^{(k)}")`{=typst} ainsi réécrite.  --> On peut donc retirer ces termes pour obtenir la fonction-objectif simplifiée qui sera utilisée pour l'entraînement du $k$-ième arbre.
+
+```{=typst}
+#mitex(`
+$\mathcal{\tilde{L}}^{(k)} = \sum_{i=1}^{n} [g_i f_k(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_k(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$
+`)
+```
+Cette expression est importante car elle montre qu'on est passé d'un problème complexe où il fallait entraîner un grand nombre d'arbres simultanément (équation `@fct_obj_initial`{=typst}) à un problème beaucoup plus simple dans lequel il n'y a qu'un seul arbre à entraîner.
 
 ### Calculer les poids optimaux
 
-A partir de l'expression précédente, il est possible de faire apparaître les poids $w_i$ du $t$-ième arbre. Pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), on définit $I_j = \{ i | q(\mathbf{x}_i) = j \}$ l'ensemble des observations situées sur la feuille $j$ puis on réorganise $\mathcal{\tilde{L}}^{(t)}$:
+A partir de l'expression précédente, il est possible de faire apparaître les poids $w_j$ du $k$-ième arbre. Pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), on définit $I_j = \{ i | q(\mathbf{x}_i) = j \}$ l'ensemble des observations situées sur la feuille $j$ puis on réorganise $\mathcal{\tilde{L}}^{(k)}$:
 
-```{=typst} 
+```{=typst}
 #mitex(`
 $\begin{align*}
-\mathcal{\tilde{L}}^{(t)}
-  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i f_t(\mathbf{x}_i) &+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)\Bigr] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
-  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i w_j &+ \frac{1}{2} h_i w_j^2\Bigl] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+\mathcal{\tilde{L}}^{(k)}
+  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i f_k(\mathbf{x}_i) &+ \frac{1}{2} h_i f^2_k(\mathbf{x}_i)\Bigr] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2 \\
+  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i w_j &+ \frac{1}{2} h_i w_j^2\Bigl] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2 \\
   &= \sum^T_{j=1} \Bigl[w_j\Bigl(\sum_{i\in I_j} g_i\Bigr) &+ \frac{1}{2} w_j^2 \Bigl(\sum_{i\in I_j} h_i + \lambda\Bigr) \Bigr] &+ \gamma T  \label{eq:dudu}
 \end{align*}$
 `)
 ```
+Dans la dernière expression, on voit que la fonction de perte simplifiée se reformule comme une combinaison quadratique des poids $w_j$, dans laquelle les dérivées première et seconde de la fonction de perte interviennent sous forme de pondérations. Tout l'enjeu de l'entraînement devient donc de trouver les poids optimaux $w_j$ qui minimiseront cette fonction de perte, compte tenu de ces opérations.
 
-Dans la dernière expression, on voit que la fonction de perte simplifiée se reformule comme une combinaison quadratique des poids $w_i$, dans laquelle les dérivées première et seconde de la fonction de perte interviennent sous forme de pondérations. Tout l'enjeu de l'entraînement devient donc de trouver les poids optimaux $w_j$ qui minimiseront cette fonction de perte, compte tenu de ces opérations.
+Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), le poids optimal `#mi("w_j^{\ast}")`{=typst} de la feuille $j$ est donné par l'équation:
 
-Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), le poids optimal `#mi("w_j^{\ast}")`{=typst} de la feuille $j$ est donné par l'équation: 
-
-```{=typst} 
+```{=typst}
 $ w_j^* = -frac(sum_(i in I_j) g_i, sum_(i in I_j) h_i + lambda) $ <w_j_optimal>
 ```
-
 Par conséquent, la valeur optimale de la fonction objectif pour l'arbre $q$ est égale à
 
-```{=typst} 
+```{=typst}
 #mitex(`
-$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T$
+$\mathcal{\tilde{L}}^{(k)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T$
 `) <fct_obj_optimal>
 ```
+Cette équation est utile car elle permet de comparer simplement la qualité de deux arbres, et de déterminer lequel est le meilleur.
 
 ### Construire le $k$-ième arbre
 
-Dans la mesure où l'équation `@fct_obj_optimal`{=typst} permet de mesurer la qualité globale d'un arbre (et donc de comparer des arbres entre eux), on pourrait penser qu'elle est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne: 
+Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l'équation `@fct_obj_optimal`{=typst} est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne:
 
-__REFERENCE A LA PARTIE CART/RF?__
+**REFERENCE A LA PARTIE CART/RF?**
 
-- on commence par le noeud racine et on cherche le _split_ qui réduit au maximum la perte en séparant les données d'entraînement entre les deux noeuds-enfants.
-- pour chaque noeud enfant, on cherche le _split_ qui réduit au maximum la perte en séparant en deux la population de chacun de ces noeuds.
-- Cette procédure recommence jusqu'à que l'arbre ait atteint sa taille maximale (définie par une combinaison d'hyperparamètres décrits dans la partie __reference à ajouter__).
+-   on commence par le noeud racine et on cherche le *split* qui réduit au maximum la perte en séparant les données d'entraînement entre les deux noeuds-enfants.
+-   pour chaque noeud enfant, on cherche le *split* qui réduit au maximum la perte en séparant en deux la population de chacun de ces noeuds.
+-   Cette procédure recommence jusqu'à que l'arbre ait atteint sa taille maximale (définie par une combinaison d'hyperparamètres décrits dans la partie **référence à ajouter**).
 
+### Choisir les *splits*
 
-### Choisir les _splits_
-
-__Traduire split par critère de partition?__
+**Traduire split par critère de partition?**
 
 Reste à comprendre comment le critère de partition optimal est choisi à chaque étape de la construction de l'arbre. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de l'équation `@fct_obj_optimal`{=typst}, le gain potentiel induit par ce critère de partition est égal à:
 
-```{=typst} 
+```{=typst}
 #mitex(`
 $\text{Gain}_{\text{split}} = \frac{1}{2} \left[\frac{\left(\sum_{i\in I_L} g_i\right)^2}{\sum_{i\in I_L} h_i+\lambda}+\frac{\left(\sum_{i\in I_R} g_i\right)^2}{\sum_{i\in I_R} h_i+\lambda}-\frac{\left(\sum_{i\in I} g_i\right)^2}{\sum_{i\in I} h_i+\lambda}\right] - \gamma$
 `) <fct_eval_split>
 ```
+Cette dernière équation est au coeur de la mécanique du *gradient boosting* car elle permet de comparer les critères de partition possibles. Plus précisément, l'algorithme de détermination des critère de partition (*split finding algorithm*) consiste en une double boucle sur les variables et les valeurs prises par ces variables, qui énumère un grand nombre de critères de partition et mesure le gain associé à chacun d'entre eux avec l'équation `@fct_eval_split`{=typst}. Le critère de partition retenu est simplement celui dont le gain est le plus élevé.
 
-Cette dernière équation est au coeur de la mécanique du _gradient boosting_ car elle permet de comparer les critères de partition possibles. Plus précisément, l'algorithme de détermination des critère de partition (_split finding algorithm_) consiste en une double boucle sur les variables et les valeurs prises par ces variables, qui énumère un grand nombre de critères de partition et mesure le gain associé à chacun d'entre eux avec l'équation `@fct_eval_split`{=typst}. Le critère de partition retenu est simplement celui dont le gain est le plus élevé. 
-
-L'algorithme qui détermine les critère de partition est un enjeu de performance essentiel dans le _gradient boosting_. En effet, utiliser l'algorithme le plus simple (énumérer tous les critères de partition possibles, en balayant toutes les valeurs de toutes les variables) s'avère très coûteux dès lors que les données contiennent soit un grand nombre de variables, soit des variables continues prenant un grand nombre de valeurs. C'est pourquoi les algorithmes de détermination des critère de partition ont fait l'objet de multiples améliorations et optimisations visant à réduire leur coût computationnel sans dégrader la qualité des critères de partition.
+L'algorithme qui détermine les critère de partition est un enjeu de performance essentiel dans le *gradient boosting*. En effet, utiliser l'algorithme le plus simple (énumérer tous les critères de partition possibles, en balayant toutes les valeurs de toutes les variables) s'avère très coûteux dès lors que les données contiennent soit un grand nombre de variables, soit des variables continues prenant un grand nombre de valeurs. C'est pourquoi les algorithmes de détermination des critère de partition ont fait l'objet de multiples améliorations et optimisations visant à réduire leur coût computationnel sans dégrader la qualité des critères de partition.
 
 ### La suite
 
-#### Les moyens de lutter contre l'_overfitting_:
+#### Les moyens de lutter contre l'*overfitting*:
 
-- le _shrinkage_;
-- le subsampling des lignes et des colonnes;
-- les différentes pénalisations.
+-   le *shrinkage*;
+-   le subsampling des lignes et des colonnes;
+-   les différentes pénalisations.
 
 #### Les hyperparamètres
 
+```{=typst}
+#set text(font: "IBM Plex Sans")
+
+// Medium bold table header.
+#show table.cell.where(x: 1): set text(weight: "medium")
+
+// Bold titles.
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+// See the strokes section for details on this!
+#let frame(stroke) = (x, y) => (
+  left: if x > 0 { 0pt } else { stroke },
+  right: stroke,
+  top: if y < 2 { stroke } else { 0pt },
+  bottom: stroke,
+)
+
+#set table(
+  fill: (_, y) => (none, rgb("EAF2F5"), rgb("DDEAEF")).at(calc.rem(y, 3)),
+  stroke: frame(rgb("21222C")),
+)
+```
+| Hyperparamètre | Description | Commentaire |
+|------------------------|------------------------|------------------------|
+| `booster` | Le type de weak learner utilisé | `gbtree` |
+| `learning_rate` | Le taux d'apprentissage | 0.3 |
+| `max_depth` | La profondeur maximale des arbres | 6 |
+| `max_leaves` | Le nombre maximal de feuilles des arbres | 0 |
+| `min_child_weight` | Le poids |  |
+| `num_estimators` | Le nombre d'arbres |  |
+| `lambda` | La pénalisation L2 | 1 |
+| `alpha` | La pénalisation L1 | 0 |
+| `gamma` | Le gain minimal nécessaire pour ajouter un noeud supplémentaire | 0 |
+| `tree_method` | La méthode utilisée pour rechercher les splits | `hist` |
+| `max_bin` | Le nombre utilisés pour discrétiser les variables continues | 0 |
+| `subsample` | Le taux d'échantillonnage des données d'entraîement | 1 |
+| `sampling_method` | La méthode utilisée pour échantillonner les données d'entraînement | `uniform` |
+| `colsample_bytree` |  |  |
+| `colsample_bylevel` |  |  |
+| `colsample_bynode` |  |  |
+| `scale_pos_weight` | Le poids des observations de la classe positive (classification uniquement) | 1 |
+| \``|     |  | |`learning_rate\` |  |  |
+
+: Les hyperparamètres d'XGBoost {tbl-colwidths="\[20,30,50\]"}
+
 #### La préparation des données
 
-- les variables catégorielles:
-    - ordonnées: passer en integer;
-    - non-ordonnées: OHE ou approche de Fisher.
-- les variables continues:
-    - inutile de faire des transformations monotones.
-    - Utile d'ajouter des transformations non monotones.
+-   les variables catégorielles:
+    -   ordonnées: passer en integer;
+    -   non-ordonnées: OHE ou approche de Fisher.
+-   les variables continues:
+    -   inutile de faire des transformations monotones.
+    -   Utile d'ajouter des transformations non monotones.
 
 #### Les fonctions de perte
 
-
 ### Comparaison RF-GBDT
 
+Les forêts aléatoires et le *gradient boosting* paraissent très similaires au premier abord: il s'agit de deux approches ensemblistes, qui construisent des modèles très prédictifs performants en combinant un grand nombre d'arbres de décision. Mais en réalité, ces deux approches présentent plusieurs différences fondamentales:
 
-Les forêts aléatoires et le _gradient boosting_ paraissent très similaires au premier abord: il s'agit de deux approches ensemblistes, qui construisent des modèles très prédictifs performants en combinant un grand nombre d'arbres de décision. Mais en réalité, ces deux approches présentent plusieurs différences fondamentales: 
+-   Les deux approches reposent sur des fondements théoriques différents: la loi des grands nombres pour les forêts aléatoires, la théorie de l'apprentissage statistique pour le *boosting*.
 
-- Les deux approches reposent sur des fondements théoriques différents: la loi des grands nombres pour les forêts aléatoires, la théorie de l'apprentissage statistique pour le _boosting_. 
+-   Les arbres n'ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de *boosting*, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement.
 
-- Les arbres n'ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de _boosting_, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas aucun sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement.
-
-- Les points d'attention dans l'entraînement ne sont pas les mêmes: arbitrage puissance-corrélation dans la RF, arbitrage puissance-overfitting dans le _boosting_.
+-   Les points d'attention dans l'entraînement ne sont pas les mêmes: arbitrage puissance-corrélation dans la RF, arbitrage puissance-overfitting dans le *boosting*.
 
 <!-- Par ailleurs, les arbres d'une forêt aléatoire sont souvent relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont généralement simples et peu profonds. -->
 
-- _overfitting_: borne théorique à l'_overfitting_ dans les RF, contre pas de borne dans le _boosting_. Deux conséquences: 1/ lutter contre l'overfitting est essentiel dans l'usage du _boosting_; 2/ le _boosting_ est plus sensible au bruit et aux erreurs sur $y$ que la RF.
+-   *overfitting*: borne théorique à l'*overfitting* dans les RF, contre pas de borne dans le *boosting*. Deux conséquences: 1/ lutter contre l'overfitting est essentiel dans l'usage du *boosting*; 2/ le *boosting* est plus sensible au bruit et aux erreurs sur $y$ que la RF.
 
-- Conditions d'utilisation: la RF peut être utilisée en OOB, pas le _boosting_.
+-   Conditions d'utilisation: la RF peut être utilisée en OOB, pas le *boosting*.
 
-- Complexité d'usage: peu d'hyperparamètres dans les RF, contre un grand nombre dans le _boosting_.
-
-
+-   Complexité d'usage: peu d'hyperparamètres dans les RF, contre un grand nombre dans le *boosting*.
 
 ### Liste des hyperparamètres d'une RF
 
 Source: @probst2019hyperparameters
 
-- structure of each individual tree:
-    - dudu
-    - dudu
-    - dudu
+-   structure of each individual tree:
 
-- structure and size of the forest:
+    -   dudu
+    -   dudu
+    -   dudu
 
-- The level of randomness (je dirais plutôt : )
+-   structure and size of the forest:
 
-### Questions pour 
+-   The level of randomness (je dirais plutôt : )
 
+### Questions pour
 
-
-
-
-
-
-
-
-
-
-
+````{=html}
 <!-- 
 ## Encore des équations
 
 
 ```{=typst} 
 #mitex(`
-$obj^{(t)} = \sum_{i=1}^n (y_{i} - (\hat{y}_{i}^{(t-1)} + f_t(x_i)))^2 + \sum_{i=1}^t\Omega(f_i) \\ = \sum_{i=1}^n [2(\hat{y}_i^{(t-1)} - y_i)f_t(x_i) + f_t(x_i)^2] + \Omega(f_t) + constant$
+$obj^{(k)} = \sum_{i=1}^n (y_{i} - (\hat{y}_{i}^{(k-1)} + f_t(x_i)))^2 + \sum_{i=1}^t\Omega(f_i) \\ = \sum_{i=1}^n [2(\hat{y}_i^{(k-1)} - y_i)f_t(x_i) + f_t(x_i)^2] + \Omega(f_t) + constant$
 `)
 ```
 
 ```{=typst} 
 #mitex(`
-$obj^{(t)} = \sum_{i=1}^{n} [l(y_i, \hat{y}_i^{(t-1)}) + g_i f_t(x_i) + \frac{1}{2} h_{i} f_{t}^2(x_i)] + \Omega(f_t) + constant$
+$obj^{(k)} = \sum_{i=1}^{n} [l(y_i, \hat{y}_i^{(k-1)}) + g_i f_t(x_i) + \frac{1}{2} h_{i} f_{t}^2(x_i)] + \Omega(f_t) + constant$
 `)
 ```
 
@@ -368,14 +391,14 @@ $f_t(x) = w_{q(x)}, w \in R^{T}, q:R^d\rightarrow \{1,2,...,T\}$
 
 ```{=typst} 
 #mitex(`
-$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2 obj^{(t)} \approx \sum_{i=1}^n [g_i w_{q(x_i)} + \frac{1}{2} h_i w_{q(x_i)}^2] + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2\\ = \sum^T_{j=1} [(\sum_{i\in I_j} g_i) w_j + \frac{1}{2} (\sum_{i\in I_j} h_i + \lambda) w_j^2 ] + \gamma T$
+$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2 obj^{(k)} \approx \sum_{i=1}^n [g_i w_{q(x_i)} + \frac{1}{2} h_i w_{q(x_i)}^2] + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2\\ = \sum^T_{j=1} [(\sum_{i\in I_j} g_i) w_j + \frac{1}{2} (\sum_{i\in I_j} h_i + \lambda) w_j^2 ] + \gamma T$
 `)
 ```
 
 
 ```{=typst} 
 #mitex(`
-$obj^{(t)} = \sum^T_{j=1} [G_jw_j + \frac{1}{2} (H_j+\lambda) w_j^2] +\gamma T$
+$obj^{(k)} = \sum^T_{j=1} [G_jw_j + \frac{1}{2} (H_j+\lambda) w_j^2] +\gamma T$
 `)
 ```
 
@@ -401,7 +424,4 @@ $Gain = \frac{1}{2} \left[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\f
 ```
 
  -->
-
-
-
-
+````
