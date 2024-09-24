@@ -17,6 +17,7 @@ bibliography: references.bib
   numbering: "(1)",
   supplement: none
   )
+#set page("a4")
 ```
 ## Le *boosting*
 
