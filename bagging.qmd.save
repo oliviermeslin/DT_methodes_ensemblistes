@@ -60,7 +60,7 @@ où $\phi_A(x)$ représente la prédiction agrégée, $E_L[.]$ correspond à l'e
 
 - **La décomposition biais-variance** 
 
-Pour mieux comprendre comment le bagging améliore la performance globale d'un modèle, revenons à la **décomposition biais-variance** de l'erreur quadratique moyenne, classiquement considérée dans un problème de régression. La décomposition de l'erreur totale permet de faire appraître trois composantes : le biais, la variance et le bruit. Pour un modèle $\phi(x, L)$, l'erreur quadratique moyenne peut s'écrire comme suit :
+x^x^x^X^xPour mieux comprendre comment le bagging améliore la performance globale d'un modèle, revenons à la **décomposition biais-variance** de l'erreur quadratique moyenne, classiquement considérée dans un problème de régression. La décomposition de l'erreur totale permet de faire appraître trois composantes : le biais, la variance et le bruit. Pour un modèle $\phi(x, L)$, l'erreur quadratique moyenne peut s'écrire comme suit :
 
 $E_L[(Y - \phi(x, L))^2] = \underbrace{(E_L[\phi(x, L)] - f(x))^2}_{\text{Biais}^2} + \underbrace{E_L[(\phi(x, L) - E_L[\phi(x, L)])^2]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Bruit}}$
 
