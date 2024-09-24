@@ -95,47 +95,56 @@ Le processus d'agrégation par bagging réduit la **variance** des prédictions,
 
 ### La classification: vers un classificateur presque optimal par agrégation
 
-Dans le cas de la classification, le mécanisme de réduction de la variance par le bagging est légèrement différent de celui de la régression, mais il aboutit à un résultat puissant : un classificateur presque optimal (*nearly optimal classifier*). Ce concept a été introduit par Breiman (1996) pour décrire un modèle (agrégé) qui tend à classer une observation dans la classe la plus probable, avec une performance approchant celle du classificateur Bayésien optimal.
+Dans le cas de la classification, le mécanisme de réduction de la variance par le bagging est légèrement différent de celui de la régression et permet d'atteindre un **classificateur presque optimal** (*nearly optimal classifier*). Ce concept a été introduit par Breiman (1996) pour décrire un modèle qui tend à classer une observation dans la classe la plus probable, avec une performance approchant celle du classificateur Bayésien optimal (la meilleure performance théorique qu'un modèle de classification puisse atteindre).
 
-Breiman (1996) montre que le bagging peut transformer un classificateur "mostly order-correct" (c'est-à-dire un modèle qui attribue majoritairement/le plus souvent la bonne classe à l'observation considérée, mais pas toujours) en un classificateur presque optimal (c'est-à-dire le modèle qui classe toujours l'observation $x$ dans la classe ayant la plus grande probabilité conditionelle $P(j∣x)$). Cette démonstration repose sur l'idée que l'agrégation via le vote majoritaire élimine ou réduit les erreurs aléatoires des classificateurs individuels, rendant le classificateur agrégé presque optimal (plus précisément, le classificateur agrégé est optimal dans toutes les régions de l'espace où le classificateur de base est order correct).
+Breiman (1996) montre que le bagging peut transformer un classificateur "mostly order-correct" (c'est-à-dire un modèle qui, en espérance, attribue correctement la classe la plus probable à la plupart des observations, mais peut se tromper pour certaines d'entre elles) en un classificateur presque optimal (c'est-à-dire un modèle qui, pour la plupart des observations $x$, classe toujours l'observation $x$ dans la classe à laquelle elle a la plus grande probabilité conditionnelle $P(j∣x)$ d'appartenir). Le classificateur agrégé ainsi obtenu est optimal dans toutes les régions de l'espace où le classificateur individuel est order-correct en espérance. De manière intuitive, lorsque la majorité des modèles prédit la bonne classe, l'agrégation réduit ou élimine les erreurs aléatoires des classificateurs individuels, améliorant ainsi la précision globale du classificateur agrégé.
 
-Pour comprendre ce résutlat, introduisons $Q(j|x) = P(φ(x, L) = j)$, la probabilité que le modèle $φ(x, L)$ prédise la classe $j$ pour l'observation $x$, et $P(j|x)$, la vraie probabilité que $x$ appartienne à la classe $j$.
+Pour comprendre ce résutlat, introduisons $Q(j|x) = P(φ(x, L) = j)$, la probabilité que le modèle $φ(x, L)$, entraîné sur l'ensemble L, prédise la classe $j$ pour l'observation $x$, et $P(j|x)$, la vraie probabilité (conditionnelle) que $x$ appartienne à la classe $j$.
 
-En pratique $Q(j|x)$, est estimée à partir des prédictions des différents modèles entraînés sur les ensembles d'apprentissage L. Chaque modèle prédit une classe pour l'entrée $x$, et $Q(j∣x)$ est la proportion de fois où la classe $j$ est prédite parmi l'ensemble des modèles.
+En théorie, $Q(j|x)$ correspond à la probabilité d'affectation de l'observation $x$ à la classe $j$ lorsque le modèle $φ$ est entraîné sur tous les ensembles d'apprentissage possibles $L$.
+En pratique $Q(j|x)$, est estimée à partir des prédictions de modèles entraînés sur une collection plus restreinte d'ensembles d'apprentissage (typiquement, des ensembles générés par bootstrap à partir de l'échantillon initial). Chaque modèle prédit une classe pour l'entrée $x$, et $Q(j∣x)$ correspond à la fréquence de prédiction de la classe $j$ pour l'observation $x$ parmi l'ensemble des modèles.
+
 
 -   **Définition du classificateur order correct**
 
-Un classificateur est dit **order-correct** pour une observation $x$ si, même si les probabilités attribuées $Q(j|x)$ ne correspondent pas aux vraies probabilités $P(j|x)$), il classe toujours l'observation $x$ dans la classe la plus probable selon la distribution vraie $P(j|x)$ (c'est-à-dire la classe qui a la plus grande probabilité $P(j|x)$).
+Un classificateur est dit **order-correct** pour une observation $x$ si, en espérance, il identifie **correctement la classe la plus probable** pour cette observation, même s’il ne prédit pas toujours avec exactitude les probabilités associées à chaque classe $Q(j∣x)$. Cela signifie que si l'on prenait un nombre infini de jeux de données et que l'on évaluait les prédictions du modèle en $x$, la majorité des prédictions correspondraient à la classe ayant la plus grande probabilité vraie $P(j∣x)$ [à laquelle il a la plus grande probabilité vraie $P(j∣x)$ d'appartenir].
 
-Formellement, un prédicteur est dit "order-correct" pour une entrée x si :
+Formellement, un prédicteur est dit "order-correct" pour une entrée $x$ si :
 
-$argmax_j Q(j|x) = argmax_j P(j|x)$
+$$argmax_j Q(j|x) = argmax_j P(j|x)$$
 
-En d'autres termes, **en moyenne**, le prédicteur identifie correctement la classe la plus probable (l’ordre des classes en termes de probabilité est correct), même si la probabilité estimée qui lui est attribuée $Q(j|x)$ peut être inexacte.
+où $P(j|x)$ est la vraie probabilité que l’observation $x$ appartienne à la classe $j$, et $Q(j|x)$ est la probabilité estimée par le modèle que $x$ appartienne à la classe $j$.
 
--   **Prédicteur agrégé en classification**
+Un classificateur est **order-correct** si, pour **chaque** observation $x$, la classe qu'il prédit correspond à celle qui a la probabilité maximale $P(j|x)$ dans la distribution vraie. 
 
-Dans le cas de la classification, le prédicteur agrégé est défini par le **vote majoritaire**:
 
-$φA(x) = argmax_j Q(j|x)$
+-   **Prédicteur agrégé en classification: le rôle du vote majoritaire**
 
-En pratique, $argmax_j Q(j|x)$ sélectionne la classe $j$ qui recueille le plus de prédictions parmi tous les modèles, ou en d'autres termes, celle qui a obtenu le plus grand nombre de votes.
+Dans le cas de la classification, le prédicteur agrégé est défini par le **vote majoritaire**. Cela signifie que si $K$ classificateurs sont entraînés sur $K$ échantillons distincts, la classe prédite pour $x$ est celle qui reçoit **le plus de votes** de la part des modèles individuels.
 
-Breiman (1996) montre que si le prédicteur $φ(x, L)$ est order-correct pour une entrée $x$, alors le prédicteur agrégé $φA(x)$ atteint la performance optimale pour cette entrée.
+Formellement, le classificateur agrégé $φA(x)$ est défini par :
 
--   **Performance globale: nearly optimal classifier**
+$φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$
 
-La probabilité que le classificateur agrégé $ϕA$ prédise correctement la classe d'une observation $x$, étant donné les vraies probabilités $P(j|x)$, est la suivante :
+où $Q(j|x)$ est la proportion de votes (prédictions) reçus par la classe $j$ pour l'observation $x$ parmi les $K$ classificateurs.
+ 
 
-$Σ_j I(argmax_i Q(i|x) = j)P(j|x)$
+-   **Performance globale: convergence vers un classificateur presque optimal**
 
-où $Q(i∣x)$ est la probabilité que le modèle prédise la classe $i$ pour l'entrée $x$, $argmax_i Q(i∣x)$ est la classe prédite par le vote majoritaire, $P(j∣x)$ est la véritable probabilité que $x$ appartienne à la classe $j$, $I(⋅)$ est la fonction indicatrice, qui vaut 1 si la condition à l'intérieur est vraie et 0 sinon.
+Breiman (1996) montre que si chaque prédicteur individuel $φ(x, L)$ est order-correct pour une observation $x$, alors le prédicteur agrégé $φA(x)$, obtenu par vote majoritaire, atteint la performance optimale pour cette observation, c'est-à-dire qu'il converge vers la classe ayant la probabilité maximale $P(j∣x)$. Le vote majoritaire permet ainsi de **réduire les erreurs aléatoires** des classificateurs individuels.
 
-Si le classificateur $ϕA$ est order-correct pour l'entrée x, c'est-à-dire qu'il identifie correctement la classe à laquelle celle-ci a la plus grande probabilité d'appartenir ($P(j∣x)$), alors la formule $Σ_j I(argmax_i Q(i|x) = j)P(j|x)$ devient : $\max_j P(j|x)$, ce qui correspond à la probabilité maximale que $x$ appartienne à une classe particulière $j$.
+Pour comprendre ce résultat, considérons la probabilité que le classificateur agrégé $ϕA$ prédise correctement la classe d'une observation $x$, étant donné les probabilités vraies $P(j|x)$ :
 
-Cela signifie que le classificateur agrégé $ϕA$ prédit systématiquement la classe la plus probable pour l'observation $x$, autrement dit que la probabilité de classification correcte est **optimale**, ce qui minimise les erreurs de classification.
+$$Σ_j I(argmax_i Q(i|x) = j)P(j|x)$$
 
-Par conséquent, dans les régions (définies par les caractéristiques $x$) où le prédicteur élémentaire est order-correct, le bagging conduit à des décisions optimales. En revanche, dans les régions où le prédicteur élémentaire ne prédit pas correctement en moyenne la classe majoritaire, le bagging peut laisser inchangées voire dans certains cas dégrader les performances du modèle.
+où $Q(i∣x)$ est la probabilité que le modèle prédise la classe $i$ pour l'entrée $x$, $argmax_i Q(i∣x)$ est la classe prédite par le vote majoritair (la classe ayant reçu le plus de vote, c'est-à-dire la plus souvent prédite parmi l'ensemble des classificateurs individuels), $P(j∣x)$ est la véritable probabilité que $x$ appartienne à la classe $j$, $I(⋅)$ est la fonction indicatrice, qui vaut 1 si la condition à l'intérieur est vraie et 0 sinon.
+
+Si le classificateur $ϕ$ est order-correct pour l'entrée $x$, c'est-à-dire qu'il identifie correctement la classe à laquelle celle-ci a la plus grande probabilité d'appartenir ($P(j∣x)$), alors la formule $Σ_j I(argmax_i Q(i|x) = j)P(j|x)$ devient simplement $\max_j P(j|x)$, ce qui correspond à la probabilité maximale que $x$ appartienne à une classe particulière $j$. Cette valeur représente le critère **optimal** pour minimiser les **erreurs de classification** : un classificateur optimal assignera systématiquement $x$ à la classe qui a cette probabilité maximale.
+
+Cela signifie que le classificateur agrégé $ϕA$ prédit systématiquement la classe la plus probable pour l'observation $x$, et que la probabilité de classification correcte est donc **optimale** dans les régions où les classificateurs individuels sont order-correct. 
+
+Cependant, dans les régions de l’espace où les classificateurs individuels ne sont pas order-corrects en espérance (c’est-à-dire qu'ils se trompent majoritairement sur la classe), le bagging ne pourra pas compenser ces erreurs de manière suffisante. Dans ces régions, l'agrégation par vote majoritaire n'améliorera pas les performances, et dans certains cas, elle pourrait même dégrader les résultats en consolidant les erreurs systémiques.
+
 
 ## Quand utiliser le bagging
 
