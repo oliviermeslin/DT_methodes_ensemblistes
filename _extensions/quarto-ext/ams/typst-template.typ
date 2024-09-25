@@ -142,29 +142,29 @@
   set cite(style: "apa", form: "prose")
   set bibliography(style: "apa", title: "References")
 
-  show figure: it => {
-    show: pad.with(x: 0pt)
-    set align(center)
+  // show figure: it => {
+  //   show: pad.with(x: 0pt)
+  //   set align(center)
 
-    v(12.5pt, weak: true)
+  //   v(12.5pt, weak: true)
 
-    // Display the figure's body.
-    it.body
+  //   // Display the figure's caption.
+  //   if it.has("caption") {
+  //     smallcaps[Figure]
+  //     if it.numbering != none {
+  //       [ #counter(figure).display(it.numbering)]
+  //     }
+  //     [. ]
+  //     it.caption
+  //     // Gap defaults to 17pt.
+  //     v(if it.has("gap") { it.gap } else { 17pt }, weak: true)
+  //   }
 
-    // Display the figure's caption.
-    if it.has("caption") {
-      // Gap defaults to 17pt.
-      v(if it.has("gap") { it.gap } else { 17pt }, weak: true)
-      smallcaps[Figure]
-      if it.numbering != none {
-        [ #counter(figure).display(it.numbering)]
-      }
-      [. ]
-      it.caption
-    }
+  //   // Display the figure's body.
+  //   it.body
 
-    v(15pt, weak: true)
-  }
+  //   v(15pt, weak: true)
+  // }
 
   // Theorems.
   show figure.where(kind: "theorem"): it => block(above: 11.5pt, below: 11.5pt, {
