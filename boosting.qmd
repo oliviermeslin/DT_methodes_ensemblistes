@@ -31,6 +31,10 @@ bibliography: references.bib
 #show table.cell: set align(left)
 #show table.cell.where(y: 0): set align(center)
 
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
 // Tableau zébré
 #set table(
   fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
@@ -301,7 +305,7 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 | `sample_weight`                                                     | La pondération des données d'entraînement                                   | 1                 |
 | `enable_categorical`                                                | Activer le support des variables catégorielles                              | `False`           |
 | `max_cat_to_onehot`                                                 | Nombre de modalités en-deça duquel XGBoost utilise le _one-hot-encoding_    | A COMPLETER       |
-| `max_cat_threshold`                                                 | Nombre maximal de catégories considérées                                    | A COMPLETER       | 
+| `max_cat_threshold`                                                 | Nombre maximal de catégories considérées dans le partitionnement optimal des variables catégorielles                                   | A COMPLETER       | 
 
 : Les hyperparamètres d'XGBoost {tbl-colwidths="[25,60,15]"}
 
