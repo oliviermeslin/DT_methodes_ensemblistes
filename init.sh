@@ -1,5 +1,5 @@
 #!/bin/sh
-echo 'dudu'
+
 # This init script install various useful VScode extensions
 # NB : only extensions from the Open VSX Registry (https://open-vsx.org/) can be installed on code-server
 # Expected parameters : None
