@@ -27,29 +27,14 @@ bibliography: references.bib
 // Bold titles.
 #show table.cell.where(y: 0): set text(weight: "bold")
 
-// See the strokes section for details on this!
-// #let frame(stroke) = (x, y) => (
-//   left: if x > 0 { 0pt } else { stroke },
-//   right: stroke,
-//   top: if y < 2 { stroke } else { 0pt },
-//   bottom: stroke,
-// )
+// Tableaux alignés à gauche, sauf première ligne centrée
+#show table.cell: set align(left)
+#show table.cell.where(y: 0): set align(center)
 
-// #set table(
-//   fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
-//   // align: (x, y) => if x == 1 and y >= 1 { left } else { center },
-//   align: (x, y) => (
-//     // Separate black cells with white strokes.
-//     left: if y == 0 { rgb(center) } else { left },
-//     rest: left,
-//   stroke: (x, y) => (
-//     // Separate black cells with white strokes.
-//     left: if y == 0 and x > 0 { rgb("FF0000") } else { black },
-//     rest: black,
-
-//   ),
-//   // stroke: frame(rgb("21222C")),
-// )
+// Tableau zébré
+#set table(
+  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+)
 ```
 
 
