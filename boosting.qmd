@@ -27,29 +27,18 @@ bibliography: references.bib
 // Bold titles.
 #show table.cell.where(y: 0): set text(weight: "bold")
 
-// See the strokes section for details on this!
-// #let frame(stroke) = (x, y) => (
-//   left: if x > 0 { 0pt } else { stroke },
-//   right: stroke,
-//   top: if y < 2 { stroke } else { 0pt },
-//   bottom: stroke,
-// )
+// Tableaux alignés à gauche, sauf première ligne centrée
+#show table.cell: set align(left)
+#show table.cell.where(y: 0): set align(center)
 
-// #set table(
-//   fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
-//   // align: (x, y) => if x == 1 and y >= 1 { left } else { center },
-//   align: (x, y) => (
-//     // Separate black cells with white strokes.
-//     left: if y == 0 { rgb(center) } else { left },
-//     rest: left,
-//   stroke: (x, y) => (
-//     // Separate black cells with white strokes.
-//     left: if y == 0 and x > 0 { rgb("FF0000") } else { black },
-//     rest: black,
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
 
-//   ),
-//   // stroke: frame(rgb("21222C")),
-// )
+// Tableau zébré
+#set table(
+  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+)
 ```
 
 
@@ -297,7 +286,7 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 #### Les hyperparamètres
 
 | Hyperparamètre                                                      | Description                                                                 | Valeur par défaut |
-|:--------------------------------------------------------------------|:----------------------------------------------------------------------------|-------------------|
+|---------------------------------------------------------------------|-----------------------------------------------------------------------------|:-----------------:|
 | `booster`                                                           | Le type de _weak learner_ utilisé                                           | `'gbtree'`        |
 | `learning_rate`                                                     | Le taux d'apprentissage                                                     | 0.3               |
 | `max_depth`                                                         | La profondeur maximale des arbres                                           | 6                 |
@@ -313,9 +302,10 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 | `sampling_method`                                                   | La méthode utilisée pour échantillonner les données d'entraînement          | `'uniform'`       |
 | `colsample_bytree` <br> `colsample_bylevel` <br> `colsample_bynode` | Taux d'échantillonnage des colonnes par arbre, par niveau et par noeud      | 1, 1 et 1         |
 | `scale_pos_weight`                                                  | Le poids des observations de la classe positive (classification uniquement) | 1                 |
+| `sample_weight`                                                     | La pondération des données d'entraînement                                   | 1                 |
 | `enable_categorical`                                                | Activer le support des variables catégorielles                              | `False`           |
 | `max_cat_to_onehot`                                                 | Nombre de modalités en-deça duquel XGBoost utilise le _one-hot-encoding_    | A COMPLETER       |
-| `max_cat_threshold`                                                 | Nombre maximal de catégories considérées                                    | A COMPLETER       |
+| `max_cat_threshold`                                                 | Nombre maximal de catégories considérées dans le partitionnement optimal des variables catégorielles                                   | A COMPLETER       | 
 
 : Les hyperparamètres d'XGBoost {tbl-colwidths="[25,60,15]"}
 
