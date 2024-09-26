@@ -171,3 +171,24 @@ Cependant, le bagging peut être moins efficace ou même néfaste dans certaines
 **Ce qui qu'il faut retenir**: le bagging peut améliorer substantiellement la performance des modèles d'apprentissage automatique lorsqu'il est appliqué dans des conditions appropriées. Il est essentiel d'évaluer la variance et le biais des modèles individuels, ainsi que la taille et la représentativité du jeu de données, pour déterminer si le bagging est une stratégie adaptée. Lorsqu'il est utilisé judicieusement, le bagging peut conduire à des modèles plus robustes et précis, exploitant efficacement la puissance de l'agrégation pour améliorer la performance des modèles individuels.
 
 
+## Comment utiliser le bagging en pratique
+
+### Combien de modèles agréger?
+"Optimal performance is often found by bagging 50–500 trees. Data sets that have a few strong predictors typically require less trees; whereas data sets with lots of noise or multiple strong predictors may need more. Using too many trees will not lead to overfitting. However, it’s important to realize that since multiple models are being run, the more iterations you perform the more computational and time requirements you will have. As these demands increase, performing k-fold CV can become computationally burdensome."
+
+### Evaluation du modèle: cross validation et échantillon Out-of-bag (OOB)
+
+"A benefit to creating ensembles via bagging, which is based on resampling with replacement, is that it can provide its own internal estimate of predictive performance with the out-of-bag (OOB) sample (see Section 2.4.2). The OOB sample can be used to test predictive performance and the results usually compare well compared to k-fold CV assuming your data set is sufficiently large (say n≥1,000). Consequently, as your data sets become larger and your bagging iterations increase, it is common to use the OOB error estimate as a proxy for predictive performance."
+
+
+## Mise en pratique (exemple avec code)
+
+Ou bien ne commencer les mises en pratique qu'avec les random forest ?
+
+
+## Interprétation 
+
+
+
+
+
