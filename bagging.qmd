@@ -117,7 +117,7 @@ Cela signifie que si l'on considérait tous les ensemble de données possibles, 
 
 Formellement, un prédicteur est dit "order-correct" pour une entrée $x$ si :
 
-$$argmax_j Q(j|x) = argmax_j P(j|x)$$
+$argmax_j Q(j|x) = argmax_j P(j|x)$
 
 où $P(j|x)$ est la vraie probabilité que l’observation $x$ appartienne à la classe $j$, et $Q(j|x)$ est la probabilité que $x$ appartienne à la classe $j$ prédite par le modèle $φ(x, L)$.
 
@@ -130,14 +130,14 @@ Dans le cas de la classification, le prédicteur agrégé est défini par le **v
 
 Formellement, le classificateur agrégé $φA(x)$ est défini par :
 
-$$φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$$
+$φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$
  
 
 #### Performance globale: convergence vers un classificateur presque optimal
 
-Breiman (1996) montre que si chaque prédicteur individuel $φ(x, L)$ est order-correct pour une observation $x$, alors le prédicteur agrégé $φA(x)$, obtenu par **vote majoritaire**, atteint la performance optimale pour cette observation, c'est-à-dire qu'il converge vers la classe ayant la probabilité maximale $P(j∣x)$ pour l'observation $x$ lorsque le nombre de prédicteurs individuels augmente. Le vote majoritaire permet ainsi de **réduire les erreurs aléatoires** des classificateurs individuels.
+@breiman1996bagging montre que si chaque prédicteur individuel $φ(x, L)$ est order-correct pour une observation $x$, alors le prédicteur agrégé $φA(x)$, obtenu par **vote majoritaire**, atteint la performance optimale pour cette observation, c'est-à-dire qu'il converge vers la classe ayant la probabilité maximale $P(j∣x)$ pour l'observation $x$ lorsque le nombre de prédicteurs individuels augmente. Le vote majoritaire permet ainsi de **réduire les erreurs aléatoires** des classificateurs individuels.
 
-    Le classificateur agrégé $ϕA$ est optimal s'il prédit systématiquement la classe la plus probable pour l'observation $x$ dans toutes les régions de l'espace. 
+Le classificateur agrégé $ϕA$ est optimal s'il prédit systématiquement la classe la plus probable pour l'observation $x$ dans toutes les régions de l'espace. 
 
 Cependant, dans les régions de l’espace où les classificateurs individuels ne sont pas order-corrects (c’est-à-dire qu'ils se trompent majoritairement sur la classe d'appartenance), l'agrégation par vote majoritaire n'améliore pas les performances. Elles peuvent même se détériorer par rapport aux modèles individuels si l'agrégation conduit à amplifier des erreurs systématiques (biais).
 
@@ -148,14 +148,15 @@ En pratique, au lieu d'utiliser tous les ensembles d'entraînement possibles $L$
 
 Les échantillons bootstrap présentent les limites suivantes :
 
-- Une taille effective réduite par rapport au jeu de données initial: Bien que chaque échantillon bootstrap présente le même nombre d'observations que le jeu de données initial, environ 1/3 des observations (uniques) du jeu initial sont absente de chaque échantillon bootstrap (du fait du tirage avec remise). Cela peut limiter la capacité des modèles à capturer des relations complexes au sein des données (et aboutir à des modèles individuels sous-ajustés par rapport à ce qui serait attendu théoriquement), en particulier lorsque l'échantillon initial est de taille modeste.
+- Une __taille effective réduite par rapport au jeu de données initial__: Bien que chaque échantillon bootstrap présente le même nombre d'observations que le jeu de données initial, environ 1/3 des observations (uniques) du jeu initial sont absentes de chaque échantillon bootstrap (du fait du tirage avec remise). Cela peut limiter la capacité des modèles à capturer des relations complexes au sein des données (et aboutir à des modèles individuels sous-ajustés par rapport à ce qui serait attendu théoriquement), en particulier lorsque l'échantillon initial est de taille modeste.
 
-- Une dépendance entre échantillons : Les échantillons bootstrap sont tirés à partir du même jeu de données, ce qui génère une dépendance entre eux, qui réduit la diversité des  modèles. Cela peut limiter l'efficacité de la réduction de variance dans le cas de la régression, voire acroître le biais dans le cas de la classification.
+- Une __dépendance entre échantillons__ : Les échantillons bootstrap sont tirés dans le même jeu de données, ce qui génère une dépendance entre eux, qui réduit la diversité des modèles. Cela peut limiter l'efficacité de la réduction de variance dans le cas de la régression, voire acroître le biais dans le cas de la classification.
 
-- Une couverture incomplète de l'ensemble des échantillons possibles : Les échantillons bootstrap ne couvrent pas l'ensemble des échantillons d'entraînement possibles, ce qui peut introduire un biais supplémentaire par rapport au prédicteur agrégé théorique.
+- Une __couverture incomplète de l'ensemble des échantillons possibles__: Les échantillons bootstrap ne couvrent pas l'ensemble des échantillons d'entraînement possibles, ce qui peut introduire un biais supplémentaire par rapport au prédicteur agrégé théorique.
 
+## Le bagging en pratique
 
-## Quand utiliser le bagging en pratique
+### Quand utiliser le bagging en pratique
 
 Le bagging est particulièrement utile lorsque les modèles individuels présentent une variance élevée et sont instables. Dans de tels cas, l'agrégation des prédictions peut réduire significativement la variance globale, améliorant ainsi la performance du modèle agrégé. Les situations où le bagging est recommandé incluent typiquement:
 
@@ -163,7 +164,7 @@ Le bagging est particulièrement utile lorsque les modèles individuels présent
 
 - Les modèles avec biais faibles: En classification, si les modèles individuels sont order-corrects pour la majorité des observations, le bagging peut améliorer la précision en renforçant les prédictions correctes et en réduisant les erreurs aléatoires.
 
-Cependant, le bagging peut être moins efficace ou même néfaste dans certaines situations :
+Inversement, le bagging peut être moins efficace ou même néfaste dans certaines situations :
 
 - Les modèles stables avec variance faible : Si les modèles individuels sont déjà stables et présentent une faible variance (par exemple, la régression linéaire), le bagging n'apporte que peu d'amélioration, car la réduction de variance supplémentaire est minimale.
 
@@ -175,12 +176,12 @@ Cependant, le bagging peut être moins efficace ou même néfaste dans certaines
 **Ce qui qu'il faut retenir**: le bagging peut améliorer substantiellement la performance des modèles d'apprentissage automatique lorsqu'il est appliqué dans des conditions appropriées. Il est essentiel d'évaluer la variance et le biais des modèles individuels, ainsi que la taille et la représentativité du jeu de données, pour déterminer si le bagging est une stratégie adaptée. Lorsqu'il est utilisé judicieusement, le bagging peut conduire à des modèles plus robustes et précis, exploitant efficacement la puissance de l'agrégation pour améliorer la performance des modèles individuels.
 
 
-## Comment utiliser le bagging en pratique
+### Comment utiliser le bagging en pratique
 
-### Combien de modèles agréger?
+#### Combien de modèles agréger?
 "Optimal performance is often found by bagging 50–500 trees. Data sets that have a few strong predictors typically require less trees; whereas data sets with lots of noise or multiple strong predictors may need more. Using too many trees will not lead to overfitting. However, it’s important to realize that since multiple models are being run, the more iterations you perform the more computational and time requirements you will have. As these demands increase, performing k-fold CV can become computationally burdensome."
 
-### Evaluation du modèle: cross validation et échantillon Out-of-bag (OOB)
+#### Evaluation du modèle: cross validation et échantillon Out-of-bag (OOB)
 
 "A benefit to creating ensembles via bagging, which is based on resampling with replacement, is that it can provide its own internal estimate of predictive performance with the out-of-bag (OOB) sample (see Section 2.4.2). The OOB sample can be used to test predictive performance and the results usually compare well compared to k-fold CV assuming your data set is sufficiently large (say n≥1,000). Consequently, as your data sets become larger and your bagging iterations increase, it is common to use the OOB error estimate as a proxy for predictive performance."
 
