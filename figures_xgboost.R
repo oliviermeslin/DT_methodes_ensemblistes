@@ -150,7 +150,7 @@ data |>
     label_target = if_else(target_type == "target_clean", "Clean", "Noisy") |> factor(levels = c("Clean", "Noisy"), ordered = TRUE)
   ) |>
   ggplot() + 
-  geom_line(aes(x = x, y = target_value), size = 0.5) + 
+  geom_point(aes(x = x, y = target_value), size = 0.5) + 
   labs(x = "x", y = "Target", color = NULL) +
   scale_color_viridis_d(end = 0.7) + 
   theme_minimal() +
@@ -174,28 +174,35 @@ selection <- c(1, 2, 5, 10)
 test2 |> 
   filter(label_model == "Random forest" & label_target == "Clean data" & number_trees %in% selection) |>
   ggplot() + 
-  geom_line(aes(x = x, y = prediction), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
+  geom_line(aes(x = x, y = prediction, color = "Prediction"), size = 0.5) +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap("number_trees")
-
+  facet_wrap("number_trees") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Prediction" = "black")
+  )
 
 # Random forest model trained on the noisy target
 test2 |> 
   filter(label_model == "Random forest" & label_target == "Noisy data" & number_trees %in% selection) |>
   ggplot() + 
-  geom_line(aes(x = x, y = prediction), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
+  geom_line(aes(x = x, y = prediction, color = "Prediction"), size = 0.5) +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap("number_trees")
+  facet_wrap("number_trees") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Prediction" = "black")
+  )
 
 
 ############################################
@@ -206,28 +213,36 @@ test2 |>
 test2 |> 
   filter(label_model == "Boosting" & label_target == "Clean data" & number_trees %in% selection) |>
   ggplot() + 
-  geom_line(aes(x = x, y = prediction), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
+  geom_line(aes(x = x, y = prediction, color = "Prediction"), size = 0.5) +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap("number_trees")
+  facet_wrap("number_trees") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Prediction" = "black")
+  )
 
 
 # Boosting model trained on the noisy target
 test2 |> 
   filter(label_model == "Boosting" & label_target == "Noisy data" & number_trees %in% selection) |>
   ggplot() + 
-  geom_line(aes(x = x, y = prediction), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
+  geom_line(aes(x = x, y = prediction, color = "Prediction"), size = 0.5) +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap("number_trees")
+  facet_wrap("number_trees") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Prediction" = "black")
+  )
 
 
 ############################################
@@ -239,41 +254,64 @@ test2 |>
 test2 |> 
   filter(label_target == "Clean data" & number_trees == 50) |>
   ggplot() + 
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
   geom_line(aes(x = x, y = prediction, color = label_model), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   scale_color_viridis_d(end = 0.7) + 
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Boosting" = viridis::viridis(10)[1], "Random forest" = viridis::viridis(10)[7])
+  )
+
 
 
 # Boosting model and RF model trained on the noisy target
 test2 |> 
   filter(label_target == "Noisy data" & number_trees == 50) |>
   ggplot() + 
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
   geom_line(aes(x = x, y = prediction, color = label_model), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   scale_color_viridis_d(end = 0.7) + 
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Boosting" = viridis::viridis(10)[1], "Random forest" = viridis::viridis(10)[7])
+  )
 
 
 # Boosting model trained on the noisy target
 test2 |> 
   filter(label_model == "Boosting" & label_target == "Noisy data" & number_trees %in% selection) |>
   ggplot() + 
-  geom_line(aes(x = x, y = prediction), size = 0.5) +
-  geom_line(aes(x = x, y = target_clean), size = 0.5, color = "red", linetype = "dashed") +
+  geom_line(aes(x = x, y = prediction, color = "Prediction"), size = 0.5) +
+  geom_line(aes(x = x, y = target_clean, color = "Target"), size = 0.5, linetype = "dashed") +
   labs(x = "x", y = "Prediction", color = "Type of target") +
   scale_x_continuous(expand = c(0, 0)) + 
   scale_y_continuous(expand = c(0, 0)) + 
   theme_minimal() +
   theme(legend.position = "bottom") +
-  facet_wrap("number_trees")
+  facet_wrap("number_trees") +
+  scale_color_manual(
+    name = NULL, 
+    values = c("Target" = "red", "Prediction" = "black")
+  )
 
 
+colors <- c("dudu" = "blue", "Petal Length" = "red", "Petal Width" = "orange")
+
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_line(aes(y = Sepal.Width, color = "Sepal Width"), size = 1.5) +
+  geom_line(aes(y = Petal.Length, color = "Petal Length"), size = 1.5) +
+  geom_line(aes(y = Petal.Width, color = "Petal Width"), size = 1.5) +
+  labs(x = "Year",
+       y = "(%)",
+       color = "Legend") +
+  scale_color_manual(values = colors)
