@@ -79,29 +79,26 @@ L'équation @decompo_biais_variance illustre l'__arbitrage biais-variance__ qui 
 
 #### L'inégalité de Breiman (1996)
 
-Breiman (1996) compare l'erreur quadratique moyenne d'un modèle individuel avec celle du modèle agrégé et montre l'inégalité suivante :
+@breiman1996bagging compare l'erreur quadratique moyenne d'un modèle individuel avec celle du modèle agrégé et démontre l'inégalité suivante :
 
 <!-- La démonstration s'appuie sur l'inégalité de Jensen appliquée au modèle agrégé: $E_L[\phi(x,L)^2]≥(E_L[\phi(x,L)])^2$.-->
 
-$$(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$$
+```{=typst}
+#mitex($(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$
+`) <inegalite_breiman1996>
+```
 
-  - Le terme $(Y - \phi_A(x))^2$ représente l'erreur quadratique du **prédicteur agrégé** $\phi_A(x)$
+  - Le terme $(Y - \phi_A(x))^2$ représente l'erreur quadratique du **prédicteur agrégé** $\phi_A(x)$;
   
   - Le terme $E_L[(Y - \phi(x, L))^2]$ est l'erreur quadratique moyenne d'un **prédicteur individuel** $\phi(x, L)$ entraîné sur un échantillon aléatoire $L$. Cette erreur varie en fonction des données d'entraînement.
     
-Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. 
+Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. Puisque le biais du prédicteur agrégé est identique au biais du prédicteur individuel, alors l'inégalité précédente implique que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne d'un modèle individuel : 
 
-Puisque le biais du prédicteur agrégé est identique au biais du prédicteur individuel, alors l'inégalité précédente implique que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne d'un modèle individuel : 
+$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$
 
-$$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$$
+Autrement dit, le processus d'agrégation réduit l'erreur de prédiction globale en réduisant la **variance** des prédictions, tout en conservant un biais constant.
 
-Autrement dit, en réduisant la **variance** des prédictions, tout en maintenant un biais constant, le processus d'agrégation réduit l'erreur de prédiction globale.
-
-Ce résultat ouvre la voie à des considérations pratiques immédiates. Lorsque le modèle individuel est instable et présente une variance élevée, l'inégalité $Var(\phi_A(x)) \leq E_L[Var(\phi(x,L))]$ est forte, ce qui signifie que l'agrégation peut améliorer significativement la performance globale du modèle.
-
-En revanche, si $ϕ(x,L)$ varie peu d'un ensemble d'entraînement à un autre (modèle stable avec variance faible), alors $Var(\phi_A(x))$ est proche de $E_L[Var(\phi(x,L))]$, et la réduction de variance apportée par l'agrégation est faible.
-
-Ainsi, le bagging sera particulièrement efficace pour les modèles instables, tels que les arbres de décision, mais moins utile pour les modèles stables tels que les méthodes des k plus proches voisins.
+Ce résultat ouvre la voie à des considérations pratiques immédiates. Lorsque le modèle individuel est instable et présente une variance élevée, l'inégalité $Var(\phi_A(x)) \leq E_L[Var(\phi(x,L))]$ est forte, ce qui signifie que l'agrégation peut améliorer significativement la performance globale du modèle. En revanche, si $ϕ(x,L)$ varie peu d'un ensemble d'entraînement à un autre (modèle stable avec variance faible), alors $Var(\phi_A(x))$ est proche de $E_L[Var(\phi(x,L))]$, et la réduction de variance apportée par l'agrégation est faible. Ainsi, __le bagging est particulièrement efficace pour les modèles instables__, tels que les arbres de décision, mais moins efficace pour les modèles stables tels que les méthodes des k plus proches voisins.
 
 
 
