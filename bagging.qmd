@@ -104,7 +104,7 @@ Ce résultat ouvre la voie à des considérations pratiques immédiates. Lorsque
 
 ### La classification: vers un classificateur presque optimal par agrégation
 
-Dans le cas de la classification, le mécanisme de réduction de la variance par le bagging permet, sous une certaine condition, d'atteindre un **classificateur presque optimal** (*nearly optimal classifier*). Ce concept a été introduit par Breiman (1996) pour décrire un modèle qui tend à classer une observation dans la classe la plus probable, avec une performance approchant celle du classificateur Bayésien optimal (la meilleure performance théorique qu'un modèle de classification puisse atteindre).
+Dans le cas de la classification, le mécanisme de réduction de la variance par le bagging permet, sous une certaine condition, d'atteindre un **classificateur presque optimal** (*nearly optimal classifier*). Ce concept a été introduit par @breiman1996bagging pour décrire un modèle qui tend à classer une observation dans la classe la plus probable, avec une performance approchant celle du classificateur Bayésien optimal (la meilleure performance théorique qu'un modèle de classification puisse atteindre).
 
 Pour comprendre ce résutlat, introduisons $Q(j|x) = E_L(1_{φ(x, L) = j}) = P(φ(x, L) = j)$, la probabilité qu'un modèle $φ(x, L)$ prédise la classe $j$ pour l'observation $x$, et $P(j|x)$, la probabilité réelle (conditionnelle) que $x$ appartienne à la classe $j$.
 
@@ -113,7 +113,7 @@ Pour comprendre ce résutlat, introduisons $Q(j|x) = E_L(1_{φ(x, L) = j}) = P(�
 
 Un classificateur $φ(x, L)$ est dit **order-correct** pour une observation $x$ si, en espérance, il identifie **correctement la classe la plus probable**, même s’il ne prédit pas toujours avec exactitude les probabilités associées à chaque classe $Q(j∣x)$.
 
-    Cela signifie que si l'on considérait tous les ensemble de données possibles, et que l'on évaluait les prédictions du modèle en $x$, la majorité des prédictions correspondraient à la classe à laquelle il a la plus grande probabilité vraie d'appartenir $P(j∣x)$.
+Cela signifie que si l'on considérait tous les ensemble de données possibles, et que l'on évaluait les prédictions du modèle en $x$, la majorité des prédictions correspondraient à la classe à laquelle il a la plus grande probabilité vraie d'appartenir $P(j∣x)$.
 
 Formellement, un prédicteur est dit "order-correct" pour une entrée $x$ si :
 
