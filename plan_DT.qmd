@@ -144,7 +144,9 @@ Comment choisir entre forêt aléatoire et boosting:
 
 ## Les arbres de décision et de classification
 
+Description des CART
 
+Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour permettre des renvois depuis la liste des hyperparamètres?
 
 ## Le bagging et les forêts aléatoires
 
@@ -154,7 +156,7 @@ Comment choisir entre forêt aléatoire et boosting:
 
 ## Le _gradient boosting_
 
-Cette section détaille la mécanique du _gradient boosting_ en reprenant les notations de l'article décrivant XGBoost (2016). Cette partie décrit rapidement: le principe de la modélisation additive par étapes (@friedman2001greedy), l'approximation faite par XGBoost, la méthode de calcul des poids optimaux, la méthode de recherche des _splits_ optimaux.
+Cette section détaille la mécanique du _gradient boosting_ en reprenant les notations de l'article décrivant XGBoost (2016). Cette partie décrit rapidement: le principe de la modélisation additive par étapes (@friedman2001greedy), l'approximation faite par XGBoost, la méthode de calcul des poids optimaux, la méthode de recherche des _splits_ optimaux, les fonctions de perte couramment utilisées.
 
 Cette partie mentionnera rapidement les poinds suivants:
 
@@ -192,29 +194,8 @@ Expliquer:
 - l'approche par histogramme ou par énumération exacte;
 - le rôle des hyperparamètres qui interviennent dans la construction des arbres.
 
-Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour permettre des renvois depuis la liste des hyperparamètres?
-
-## Le choix d'une fonction de perte
-
-Exemple: Huber?
-
-## L'utilisation des pondérations
-
-Bien expliquer où elles interviennent.
 
 # Comment (bien) utiliser les approches ensemblistes
-
-## Différence entre RF et _boosting_
-
-Comment choisir entre forêt aléatoire et boosting:
-
-- Temps dont on dispose: RF si peu de temps;
-- Puissance de calcul dont on dispose: RF si peu de puissance;
-- Compréhension des algorithmes: RF si on est débutant;
-- Nombre de _features_; RF si nombreuses;
-- Nature du problème: y a-t-il des spécificités locales (au sens mathématique) qu'un arbre assez profond aura du mal à prendre en compte? Si oui, le _boosting_ peut aider
-- Présence d'_outliers_: si oui, RF, ou alors _boosting_ avec _subsampling_.
-
 
 ## La préparation des données
 
@@ -238,16 +219,28 @@ Comment choisir entre forêt aléatoire et boosting:
 gamma, beta, alpha, lambda, eta, M, T, nb de quantiles;
 method = "hist"
 
-Faire systématiquement le renvoi vers la partie matheuse, pour que les lecteurs sachent où intervient chaque paramètre.
+Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque paramètre.
 
-## Diagnostics post-entraînement
+## Usage avancé
+
+### Le choix d'une fonction de perte
+
+Exemple: Huber?
+
+### L'utilisation des pondérations
+
+Cette partie présente l'usage des pondérations des observations (`sample_weight`) et de la pondération de la classe positive (`scale_pos_weight`).
+
+Bien expliquer où ces pondérations interviennent dans la partie formalisée.
+
+
+## Interprétabilité des méthodes
 
 - Mesure d'importance: intérêt et limites.
-- Y a-t-il d'autres diagnostics standards?
+- Quels frameworks veut-on présenter?
+    - Interprétabilité globale;
+    - Interprétabilité locale.
 
-# Interprétabilité
-
-Quels frameworks veut-on présenter?
 
 
 # Cas d'usage
@@ -270,7 +263,7 @@ Quels frameworks veut-on présenter?
 
 ### Classification déséquilibrée
 
-=> Pondération de la classe minoritaire
+=> Utiliser la pondération de la classe minoritaire
 
 <!-- IMPORTANT -->
 <!-- Formations sur le ML -->
@@ -280,7 +273,7 @@ Quels frameworks veut-on présenter?
 <!-- Petites questions: -->
 <!-- - Quelle implémentation des RF veut-on présenter? Je suis favorable à avoir un seul framework RF/Boosting, mais c'est peut-être pas standard. Quelques références: -->
 
-<!--     - https://konfuzio.com/en/random-forest/ -->
+<!--     - r -->
 <!--     - https://xgboost.readthedocs.io/en/stable/tutorials/rf.html -->
 
 
