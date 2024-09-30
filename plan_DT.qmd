@@ -197,7 +197,7 @@ Expliquer:
 
 # Comment (bien) utiliser les approches ensemblistes
 
-## La préparation des données
+## Préparer les données
 
 ### La _target_
 
@@ -211,19 +211,35 @@ Expliquer:
     - les transformations non monotones peuvent être utiles;
     - attention aux paramètres de la _quantization_ par histogramme;
 - La gestion des variables catégorielles:
+    - Il est possible de passer les variables catégorielles ordonnées en integer.
     - one hot encoding?
     - support expérimental des variables catégorielles?
 
-## Rôle et interprétation des principaux hyperparamètres
+## Comment entraîner un algorithme
 
-gamma, beta, alpha, lambda, eta, M, T, nb de quantiles;
-method = "hist"
+### Entraîner une _random forest_
+
+#### Rôle et interprétation des principaux hyperparamètres
 
 Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque paramètre.
 
+#### Guide d'entraînement d'une forêt aléatoire
+
+Reprendre les recommandations de @probst2019hyperparameters.
+
+### Entraîner un algorithme de _boosting_
+
+#### Rôle et interprétation des principaux hyperparamètres
+
+Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque paramètre.
+
+#### Guide d'entraînement d'un algorithme de _boosting_
+
+Reprendre les recommandations de @bentejac2021comparative. Que dit HOML là-dessus?
+
 ## Usage avancé
 
-### Le choix d'une fonction de perte
+### Choisir une fonction de perte non standard
 
 Exemple: Huber?
 
