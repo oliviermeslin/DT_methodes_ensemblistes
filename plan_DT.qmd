@@ -150,9 +150,13 @@ Veut-on faire quelque rappels sur l'apprentissage supervisé?
 
 ## Les arbres de décision et de classification
 
-Description des CART
+### La brique élémentaire: l'arbre de décision
 
-Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour permettre des renvois depuis la liste des hyperparamètres?
+
+
+### L'algorithme CART, un partitionnement binaire récursif
+
+Description des CART.
 
 ## Le bagging et les forêts aléatoires
 
@@ -162,7 +166,7 @@ Faire une figure détaillée d'un arbre avec des annotations (A, B, C) pour perm
 
 ## Le _gradient boosting_
 
-Cette section détaille la mécanique du _gradient boosting_ en reprenant les notations de l'article décrivant XGBoost (2016). Cette partie décrit rapidement: le principe de la modélisation additive par étapes (@friedman2001greedy), l'approximation faite par XGBoost, la méthode de calcul des poids optimaux, la méthode de recherche des _splits_ optimaux, les fonctions de perte couramment utilisées.
+Cette section détaille la mécanique du _gradient boosting_ en reprenant les notations de l'article décrivant XGBoost (2016). Cette partie décrit rapidement: le cadre théorique _weak learner_ et _strong learner_ (@shapire1990strength), le principe de la modélisation additive par étapes (@friedman2001greedy), l'approximation faite par XGBoost, la méthode de calcul des poids optimaux, la méthode de recherche des _splits_ optimaux, les fonctions de perte couramment utilisées.
 
 Cette partie mentionnera rapidement les poinds suivants:
 
@@ -170,36 +174,7 @@ Cette partie mentionnera rapidement les poinds suivants:
 - Il existe de multiples implémentations du _gradient boosting_ (GBM, lightGBM, XGBoost, Catboost...), globalement similaires mais qui diffèrent sur des points de détail. La présentation qui suit doit donc être complétée par la lecture de la documentation des différents algorithmes.  
 - Cette approche permet de construire des modèles de _boosting_, mais aussi des forêts aléatoires entraînées par descente de gradient. 
 
-L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2016). Il est important de numéroter les équations pour faire le lien entre la partie qui liste les hyperparamètres et les équations dans lesquels ils interviennent.
-
-## Rappels sur l'apprentissage supervisé
-
-Reprendre les éléments figurant dans la formation boosting.
-
-## La mécanique des approches ensemblistes
-
-### La mécanique de la _random forest_
-
-Mettre une description de l'algorithme en pseudo-code
-
-Reprendre les éléments figurant dans la formation boosting.
-
-### La mécanique du boosting
-
-Mettre une description de l'algorithme en pseudo-code
-
-Reprendre les éléments figurant dans la formation boosting.
-
-## La construction d'un arbre par la descente de gradient
-
-Donner les formules d'XGBoost. Donner un algorithme en pseudo code décrivant la façon dont XGBoost énumère les splits possibles.
-
-Expliquer:
-
-- l'approche _greedy_, et le _pruning_;
-- l'approche par histogramme ou par énumération exacte;
-- le rôle des hyperparamètres qui interviennent dans la construction des arbres.
-
+<!-- Question: Donner un algorithme en pseudo code décrivant la façon dont XGBoost énumère les splits possibles. -->
 
 # Comment (bien) utiliser les approches ensemblistes
 
@@ -218,8 +193,9 @@ Expliquer:
     - attention aux paramètres de la _quantization_ par histogramme;
 - La gestion des variables catégorielles:
     - Il est possible de passer les variables catégorielles ordonnées en integer.
-    - one hot encoding?
-    - support expérimental des variables catégorielles?
+    - Pour les variables catégorielles non ordonnées: 
+        - Réduire le nombre de modalités?
+        - utiliser le one hot encoding ou le support expérimental des variables catégorielles (split selon la méthode de @fisher)
 
 ## Comment entraîner un algorithme
 
@@ -227,7 +203,7 @@ Expliquer:
 
 #### Rôle et interprétation des principaux hyperparamètres
 
-Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque paramètre.
+Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque hyperparamètre.
 
 #### Guide d'entraînement d'une forêt aléatoire
 
@@ -237,7 +213,7 @@ Reprendre les recommandations de @probst2019hyperparameters.
 
 #### Rôle et interprétation des principaux hyperparamètres
 
-Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque paramètre.
+Faire systématiquement le renvoi vers la partie formalisée, pour que les lecteurs sachent où intervient chaque hyperparamètre.
 
 #### Guide d'entraînement d'un algorithme de _boosting_
 
