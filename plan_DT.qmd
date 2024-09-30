@@ -1,5 +1,6 @@
 ---
-title: "Hello Typst!"
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "Plan détaillé"
 author: |
   [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
@@ -7,6 +8,7 @@ format:
   typst:
     toc: true
     section-numbering: 1.1.1
+bibliography: references.bib
 ---
 
 Restriction du champ: méthodes ensemblistes à base d'arbres.
@@ -29,18 +31,17 @@ Avantages:
     - Elles sont notamment applicables à tous les problèmes pour lesquels on utilise une régression linéaire ou une régression logistisque);
     - Elles s'appliquent à des données tabulaires (enregistrements en lignes, variables en colonnes), situation très fréquente dans la statistique publique.
     
-    
 - Performances quasi systématiquement supérieures aux méthodes économétriques traditionnelles;
 - Scalabilité: ces méthodes peuvent être appliquées à des données volumineuses;
-- Coût d'entrée modéré (comparé à des approches plus avancées comme le _deep learning_)
+- Coût d'entrée modéré (comparé à des approches plus avancées comme le _deep learning_).
 
 Inconvénients:
 
-- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis).
 - Temps d'entraînement potentiellement long, notamment pour l'optimisation des hyperparamètres.
 - Ces méthodes peuvent nécessiter une puissance de calcul importante et/ou une mémoire vive de grande taille.
 - Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
-- Risque de surapprentissage.
+- Risque de surapprentissage, en particulier pour le _boosting_
+- La prise en main de ces méthodes requiert un temps d'apprentissage (une bonne maîtrise de Python ou R est un prérequis).
 
 
 ### L'union fait la force
@@ -62,7 +63,7 @@ La performance d'un modèle augmente généralement avec sa complexité, jusqu'�
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
-Quatre temps:
+Trois temps:
 
 - les arbres de décision et de régression (CART);
 - les forêts aléatoires;
@@ -74,17 +75,11 @@ Présenter _decision tree_ et _regression tree_. Reprendre des éléments du cha
 
 Principes d'un arbre: 
 
+- partition de l'espace des _features_;
 - fonction constante par morceaux;
-- partition de l'espace;
-- interactions entre variables.
+- un arbre mobilise notamment les interactions entre variables.
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).
-
-## Le _bagging_
-
-Reprendre des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML/
-
-Mettre une description de l'algorithme en pseudo-code?
 
 ## Le _bagging_ et les _random forests_
 
@@ -112,21 +107,60 @@ Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML
 
 Le *boosting* combine l'[**approche ensembliste**]{.orange} avec une [**modélisation additive par étapes**]{.orange} (*forward stagewise additive modeling*).
 
-- Présentation;
+- Présentation du principe: entraîner séquentiellement des modèles simples et peu performants (_weak learners_) pour obtenir un modèle complexe très performant (_strong learner_);
 - Avantage du boosting: performances particulièrement élevées.
 - Inconvénients: 1/ nombre élevé d'hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d'overfitting.
 
 - Préciser qu'il est possible d'utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.
 
-# Présentation détaillée du _gradient boosting_
+### Les différences entre _random forests_ et _boosting_
 
-Attention présentation détaillée et matheuse. Cette partie porte précisément sur l'optimisation par le gradient.
+Les forêts aléatoires et le *gradient boosting* paraissent très similaires au premier abord: il s'agit de deux approches ensemblistes, qui construisent des modèles très prédictifs performants en combinant un grand nombre d'arbres de décision. Mais en réalité, ces deux approches présentent plusieurs différences fondamentales:
 
-Bien préciser:
+-   Les deux approches reposent sur des fondements théoriques différents: la loi des grands nombres pour les forêts aléatoires, la théorie de l'apprentissage statistique pour le *boosting*.
+
+-   Les arbres n'ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de *boosting*, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'est ni utilisable, ni interprétable indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement.
+
+-   *overfitting*: borne théorique à l'*overfitting* dans les RF, contre pas de borne dans le *boosting*. Deux conséquences: 1/ lutter contre l'overfitting est essentiel dans l'usage du *boosting*; 2/ le *boosting* est plus sensible au bruit et aux erreurs sur $y$ que la RF.
+
+-   Les points d'attention dans l'entraînement ne sont pas les mêmes: arbitrage puissance-corrélation dans la RF, arbitrage puissance prédictive-overfitting dans le *boosting*.
+
+-   Conditions d'utilisation: la RF peut être utilisée sur le _train_ grâce aux prédictions _out-of-bag_, pas le *boosting*. Exemple: repondération d'une enquête.
+
+-   Complexité d'usage: peu d'hyperparamètres dans les RF, contre un grand nombre dans le *boosting*.
+
+### Quel algorithme utiliser?
+
+Comment choisir entre forêt aléatoire et boosting:
+
+- Temps dont on dispose: RF si peu de temps;
+- Puissance de calcul dont on dispose: RF si peu de puissance;
+- Compréhension des algorithmes: RF si on est débutant;
+- Nombre de _features_: RF si nombreuses;
+- Nature du problème: y a-t-il des spécificités locales (au sens mathématique) que même un arbre assez profond aura du mal à prendre en compte? Si oui, le _boosting_ est indiqué.
+- Y a-t-il beaucoup de bruit, de valeurs aberrantes ou d'erreurs dans les données: si oui, la RF est préférable.
+
+# Présentation formalisée des méthodes ensemblistes
+
+## Les arbres de décision et de classification
+
+
+
+## Le bagging et les forêts aléatoires
+
+### Le _bagging_
+
+### Les forêts aléatoires
+
+## Le _gradient boosting_
+
+Cette section détaille la mécanique du _gradient boosting_ en reprenant les notations de l'article décrivant XGBoost (2016). Cette partie décrit rapidement: le principe de la modélisation additive par étapes (@friedman2001greedy), l'approximation faite par XGBoost, la méthode de calcul des poids optimaux, la méthode de recherche des _splits_ optimaux.
+
+Cette partie mentionnera rapidement les poinds suivants:
 
 - il existe des implémentations du _boosting_ qui ne sont pas du _gradient boosting_ (exemple: l'_adaptative boosting_ de l'algorithme AdaBoost).
 - Il existe de multiples implémentations du _gradient boosting_ (GBM, lightGBM, XGBoost, Catboost...), globalement similaires mais qui diffèrent sur des points de détail. La présentation qui suit doit donc être complétée par la lecture de la documentation des différents algorithmes.  
-- cette approche permet de construire des forêts aléatoires et des modèles de _boosting_. 
+- Cette approche permet de construire des modèles de _boosting_, mais aussi des forêts aléatoires entraînées par descente de gradient. 
 
 L'exposé qui suit reprend les notations de l'article qui a introduit XGBoost (2016). Il est important de numéroter les équations pour faire le lien entre la partie qui liste les hyperparamètres et les équations dans lesquels ils interviennent.
 
