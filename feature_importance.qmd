@@ -21,7 +21,7 @@ supplement: none
 
 # Les mesures d'importance
 
-## Sources à mobiliser:
+## Sources à mobiliser
 
 - Le cours de Sébastien Da Veiga, chapitre 4.
 - @probst2019hyperparameters, section 2.2.
