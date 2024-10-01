@@ -1,11 +1,47 @@
-@article{shapire1990strength,
-  title={The strength of weak learning},
-  author={Shapire, R},
-  journal={Machine Learning},
-  volume={5},
-  number={2},
-  year={1990}
+
+##################################################################
+##################################################################
+# Les papiers sur l'intérêt des méthodes ensemblistes sur données tabulaires
+##################################################################
+##################################################################
+
+@article{grinsztajn2022tree,
+  title={Why do tree-based models still outperform deep learning on typical tabular data?},
+  author={Grinsztajn, L{\'e}o and Oyallon, Edouard and Varoquaux, Ga{\"e}l},
+  journal={Advances in neural information processing systems},
+  volume={35},
+  pages={507--520},
+  year={2022}
 }
+@article{shwartz2022tabular,
+  title={Tabular data: Deep learning is not all you need},
+  author={Shwartz-Ziv, Ravid and Armon, Amitai},
+  journal={Information Fusion},
+  volume={81},
+  pages={84--90},
+  year={2022},
+  publisher={Elsevier}
+}
+
+
+##################################################################
+##################################################################
+# Les papiers fondateurs des méthodes ensemblistes
+##################################################################
+##################################################################
+
+@book{hastie2009elements,
+  title={The elements of statistical learning: data mining, inference, and prediction},
+  author={Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome H},
+  volume={2},
+  year={2009},
+  publisher={Springer}
+}
+
+##################################################################
+# Les random forests
+##################################################################
+
 @article{breiman1984cart,
   title={Cart},
   author={Breiman, Leo and Friedman, Jerome and Olshen, Richard and Stone, Charles},
@@ -21,6 +57,28 @@
   pages={123--140},
   year={1996},
   publisher={Springer}
+}
+@article{breiman2001random,
+  title={Random forests},
+  author={Breiman, Leo},
+  journal={Machine learning},
+  volume={45},
+  pages={5--32},
+  year={2001},
+  publisher={Springer}
+}
+
+##################################################################
+# Le boosting
+##################################################################
+
+@article{shapire1990strength,
+  title={The strength of weak learning},
+  author={Shapire, R},
+  journal={Machine Learning},
+  volume={5},
+  number={2},
+  year={1990}
 }
 @article{freund1997decision,
   title={A decision-theoretic generalization of on-line learning and an application to boosting},
@@ -59,15 +117,7 @@
   year={2000},
   publisher={Institute of Mathematical Statistics}
 }
-@article{breiman2001random,
-  title={Random forests},
-  author={Breiman, Leo},
-  journal={Machine learning},
-  volume={45},
-  pages={5--32},
-  year={2001},
-  publisher={Springer}
-}
+
 @article{friedman2001greedy,
   title={Greedy function approximation: a gradient boosting machine},
   author={Friedman, Jerome H},
@@ -75,13 +125,6 @@
   pages={1189--1232},
   year={2001},
   publisher={JSTOR}
-}
-@book{hastie2009elements,
-  title={The elements of statistical learning: data mining, inference, and prediction},
-  author={Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome H},
-  volume={2},
-  year={2009},
-  publisher={Springer}
 }
 @inproceedings{chen2016xgboost,
   title={Xgboost: A scalable tree boosting system},
@@ -104,6 +147,13 @@
   volume={31},
   year={2018}
 }
+
+##################################################################
+##################################################################
+# Les papiers sur l'usage des méthodes ensemblistes
+##################################################################
+##################################################################
+
 @article{strobl2007bias,
   title={Bias in random forest variable importance measures: Illustrations, sources and a solution},
   author={Strobl, Carolin and Boulesteix, Anne-Laure and Zeileis, Achim and Hothorn, Torsten},
@@ -133,23 +183,6 @@
   publisher={Springer}
 }
 
-@article{grinsztajn2022tree,
-  title={Why do tree-based models still outperform deep learning on typical tabular data?},
-  author={Grinsztajn, L{\'e}o and Oyallon, Edouard and Varoquaux, Ga{\"e}l},
-  journal={Advances in neural information processing systems},
-  volume={35},
-  pages={507--520},
-  year={2022}
-}
-@article{shwartz2022tabular,
-  title={Tabular data: Deep learning is not all you need},
-  author={Shwartz-Ziv, Ravid and Armon, Amitai},
-  journal={Information Fusion},
-  volume={81},
-  pages={84--90},
-  year={2022},
-  publisher={Elsevier}
-}
 @article{fisher1958grouping,
   title={On grouping for maximum homogeneity},
   author={Fisher, Walter D},
@@ -159,4 +192,92 @@
   pages={789--798},
   year={1958},
   publisher={Taylor \& Francis}
+}
+
+##################################################################
+##################################################################
+##################################################################
+# Les papiers sur l'interprétabilité des méthodes ensemblistes
+##################################################################
+##################################################################
+##################################################################
+
+##################################################################
+##################################################################
+# Références générales sur l'interprétabilité
+##################################################################
+##################################################################
+
+@book{molnar2020interpretable,
+  title={Interpretable machine learning, 2nd edition},
+  author={Molnar, Christoph},
+  year={2022},
+  publisher={Lulu.com}
+}
+
+@article{arrieta2020explainable,
+  title={Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI},
+  author={Arrieta, Alejandro Barredo and D{\'\i}az-Rodr{\'\i}guez, Natalia and Del Ser, Javier and Bennetot, Adrien and Tabik, Siham and Barbado, Alberto and Garc{\'\i}a, Salvador and Gil-L{\'o}pez, Sergio and Molina, Daniel and Benjamins, Richard and others},
+  journal={Information fusion},
+  volume={58},
+  pages={82--115},
+  year={2020},
+  publisher={Elsevier}
+}
+
+@article{rudin2019stop,
+  title={Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead},
+  author={Rudin, Cynthia},
+  journal={Nature machine intelligence},
+  volume={1},
+  number={5},
+  pages={206--215},
+  year={2019},
+  publisher={Nature Publishing Group UK London}
+}
+@article{louppe2014understanding,
+  title={Understanding random forests: From theory to practice},
+  author={Louppe, Gilles},
+  journal={arXiv preprint arXiv:1407.7502},
+  year={2014}
+}
+@article{lipton2018mythos,
+  title={The mythos of model interpretability: In machine learning, the concept of interpretability is both important and slippery.},
+  author={Lipton, Zachary C},
+  journal={Queue},
+  volume={16},
+  number={3},
+  pages={31--57},
+  year={2018},
+  publisher={ACM New York, NY, USA}
+}
+
+##################################################################
+##################################################################
+# Références plus précises
+##################################################################
+##################################################################
+
+##################################################################
+# Utilisation des GAMI pour interpréter les arbres
+##################################################################
+
+@inproceedings{lou2013accurate,
+  title={Accurate intelligible models with pairwise interactions},
+  author={Lou, Yin and Caruana, Rich and Gehrke, Johannes and Hooker, Giles},
+  booktitle={Proceedings of the 19th ACM SIGKDD international conference on Knowledge discovery and data mining},
+  pages={623--631},
+  year={2013}
+}
+
+
+
+@misc{hu2023monotonetreebasedgamimodels,
+      title={Monotone Tree-Based GAMI Models by Adapting XGBoost}, 
+      author={Linwei Hu and Soroush Aramideh and Jie Chen and Vijayan N. Nair},
+      year={2023},
+      eprint={2309.02426},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML},
+      url={https://arxiv.org/abs/2309.02426}, 
 }
