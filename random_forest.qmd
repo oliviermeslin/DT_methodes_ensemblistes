@@ -28,7 +28,16 @@ L'idée des forêts aléatoires est de tirer parti de la diversité entre les ar
 
 ### Guide d'entraînement des RF
 
+Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
+
+
 #### Les hyperparamètres de la _random forest_
+
+Le tableau @tbl-hyp-rf présente les principaux hyperparamètres des forêts aléatoires. Le nom des hyperparamètres est celui figurant dans le _package_ `R` `ranger`. Il arrive qu'ils portent un nom différents dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
+
+
+:::
+
 
 | Hyperparamètre                                                      | Description                                                                 |
 |---------------------------------------------------------------------|-----------------------------------------------------------------------------|
@@ -41,12 +50,10 @@ L'idée des forêts aléatoires est de tirer parti de la diversité entre les ar
 | `min.bucket`                                                   | Nombre minimal d'observations dans les noeuds terminaux             |
 | `max.depth`                                                   | Profondeur maximale des arbres             |
 
-: Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[25,80]"}
+: Les principaux hyperparamètres des forêts aléatoires {#tbl-hyp-rf tbl-colwidths="[25,80]"}
 
-Dans ce tableau, le nom des hyperparamètres est celui figurant dans le _package_ `R` `ranger`. Il arrive qu'ils portent un nom différents dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
 __IMPORTANT: ne pas oublier de mettre les noms des arguments XGBRFRegressor dans le commentaire détaillé des hyperparamètres des RF.__
-Bien dire que la source première est @probst2019hyperparameters.
 
 #### Quels sont les effets des hyperparamètres sur la performance de la forêt aléatoire?
 
