@@ -26,16 +26,16 @@ La forêt aléatoire (_random forests_) est une méthode d'apprentissage automat
 L'idée des forêts aléatoires est de tirer parti de la diversité entre les arbres pour réduire la variance du modèle final. 
 
 
-### Guide d'entraînement des RF
+### Guide d'entraînement des forêts aléatoires
 
 Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
 
-#### Les implémentations des forêts aléatoires
+#### Quelle implémentation utiliser?
 
 Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l'usage de deux implémentations de référence: le _package_ `R` `ranger` et le _package_ `Python` `scikit-learn`. Il est à noter qu'il est possible d'entraîner des forêts aléatoires avec les algorithmes `XGBoost` et `LightGBM`, mais il s'agit d'un usage avancé qui n'est recommandé en première approche. Cette approche est présentée dans la partie __REFERENCE A LA PARTIE USAGE AVANCE__.
 
 
-#### Les hyperparamètres de la _random forest_
+#### Quels sont les hyperparamètres des forêts aléatoires?
 
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau @tbl-hyp-rf. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
