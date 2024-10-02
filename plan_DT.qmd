@@ -195,7 +195,7 @@ Cette partie mentionnera rapidement les poinds suivants:
     - Il est possible de passer les variables catégorielles ordonnées en integer.
     - Pour les variables catégorielles non ordonnées: 
         - Réduire le nombre de modalités?
-        - utiliser le one hot encoding ou le support expérimental des variables catégorielles (split selon la méthode de @fisher)
+        - utiliser le one hot encoding ou le support expérimental des variables catégorielles (split selon la méthode de @fisher1958grouping)
 
 ## Comment entraîner un algorithme
 
