@@ -26,15 +26,39 @@ La forêt aléatoire (_random forests_) est une méthode d'apprentissage automat
 L'idée des forêts aléatoires est de tirer parti de la diversité entre les arbres pour réduire la variance du modèle final. 
 
 
+### Guide d'entraînement des RF
 
+#### Les hyperparamètres de la _random forest_
 
+| Hyperparamètre                                                      | Description                                                                 |
+|---------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `num.trees`                         | Le nombre d'arbres                                                          |
+| `mtry`                                                              | Le nombre de variables candidates à chaque noeud                            |
+| `replacement`                                                         | L'échantillonnage des données se fait-il avec ou sans remise?        |
+| `sample.fraction`                                                   | Le taux d'échantillonnage des données             |
+| `min.node.size`                                                   | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé  |
+| `splitrule`                                                   | Le critère de choix du _split_ à chaque noeud             |
+| `min.bucket`                                                   | Nombre minimal d'observations dans les noeuds terminaux             |
+| `max.depth`                                                   | Profondeur maximale des arbres             |
 
+: Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[25,80]"}
 
+Dans ce tableau, le nom des hyperparamètres est celui figurant dans le _package_ `R` `ranger`. Il arrive qu'ils portent un nom différents dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
+__IMPORTANT: ne pas oublier de mettre les noms des arguments XGBRFRegressor dans le commentaire détaillé des hyperparamètres des RF.__
+Bien dire que la source première est @probst2019hyperparameters.
 
+#### Quel est l'effet de chaque paramètre sur la performance de la RF?
 
+Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d'arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l'objectif de l'entraînement d'une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation. Voici comment la performance de la forêt aléatoire varie en fonction des principaux hyperparamètres:
 
+- Le nombre de variables candidates à chaque noeud (`mtry`): une valeur plus basse du nombre de variables candidates aboutit à des arbres plus différents et donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être peu performants car reposant sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 
+- Le plan d'échantillonnage (`replacement` et `sample.fraction`): la taille de l'échantillon a des effets similaires à ceux du nombre de variables candidates. Un taux d'échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car entraînés sur des échantillons de petite taille. Inversement, un taux d'échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. En revanche, il n'y a pas de consensus sur les effets de l'échantillonnage avec ou sans remise sur la performance de la forêt aléatoire.
+
+- Le nombre minimal d'observations dans les noeuds terminaux (`min.node.size`): la plupart des implémentations des forêts aléatoires retiennent une valeur faible par défaut (entre 1 et 5 observations par noeud terminal). Certaines études suggèrent qu'augmenter ce nombre peut parfois améliorer les performances, mais ce point ne fait pas consensus. En revanche, il est certain que le temps d'entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l'entraînement, en particulier si les données sont très volumineuses.
+
+- Le nombre d'arbres (`num.trees`): 
 
 
 
