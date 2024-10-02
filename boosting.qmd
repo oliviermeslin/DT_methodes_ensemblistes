@@ -307,7 +307,7 @@ L'algorithme qui détermine les critère de partition est un enjeu de performanc
 | `max_cat_to_onehot`                                                 | Nombre de modalités en-deça duquel XGBoost utilise le _one-hot-encoding_    | A COMPLETER       |
 | `max_cat_threshold`                                                 | Nombre maximal de catégories considérées dans le partitionnement optimal des variables catégorielles                                   | A COMPLETER       | 
 
-: Les hyperparamètres d'XGBoost {tbl-colwidths="[25,60,15]"}
+: Les principaux hyperparamètres d'XGBoost {tbl-colwidths="[25,60,15]"}
 
 #### La préparation des données
 
