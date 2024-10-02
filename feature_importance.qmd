@@ -1,0 +1,48 @@
+---
+title: "L'importance des variables"
+author: |
+  [Mélina Hillion](https://github.com/melinahillion)
+  [Olivier Meslin](https://github.com/oliviermeslin)
+format:
+  ams-typst: default
+  typst:
+    toc: true
+    section-numbering: 1.1.1
+bibliography: references.bib
+---
+  
+```{=typst} 
+#import "@preview/mitex:0.2.4": *
+#set math.equation(
+numbering: "(1)",
+supplement: none
+)
+```
+
+# Les mesures d'importance
+
+## Sources à mobiliser
+
+- Facile à lire:
+    - Le cours de Sébastien Da Veiga, chapitre 4.
+    - HOML, section 16.3.
+    - @probst2019hyperparameters, section 2.2.
+    - les mesures d'importance dans XGBoost d'après la doc: chercher `get_score()` dans [cette page](https://xgboost.readthedocs.io/en/latest/python/python_api.html).
+- Plus dur à lire:
+    - la thèse de Gilles Louppe, chapitres 6 et 7.
+    - Peut-être: citer rapidement @strobl2007bias pour dire que certaines mesures d'importance sont très biaisées.
+
+## Proposition de plan
+
+- Suivre de près le cours de Sébastien. Présenter les mesures d'importance des RF. 
+- Expliquer que dans le boosting il existe d'autres mesures d'importance.
+- Expliquer les limites de ces mesures, et l'usage que l'on peut en faire.
+
+
+
+
+
+
+
+
+
