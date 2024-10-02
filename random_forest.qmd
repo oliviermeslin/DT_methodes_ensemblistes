@@ -32,11 +32,11 @@ L'idée des forêts aléatoires est de tirer parti de la diversité entre les ar
 
 | Hyperparamètre                                                      | Description                                                                 |
 |---------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| `num.trees`                         | Le nombre d'arbres                                                          |
 | `mtry`                                                              | Le nombre de variables candidates à chaque noeud                            |
-| `replacement`                                                         | L'échantillonnage des données se fait-il avec ou sans remise?        |
+| `replacement`                                                       | L'échantillonnage des données se fait-il avec ou sans remise?        |
 | `sample.fraction`                                                   | Le taux d'échantillonnage des données             |
-| `min.node.size`                                                   | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé  |
+| `min.node.size`                                                     | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé  |
+| `num.trees`                                                         | Le nombre d'arbres                                                          |
 | `splitrule`                                                   | Le critère de choix du _split_ à chaque noeud             |
 | `min.bucket`                                                   | Nombre minimal d'observations dans les noeuds terminaux             |
 | `max.depth`                                                   | Profondeur maximale des arbres             |
@@ -48,7 +48,7 @@ Dans ce tableau, le nom des hyperparamètres est celui figurant dans le _package
 __IMPORTANT: ne pas oublier de mettre les noms des arguments XGBRFRegressor dans le commentaire détaillé des hyperparamètres des RF.__
 Bien dire que la source première est @probst2019hyperparameters.
 
-#### Quel est l'effet de chaque paramètre sur la performance de la RF?
+#### Quels sont les effets des hyperparamètres sur la performance de la forêt aléatoire?
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d'arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l'objectif de l'entraînement d'une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation. Voici comment la performance de la forêt aléatoire varie en fonction des principaux hyperparamètres:
 
@@ -58,7 +58,10 @@ Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictiv
 
 - Le nombre minimal d'observations dans les noeuds terminaux (`min.node.size`): la plupart des implémentations des forêts aléatoires retiennent une valeur faible par défaut (entre 1 et 5 observations par noeud terminal). Certaines études suggèrent qu'augmenter ce nombre peut parfois améliorer les performances, mais ce point ne fait pas consensus. En revanche, il est certain que le temps d'entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l'entraînement, en particulier si les données sont très volumineuses.
 
-- Le nombre d'arbres (`num.trees`): 
+- Le nombre d'arbres (`num.trees`) est un hyperparamètre particulier car il n'est associé à aucun arbitrage: la performance de la forêt aléatoire croît avec le nombre d'arbres, puis se stabilise. Le nombre optimal d'arbres est donc intuitivement celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas). Il est important de noter que ce nombre optimale dépend des autres hyperparamètres. Par exemple, un taux d'échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d'arbres.
+
+
+
 
 
 
