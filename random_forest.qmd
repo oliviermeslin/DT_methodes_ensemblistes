@@ -45,6 +45,7 @@ supplement: none
 // Tableau zébré
 #set table(
   fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+  stroke: 0.5pt + rgb("666675"),
 )
 ```
 
@@ -69,17 +70,19 @@ Il existe de multiples implémentations des forêts aléatoires. Le présent doc
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
 ```{=typst}
+
 #figure(
   table(
-    columns: (2fr, 2fr, 6fr,),
+    columns: (3fr, 3fr, 6fr,),
     // align: (center, center, center),
     table.header(
-      table.cell(colspan: 2, "Hyperparamètre"),
+      table.cell(colspan: 2)[
+        Hyperparamètre \ 
+        #text(box(image("./icons/logo-R.svg", height:2.4em))) #h(2.7cm) #text(box(image("./icons/logo-python.svg", height:2em))) \
+        #h(0.8cm) #text(weight: "regular")[`ranger`] #h(1.8cm)   #text(weight: "regular")[`scikit-learn`]
+      ],
       [Description]
     ),
-    [#text(box(image("./icons/logo-R.svg", height:2em))) \ `ranger`],
-    [#text(box(image("./icons/logo-python.svg", height:2em))) \ `scikit-learn`],
-    [],
     [ `mtry`   ], [ `max_features`                 ], [Le nombre de variables candidates à chaque noeud                              ],
     [ `replacement`   ], [                         ], [L'échantillonnage des données se fait-il avec ou sans remise?                 ],
     [ `sample.fraction`   ], [ `max_samples`       ], [Le taux d'échantillonnage des données                                         ],
@@ -93,25 +96,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 ) <tbl-hyp-rf>
 ```
 
-```{=typst}
-#table(
-  align: center,
-  columns: 3,
-  // First row (default alignment)
-  [ "Header 1", "Header 2", "Header 3" ],
-  // Second row (centered)
-  align(center)[ "Cell 1"],
-  align(center)[ "Cell 2"],
-  align(center)[ "Cell 3"],
-  // Third row (default alignment)
-  [ "Data 1", "Data 2", "Data 3" ]
-)
-```
-
-
-
-
-
+<!-- 
 | Hyperparamètre (`ranger` / `scikit-learn`) |                                  Description                                  |
 | ------------------------------------------ | ----------------------------------------------------------------------------- |
 | `mtry`   / `max_features`                  | Le nombre de variables candidates à chaque noeud                              |
@@ -121,7 +106,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 | `num.trees`   / `n_estimators`             | Le nombre d'arbres                                                            |
 | `splitrule` / `criterion`                  | Le critère de choix de la règle de division des noeuds intermédiaires         |
 | `min.bucket`  / `min_samples_split`        | Nombre minimal d'observations dans les noeuds terminaux                       |
-| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
+| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                | -->
 
 : Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
 
