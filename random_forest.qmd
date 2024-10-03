@@ -19,6 +19,35 @@ supplement: none
 )
 ```
 
+
+```{=typst}
+#import "@preview/mitex:0.2.4": *
+#set math.equation(
+  numbering: "(1)",
+  supplement: none
+  )
+
+#set page("a4")
+
+#set text(font: "IBM Plex Sans")
+
+// Bold titles.
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+// Tableaux alignés à gauche, sauf première ligne centrée
+#show table.cell: set align(left+horizon)
+#show table.cell.where(y: 0): set align(center+horizon)
+
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
+// Tableau zébré
+#set table(
+  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+)
+```
+
 # La forêt aléatoire
 
 La forêt aléatoire (_random forests_) est une méthode d'apprentissage automatique supervisé qui combine plusieurs arbres de décision pour former un modèle d'ensemble plus performant et robuste/stable que les arbres individuels (Breiman en 2001).
@@ -37,9 +66,51 @@ Il existe de multiples implémentations des forêts aléatoires. Le présent doc
 
 #### Quels sont les hyperparamètres des forêts aléatoires?
 
-Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau @tbl-hyp-rf. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
+Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
-:::
+
+```{=typst}
+#figure(
+  table(
+    columns: (2fr, 2fr, 6fr,),
+    // align: (center, center, center),
+    table.header(
+      table.cell(colspan: 2, "Hyperparamètre"),
+      [Description]
+    ),
+    [#text(box(image("./icons/logo-R.svg", height:2em))) \ `ranger`],
+    [#text(box(image("./icons/logo-python.svg", height:2em))) \ `scikit-learn`],
+    [],
+    [ `mtry`   ], [ `max_features`                 ], [Le nombre de variables candidates à chaque noeud                              ],
+    [ `replacement`   ], [ absent                  ], [L'échantillonnage des données se fait-il avec ou sans remise?                 ],
+    [ `sample.fraction`   ], [ `max_samples`       ], [Le taux d'échantillonnage des données                                         ],
+    [ `min.node.size`   ], [ `min_samples_leaf`    ], [Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé ],
+    [ `num.trees`   ], [ `n_estimators`            ], [Le nombre d'arbres                                                            ],
+    [ `splitrule` ], [ `criterion`                 ], [Le critère de choix de la règle de division des noeuds intermédiaires         ],
+    [ `min.bucket`  ], [ `min_samples_split`       ], [Nombre minimal d'observations dans les noeuds terminaux                       ],
+    [ `max.depth`  ], [ `max_depth`                ], [Profondeur maximale des arbres                                                ],
+  ),
+    caption: [ Les principaux hyperparamètres des forêts aléatoires],
+) <tbl-hyp-rf>
+```
+
+```{=typst}
+#table(
+  align: center,
+  columns: 3,
+  // First row (default alignment)
+  [ "Header 1", "Header 2", "Header 3" ],
+  // Second row (centered)
+  align(center)[ "Cell 1"],
+  align(center)[ "Cell 2"],
+  align(center)[ "Cell 3"],
+  // Third row (default alignment)
+  [ "Data 1", "Data 2", "Data 3" ]
+)
+```
+
+
+
 
 
 | Hyperparamètre (`ranger` / `scikit-learn`) |                                  Description                                  |
@@ -53,9 +124,9 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 | `min.bucket`  / `min_samples_split`        | Nombre minimal d'observations dans les noeuds terminaux                       |
 | `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
 
-: Les principaux hyperparamètres des forêts aléatoires {#tbl-hyp-rf tbl-colwidths="[30,70]"}
+: Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
 
-- Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt(p)$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
+- Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 
 - Le __taux d'échantillonnage__ et le __mode de tirage__ contrôlent le plan d'échantillonnage des données d'entraînement. Les valeurs par défaut varient d'une implémentation à l'autre; dans le cas de `ranger`, le taux d'échantillonnage est de 63,2% sans remise, et de 100% avec remise. L'implémentation `scikit-learn` ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais dans une moindre ampleur. Un taux d'échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d'échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l'échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu'il est préférable d'échantillonner sans remise (@probst2019hyperparameters).
 

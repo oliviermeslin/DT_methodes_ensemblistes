@@ -28,8 +28,8 @@ bibliography: references.bib
 #show table.cell.where(y: 0): set text(weight: "bold")
 
 // Tableaux alignés à gauche, sauf première ligne centrée
-#show table.cell: set align(left)
-#show table.cell.where(y: 0): set align(center)
+#show table.cell: set align(left+horizon)
+#show table.cell.where(y: 0): set align(center+horizon)
 
 #show figure.where(
   kind: table
