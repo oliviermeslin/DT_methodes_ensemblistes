@@ -106,9 +106,10 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 | `num.trees`   / `n_estimators`             | Le nombre d'arbres                                                            |
 | `splitrule` / `criterion`                  | Le critère de choix de la règle de division des noeuds intermédiaires         |
 | `min.bucket`  / `min_samples_split`        | Nombre minimal d'observations dans les noeuds terminaux                       |
-| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                | -->
+| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
 
 : Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
+ -->
 
 - Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 
