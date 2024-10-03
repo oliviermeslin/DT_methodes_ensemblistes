@@ -78,7 +78,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
       [Description]
     ),
     [#text(box(image("./icons/logo-R.svg", height:2em))) \ `ranger`],
-    [#text(box(image("./icons/logo-python2.svg", height:2em))) \ `scikit-learn`],
+    [#text(box(image("./icons/logo-python.svg", height:2em))) \ `scikit-learn`],
     [],
     [ `mtry`   ], [ `max_features`                 ], [Le nombre de variables candidates à chaque noeud                              ],
     [ `replacement`   ], [                         ], [L'échantillonnage des données se fait-il avec ou sans remise?                 ],
