@@ -2,8 +2,8 @@ Source et licence des icones:
 
 logo Python: 
 - source: https://commons.wikimedia.org/wiki/File:Python-logo-notext.svg
-- licence: GNU General Public License
+- licence: Icons8 License
 
 logo R: 
 - source: https://icons8.com/icons/set/r-project
-- licence: Icons8 License
+- licence: GNU General Public License
