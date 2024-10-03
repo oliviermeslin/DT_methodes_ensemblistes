@@ -5,5 +5,5 @@ logo Python:
 - licence: PSF Trademark Usage Policy
 
 logo R: 
-- source: https://icons8.com/icons/set/r-project
+- source: https://commons.wikimedia.org/wiki/File:R_logo.svg
 - licence: GNU General Public License
