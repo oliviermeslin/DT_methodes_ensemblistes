@@ -1,0 +1,9 @@
+Source et licence des icones:
+
+logo Python: 
+- source: https://commons.wikimedia.org/wiki/File:Python-logo-notext.svg
+- licence: GNU General Public License
+
+logo R: 
+- source: https://commons.wikimedia.org/wiki/File:R_logo.svg
+- licence: Creative Commons Attribution-Share Alike 4.0 International license
