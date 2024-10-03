@@ -1,8 +1,8 @@
-Source et licence des icones:
+Source et licence des icônes:
 
 logo Python: 
-- source: https://commons.wikimedia.org/wiki/File:Python-logo-notext.svg
-- licence: Icons8 License
+- source: https://www.python.org/community/logos/
+- licence: PSF Trademark Usage Policy
 
 logo R: 
 - source: https://icons8.com/icons/set/r-project
