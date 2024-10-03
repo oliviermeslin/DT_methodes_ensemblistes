@@ -5,5 +5,5 @@ logo Python:
 - licence: GNU General Public License
 
 logo R: 
-- source: https://commons.wikimedia.org/wiki/File:R_logo.svg
-- licence: Creative Commons Attribution-Share Alike 4.0 International license
+- source: https://icons8.com/icons/set/r-project
+- licence: Icons8 License
