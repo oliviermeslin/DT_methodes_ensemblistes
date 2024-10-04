@@ -43,5 +43,4 @@ jobs:
         with:
           name: compiled-pdf
           path: |
-            document.pdf    # Quarto output
-            main.pdf        # Typst output, if applicable
+            boosting.pdf    # Typst/PDF output
