@@ -32,3 +32,7 @@ jobs:
           name: compiled-pdf
           path: |
             boosting.pdf    # Typst/PDF output
+            
+      - name : machine ls $HOME
+        working-directory : "."
+        run : "ls -la $HOME"
