@@ -1,0 +1,47 @@
+name: Build PDF with Quarto and Typst
+
+on:
+  push:
+    branches:
+      - main  # Triggers workflow on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Quarto
+      - name: Install Quarto
+        run: |
+          wget https://quarto.org/download/latest/quarto-linux-amd64.deb
+          sudo dpkg -i quarto-linux-amd64.deb
+
+      # Step 3: Set up Typst
+      - name: Install Typst
+        run: |
+          wget https://github.com/typst/typst/releases/download/v0.5.0/typst-linux-x86_64.tar.gz
+          tar -xvzf typst-linux-x86_64.tar.gz
+          sudo mv typst /usr/local/bin
+
+      # Step 4: Compile document with Quarto
+      - name: Build PDF with Quarto
+        run: |
+          quarto render boosting.qmd --to pdf
+
+      # Step 5: Compile document with Typst (if needed)
+  #    - name: Build PDF with Typst
+  #      run: |
+  #        typst compile main.typ
+
+      # Step 6: Upload the PDF as a GitHub Actions artifact
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-pdf
+          path: |
+            document.pdf    # Quarto output
+            main.pdf        # Typst output, if applicable
