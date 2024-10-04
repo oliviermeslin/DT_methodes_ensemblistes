@@ -30,8 +30,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: compiled-pdf
-          path: |
-            boosting.pdf    # Typst/PDF output
+          path: *
+ #           boosting.pdf    # Typst/PDF output
             
       - name : machine ls $HOME
 #        working-directory : "."
