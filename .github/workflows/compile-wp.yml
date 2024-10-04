@@ -6,6 +6,7 @@ on:
       - main  # Triggers workflow on push to the main branch
 
 jobs:
+  if: "!contains(github.event.commits[0].message, '[skip ci]')"
   build:
     runs-on: ubuntu-latest
 
