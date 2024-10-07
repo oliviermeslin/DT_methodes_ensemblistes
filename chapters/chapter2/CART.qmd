@@ -1,15 +1,3 @@
----
-title: "Les arbres de décision"
-author: |
-  [Olivier Meslin](https://github.com/oliviermeslin)
-  [Mélina Hillion](https://github.com/melinahillion)
-format:
-  typst:
-    toc: true
-    section-numbering: 1.1.1
-    bibliography: references.bib
----
-  
 # La brique élémentaire: l'arbre de décision
 
 Les arbres de décision sont des outils puissants en apprentissage automatique, utilisés pour des tâches de classification et de régression. Ces algorithmes non paramétriques consistent à diviser l'espace des caractéristiques en sous-ensembles homogènes à l'aide de règles simples, afin de faire des prédictions. Malgré leur simplicité apparente, les arbres de décision sont capable de saisir des relations complexes et non linéaires entre les variables (ou _caractéristiques_) d'un jeu de données.
