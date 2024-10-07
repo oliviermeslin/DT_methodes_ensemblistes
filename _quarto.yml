@@ -1,7 +1,8 @@
 project:
   type: website
   render:
-    - plan_DT.qmd
+    - index.qmd
+    - chapters/chapter2/boosting.qmd
 
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Plan détaillé"
@@ -9,7 +10,6 @@ author: |
   [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
 format:
-  ams-typst: default
   typst:
     toc: true
     section-numbering: 1.1.1
