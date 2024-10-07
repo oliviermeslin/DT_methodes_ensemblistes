@@ -1,0 +1,7 @@
+Questions en suspens:
+
+- Veut-on recommander des implémentations particulières des algorithmes? Si oui, lesquelles?
+=> proposition: ranger et scikit-learn pour les RF, LightGBM de préférence ou XGBoost, uniquement en Python pour le boosting.
+- Faut-il séparer clairement la présentation des algorithmes (DT) et la mise en oeuvre pratique (notebooks) pour éviter que le DT ne périme trop vite?
+=> proposition: oui.
+- Quelles méthodes d'interprétation veut-on présenter?
