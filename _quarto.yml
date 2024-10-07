@@ -1,0 +1,15 @@
+project:
+  type: website
+  render:
+    - plan_DT.qmd
+
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "Plan détaillé"
+author: |
+  [Olivier Meslin](https://github.com/oliviermeslin)
+  [Mélina Hillion](https://github.com/melinahillion)
+format:
+  typst:
+    toc: true
+    section-numbering: 1.1.1
+bibliography: references.bib
