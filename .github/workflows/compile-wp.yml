@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # Triggers workflow on push to the main branch
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,26 +13,14 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Set up Quarto
-      - name: Install Quarto
-        run: |
-          wget https://quarto.org/download/latest/quarto-linux-amd64.deb
-          sudo dpkg -i quarto-linux-amd64.deb
-
-      # Step 3: Compile document with Quarto
-      - name: Build PDF with Quarto
-        run: |
-          quarto render boosting.qmd
-
-      # Step 4: Upload the PDF as a GitHub Actions artifact
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
+      - name: Set up quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        
+      # Step 3: Compile document
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
         with:
-          name: dt-methodes-ensemblistes
-          path: boosting.pdf    # Typst/PDF output
-            
-      - name : machine ls $HOME
-#        working-directory : "."
-        run : "ls -la $HOME"
+          target: gh-pages
