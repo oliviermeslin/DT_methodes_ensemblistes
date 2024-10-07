@@ -31,5 +31,17 @@ supplement: none
 
 Voici un bien livre Typst.
 
+# Survol des méthodes ensemblistes
+
+A COMPLETER
+
+# Méthodes ensemblistes: présentation mathématisée
+
+{{< include "chapters/chapter2/CART.qmd" >}}
+
+{{< include "chapters/chapter2/bagging.qmd" >}}
+
+{{< include "chapters/chapter2/random_forest.qmd" >}}
 
 {{< include "chapters/chapter2/boosting.qmd" >}}
+
