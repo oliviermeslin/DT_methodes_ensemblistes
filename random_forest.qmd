@@ -56,7 +56,7 @@ La forêt aléatoire (_random forests_) est une méthode ensembliste qui consist
 
 ## Principe de la forêt aléatoire
 
-Les Random Forests reposent sur deux éléments essentiels :
+Les forêts aléatoires reposent sur trois éléments essentiels :
 
 - **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon bootstrap, un échantillon aléatoire tiré avec remise du jeu de données d'entraînement. 
 
