@@ -9,8 +9,11 @@ author: |
   [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
 format:
-  ams-typst: default
   typst:
+    template: _extensions/quarto-ext/ams/template.typ
+    template-partials:
+      - _extensions/quarto-ext/ams/typst-template.typ
+      - _extensions/quarto-ext/ams/typst-show.typ
     toc: true
     section-numbering: 1.1.1
 bibliography: references.bib
