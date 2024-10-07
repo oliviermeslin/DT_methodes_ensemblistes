@@ -51,7 +51,7 @@ supplement: none
 
 # La forêt aléatoire
 
-La forêt aléatoire (_random forests_) est une méthode ensembliste qui consiste à agréger de multiples arbres de décision pour améliorer la précision et la robustesse des prédictions du modèle final. Cette méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. La forêt aléatoire va plus loin en introduisant un degré supplémentaire de randomisation : pour chaque division lors de la construction d'un arbre, elle **sélectionne aléatoirement** un sous-ensemble de variables sur lequel sera fondé le critère de séparation. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui renforce la performance globale du modèle agrégé.
+La forêt aléatoire (_random forests_) est une méthode ensembliste qui consiste à agréger plusieurs arbres de décision pour améliorer la précision et la robustesse des prédictions du modèle final. Cette méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Toutefois, la forêt aléatoire va plus loin en introduisant un degré supplémentaire de randomisation : pour chaque division lors de la construction d'un arbre, elle **sélectionne aléatoirement** un sous-ensemble de variables sur lequel sera fondé le critère de séparation. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de renforcer la performance globale du modèle agrégé.
 
 
 ## Principe de la forêt aléatoire
