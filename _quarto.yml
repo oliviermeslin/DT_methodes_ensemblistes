@@ -2,7 +2,6 @@ project:
   type: website
   render:
     - index.qmd
-    - chapters/chapter2/boosting.qmd
 
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Plan détaillé"

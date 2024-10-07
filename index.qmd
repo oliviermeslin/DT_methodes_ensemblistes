@@ -31,3 +31,5 @@ supplement: none
 
 Voici un bien livre Typst.
 
+
+{{< include "chapters/chapter1/boosting.qmd" >}}

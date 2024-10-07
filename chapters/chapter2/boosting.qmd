@@ -1,12 +1,3 @@
-
-```{=typst} 
-#import "@preview/mitex:0.2.4": *
-#set math.equation(
-numbering: "(1)",
-supplement: none
-)
-```
-
 ## Le *boosting*
 
 ### Introduction
