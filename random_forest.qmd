@@ -51,21 +51,55 @@ supplement: none
 
 # La forêt aléatoire
 
-La forêt aléatoire (_random forests_) est une méthode d'apprentissage automatique supervisé qui combine plusieurs arbres de décision pour former un modèle d'ensemble plus performant et robuste/stable que les arbres individuels (Breiman en 2001).
-
-L'idée des forêts aléatoires est de tirer parti de la diversité entre les arbres pour réduire la variance du modèle final. 
+La forêt aléatoire (_random forests_) est une méthode ensembliste qui consiste à agréger de multiples arbres de décision pour améliorer la précision et la robustesse des prédictions du modèle final. Cette méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. La forêt aléatoire va plus loin en introduisant un degré supplémentaire de randomisation : pour chaque division lors de la construction d'un arbre, elle **sélectionne aléatoirement** un sous-ensemble de variables sur lequel sera fondé le critère de séparation. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui renforce la performance globale du modèle agrégé.
 
 
-### Guide d'entraînement des forêts aléatoires
+## Principe de la forêt aléatoire
+
+Les Random Forests reposent sur deux éléments essentiels :
+
+- **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon bootstrap, un échantillon aléatoire tiré avec remise du jeu de données d'entraînement. 
+
+- **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction de chaque arbre, et à chaque nœud de celui-ci, un sous-ensemble aléatoire de caractéristiques est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires. 
+
+- **L'agrégation des prédictions** : Comme pour le bagging, les prédictions de tous les arbres sont agrégées, en procédant généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification, afin d'obtenir des prédictions plus précises et généralisables.
+
+
+## Pourquoi (et dans quelles situations) la random forest fonctionne
+
+
+
+
+
+
+
+
+## Guide d'entraînement des forêts aléatoires
 
 Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
 
-#### Quelle implémentation utiliser?
+### Mode de construction d'une forêt aléatoire
+
+Le processus pour construire une Random Forest se résume comme suit :
+
+- Sélectionnez le nombre d'arbres à construire (n_trees).
+- Pour chaque arbre, effectuez les étapes suivantes :
+  - Générer un échantillon bootstrap à partir du jeu de données.
+  - Construire un arbre de décision à partir de cet échantillon :
+  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (mtry).
+  - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
+  - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
+- Agréger les arbres pour effectuer les prédictions finales :
+  - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
+  - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue.
+
+
+### Quelle implémentation utiliser?
 
 Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l'usage de deux implémentations de référence: le _package_ `R` `ranger` et le _package_ `Python` `scikit-learn`. Il est à noter qu'il est possible d'entraîner des forêts aléatoires avec les algorithmes `XGBoost` et `LightGBM`, mais il s'agit d'un usage avancé qui n'est recommandé en première approche. Cette approche est présentée dans la partie __REFERENCE A LA PARTIE USAGE AVANCE__.
 
 
-#### Quels sont les hyperparamètres des forêts aléatoires?
+### Quels sont les hyperparamètres des forêts aléatoires?
 
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
@@ -121,7 +155,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 
 - Le __critère de choix de la règle de division des noeuds intermédiaires__: la plupart des implémentations des forêts aléatoires retiennent par défaut l'impureté de Gini pour la classification et la variance pour la régression, même si d'autres critères de choix ont été proposés dans la littérature. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans @probst2019hyperparameters.
 
-#### Comment entraîner une forêt aléatoire?
+### Comment entraîner une forêt aléatoire?
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d'arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l'objectif de l'entraînement d'une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation. 
 
