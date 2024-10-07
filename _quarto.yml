@@ -1,5 +1,5 @@
 project:
-  type: book
+  type: website
   render:
     - index.qmd
     - chapters/chapter2/boosting.qmd
@@ -10,7 +10,5 @@ author: |
   [Olivier Meslin](https://github.com/oliviermeslin)
   [Mélina Hillion](https://github.com/melinahillion)
 format:
-  typst:
-    toc: true
-    section-numbering: 1.1.1
+  ams-typst: default
 bibliography: references.bib
