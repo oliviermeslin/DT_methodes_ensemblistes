@@ -38,11 +38,9 @@ Les méthodes ensemblistes présentent plusieurs avantages par rapport aux méth
 
 Inconvénients rapport à la régression linéaire/régression logistique
 
-- Moins interprétables : L'une des principales limites des méthodes ensemblistes à base d'arbres est leur manque d'interprétabilité. Contrairement à une régression linéaire où les coefficients peuvent être facilement interprétés comme des contributions directes des variables explicatives, les modèles ensemblistes sont plus difficiles à interpréter. Bien que des méthodes comme l'importance des variables ou SHAP permettent d'expliquer partiellement les modèles, l'explicabilité est globalement plus faible.
+- Moins interprétables : L'une des principales limites des méthodes ensemblistes à base d'arbres est leur manque d'interprétabilité. Contrairement à une régression linéaire où les coefficients peuvent être facilement interprétés comme des contributions directes des variables explicatives, les modèles ensemblistes sont plus difficiles à interpréter. Bien que de multiples approches permettent d'interpétrer partiellement les modèles, leur explicabilité reste globalement plus faible que celle des méthodes traditionnelles.
 
-- Coût computationnel élevé : Les méthodes ensemblistes, en particulier les forêts aléatoires et les algorithmes de boosting, peuvent être plus coûteuses en termes de temps de calcul et de mémoire. Elles impliquent de générer et d'entraîner de nombreux arbres, ce qui peut être particulièrement lourd sur de grands jeux de données ou des problèmes avec beaucoup de caractéristiques.
-
-- Nécessité d'une optimisation plus complexe : Les modèles ensemblistes ont souvent de nombreux hyperparamètres à ajuster (nombre d'arbres, profondeur maximale, nombre de caractéristiques à sélectionner, etc.). Cela nécessite généralement une validation croisée et des méthodes d'optimisation avancées, ce qui peut être plus complexe que pour des modèles linéaires où l'ajustement est plus direct.
+- Nécessité d'une optimisation plus complexe : Les modèles ensemblistes ont souvent de nombreux hyperparamètres à ajuster (nombre d'arbres, profondeur maximale, nombre de caractéristiques à sélectionner, etc.). Cela nécessite généralement une validation croisée et des méthodes d'optimisation avancées, ce qui peut être plus complexe que pour des modèles plus paramétriques dont l'estimation est plus rapide.
 
 ##### Par rapport au _deep learning_
 
