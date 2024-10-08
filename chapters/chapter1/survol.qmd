@@ -28,13 +28,13 @@ Inconvénients:
 
 ##### Par rapport à la régression linéaire/régression logistique
 
-Avantages rapport à la régression linéaire/régression logistique
+Les méthodes ensemblistes présentent plusieurs avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):
 
-- Les méthodes ensemblistes ont une __puissance prédictive supérieure__ en raison de la souplesse de leur forme fonctionnelle: les arbres de régression et de décision sur lesquels reposent les méthodes ensemblistes peuvent modéliser facilement des non-linéarités de la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst} et des interactions non linéaires entre variables explicatives _sans avoir à les spécifier explicitement_, alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}.
+- Elles ont une __puissance prédictive supérieure__ en raison de la souplesse de leur forme fonctionnelle: les arbres de régression et de décision sur lesquels elles reposent peuvent modéliser facilement des non-linéarités de la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst} et des interactions non linéaires entre variables explicatives _sans avoir à les spécifier explicitement_ au préalable, alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}.
 
-- Les méthodes ensemblistes à base d'arbres nécessitent __moins de préparation des données__: elles ne requièrent pas de normalisation des variables explicatives et peuvent s'accomoder des valeurs manquantes (selon des techniques variables selon les algorithmes).
+- Elles nécessitent __moins de préparation des données__: elles ne requièrent pas de normalisation des variables explicatives et peuvent s'accommoder des valeurs manquantes (selon des techniques variables selon les algorithmes).
 
-- Les méthodes ensemblistes à base d'arbres sont généralement __moins sensibles aux valeurs aberrantes à l'hétéroscédasticité__ que les approches traditionnelles.
+- Elles sont généralement __moins sensibles aux valeurs extrêmes et à l'hétéroscédasticité__ des variables explicatives que les approches traditionnelles.
 
 Inconvénients rapport à la régression linéaire/régression logistique
 
