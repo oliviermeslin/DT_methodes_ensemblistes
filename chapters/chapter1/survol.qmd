@@ -24,6 +24,31 @@ Inconvénients:
 - Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
 - Risque de surapprentissage.
 
+#### Comparaison avec les autres méthodes
+
+##### Par rapport à la régression linéaire/régression logistique
+
+Avantages rapport à la régression linéaire/régression logistique
+
+- Les méthodes ensemblistes ont une __puissance prédictive supérieure__ en raison de la souplesse de leur forme fonctionnelle: les arbres de régression et de décision sur lesquels reposent les méthodes ensemblistes peuvent modéliser facilement des non-linéarités de la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst} et des interactions non linéaires entre variables explicatives _sans avoir à les spécifier explicitement_, alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}.
+
+- Les méthodes ensemblistes à base d'arbres nécessitent __moins de préparation des données__: elles ne requièrent pas de normalisation des variables explicatives et peuvent s'accomoder des valeurs manquantes (selon des techniques variables selon les algorithmes).
+
+- Les méthodes ensemblistes à base d'arbres sont généralement __moins sensibles aux valeurs aberrantes à l'hétéroscédasticité__ que les approches traditionnelles.
+
+Inconvénients rapport à la régression linéaire/régression logistique
+
+- Moins interprétables : L'une des principales limites des méthodes ensemblistes à base d'arbres est leur manque d'interprétabilité. Contrairement à une régression linéaire où les coefficients peuvent être facilement interprétés comme des contributions directes des variables explicatives, les modèles ensemblistes sont plus difficiles à interpréter. Bien que des méthodes comme l'importance des variables ou SHAP permettent d'expliquer partiellement les modèles, l'explicabilité est globalement plus faible.
+
+- Coût computationnel élevé : Les méthodes ensemblistes, en particulier les forêts aléatoires et les algorithmes de boosting, peuvent être plus coûteuses en termes de temps de calcul et de mémoire. Elles impliquent de générer et d'entraîner de nombreux arbres, ce qui peut être particulièrement lourd sur de grands jeux de données ou des problèmes avec beaucoup de caractéristiques.
+
+- Nécessité d'une optimisation plus complexe : Les modèles ensemblistes ont souvent de nombreux hyperparamètres à ajuster (nombre d'arbres, profondeur maximale, nombre de caractéristiques à sélectionner, etc.). Cela nécessite généralement une validation croisée et des méthodes d'optimisation avancées, ce qui peut être plus complexe que pour des modèles linéaires où l'ajustement est plus direct.
+
+##### Par rapport au _deep learning_
+
+
+Alors que les approches de _deep learning_ sans conteste très performantes pour le traitement du langage naturel et le traitement d'image, leur supériorité n'est pas établie pour les problèmes mobilisant des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d'arbres sont soit plus performantes que le _deep learning_ (@grinsztajn2022tree, @shwartz2022tabular), soit font jeu égal avec lui (@mcelfresh2024neural). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d'approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes s'avèrent souvent plus rapides à entraîner et moins exigeantes en ressources informatiques, et le choix des hyperparamètres s'avère souvent moins complexe (@shwartz2022tabular).
+
 
 ### L'union fait la force
 
