@@ -1,0 +1,131 @@
+__Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
+
+## Principe des méthodes ensemblistes
+
+### Pourquoi utiliser des méthodes ensemblistes?
+
+Avantages: 
+
+- Méthodes adaptées à un grand nombre de cas d'usage de la statistique publique:
+  
+    - Elles sont notamment applicables à tous les problèmes pour lesquels on utilise une régression linéaire ou une régression logistisque);
+    - Elles s'appliquent à des données tabulaires (enregistrements en lignes, variables en colonnes), situation très fréquente dans la statistique publique.
+    
+    
+- Performances quasi systématiquement supérieures aux méthodes économétriques traditionnelles;
+- Scalabilité: ces méthodes peuvent être appliquées à des données volumineuses;
+- Coût d'entrée modéré (comparé à des approches plus avancées comme le _deep learning_)
+
+Inconvénients:
+  
+- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis) -> comme toutes les méthodes statistiques je dirais. Et avec l'arrivée de chat GPT & co ou avec une bonne documentation le coût d'entrée est moindre.
+- Temps d'entraînement potentiellement long, notamment pour l'optimisation des hyperparamètres.
+- Ces méthodes peuvent nécessiter une puissance de calcul importante et/ou une mémoire vive de grande taille.
+- Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
+- Risque de surapprentissage.
+
+
+### L'union fait la force
+
+Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
+
+Il existe quatre grandes approches ensemblistes: 
+
+- le _bagging_;
+- la _random forest_
+- le _stacking_;
+- le _boosting_.
+
+Le présent document se concentre sur deux approches: la _radom forest_ et le _boosting_.
+
+
+Les méthodes ensemblistes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
+
+Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont entrainés en parallèle, chaque modèle de base est entraîné pour la même tâche de prédiction en utilisant un sous-ensemble de l'échantillon d'entraînement, un sous-ensemble de variables, ou une combinaison des deux. Les techniques les plus populaires sont le bagging et la forêt aléatoire. 
+Lorsque les modèles de base sont entrainés de manière séquentielle, appelée boosting, chaque modèle vise à minimiser l'erreur de prédiction du modèle précédent. Les implémentations les plus courantes du boosting sont actuellement XGBoost, CatBoost et LightGBM.
+
+
+## Comment fonctionnent les méthodes ensemblistes?
+
+Quatre temps:
+  
+- les arbres de décision et de régression (CART);
+- les forêts aléatoires;
+- le boosting.
+
+### Le point de départ: les arbres de décision et de régression
+
+Présenter _decision tree_ et _regression tree_. Reprendre des éléments du chapitre 9 de https://bradleyboehmke.github.io/HOML/
+  
+Principes d'un arbre: 
+
+- fonction constante par morceaux;
+- partition de l'espace;
+- interactions entre variables.
+
+Illustration, et représentation graphique (sous forme d'arbre et de graphique).
+
+
+
+### Critères de performance et sélection d'un modèle 
+
+La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
+
+
+
+
+## Le _bagging_, les _random forests_ et le _boosting_
+
+Il existe plusieurs types de méthodes ensemblistes, toutes ayant en commun la combinaison de modèles élémentaires. Le présent document présente les 3 principales méthodes : le Bagging, la Random Forests et le Boosting.
+
+### Le _bagging_ (Bootstrap Aggregating)
+
+Présenter le _bagging_ en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML.
+Mettre une description de l'algorithme en pseudo-code?
+
+- Présentation avec la figure en SVG;
+- Illustration avec un cas d'usage de classification en deux dimensions.
+
+
+
+Le bagging, ou Bootstrap Aggregating, est une méthode ensembliste qui comporte trois étapes principales :
+
+    Création de sous-échantillons : À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (bootstrapping). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises. Cette technique permet de diversifier les données d'entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.
+
+    Entraînement parallèle : Un modèle distinct est entraîné sur chaque sous-échantillon de manière indépendante. Cette technique permet un gain d'efficacité et un meilleur contrôle du surapprentissage (overfitting).
+
+    Agrégation des prédictions : Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu'en régression, elle correspond généralement à la moyenne des prédictions. En combinant les prédictions de plusieurs modèles, le bagging renforce la stabilité et la performance globale de l'algorithme, notamment en réduisant la variance des prédictions.
+
+
+Le bagging appliqué aux arbres de décision est la forme la plus courante de cette technique.
+
+Le bagging est particulièrement efficace pour réduire la variance des modèles, ce qui les rend moins vulnérables au surapprentissage. Cette caractéristique est particulièrement utile dans les situations où la robustesse et la capacité de généralisation des modèles sont cruciales. De plus, comme le bagging repose sur des processus indépendants, l'exécution est plus plus rapide dans des environnements distribués.
+
+Cependant, bien que chaque modèle de base soit construit indépendamment sur des sous-échantillons distincts, les variables utilisées pour générer ces modèles ne sont pas forcément indépendantes d'un modèle à l'autre. Dans le cas du bagging appliqué aux arbres de décision, cela conduit souvent à des arbres ayant une structure similaire. 
+
+Les forêts aléatoires apportent une amélioration à cette approche en réduisant cette corrélation entre les arbres, ce qui permet d'augmenter la précision de l'ensemble du modèle.
+
+
+    
+### Les _random forests_
+
+Expliquer que les _random forests_ sont une amélioration du _bagging_, en reprenant des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/
+
+<!-- https://neptune.ai/blog/ensemble-learning-guide -->
+<!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
+
+- Présentation avec la figure en SVG;
+- Difficile d'illustrer avec un exemple (car on ne peut pas vraiment représenter le _feature sampling_);
+- Bien insister sur les avantages des RF: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
+
+### Le _boosting_
+
+Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.
+
+Le *boosting* combine l'[**approche ensembliste**]{.orange} avec une [**modélisation additive par étapes**]{.orange} (*forward stagewise additive modeling*).
+
+- Présentation;
+- Avantage du boosting: performances particulièrement élevées.
+- Inconvénients: 1/ nombre élevé d'hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d'overfitting.
+
+- Préciser qu'il est possible d'utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.
