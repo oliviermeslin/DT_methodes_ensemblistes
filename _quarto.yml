@@ -10,6 +10,7 @@ author: |
   [Mélina Hillion](https://github.com/melinahillion)
 format:
   typst:
+    output-file: dt_methodes_ensemblistes.pdf
     template: _extensions/quarto-ext/ams/template.typ
     template-partials:
       - _extensions/quarto-ext/ams/typst-template.typ
