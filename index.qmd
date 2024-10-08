@@ -29,7 +29,7 @@ supplement: none
 
 # Abstract {.unnumbered}
 
-Voici un bien livre Typst.
+Voici un bien beau livre Typst.
 
 # Survol des méthodes ensemblistes
 
