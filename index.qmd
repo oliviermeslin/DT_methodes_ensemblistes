@@ -33,7 +33,7 @@ Voici un bien livre Typst.
 
 # Survol des méthodes ensemblistes
 
-A COMPLETER
+{{< include "chapters/chapter1/comparaison_GB_RF.qmd" >}}
 
 # Méthodes ensemblistes: présentation mathématisée
 
@@ -45,3 +45,6 @@ A COMPLETER
 
 {{< include "chapters/chapter2/boosting.qmd" >}}
 
+# Comment (bien) utiliser les approches ensemblistes
+
+{{< include "chapters/chapter3/guide_usage_RF.qmd" >}}
