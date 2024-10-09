@@ -1,8 +1,30 @@
 __Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
 
+
+
+## Que sont les méthodes ensemblistes?
+
+### L'union fait la force
+
+Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
+
+Il existe quatre grandes approches ensemblistes: 
+
+- le _bagging_;
+- la _random forest_;
+- le _stacking_;
+- le _boosting_.
+
+Le présent document se concentre sur deux approches: la _random forest_ et le _boosting_.
+
+
+Les méthodes ensemblistes désignent un ensemble d'algorithmes d'apprentissage supervisé (notamment les forêts aléatoires et le _boosting_) développés depuis le début des années 2000. Ces méthodes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
+
+Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont _entrainés en parallèle_, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d'entraînement, soit un sous-ensemble des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire. Les implémentations les plus courantes des forêts aléatoires sont les _packages_ `ranger` en `R` et `scikit-learn` en Python. Lorsque les modèles de base sont _entrainés de manière séquentielle_, chaque modèle de base vise à minimiser l'erreur de prédiction de  l'ensemble des modèles de base précédents. Les implémentations les plus courantes du _boosting_ sont actuellement XGBoost, CatBoost et LightGBM.
+
 ## Pourquoi utiliser des méthodes ensemblistes?
 
-Les méthodes ensemblistes désignent un ensemble d'algorithmes d'apprentissage supervisé (notamment les forêts aléatoires et le _boosting_) développés depuis le début des années 2000. Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d'usage de la statistique publique, pour deux raisons. D'une part, elles sont conçues pour s'appliquer à des données tabulaires (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D'autre part, elles peuvent être mobilisées dans toutes les situations où on utilise une régression linéaire ou une régression logistisque (imputation, repondération...).
+Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d'usage de la statistique publique, pour deux raisons. D'une part, elles sont conçues pour s'appliquer à des données tabulaires (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D'autre part, elles peuvent être mobilisées dans toutes les situations où on utilise une régression linéaire ou une régression logistisque (imputation, repondération...).
 
 Les méthodes ensemblistes présentent trois avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):
 
@@ -19,26 +41,6 @@ Si les approches de _deep learning_ sont sans conteste très performantes pour l
 :::
 
 
-## Principe des méthodes ensemblistes
-
-### L'union fait la force
-
-Plutôt que de chercher à construire d'emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.
-
-Il existe quatre grandes approches ensemblistes: 
-
-- le _bagging_;
-- la _random forest_
-- le _stacking_;
-- le _boosting_.
-
-Le présent document se concentre sur deux approches: la _radom forest_ et le _boosting_.
-
-
-Les méthodes ensemblistes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
-
-Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu'elles s'appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont entrainés en parallèle, chaque modèle de base est entraîné pour la même tâche de prédiction en utilisant un sous-ensemble de l'échantillon d'entraînement, un sous-ensemble de variables, ou une combinaison des deux. Les techniques les plus populaires sont le bagging et la forêt aléatoire. 
-Lorsque les modèles de base sont entrainés de manière séquentielle, appelée boosting, chaque modèle vise à minimiser l'erreur de prédiction du modèle précédent. Les implémentations les plus courantes du boosting sont actuellement XGBoost, CatBoost et LightGBM.
 
 
 ## Comment fonctionnent les méthodes ensemblistes?
@@ -66,6 +68,12 @@ Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 ### Critères de performance et sélection d'un modèle 
 
 La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
+
+
+![Représentation schématique d'un algorithme de forêt aléatoire](figures/rf.svg){#fig-rf}
+
+
+![Représentation schématique d'un algorithme de _boosting_](figures/gb.svg){#fig-gb}
 
 
 
