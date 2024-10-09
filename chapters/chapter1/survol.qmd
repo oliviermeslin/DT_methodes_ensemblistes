@@ -1,52 +1,25 @@
 __Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
 
-## Principe des méthodes ensemblistes
+## Pourquoi utiliser des méthodes ensemblistes?
 
-### Pourquoi utiliser des méthodes ensemblistes?
+Les méthodes ensemblistes désignent un ensemble d'algorithmes d'apprentissage supervisé (notamment les forêts aléatoires et le _boosting_) développés depuis le début des années 2000. Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d'usage de la statistique publique, pour deux raisons. D'une part, elles sont conçues pour s'appliquer à des données tabulaires (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D'autre part, elles peuvent être mobilisées dans toutes les situations où on utilise une régression linéaire ou une régression logistisque (imputation, repondération...).
 
-Avantages: 
+Les méthodes ensemblistes présentent trois avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):
 
-- Méthodes adaptées à un grand nombre de cas d'usage de la statistique publique:
-  
-    - Elles sont notamment applicables à tous les problèmes pour lesquels on utilise une régression linéaire ou une régression logistisque);
-    - Elles s'appliquent à des données tabulaires (enregistrements en lignes, variables en colonnes), situation très fréquente dans la statistique publique.
-    
-    
-- Performances quasi systématiquement supérieures aux méthodes économétriques traditionnelles;
-- Scalabilité: ces méthodes peuvent être appliquées à des données volumineuses;
-- Coût d'entrée modéré (comparé à des approches plus avancées comme le _deep learning_)
-
-Inconvénients:
-  
-- Bagage informatique minimal (une bonne maîtrise de Python ou R est un prérequis) -> comme toutes les méthodes statistiques je dirais. Et avec l'arrivée de chat GPT & co ou avec une bonne documentation le coût d'entrée est moindre.
-- Temps d'entraînement potentiellement long, notamment pour l'optimisation des hyperparamètres.
-- Ces méthodes peuvent nécessiter une puissance de calcul importante et/ou une mémoire vive de grande taille.
-- Interprétabilité moindre que les méthodes économétriques traditionnelles (et encore, ça se discute)
-- Risque de surapprentissage.
-
-#### Comparaison avec les autres méthodes
-
-##### Par rapport à la régression linéaire/régression logistique
-
-Les méthodes ensemblistes présentent plusieurs avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):
-
-- Elles ont une __puissance prédictive supérieure__ en raison de la souplesse de leur forme fonctionnelle: les arbres de régression et de décision sur lesquels elles reposent peuvent modéliser facilement des non-linéarités de la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst} et des interactions non linéaires entre variables explicatives _sans avoir à les spécifier explicitement_ au préalable, alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}.
+- Elles ont une __puissance prédictive supérieure__: alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}, les méthodes ensemblistes ne font quasiment aucune hypothèse sur la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst}, et se contentent d'approximer le mieux possible cette relation à partir des données disponibles. En particulier, les modèles ensemblistes peuvent facilement modéliser des __non-linéarités__ de la relation entre $y$ et `#mi("$\mathbf{X}$")`{=typst} et des __interactions__ entre variables explicatives _sans avoir à les spécifier explicitement_ au préalable, alors que les méthodes traditionnelles supposent fréquemment l'existence d'une relation linéaire ou log-linéaire entre $y$ et `#mi("$\mathbf{X}$")`{=typst}.
 
 - Elles nécessitent __moins de préparation des données__: elles ne requièrent pas de normalisation des variables explicatives et peuvent s'accommoder des valeurs manquantes (selon des techniques variables selon les algorithmes).
 
 - Elles sont généralement __moins sensibles aux valeurs extrêmes et à l'hétéroscédasticité__ des variables explicatives que les approches traditionnelles.
 
-Inconvénients rapport à la régression linéaire/régression logistique
+Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu'il existe désormais de multiples approches permettent d'interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste globalement moindre que celle d'une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l'objet d'une optimisation, par exemple au travers d'une validation croisée. Ce processus d'optimisation est généralement plus complexe et plus long que l'estimation d'une régression linéaire ou logistique. En revanche, utiliser des méthodes ensemblistes ne requiert pas de connaissances avancées en informatique ou de puissance de calcul importante.
 
-- Moins interprétables : L'une des principales limites des méthodes ensemblistes à base d'arbres est leur manque d'interprétabilité. Contrairement à une régression linéaire où les coefficients peuvent être facilement interprétés comme des contributions directes des variables explicatives, les modèles ensemblistes sont plus difficiles à interpréter. Bien que de multiples approches permettent d'interpétrer partiellement les modèles, leur explicabilité reste globalement plus faible que celle des méthodes traditionnelles.
-
-- Nécessité d'une optimisation plus complexe : Les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l'objet d'une optimisation, par exemple au travers d'une validation croisée. Ce processus d'optimisation s'avère généralement plus complexe que pour des modèles plus paramétriques dont l'estimation est plus rapide.
-
-##### Par rapport au _deep learning_
+::: {.callout-note title="Et par rapport au _deep learning_?"}
+Si les approches de _deep learning_ sont sans conteste très performantes pour le traitement du langage naturel et le traitement d'image, leur supériorité n'est pas établie pour les applications reposant sur des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d'arbres sont soit plus performantes que les approches de _deep learning_ (@grinsztajn2022tree, @shwartz2022tabular), soit font jeu égal avec elles (@mcelfresh2024neural). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d'approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l'optimisation des hyperparamètres s'avère souvent moins complexe (@shwartz2022tabular).
+:::
 
 
-Alors que les approches de _deep learning_ sont sans conteste très performantes pour le traitement du langage naturel et le traitement d'image, leur supériorité n'est pas établie pour les problèmes mobilisant des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d'arbres sont soit plus performantes que les approches de _deep learning_ (@grinsztajn2022tree, @shwartz2022tabular), soit font jeu égal avec elles (@mcelfresh2024neural). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d'approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l'optimisation des hyperparamètres s'avère souvent moins complexe (@shwartz2022tabular).
-
+## Principe des méthodes ensemblistes
 
 ### L'union fait la force
 
