@@ -157,7 +157,7 @@ Une fois isolé le $k$-ième arbre, on fait un développement limité d'ordre 2 
 
 ```{=typst}
 #mitex(`
-$\mathcal{L}^{(k)} \approx \sum_{i=1}^{n} [\underbrace{l\biggl(y_i, \hat{y}_{i}^{(k-1)})}_{\text{(A)}} + g_i f_k(\mathbf{x}_i\biggr)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \underbrace{\sum_{j=1}^{k-1}\Omega(f_j)}_{\text{(B)}} + \Omega(f_k)$
+$\mathcal{L}^{(k)} \approx \sum_{i=1}^{n} [\underbrace{l(y_i, \hat{y}_{i}^{(k-1)})}_{\text{(A)}} + g_i f_k(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \underbrace{\sum_{j=1}^{k-1}\Omega(f_j)}_{\text{(B)}} + \Omega(f_k)$
 `)
 ```
 ```{=typst}
