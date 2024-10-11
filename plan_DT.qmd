@@ -1,4 +1,4 @@
----
+<!-- ---
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Plan détaillé"
 author: |
@@ -9,7 +9,7 @@ format:
     toc: true
     section-numbering: 1.1.1
 bibliography: references.bib
----
+--- -->
 
 Restriction du champ: méthodes ensemblistes à base d'arbres.
 

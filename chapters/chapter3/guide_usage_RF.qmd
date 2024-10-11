@@ -1,101 +1,3 @@
----
-title: "La forêt aléatoire"
-author: |
-  [Mélina Hillion](https://github.com/melinahillion)
-  [Olivier Meslin](https://github.com/oliviermeslin)
-format:
-  ams-typst: default
-  typst:
-    toc: true
-    section-numbering: 1.1.1
-bibliography: references.bib
----
-  
-```{=typst} 
-#import "@preview/mitex:0.2.4": *
-#set math.equation(
-numbering: "(1)",
-supplement: none
-)
-```
-
-
-```{=typst}
-#import "@preview/mitex:0.2.4": *
-#set math.equation(
-  numbering: "(1)",
-  supplement: none
-  )
-
-#set page("a4")
-
-#set text(font: "IBM Plex Sans")
-
-// Bold titles.
-#show table.cell.where(y: 0): set text(weight: "bold")
-
-// Tableaux alignés à gauche, sauf première ligne centrée
-#show table.cell: set align(left+horizon)
-#show table.cell.where(y: 0): set align(center+horizon)
-
-#show figure.where(
-  kind: table
-): set figure.caption(position: top)
-
-// Tableau zébré
-#set table(
-  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
-  stroke: 0.5pt + rgb("666675"),
-)
-```
-
-# La forêt aléatoire
-
-La forêt aléatoire (_random forests_) est une méthode ensembliste qui consiste à agréger plusieurs arbres de décision pour améliorer la précision et la robustesse des prédictions du modèle final. Cette méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Toutefois, la forêt aléatoire va plus loin en introduisant un degré supplémentaire de randomisation : pour chaque division lors de la construction d'un arbre, elle **sélectionne aléatoirement** un sous-ensemble de variables sur lequel sera fondé le critère de séparation. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de renforcer la performance globale du modèle agrégé.
-
-
-## Principe de la forêt aléatoire
-
-Les forêts aléatoires reposent sur quatre éléments essentiels :
-
-- **Les arbres CART**: Les modèles élémentaires sont des arbres CART non élagués, c'est-à-dire autorisés à pousser jusqu'à l'atteinte d'un critère d'arrêt défini en amont.
-
-- **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon aléatoire tiré avec remise du jeu de données d'entraînement. 
-
-- **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction de chaque arbre, et à chaque nœud de celui-ci, un sous-ensemble aléatoire de caractéristiques est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires.
-
-- **L'agrégation des prédictions** : Comme pour le bagging, les prédictions de tous les arbres sont agrégées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
-
-
-## Pourquoi (et dans quelles situations) la random forest fonctionne
-
-Les travaux de Breiman (2001) ont mis en évidence les propriétés théoriques des forêts aléatoires et ont permis de mieux comprendre pourquoi elles sont particulièrement robustes et performantes.
-
-
-### Convergence et absence de surapprentissage
-
-Contrairement aux arbres de décision, une caractéristique essentielle des forêts aléatoires est qu'elles **convergent** par la Loi des grand nombres vers une erreur limite lorsque le nombre d'arbres augmente/tend vers l'infini. Cela implique que les forêts aléatoires n'entrent pas dans un état de surapprentissage à mesure que le nombre d'arbres augmente, ce qui les rend particulèrement robustes. 
-
-
-Principe de Convergence : Lorsque l'on ajoute plus d'arbres dans la forêt, l'ensemble des prédictions devient plus stable. La Loi des Grands Nombres garantit que les résultats de l'ensemble se rapprochent d'une valeur limite, empêchant le modèle de se dégrader ou de se concentrer excessivement sur les particularités des données d'entraînement. Ainsi, les forêts aléatoires atteignent un point de stabilisation où elles fournissent des résultats fiables, indépendamment du nombre d'arbres.
-
-Résumé clé : En augmentant le nombre d'arbres, la forêt converge vers une limite d'erreur et ne surapprend pas. Cela rend les forêts aléatoires extrêmement robustes, même avec un grand nombre d'arbres.
-
-
-
-### Facteurs déterminants la diminusion de l'erreur de généralisation
-
-L’erreur de généralisation des forêts aléatoires dépend de deux facteurs :
-La force des arbres individuels : Chaque arbre doit être suffisamment précis pour contribuer positivement à l'ensemble. La force se réfère à la capacité d’un arbre individuel à faire des prédictions correctes.
-La corrélation entre les arbres : Une corrélation faible entre les arbres améliore les performances globales. La sélection aléatoire des caractéristiques à chaque nœud diminue cette corrélation, rendant l'ensemble plus efficace.
-
-
-
-
-
-
-
-
 
 ## Guide d'entraînement des forêts aléatoires
 
@@ -153,6 +55,21 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 ) <tbl-hyp-rf>
 ```
 
+<!-- 
+| Hyperparamètre (`ranger` / `scikit-learn`) |                                  Description                                  |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `mtry`   / `max_features`                  | Le nombre de variables candidates à chaque noeud                              |
+| `replacement`   / absent                   | L'échantillonnage des données se fait-il avec ou sans remise?                 |
+| `sample.fraction`   / `max_samples`        | Le taux d'échantillonnage des données                                         |
+| `min.node.size`   / `min_samples_leaf`     | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé |
+| `num.trees`   / `n_estimators`             | Le nombre d'arbres                                                            |
+| `splitrule` / `criterion`                  | Le critère de choix de la règle de division des noeuds intermédiaires         |
+| `min.bucket`  / `min_samples_split`        | Nombre minimal d'observations dans les noeuds terminaux                       |
+| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
+
+: Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
+ -->
+
 - Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 
 - Le __taux d'échantillonnage__ et le __mode de tirage__ contrôlent le plan d'échantillonnage des données d'entraînement. Les valeurs par défaut varient d'une implémentation à l'autre; dans le cas de `ranger`, le taux d'échantillonnage est de 63,2% sans remise, et de 100% avec remise. L'implémentation `scikit-learn` ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais dans une moindre ampleur. Un taux d'échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d'échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l'échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu'il est préférable d'échantillonner sans remise (@probst2019hyperparameters).
@@ -166,6 +83,4 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 ### Comment entraîner une forêt aléatoire?
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d'arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l'objectif de l'entraînement d'une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation. 
-
-
 
