@@ -2,22 +2,37 @@
 
 La forêt aléatoire (_random forests_) est une méthode ensembliste qui consiste à agréger plusieurs arbres de décision pour améliorer la précision et la robustesse des prédictions du modèle final. Cette méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Toutefois, la forêt aléatoire va plus loin en introduisant un degré supplémentaire de randomisation : pour chaque division lors de la construction d'un arbre, elle **sélectionne aléatoirement** un sous-ensemble de variables sur lequel sera fondé le critère de séparation. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de renforcer la performance globale du modèle agrégé.
 
-
 ## Principe de la forêt aléatoire
 
-Les forêts aléatoires reposent sur trois éléments essentiels :
+Les forêts aléatoires reposent sur quatre éléments essentiels :
 
-- **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon bootstrap, un échantillon aléatoire tiré avec remise du jeu de données d'entraînement. 
+- **Les arbres CART**: Les modèles élémentaires sont des arbres CART non élagués, c'est-à-dire autorisés à pousser jusqu'à l'atteinte d'un critère d'arrêt défini en amont.
 
-- **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction de chaque arbre, et à chaque nœud de celui-ci, un sous-ensemble aléatoire de caractéristiques est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires. 
+- **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon aléatoire tiré avec remise du jeu de données d'entraînement.
 
-- **L'agrégation des prédictions** : Comme pour le bagging, les prédictions de tous les arbres sont agrégées, en procédant généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification, afin d'obtenir des prédictions plus précises et généralisables.
+- **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction de chaque arbre, et à chaque nœud de celui-ci, un sous-ensemble aléatoire de caractéristiques est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires.
 
+- **L'agrégation des prédictions** : Comme pour le bagging, les prédictions de tous les arbres sont agrégées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
 
 ## Pourquoi (et dans quelles situations) la random forest fonctionne
 
+Les travaux de Breiman (2001) ont mis en évidence les propriétés théoriques des forêts aléatoires et ont permis de mieux comprendre pourquoi elles sont particulièrement robustes et performantes.
 
+### Convergence et absence de surapprentissage
 
+Contrairement aux arbres de décision, une caractéristique essentielle des forêts aléatoires est qu'elles **convergent** par la Loi des grand nombres vers une erreur limite lorsque le nombre d'arbres augmente/tend vers l'infini. Cela implique que les forêts aléatoires n'entrent pas dans un état de surapprentissage à mesure que le nombre d'arbres augmente, ce qui les rend particulèrement robustes.
+
+Principe de Convergence : Lorsque l'on ajoute plus d'arbres dans la forêt, l'ensemble des prédictions devient plus stable. La Loi des Grands Nombres garantit que les résultats de l'ensemble se rapprochent d'une valeur limite, empêchant le modèle de se dégrader ou de se concentrer excessivement sur les particularités des données d'entraînement. Ainsi, les forêts aléatoires atteignent un point de stabilisation où elles fournissent des résultats fiables, indépendamment du nombre d'arbres.
+
+Résumé clé : En augmentant le nombre d'arbres, la forêt converge vers une limite d'erreur et ne surapprend pas. Cela rend les forêts aléatoires extrêmement robustes, même avec un grand nombre d'arbres.
+
+### Facteurs déterminants la diminution de l'erreur de généralisation
+
+L’erreur de généralisation des forêts aléatoires dépend de deux facteurs :
+
+La force des arbres individuels : Chaque arbre doit être suffisamment précis pour contribuer positivement à l'ensemble. La force se réfère à la capacité d’un arbre individuel à faire des prédictions correctes.
+
+La corrélation entre les arbres : Une corrélation faible entre les arbres améliore les performances globales. La sélection aléatoire des caractéristiques à chaque nœud diminue cette corrélation, rendant l'ensemble plus efficace.
 
 
 
