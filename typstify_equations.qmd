@@ -1,0 +1,107 @@
+---
+title: Toutes les équations passent sans problème en Typst
+format: typst
+---
+
+
+Je peux référencer l'équation @eq-model
+
+
+$$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right), f_k \epsilon \mathcal{F}$$
+
+
+$$\mathcal{F} = \{f(\mathbf{x}) = w_{q(\mathbf{x})}\}(q:\mathbb{R}^m \rightarrow T,w \in \mathbb{R}^T)$$
+
+$$\hat{y}_i^{(0)} = 0$$ 
+$$\hat{y}_i^{(1)} = f_1(x_i) = \hat{y}_i^{(0)} + f_1(x_i)$$
+$$\hat{y}_i^{(2)} = f_1(x_i) + f_2(x_i)= \hat{y}_i^{(1)} + f_2(x_i)$$
+$$\hat{y}_i^{(t)} = \sum_{k=1}^t f_k(x_i)= \hat{y}_i^{(t-1)} + f_t(x_i)$$
+
+$$
+\begin{aligned}
+\mathcal{L}^{(t)} 
+&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(t)}) + \sum_{k=1}^t\Omega(f_k) \\
+&= \sum_{i=1}^{n} l\left(y_i, \hat{y}_{i}^{(t-1)} + f_{t}(\mathbf{x}_i)\right) + \Omega(f_t) + constant
+\end{aligned}
+$$
+
+$$\mathcal{L}^{(t)} \approx \sum_{i=1}^{n} [l(y_i, \hat{y}_{i}^{(t-1)}) + g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \Omega(f_t)$$ 
+
+avec 
+
+$$g_i = \frac{\partial l(y_i, \hat{y}_i^{(t-1)})}{\partial\hat{y}_i^{(t-1)}} \text{et} h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(t-1)})}{{\partial \hat{y}_i^{(t-1)}}^2}$$
+
+
+$$\mathcal{\tilde{L}}^{(t)} = \sum_{i=1}^{n} [g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2$$
+
+$$
+\begin{aligned}
+\mathcal{\tilde{L}}^{(t)} = \bigl[\frac{\Sigma}{\Sigma} &  \bigr] \\
+aa &= bb
+\end{aligned}
+$$
+
+$$
+\begin{align*}
+    \left[a + b\right. &=\left. c + d\right] \\
+    \left[e + f\right. &=\left. g + h\right]
+\end{align*}
+$$
+
+
+$$
+\begin{align*}
+ \mathcal{\tilde{L}}^{(t)} =&   \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i f_t(\mathbf{x}_i)\phantom{\frac{1}{2}} &+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)\bigg]&+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &= \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i w_j &+ \frac{1}{2} h_i w_j^2\bigg] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &= \sum^T_{j=1} \bigg[w_j\sum_{i\in I_{j}} g_i &+ \frac{1}{2} w_j^2 \sum_{i \in I_{j}} h_i + \lambda \bigg] &+ \gamma T
+\end{align*}
+$$
+
+$$\begin{align*}
+\mathcal{L}^{(k)} 
+&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(k)})                         & + \sum_{j=1}^k\Omega(f_j) & \\
+&= \sum_{i=1}^{n} l\biggl(y_i, \hat{y}_{i}^{(k-1)} + \underbrace{f_{k}(\mathbf{x}_i)}_{\text{$k$-ième arbre}}\biggr) & + \sum_{j=1}^{k-1}\Omega(f_j) + \Omega(f_k) & 
+\end{align*}$$
+
+
+$$
+\begin{aligned}
+\frac{dS_1}{dt} &= -\frac{\rho \beta S_1(c_{11} I_1 + c_{12} I_2)}{N} \\
+\frac{dS_2}{dt} &= -\frac{\beta S_2(c_{12} I_1 + c_{22} I_2)}{N} \\
+\frac{dI_1}{dt} &= \frac{ \rho \beta S_1(c_{11} I_1 + c_{12} I_2)}{N} - \gamma I_1 \\
+\frac{dI_2}{dt} &= \frac{\beta S_2(c_{12} I_1 + c_{22} I_2)}{N} - \gamma I_2 \\
+\frac{dR_1}{dt} &= \gamma I_1 \\
+\frac{dR_2}{dt} &= \gamma I_2
+\end{aligned}
+$$ {#eq-model}
+
+$$w_j^{\ast} = -\frac{\sum_{i\in I_j} g_i}{\sum_{i\in I_j} h_i+\lambda}$$
+
+$$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T$$
+
+
+$$obj^{(t)} = \sum_{i=1}^n (y_{i} - (\hat{y}_{i}^{(t-1)} + f_t(x_i)))^2 + \sum_{i=1}^t\Omega(f_i)$$
+
+$$= \sum_{i=1}^n [2(\hat{y}_i^{(t-1)} - y_i)f_t(x_i) + f_t(x_i)^2] + \Omega(f_t) + constant$$
+
+$$obj^{(t)} = \sum_{i=1}^{n} [l(y_i, \hat{y}_i^{(t-1)}) + g_i f_t(x_i) + \frac{1}{2} h_{i} f_{t}^2(x_i)] + \Omega(f_t) + constant$$
+
+$$\sum_{i=1}^n [g_{i} f_{t}(x_i) + \frac{1}{2} h_{i} f_{t}^2(x_i)] + \Omega(f_t)$$
+
+$$f_t(x) = w_{q(x)}, w \in R^{T}, q:R^d\rightarrow \{1,2,...,T\}$$
+
+$$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2 obj^{(t)} \approx \sum_{i=1}^n [g_i w_{q(x_i)} + \frac{1}{2} h_i w_{q(x_i)}^2] + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2$$ 
+
+$$ = \sum^T_{j=1} [(\sum_{i\in I_j} g_i) w_j + \frac{1}{2} (\sum_{i\in I_j} h_i + \lambda) w_j^2 ] + \gamma T \label{equation1} $$
+
+
+$$obj^{(t)} = \sum^T_{j=1} [G_jw_j + \frac{1}{2} (H_j+\lambda) w_j^2] +\gamma T$$
+
+$$G_j = \sum_{i\in I_j} g_i$$
+$$H_j = \sum_{i\in I_j} h_i$$
+
+$$w_j^{\ast} = -\frac{G_j}{H_j+\lambda}$$ 
+
+$$\text{obj}^{\ast} = -\frac{1}{2} \sum_{j=1}^T \frac{G_j^2}{H_j+\lambda} + \gamma T$$
+
+$$Gain = \frac{1}{2} \left[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\right] - \gamma$$
