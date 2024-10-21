@@ -2,7 +2,7 @@
 
 La forêt aléatoire (_random forests_) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l'agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (overfitting).
 
-La méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d'un arbre, puisqu'à chaque nouvelle division (_noeud_), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de renforcer la performance du modèle agrégé en réduisant davantage la variance des prédictions.
+La méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d'un arbre, puisqu'à chaque nouvelle division (_noeud_), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
 
 Objectifs: 
 
@@ -10,7 +10,7 @@ Objectifs:
 
 - comprendre les étapes permettant de construire une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation
 
-- permettre l'optimisation des performances du modèle: fournir une présentation formelle détaillée pour guider le choix des hyperparamètres, la préparation des données, etc.
+- permettre l'optimisation des performances du modèle: fournir une présentation formelle pour guider le choix des hyperparamètres, la préparation des données, etc.
 
 
 ## Principe de la forêt aléatoire 
@@ -33,33 +33,37 @@ Les propriétés théoriques des forêts aléatoires permettent de comprendre po
 
 ### Réduction de la variance par agrégation
 
-L'agrégation de plusieurs arbres dans une forêt aléatoire permet de réduire la variance globale du modèle, ce qui améliore la stabilité et la précision des prédictions en l'absence de biais. La démonstration est présentée dans la section _bagging_.
+L'agrégation de plusieurs arbres dans une forêt aléatoire permet de réduire la variance globale du modèle, ce qui améliore la stabilité et la précision des prédictions lorsque les biais initiaux sont "faibles". La démonstration est présentée dans la section _bagging_.
 
 
 ### Convergence et absence de surapprentissage
 
-Les forêts aléatoires ont la particularité de converger à mesure que le nombre d'arbres augmente. Cela implique  que le modèle ne souffre pas de surapprentissage (également appelé overfitting)lorsqu'un grand nombre d'arbres est ajouté. Cette stabilité est garantie par la Loi des Grands Nombres, qui stipule que l'erreur de généralisation de l'ensemble se stabilise au fur et à mesure que le nombre d'arbres augmente. Cela rend la forêt aléatoire particulièrement robuste.
+Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de consistance pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
+
+Même si la convergence vers le modèle optimal n'est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l'erreur de généralisation de l'ensemble diminue lorsque le **nombre d'arbres** augmente. Cela implique que la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres inclus dans le modèle, ce qui la rend particulièrement robuste.
+
 
 ### Facteurs déterminants la diminution de l'erreur de généralisation
 
 L'erreur de généralisation des forêts aléatoires est influencée par deux facteurs principaux :
 
-- La force (_puissance prédictrice_) des arbres individuels : La force d'un arbre dépend de sa capacité à faire des prédictions correctes (sans biais). Pour que l'ensemble soit performant, chaque arbre doit être suffisamment prédictif.
+- **La force (_puissance prédictrice_) des arbres individuels** : La force d'un arbre dépend de sa capacité à faire des prédictions correctes (sans biais). Pour que l'ensemble soit performant, chaque arbre doit être suffisamment prédictif.
 
-- La corrélation entre les arbres : Une  corrélation faible entre les arbres  améliore les performances globales. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La randomisation des caractéristiques à chaque nœud contribue à réduire cette corrélation, ce qui améliore la précision globale.
+- **La corrélation entre les arbres** : Une  corrélation faible entre les arbres  améliore les performances globales. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La randomisation des caractéristiques à chaque nœud contribue à réduire cette corrélation, ce qui améliore la précision globale.
 
-La décomposition de la variance permet de faire apparaître le rôle de la corrélation entre les arbres:
+Dans le cas de la régression, où l'objectif est de minimiser l'erreur quadratique moyenne, la décomposition de la variance de l'ensemble (la forêt aléatoire) permet de faire apparaître le rôle de la corrélation entre les arbres:
+
 
 $$
-\text{Var}(\hat{f}(x)) = \rho \sigma^2 + \frac{1 - \rho}{M} \sigma^2
+\text{Var}(\hat{f}(x)) = \rho(x) \sigma(x)^2 + \frac{1 - \rho(x)}{M} \sigma(x)^2
 $$
 
-Où $\rho$ est le coefficient de corrélation entre les arbres individuels, $\sigma^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt.
+Où $\rho(x)$ est le coefficient de corrélation entre les arbres individuels, $\sigma(x)^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt.
 
 Conséquences:
 
-- **Si $\rho$ est faible** : La variance est significativement réduite avec l'augmentation du nombre d'arbres $M$.
-- **Si $\rho$ est élevée** : La réduction de variance est moindre, car les arbres sont plus corrélés entre eux.
+- **Si $\rho(x)$ est faible** : La variance est significativement réduite avec l'augmentation du nombre d'arbres $M$.
+- **Si $\rho(x)$ est élevée** : La réduction de variance est moindre, car les arbres sont plus corrélés entre eux.
 
 L'objectif des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais.
 
@@ -127,13 +131,16 @@ L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clé
 
 
 ## Interprétation et importance des variables
-Objectif: sélectionner ou extraire des caractéristiques pertinentes.
+Objectif: Identifier les variables qui contribuent le plus à la prédiction/influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent, établir des règles de décision simplifiées etc.
 
 Méthodes ususelles (mais biaisées): 
 
-- **Permutation** : permuter les valeurs d'une variable et mesurer la diminution de performance lorsque l'on utilise les valeurs permutées par rapport aux valeurs non permutées
+- **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_) : pour chaque variable, on calcule la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants.
 
-- **Réduction moyenne de l'impureté** : calculer la somme des réductions d'impureté attribuables à chaque variable sur l'ensemble des arbres.
+- **Permutation importance** (_Mean Decrease Accuracy_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation.
+
+
+Il est essentiel de noter que ces deux mesures peuvent présenter des **biais** importants. Elles sont notamment sensibles aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes. Elles sont également fortement biaisée en présence de variables explicatives corrélées ou d'interactions complexes avec la cible.
 
 
 
