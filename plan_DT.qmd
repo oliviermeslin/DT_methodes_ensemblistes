@@ -76,7 +76,7 @@ Présenter _decision tree_ et _regression tree_. Reprendre des éléments du cha
 Principes d'un arbre: 
 
 - partition de l'espace des _features_;
-- fonction constante par morceaux;
+- fonction constante par morceaux, avec une valeur unique par feuille;
 - un arbre mobilise notamment les interactions entre variables.
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).

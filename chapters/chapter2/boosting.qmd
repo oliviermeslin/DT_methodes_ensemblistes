@@ -13,37 +13,15 @@ S'il existe plusieurs variantes, les algorithmes de *boosting* suivent la même 
 
 En termes plus techniques, les algorithmes de *boosting* partagent trois caractéristiques communes:
 
--   Ils visent à **trouver une approximation** `#mi("$\hat{F}$")`{=typst} d'une fonction inconnue `#mi("$F*: \mathbf{x} \mapsto y$")`{=typst} à partir d'un ensemble d'entraînement `#mi("$(y_i, \mathbf{x_i})_{i= 1,\dots,n}$")`{=typst};
+-   Ils visent à **trouver une approximation** $\hat{F}$")`{=typst} d'une fonction inconnue $F*: \mathbf{x} \mapsto y$ à partir d'un ensemble d'entraînement $(y_i, \mathbf{x_i})_{i= 1,\dots,n}$;
 -   Ils supposent que la fonction $F*$ peut être approchée par une **somme pondérée de modèles simples** $f$ de paramètres $\theta$:
 
-```{=typst}
-#mitex(` 
-$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
-`)
-```
+$$ F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right) $$
+
 -   ils reposent sur une **modélisation additive par étapes**, qui décompose l'entraînement de ce modèle complexe en une **séquence d'entraînements de petits modèles**. Chaque étape de l'entraînement cherche le modèle simple $f$ qui améliore la puissance prédictive du modèle complet, sans modifier les modèles précédents, puis l'ajoute de façon incrémentale à ces derniers:
 
-```{=typst}
-#mitex(` 
-$F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\hat{\theta}_m})$
-`)
-```
-````{=html}
-<!-- ```{=typst} 
-#import "@preview/algo:0.3.3": algo, i, d, comment, code
+$$ F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\hat{\theta}_m}) $$
 
-#algo(
-  line-numbers: false,
-  title: "Modélisation additive par étape"
-)[
-  if $n < 0$:#i\        // use #i to indent the following lines
-    return null#d\      // use #d to dedent the following lines
-  if $n = 0$ or $n = 1$:#i #comment[you can also]\
-    return $n$#d #comment[add comments!]\
-  return #smallcaps("Fib")$(n-1) +$ #smallcaps("Fib")$(n-2)$
-]    
-``` -->
-````
 
 <!-- Imaginons qu'on veuille entraîner le modèle suivant:
 
@@ -112,7 +90,7 @@ On veut entraîner un modèle comprenant $K$ arbres de régression ou de classif
 
 $$\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right) $$
 
-Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres:
+Chaque arbre $f$ est défini par trois paramètres:
 
 -   sa structure qui est une fonction $q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$ qui à un vecteur d'inputs $\mathbf{x}$ de dimension $m$ associe une feuille terminale de l'arbre);
 -   son nombre de feuilles terminales $T$;
@@ -120,114 +98,88 @@ Chaque arbre `#mi("$f$")`{=typst} est défini par trois paramètres:
 
 Le modèle est entraîné avec une **fonction-objectif** constituée d'une **fonction de perte** $l$ et d'une **fonction de régularisation** $\Omega$. La fonction de perte mesure la distance entre la prédiction $hat(y)$ et la vraie valeur $y$ et présente généralement les propriétés suivantes: elle est convexe et dérivable deux fois, et atteint son minimum lorsque $hat(y) = y$. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles ($T$ élevé) et les arbres avec des poids élevés ($w_t$ élevés en valeur absolue).
 
-```{=typst}
-#mitex(`
-$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{t=1}^T w_j^2$
-
-`) <fct_obj_initial>
-```
-````{=html}
-<!-- ```{=typst} 
-#mitex(`
-$$\mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\hspace{5mm}\text{avec}\hspace{5mm}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$$ + \alpha \sum_{j=1}^T |w_j|$$
-`)
-``` -->
-````
-
-<!-- $\mathcal{F} = \{f(\mathbf{x}) = w_{q(\mathbf{x})}\}(q:\mathbb{R}^m \rightarrow T,w \in \mathbb{R}^T)$ -->
-
-<!-- $\hat{y}_i^{(0)} = 0\\ \hat{y}_i^{(1)} = f_1(x_i) = \hat{y}_i^{(0)} + f_1(x_i)\\ \hat{y}_i^{(2)} = f_1(x_i) + f_2(x_i)= \hat{y}_i^{(1)} + f_2(x_i)\\ ....\\ \hat{y}_i^{(k)} = \sum_{k=1}^t f_k(x_i)= \hat{y}_i^{(k-1)} + f_t(x_i)$ -->
+$$ \mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\text{avec}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{t=1}^T w_j^2 $$ {#eq-fct-obj-initial}
 
 ### Isoler le $k$-ième arbre
 
-La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le $k$-ième arbre, qui pourra ensuite être entraîné seul, une fois que les $k-1$ arbres précédents auront été entraînés. Pour cela, on note `#mi("$\hat{y}_i^{(k)}$")`{=typst} la prédiction à l'issue de l'étape $k$: `#mi("$\hat{y}_i^{(k)} = \sum_{j=1}^t f_j(\mathbf{x}_i)$")`{=typst}, et on écrit la fonction-objectif `#mi("\mathcal{L}^{(k)}")`{=typst} au moment de l'entraînement du $k$-ième arbre:
+La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le $k$-ième arbre, qui pourra ensuite être entraîné seul, une fois que les $k-1$ arbres précédents auront été entraînés. Pour cela, on note $\hat{y}_i^{(k)}$ la prédiction à l'issue de l'étape $k$: $\hat{y}_i^{(k)} = \sum_{j=1}^t f_j(\mathbf{x}_i)$, et on $1 la fonction-objectif $\mathcal{L}^{(k)}$ au moment de l'entraînement du $k$-ième arbre:
 
-```{=typst}
-#mitex(`
-$\begin{align*}
-\mathcal{L}^{(k)} 
-&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(k)})                         & + \sum_{j=1}^k\Omega(f_j) \\
-&= \sum_{i=1}^{n} l\biggl(y_i, \hat{y}_{i}^{(k-1)} + \underbrace{f_{k}(\mathbf{x}_i)}_{\text{\(k\)-ième arbre}}\biggr) & + \sum_{j=1}^{k-1}\Omega(f_j) + \Omega(f_k)
-\end{align*}$
-`)
-```
+$$
+\begin{aligned}
+\mathcal{L}^{(t)} 
+&= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(t)}) + \sum_{k=1}^t\Omega(f_k) \\
+&= \sum_{i=1}^{n} l\left(y_i, \hat{y}_{i}^{(t-1)} + f_{t}(\mathbf{x}_i)\right) + \Omega(f_t) + constant
+\end{aligned}
+$$
+
+
 ### Faire apparaître le gradient
 
 Une fois isolé le $k$-ième arbre, on fait un développement limité d'ordre 2 de $l(y_i, \hat{y}_{i}^{(k-1)} + f_{k}(\mathbf{x}_i))$ au voisinage de $\hat{y}_{i}^{(k-1)}$, en considérant que la prédiction du $k$-ième arbre $f_{k}(\mathbf{x}_i)$ est
 
-```{=typst}
-#mitex(`
-$\mathcal{L}^{(k)} \approx \sum_{i=1}^{n} [\underbrace{l(y_i, \hat{y}_{i}^{(k-1)})}_{\text{(A)}} + g_i f_k(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \underbrace{\sum_{j=1}^{k-1}\Omega(f_j)}_{\text{(B)}} + \Omega(f_k)$
-`)
-```
-```{=typst}
-#mitex(`
-$\text{avec}\hspace{4mm} 
-g_i = \frac{\partial l(y_i, \hat{y}_i^{(k-1)})}{\partial\hat{y}_i^{(k-1)}} \hspace{4mm}\text{et}\hspace{4mm}
-h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(k-1)})}{\partial \left(\hat{y}_i^{(k-1)}\right)^2}$
-`)
-```
-Les termes $g_i$ et $h_i$ désignent respectivement la dérivée première (le gradient) et la dérivée seconde (la hessienne) de la fonction de perte par rapport à la variable prédite. Il est important de noter que les termes (A) et (B) sont constants car les $k-1$ arbres précédents ont déjà été entraînés et ne sont pas modifiés par l'entraînement du $k$-ième arbre. <!-- Autrement dit, la seule façon d'améliorer le modèle sera de trouver un $k$-ième arbre $f_t$ qui minimise la fonction-objectif `#mi("\mathcal{L}^{(k)}")`{=typst} ainsi réécrite.  --> On peut donc retirer ces termes pour obtenir la fonction-objectif simplifiée qui sera utilisée pour l'entraînement du $k$-ième arbre.
+$$ \mathcal{L}^{(t)} \approx \sum_{i=1}^{n} [l(y_i, \hat{y}_{i}^{(t-1)}) + g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \Omega(f_t) $$ 
 
-```{=typst}
-#mitex(`
-$\mathcal{\tilde{L}}^{(k)} = \sum_{i=1}^{n} [g_i f_k(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_k(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$
-`)
-```
-Cette expression est importante car elle montre qu'on est passé d'un problème complexe où il fallait entraîner un grand nombre d'arbres simultanément (équation `@fct_obj_initial`{=typst}) à un problème beaucoup plus simple dans lequel il n'y a qu'un seul arbre à entraîner.
+
+avec 
+
+$$ g_i = \frac{\partial l(y_i, \hat{y}_i^{(t-1)})}{\partial\hat{y}_i^{(t-1)}} \text{et} h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(t-1)})}{{\partial \hat{y}_i^{(t-1)}}^2} $$
+
+
+Les termes $g_i$ et $h_i$ désignent respectivement la dérivée première (le gradient) et la dérivée seconde (la hessienne) de la fonction de perte par rapport à la variable prédite. Il est important de noter que les termes (A) et (B) sont constants car les $k-1$ arbres précédents ont déjà été entraînés et ne sont pas modifiés par l'entraînement du $k$-ième arbre. <!-- Autrement dit, la seule façon d'améliorer le modèle sera de trouver un $k$-ième arbre $f_t$ qui minimise la fonction-objectif \mathcal{L}^{(k)} ainsi ré$1e.  --> On peut donc retirer ces termes pour obtenir la fonction-objectif simplifiée qui sera utilisée pour l'entraînement du $k$-ième arbre.
+
+$$ \mathcal{\tilde{L}}^{(t)} = \sum_{i=1}^{n} [g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 $$
+
+Cette expression est importante car elle montre qu'on est passé d'un problème complexe où il fallait entraîner un grand nombre d'arbres simultanément (équation @eq-fct-obj-initial) à un problème beaucoup plus simple dans lequel il n'y a qu'un seul arbre à entraîner.
 
 ### Calculer les poids optimaux
 
 A partir de l'expression précédente, il est possible de faire apparaître les poids $w_j$ du $k$-ième arbre. Pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), on définit $I_j = \{ i | q(\mathbf{x}_i) = j \}$ l'ensemble des observations situées sur la feuille $j$ puis on réorganise $\mathcal{\tilde{L}}^{(k)}$:
 
-```{=typst}
-#mitex(`
-$\begin{align*}
-\mathcal{\tilde{L}}^{(k)}
-  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i f_k(\mathbf{x}_i) &+ \frac{1}{2} h_i f^2_k(\mathbf{x}_i)\Bigr] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2 \\
-  &= \sum_{j=1}^{T} \sum_{i\in I_j} \Bigl[g_i w_j &+ \frac{1}{2} h_i w_j^2\Bigl] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2 \\
-  &= \sum^T_{j=1} \Bigl[w_j\Bigl(\sum_{i\in I_j} g_i\Bigr) &+ \frac{1}{2} w_j^2 \Bigl(\sum_{i\in I_j} h_i + \lambda\Bigr) \Bigr] &+ \gamma T  \label{eq:dudu}
-\end{align*}$
-`)
-```
+$$
+\begin{align*}
+ \mathcal{\tilde{L}}^{(t)} =&   \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i f_t(\mathbf{x}_i)\phantom{\frac{1}{2}} &+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)\bigg]&+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &= \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i w_j &+ \frac{1}{2} h_i w_j^2\bigg] &+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &= \sum^T_{j=1} \bigg[w_j\sum_{i\in I_{j}} g_i &+ \frac{1}{2} w_j^2 \sum_{i \in I_{j}} h_i + \lambda \bigg] &+ \gamma T
+\end{align*}
+$$
+
+
 Dans la dernière expression, on voit que la fonction de perte simplifiée se reformule comme une combinaison quadratique des poids $w_j$, dans laquelle les dérivées première et seconde de la fonction de perte interviennent sous forme de pondérations. Tout l'enjeu de l'entraînement devient donc de trouver les poids optimaux $w_j$ qui minimiseront cette fonction de perte, compte tenu de ces opérations.
 
-Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), le poids optimal `#mi("w_j^{\ast}")`{=typst} de la feuille $j$ est donné par l'équation:
+Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), le poids optimal w_j^{\ast} de la feuille $j$ est donné par l'équation:
 
 ```{=typst}
 $ w_j^* = -frac(sum_(i in I_j) g_i, sum_(i in I_j) h_i + lambda) $ <w_j_optimal>
 ```
 Par conséquent, la valeur optimale de la fonction objectif pour l'arbre $q$ est égale à
 
-```{=typst}
-#mitex(`
-$\mathcal{\tilde{L}}^{(k)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T$
-`) <fct_obj_optimal>
-```
+$$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T$$ {#eq-fct-obj-optimal}
+
 Cette équation est utile car elle permet de comparer simplement la qualité de deux arbres, et de déterminer lequel est le meilleur.
 
 ### Construire le $k$-ième arbre
 
-Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l'équation `@fct_obj_optimal`{=typst} est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne:
+Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l'équation @eq-fct-obj-optimal est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne:
 
 **REFERENCE A LA PARTIE CART/RF?**
 
 -   on commence par le noeud racine et on cherche le *split* qui réduit au maximum la perte en séparant les données d'entraînement entre les deux noeuds-enfants.
 -   pour chaque noeud enfant, on cherche le *split* qui réduit au maximum la perte en séparant en deux la population de chacun de ces noeuds.
--   Cette procédure recommence jusqu'à que l'arbre ait atteint sa taille maximale (définie par une combinaison d'hyperparamètres décrits dans la partie **référence à ajouter**).
+-   Cette procédure recommence jusqu'à que l'arbre ait atteint sa taille maximale (définie par une combinaison d'hyperparamètres d$1s dans la partie **référence à ajouter**).
 
 ### Choisir les *splits*
 
 **Traduire split par critère de partition?**
 
-Reste à comprendre comment le critère de partition optimal est choisi à chaque étape de la construction de l'arbre. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de l'équation `@fct_obj_optimal`{=typst}, le gain potentiel induit par ce critère de partition est égal à:
+Reste à comprendre comment le critère de partition optimal est choisi à chaque étape de la construction de l'arbre. Imaginons qu'on envisage de décomposer la feuille $I$ en deux nouvelles feuilles $I_L$ et $I_R$ (avec $I = I_L \cup I_R$), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: $x_6 > 11$). Par application de l'équation @eq-fct-obj-optimal, le gain potentiel induit par ce critère de partition est égal à:
 
-```{=typst}
-#mitex(`
-$\text{Gain}_{\text{split}} = \frac{1}{2} \left[\frac{\left(\sum_{i\in I_L} g_i\right)^2}{\sum_{i\in I_L} h_i+\lambda}+\frac{\left(\sum_{i\in I_R} g_i\right)^2}{\sum_{i\in I_R} h_i+\lambda}-\frac{\left(\sum_{i\in I} g_i\right)^2}{\sum_{i\in I} h_i+\lambda}\right] - \gamma$
-`) <fct_eval_split>
-```
-Cette dernière équation est au coeur de la mécanique du *gradient boosting* car elle permet de comparer les critères de partition possibles. Plus précisément, l'algorithme de détermination des critère de partition (*split finding algorithm*) consiste en une double boucle sur les variables et les valeurs prises par ces variables, qui énumère un grand nombre de critères de partition et mesure le gain associé à chacun d'entre eux avec l'équation `@fct_eval_split`{=typst}. Le critère de partition retenu est simplement celui dont le gain est le plus élevé.
+$$ Gain = \frac{1}{2} \left[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\right] - \gamma $$ {#eq-fct-eval-split}
+
+
+<!-- $\text{Gain}_{\text{split}} = \frac{1}{2} \left[\frac{\left(\sum_{i\in I_L} g_i\right)^2}{\sum_{i\in I_L} h_i+\lambda}+\frac{\left(\sum_{i\in I_R} g_i\right)^2}{\sum_{i\in I_R} h_i+\lambda}-\frac{\left(\sum_{i\in I} g_i\right)^2}{\sum_{i\in I} h_i+\lambda}\right] - \gamma$ -->
+
+
+Cette dernière équation est au coeur de la mécanique du *gradient boosting* car elle permet de comparer les critères de partition possibles. Plus précisément, l'algorithme de détermination des critère de partition (*split finding algorithm*) consiste en une double boucle sur les variables et les valeurs prises par ces variables, qui énumère un grand nombre de critères de partition et mesure le gain associé à chacun d'entre eux avec l'équation @eq-fct-eval-split. Le critère de partition retenu est simplement celui dont le gain est le plus élevé.
 
 L'algorithme qui détermine les critère de partition est un enjeu de performance essentiel dans le *gradient boosting*. En effet, utiliser l'algorithme le plus simple (énumérer tous les critères de partition possibles, en balayant toutes les valeurs de toutes les variables) s'avère très coûteux dès lors que les données contiennent soit un grand nombre de variables, soit des variables continues prenant un grand nombre de valeurs. C'est pourquoi les algorithmes de détermination des critère de partition ont fait l'objet de multiples améliorations et optimisations visant à réduire leur coût computationnel sans dégrader la qualité des critères de partition.
 
