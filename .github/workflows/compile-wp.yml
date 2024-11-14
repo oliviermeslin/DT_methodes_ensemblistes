@@ -21,11 +21,7 @@ jobs:
         
       # Step 3: Make the shell script executable
       - name: Make the shell script executable
-        run: chmod +x ./render_pdf_output.sh  
-
-      # Step 4: >Where are we?
-      - name: Oukonhé
-        run: pwd && ls -al
+        run: chmod +x ./render_pdf_output.sh
 
       # Step 4: Compile document
       - name: Publish to GitHub Pages (and render)
