@@ -16,6 +16,7 @@ format:
     template-partials:
       - _extensions/quarto-ext/ams/typst-template.typ
       - _extensions/quarto-ext/ams/typst-show.typ
+      - customisation_template.typ
     toc: true
     section-numbering: 1.1.1
 bibliography: references.bib
