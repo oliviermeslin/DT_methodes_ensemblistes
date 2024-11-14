@@ -72,7 +72,7 @@ Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c
 
 L'approche de *gradient boosting* proposée par @friedman2001greedy présente deux grands avantages. D'une part, elle peut être utilisée avec n'importe quelle fonction de perte différentiable, ce qui permet d'appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, *learning-to-rank*...). D'autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de *boosting*. Le *gradient boosting* d'arbres de décision (*Gradient boosted Decision Trees* - GBDT) est donc devenue l'approche de référence en matière de *boosting*. En particulier, les implémentations modernes du *gradient boosting* comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la *Gradient Boosting Machine*.
 
-## La mécanique du *gradient boosting*
+### La mécanique du *gradient boosting*
 
 Depuis la publication de @friedman2001greedy, la méthode de *gradient boosting* a connu de multiples développements et raffinements, parmi lesquels XGBoost (@chen2016xgboost), LightGBM (@ke2017lightgbm) et CatBoost (@prokhorenkova2018catboost). S'il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d'ensemble, que la section qui suit va présenter en détail en s'appuyant sur l'implémentation proposée par XBGoost.[\^Cette partie reprend la structure et les notations de la partie 2 de @chen2016xgboost.]
 
@@ -84,7 +84,7 @@ Choses importantes à mettre en avant:
 -   Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.
 -   Le boosting est fait pour overfitter; contrairement aux RF, il n'y a pas de limite à l'overfitting. Donc lutter contre le surapprentissage est un élément particulièrement important de l'usage des algorithmes de boosting.
 
-### Le modèle à entraîner
+#### Le modèle à entraîner
 
 On veut entraîner un modèle comprenant $K$ arbres de régression ou de classification:
 
@@ -100,7 +100,7 @@ Le modèle est entraîné avec une **fonction-objectif** constituée d'une **fon
 
 $$ \mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\text{avec}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{t=1}^T w_j^2 $$ {#eq-fct-obj-initial}
 
-### Isoler le $k$-ième arbre
+#### Isoler le $k$-ième arbre
 
 La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le $k$-ième arbre, qui pourra ensuite être entraîné seul, une fois que les $k-1$ arbres précédents auront été entraînés. Pour cela, on note $\hat{y}_i^{(k)}$ la prédiction à l'issue de l'étape $k$: $\hat{y}_i^{(k)} = \sum_{j=1}^t f_j(\mathbf{x}_i)$, et on $1 la fonction-objectif $\mathcal{L}^{(k)}$ au moment de l'entraînement du $k$-ième arbre:
 
@@ -113,7 +113,7 @@ $$
 $$
 
 
-### Faire apparaître le gradient
+#### Faire apparaître le gradient
 
 Une fois isolé le $k$-ième arbre, on fait un développement limité d'ordre 2 de $l(y_i, \hat{y}_{i}^{(k-1)} + f_{k}(\mathbf{x}_i))$ au voisinage de $\hat{y}_{i}^{(k-1)}$, en considérant que la prédiction du $k$-ième arbre $f_{k}(\mathbf{x}_i)$ est
 
@@ -131,7 +131,7 @@ $$ \mathcal{\tilde{L}}^{(t)} = \sum_{i=1}^{n} [g_i f_t(\mathbf{x}_i)+ \frac{1}{2
 
 Cette expression est importante car elle montre qu'on est passé d'un problème complexe où il fallait entraîner un grand nombre d'arbres simultanément (équation @eq-fct-obj-initial) à un problème beaucoup plus simple dans lequel il n'y a qu'un seul arbre à entraîner.
 
-### Calculer les poids optimaux
+#### Calculer les poids optimaux
 
 A partir de l'expression précédente, il est possible de faire apparaître les poids $w_j$ du $k$-ième arbre. Pour une structure d'arbre donnée ($q: \mathbb{R}^m \rightarrow \{1, \dots, T\}$), on définit $I_j = \{ i | q(\mathbf{x}_i) = j \}$ l'ensemble des observations situées sur la feuille $j$ puis on réorganise $\mathcal{\tilde{L}}^{(k)}$:
 
@@ -157,7 +157,7 @@ $$\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\i
 
 Cette équation est utile car elle permet de comparer simplement la qualité de deux arbres, et de déterminer lequel est le meilleur.
 
-### Construire le $k$-ième arbre
+#### Construire le $k$-ième arbre
 
 Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l'équation @eq-fct-obj-optimal est suffisante pour choisir directement le $k$-ième arbre: il suffirait d'énumérer les arbres possibles, de calculer la qualité de chacun d'entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d'arbres possibles est extrêmement élevé. Par conséquent, le $k$-ième arbre n'est pas défini en une fois, mais construit de façon gloutonne:
 
@@ -167,7 +167,7 @@ Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l'
 -   pour chaque noeud enfant, on cherche le *split* qui réduit au maximum la perte en séparant en deux la population de chacun de ces noeuds.
 -   Cette procédure recommence jusqu'à que l'arbre ait atteint sa taille maximale (définie par une combinaison d'hyperparamètres d$1s dans la partie **référence à ajouter**).
 
-### Choisir les *splits*
+#### Choisir les *splits*
 
 **Traduire split par critère de partition?**
 
@@ -183,15 +183,15 @@ Cette dernière équation est au coeur de la mécanique du *gradient boosting* c
 
 L'algorithme qui détermine les critère de partition est un enjeu de performance essentiel dans le *gradient boosting*. En effet, utiliser l'algorithme le plus simple (énumérer tous les critères de partition possibles, en balayant toutes les valeurs de toutes les variables) s'avère très coûteux dès lors que les données contiennent soit un grand nombre de variables, soit des variables continues prenant un grand nombre de valeurs. C'est pourquoi les algorithmes de détermination des critère de partition ont fait l'objet de multiples améliorations et optimisations visant à réduire leur coût computationnel sans dégrader la qualité des critères de partition.
 
-### La suite
+#### La suite
 
-#### Les moyens de lutter contre l'*overfitting*:
+##### Les moyens de lutter contre l'*overfitting*:
 
 -   le *shrinkage*;
 -   le subsampling des lignes et des colonnes;
 -   les différentes pénalisations.
 
-#### Les hyperparamètres
+##### Les hyperparamètres
 
 | Hyperparamètre                                                      | Description                                                                 | Valeur par défaut |
 |---------------------------------------------------------------------|-----------------------------------------------------------------------------|:-----------------:|

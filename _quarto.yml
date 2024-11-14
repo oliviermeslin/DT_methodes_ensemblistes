@@ -59,7 +59,7 @@ website:
     pinned: true
     align: center
     tools: 
-      - icon: globe
+      - icon: fill-pdf-fill
         href: ./pdf/dt_methodes_ensemblistes.pdf
         text: "NMFS Open Science"
 
