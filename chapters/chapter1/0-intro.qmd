@@ -1,6 +1,0 @@
-# Survol des méthodes ensemblistes
-
-__Principe__: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des _managers_ sans bagage en _machine learning_. Elle ne contient aucune formalisation mathématique.
-
-
-

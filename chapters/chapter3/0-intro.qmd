@@ -1,5 +1,0 @@
-# Comment bien utiliser les algorithmes?
-
-__Principe__: Conseils + mise en oeuvre pratique.
-
-
