@@ -22,18 +22,18 @@ bibliography: ../references.bib
 
 {{< include ../index.qmd >}}
 
-# Survol des méthodes ensemblistes
+{{< include ../chapters/chapter1/0-intro.qmd >}}
+{{< include ../chapters/chapter1/1-survol.qmd >}}
+{{< include ../chapters/chapter1/2-comparaison_GB_RF.qmd >}}
 
-{{< include ../chapters/chapter1/survol.qmd >}}
-{{< include ../chapters/chapter1/comparaison_GB_RF.qmd >}}
+{{< include ../chapters/chapter2/0-intro.qmd >}}
+{{< include ../chapters/chapter2/1-CART.qmd >}}
+{{< include ../chapters/chapter2/2-bagging.qmd >}}
+{{< include ../chapters/chapter2/3-random_forest.qmd >}}
+{{< include ../chapters/chapter2/4-boosting.qmd >}}
 
-## Présentation formelle des algorithmes
-
-{{< include ../chapters/chapter2/CART.qmd >}}
-{{< include ../chapters/chapter2/bagging.qmd >}}
-{{< include ../chapters/chapter2/random_forest.qmd >}}
-{{< include ../chapters/chapter2/boosting.qmd >}}
-
-## Comment bien utiliser les algorithmes?
-
+{{< include ../chapters/chapter3/0-intro.qmd >}}
 {{< include ../chapters/chapter3/guide_usage_RF.qmd >}}
+
+
+# Comment bien utiliser les algorithmes?
