@@ -61,7 +61,7 @@ L'équation @eq-decompo-biais-variance illustre l'__arbitrage biais-variance__ q
 <!-- La démonstration s'appuie sur l'inégalité de Jensen appliquée au modèle agrégé: $E_L[\phi(x,L)^2]≥(E_L[\phi(x,L)])^2$.-->
 
 
-$$ (Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$$ {#eq-inegalite-breiman1996}
+$ (Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2] $ {#eq-inegalite-breiman1996}
 
   - Le terme $(Y - \phi_A(x))^2$ représente l'erreur quadratique du **prédicteur agrégé** $\phi_A(x)$;
   
@@ -69,7 +69,7 @@ $$ (Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$$ {#eq-inegalite-breiman1996}
     
 Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. Puisque le biais du prédicteur agrégé est identique au biais du prédicteur individuel, alors l'inégalité précédente implique que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne d'un modèle individuel : 
 
-$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$
+$ \text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))] $
 
 Autrement dit, le processus d'agrégation réduit l'erreur de prédiction globale en réduisant la **variance** des prédictions, tout en conservant un biais constant.
 
@@ -92,7 +92,7 @@ Cela signifie que si l'on considérait tous les ensemble de données possibles, 
 
 Formellement, un prédicteur est dit "order-correct" pour une entrée $x$ si :
 
-$argmax_j Q(j|x) = argmax_j P(j|x)$
+$ argmax_j Q(j|x) = argmax_j P(j|x) $
 
 où $P(j|x)$ est la vraie probabilité que l’observation $x$ appartienne à la classe $j$, et $Q(j|x)$ est la probabilité que $x$ appartienne à la classe $j$ prédite par le modèle $φ(x, L)$.
 
@@ -105,7 +105,7 @@ Dans le cas de la classification, le prédicteur agrégé est défini par le **v
 
 Formellement, le classificateur agrégé $φA(x)$ est défini par :
 
-$φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$
+$ φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x) $
  
 
 #### Performance globale: convergence vers un classificateur presque optimal
