@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>boosting – Introduction aux méthodes ensemblistes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/chapter2/random_forest.html" rel="prev">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter2/bagging.html">Détail</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter2/boosting.html">Le <em>boosting</em></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Introduction aux méthodes ensemblistes</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://nmfs-opensci.github.io" title="NMFS Open Science" class="quarto-navigation-tool px-1" aria-label="NMFS Open Science"><i class="bi bi-globe"></i></a>
+    <a href="https://github.com/nmfs-opensci" title="NMFS OpenSci" class="quarto-navigation-tool px-1" aria-label="NMFS OpenSci"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction aux méthodes ensemblistes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Survol</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Que sont les méthodes ensemblistes?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter1/comparaison_GB_RF.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comparaison RF-GBDT</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Détail</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter2/bagging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Le bagging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter2/random_forest.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">La forêt aléatoire</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter2/boosting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Le <em>boosting</em></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#le-boosting" id="toc-le-boosting" class="nav-link active" data-scroll-target="#le-boosting">Le <em>boosting</em></a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#les-premières-approches-du-boosting" id="toc-les-premières-approches-du-boosting" class="nav-link" data-scroll-target="#les-premières-approches-du-boosting">Les premières approches du <em>boosting</em></a></li>
+  </ul></li>
+  <li><a href="#la-mécanique-du-gradient-boosting" id="toc-la-mécanique-du-gradient-boosting" class="nav-link" data-scroll-target="#la-mécanique-du-gradient-boosting">La mécanique du <em>gradient boosting</em></a>
+  <ul class="collapse">
+  <li><a href="#le-modèle-à-entraîner" id="toc-le-modèle-à-entraîner" class="nav-link" data-scroll-target="#le-modèle-à-entraîner">Le modèle à entraîner</a></li>
+  <li><a href="#isoler-le-k-ième-arbre" id="toc-isoler-le-k-ième-arbre" class="nav-link" data-scroll-target="#isoler-le-k-ième-arbre">Isoler le <span class="math inline">\(k\)</span>-ième arbre</a></li>
+  <li><a href="#faire-apparaître-le-gradient" id="toc-faire-apparaître-le-gradient" class="nav-link" data-scroll-target="#faire-apparaître-le-gradient">Faire apparaître le gradient</a></li>
+  <li><a href="#calculer-les-poids-optimaux" id="toc-calculer-les-poids-optimaux" class="nav-link" data-scroll-target="#calculer-les-poids-optimaux">Calculer les poids optimaux</a></li>
+  <li><a href="#construire-le-k-ième-arbre" id="toc-construire-le-k-ième-arbre" class="nav-link" data-scroll-target="#construire-le-k-ième-arbre">Construire le <span class="math inline">\(k\)</span>-ième arbre</a></li>
+  <li><a href="#choisir-les-splits" id="toc-choisir-les-splits" class="nav-link" data-scroll-target="#choisir-les-splits">Choisir les <em>splits</em></a></li>
+  <li><a href="#la-suite" id="toc-la-suite" class="nav-link" data-scroll-target="#la-suite">La suite</a></li>
+  <li><a href="#liste-des-hyperparamètres-dune-rf" id="toc-liste-des-hyperparamètres-dune-rf" class="nav-link" data-scroll-target="#liste-des-hyperparamètres-dune-rf">Liste des hyperparamètres d’une RF</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter2/boosting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter2/boosting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="le-boosting" class="level2">
+<h2 class="anchored" data-anchor-id="le-boosting">Le <em>boosting</em></h2>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<p>Le fondement théorique du <em>boosting</em> est un article de de 1990 (<span class="citation" data-cites="shapire1990strength">Shapire (<a href="#ref-shapire1990strength" role="doc-biblioref">1990</a>)</span>) qui a démontré théoriquement que, sous certaines conditions, il est possible de transformer un modèle prédictif peu performant en un modèle prédictif très performant. Plus précisément, un modèle ayant un pouvoir prédictif arbitrairement élevé (appelé <em>strong learner</em>) peut être construit en combinant des modèles simples dont les prédictions ne sont que légèrement meilleures que le hasard (appelé <em>weak learners</em>). Le <em>boosting</em> est donc une méthode qui combine une approche ensembliste reposant sur un grand nombre de modèles simples avec un entraînement séquentiel: chaque modèle simple (souvent des arbres de décision peu profonds) tâche d’améliorer la prédiction globale en corrigeant les erreurs des prédictions précédentes à chaque étape. Bien qu’une approche de <em>boosting</em> puisse en théorie mobiliser différentes classes de <em>weak learners</em>, en pratique les <em>weak learners</em> utilisés par les algorithmes de <em>boosting</em> sont presque toujours des arbres de décision.</p>
+<p>S’il existe plusieurs variantes, les algorithmes de <em>boosting</em> suivent la même logique :</p>
+<ul>
+<li>Un premier modèle simple et peu performant est entraîné sur les données.</li>
+<li>Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);</li>
+<li>Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l’ensemble des modèles précédents;</li>
+<li>Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.</li>
+</ul>
+<p>En termes plus techniques, les algorithmes de <em>boosting</em> partagent trois caractéristiques communes:</p>
+<ul>
+<li>Ils visent à <strong>trouver une approximation</strong> <span class="math inline">\(\hat{F}\)</span>“)`{=typst} d’une fonction inconnue <span class="math inline">\(F*: \mathbf{x} \mapsto y\)</span> à partir d’un ensemble d’entraînement <span class="math inline">\((y_i, \mathbf{x_i})_{i= 1,\dots,n}\)</span>;</li>
+<li>Ils supposent que la fonction <span class="math inline">\(F*\)</span> peut être approchée par une <strong>somme pondérée de modèles simples</strong> <span class="math inline">\(f\)</span> de paramètres <span class="math inline">\(\theta\)</span>:</li>
+</ul>
+<p><span class="math display">\[ F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right) \]</span></p>
+<ul>
+<li>ils reposent sur une <strong>modélisation additive par étapes</strong>, qui décompose l’entraînement de ce modèle complexe en une <strong>séquence d’entraînements de petits modèles</strong>. Chaque étape de l’entraînement cherche le modèle simple <span class="math inline">\(f\)</span> qui améliore la puissance prédictive du modèle complet, sans modifier les modèles précédents, puis l’ajoute de façon incrémentale à ces derniers:</li>
+</ul>
+<p><span class="math display">\[ F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \hat{\beta}_m f(\mathbf{x}_i, \mathbf{\hat{\theta}_m}) \]</span></p>
+<!-- Imaginons qu'on veuille entraîner le modèle suivant:
+
+$F\left(\mathbf{x}\right) = \sum_{m=1}^M \beta_m f\left(\mathbf{x}, \mathbf{\theta}_m\right)$
+
+
+$\hat{F}$ est caractérisée par les paramètres $\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}$ tels que
+$\argmin_{\{\beta_m, \mathbf{\theta}_m\}_{m=1}^{M}} \sum_{i=1}^N L\left(y_i, \sum_{m=1}^M \beta_m f\left(\mathbf{x}_i, \mathbf{\theta}_m\right)\right)$
+
+
+C'est un problème très compliqué dès que $M$ est élevé! -->
+<p>METTRE ICI UNE FIGURE EN UNE DIMENSION, avec des points et des modèles en escalier qui s’affinent.</p>
+</section>
+<section id="les-premières-approches-du-boosting" class="level3">
+<h3 class="anchored" data-anchor-id="les-premières-approches-du-boosting">Les premières approches du <em>boosting</em></h3>
+<section id="le-boosting-par-repondération-adaboost" class="level4">
+<h4 class="anchored" data-anchor-id="le-boosting-par-repondération-adaboost">Le <em>boosting</em> par repondération: Adaboost</h4>
+<p>Dans les années 1990, de nombreux travaux ont tâché de proposer des mise en application du <em>boosting</em> (<span class="citation" data-cites="breiman1998rejoinder">Breiman (<a href="#ref-breiman1998rejoinder" role="doc-biblioref">1998</a>)</span>, <span class="citation" data-cites="grove1998boosting">Grove and Schuurmans (<a href="#ref-grove1998boosting" role="doc-biblioref">1998</a>)</span>) et ont comparé les mérites des différentes approches. Deux approches ressortent particulièrement de cette littérature: Adaboost (Adaptive Boosting, <span class="citation" data-cites="freund1997decision">Freund and Schapire (<a href="#ref-freund1997decision" role="doc-biblioref">1997</a>)</span>) et la <em>Gradient Boosting Machine</em> (<span class="citation" data-cites="friedman2001greedy">Friedman (<a href="#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span>). Ces deux approches reposent sur des principes très différents.</p>
+<p>Le principe d’Adaboost consiste à pondérer les erreurs commises à chaque itération en donnant plus d’importance aux observations mal prédites, de façon à obliger les modèles simples à se concentrer sur les observations les plus difficiles à prédire. Voici une esquisse du fonctionnement d’AdaBoost:</p>
+<ul>
+<li>Un premier modèle simple est entraîné sur un jeu d’entraînement dans lequel toutes les observations ont le même poids.</li>
+<li>A l’issue de cette première itération, les observations mal prédites reçoivent une pondération plus élevé que les observations bien prédites, et un deuxième modèle est entraîné sur ce jeu d’entraînement pondéré.</li>
+<li>Ce deuxième modèle est ajouté au premier, puis on repondère à nouveau les observations en fonction de la qualité de prédiction de ce nouveau modèle.</li>
+<li>Cette procédure est répétée en ajoutant de nouveaux modèles et en ajustant les pondérations.</li>
+</ul>
+<p>L’algorithme Adaboost a été au coeur de la littérature sur le <em>boosting</em> à la fin des années 1990 et dans les années 2000, en raison de ses performances sur les problèmes de classification binaire. Il a toutefois été progressivement remplacé par les algorithmes de <em>gradient boosting</em> inventé quelques années plus tard.</p>
+</section>
+<section id="linvention-du-boosting-boosting-la-gradient-boosting-machine" class="level4">
+<h4 class="anchored" data-anchor-id="linvention-du-boosting-boosting-la-gradient-boosting-machine">L’invention du <em>boosting boosting</em> : la <em>Gradient Boosting Machine</em></h4>
+<p>La <em>Gradient Boosting Machine</em> (GBM) propose une approche assez différente: elle introduit le <em>gradient boosting</em> en reformulant le <em>boosting</em> sous la forme d’un problème de descente de gradient. Voici une esquisse du fonctionnement de la <em>Gradient Boosting Machine</em>:</p>
+<ul>
+<li>Un premier modèle simple est entraîné sur un jeu d’entraînement, de façon à minimiser une fonction de perte qui mesure l’écart entre la variable à prédire et la prédiction du modèle.</li>
+<li>A l’issue de cette première itération, on calcule la dérivée partielle (<em>gradient</em>) de la fonction de perte par rapport à la prédiction en chaque point de l’ensemble d’entraînement. Ce gradient indique dans quelle direction et dans quelle ampleur la prédiction devrait être modifiée afin de réduire la perte.</li>
+<li>A la deuxième itération, on ajoute un deuxième modèle qui va tâcher d’améliorer le modèle complet en prédisant le mieux possible l’opposé de ce gradient.</li>
+<li>Ce deuxième modèle est ajouté au premier, puis on recalcule la dérivée partielle de la fonction de perte par rapport à la prédiction de ce nouveau modèle.</li>
+<li>Cette procédure est répétée en ajoutant de nouveaux modèles et en recalculant le gradient à chaque étape.</li>
+</ul>
+<!-- 
+Commentaire: On pourrait peut-être donner la version formelle de la GBM, mais c'est peut-être inutile. 
+1.  Initialiser le modèle avec $f_0\left(\mathbf{x}\right) = y_0$.
+2.  Pour $m = 1, \dots, M:$
+    (a) Entraîner le $m$-ième modèle:
+    $$\left(\hat{\beta}_m, \hat{\theta}_m\right) = \argmin_{\beta, \mathbf{\theta}} \sum_{i=1}^N L\left(y_i, f_{m-1}\left(\mathbf{x}_i\right) + \beta b\left(\mathbf{x}_i, \mathbf{\theta}\right)\right)$$
+    (b) Définir $f_m\left(\mathbf{x}\right) = f_{m-1}\left(\mathbf{x}\right) + \hat{\beta}_m b\left(\mathbf{x}_i, \mathbf{\hat{\theta}_m}\right)$
+ -->
+<p>L’approche de <em>gradient boosting</em> proposée par <span class="citation" data-cites="friedman2001greedy">Friedman (<a href="#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span> présente deux grands avantages. D’une part, elle peut être utilisée avec n’importe quelle fonction de perte différentiable, ce qui permet d’appliquer le gradient boosting à de multiples problèmes (régression, classification binaire ou multiclasse, <em>learning-to-rank</em>…). D’autre part, elle offre souvent des performances comparables ou supérieures aux autres approches de <em>boosting</em>. Le <em>gradient boosting</em> d’arbres de décision (<em>Gradient boosted Decision Trees</em> - GBDT) est donc devenue l’approche de référence en matière de <em>boosting</em>. En particulier, les implémentations modernes du <em>gradient boosting</em> comme XGBoost, LightGBM, et CatBoost sont des extensions et améliorations de la <em>Gradient Boosting Machine</em>.</p>
+</section>
+</section>
+</section>
+<section id="la-mécanique-du-gradient-boosting" class="level2">
+<h2 class="anchored" data-anchor-id="la-mécanique-du-gradient-boosting">La mécanique du <em>gradient boosting</em></h2>
+<p>Depuis la publication de <span class="citation" data-cites="friedman2001greedy">Friedman (<a href="#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span>, la méthode de <em>gradient boosting</em> a connu de multiples développements et raffinements, parmi lesquels XGBoost (<span class="citation" data-cites="chen2016xgboost">Chen and Guestrin (<a href="#ref-chen2016xgboost" role="doc-biblioref">2016</a>)</span>), LightGBM (<span class="citation" data-cites="ke2017lightgbm">Ke et al. (<a href="#ref-ke2017lightgbm" role="doc-biblioref">2017</a>)</span>) et CatBoost (<span class="citation" data-cites="prokhorenkova2018catboost">Prokhorenkova et al. (<a href="#ref-prokhorenkova2018catboost" role="doc-biblioref">2018</a>)</span>). S’il existe quelques différences entre ces implémentations, elles partagent néanmoins la même mécanique d’ensemble, que la section qui suit va présenter en détail en s’appuyant sur l’implémentation proposée par XBGoost.<span class="citation" data-cites="chen2016xgboost">(^Cette partie reprend la structure et les notations de la partie 2 de <a href="#ref-chen2016xgboost" role="doc-biblioref">Chen and Guestrin 2016</a>.)</span></p>
+<p>Choses importantes à mettre en avant:</p>
+<ul>
+<li>Le boosting est fondamentalement différent des forêts aléatoires. See ESL, chapitre 10.</li>
+<li>Toute la mécanique est indépendante de la fonction de perte choisie. En particulier, elle est applicable indifféremment à des problèmes de classification et de régression.</li>
+<li>Les poids sont calculés par une formule explicite, ce qui rend les calculs extrêmement rapides.</li>
+<li>Comment on interprète le gradient et la hessienne: cas avec une fonction de perte quadratique.</li>
+<li>Le boosting est fait pour overfitter; contrairement aux RF, il n’y a pas de limite à l’overfitting. Donc lutter contre le surapprentissage est un élément particulièrement important de l’usage des algorithmes de boosting.</li>
+</ul>
+<section id="le-modèle-à-entraîner" class="level3">
+<h3 class="anchored" data-anchor-id="le-modèle-à-entraîner">Le modèle à entraîner</h3>
+<p>On veut entraîner un modèle comprenant <span class="math inline">\(K\)</span> arbres de régression ou de classification:</p>
+<p><span class="math display">\[\hat{y}_{i} = \phi\left(\mathbf{x}_i\right) = \sum_{k=1}^{K} f_k\left(\mathbf{x}_i\right) \]</span></p>
+<p>Chaque arbre <span class="math inline">\(f\)</span> est défini par trois paramètres:</p>
+<ul>
+<li>sa structure qui est une fonction <span class="math inline">\(q: \mathbb{R}^m \rightarrow \{1, \dots, T\}\)</span> qui à un vecteur d’inputs <span class="math inline">\(\mathbf{x}\)</span> de dimension <span class="math inline">\(m\)</span> associe une feuille terminale de l’arbre);</li>
+<li>son nombre de feuilles terminales <span class="math inline">\(T\)</span>;</li>
+<li>les valeurs figurant sur ses feuilles terminales <span class="math inline">\(\mathbf{w}\in \mathbb{R}^T\)</span> (appelées poids ou <em>weights</em>).</li>
+</ul>
+<p>Le modèle est entraîné avec une <strong>fonction-objectif</strong> constituée d’une <strong>fonction de perte</strong> <span class="math inline">\(l\)</span> et d’une <strong>fonction de régularisation</strong> <span class="math inline">\(\Omega\)</span>. La fonction de perte mesure la distance entre la prédiction <span class="math inline">\(hat(y)\)</span> et la vraie valeur <span class="math inline">\(y\)</span> et présente généralement les propriétés suivantes: elle est convexe et dérivable deux fois, et atteint son minimum lorsque <span class="math inline">\(hat(y) = y\)</span>. La fonction de régularisation pénalise la complexité du modèle. Dans le cas présent, elle pénalise les arbres avec un grand nombre de feuilles (<span class="math inline">\(T\)</span> élevé) et les arbres avec des poids élevés (<span class="math inline">\(w_t\)</span> élevés en valeur absolue).</p>
+<p><span id="eq-fct-obj-initial"><span class="math display">\[ \mathcal{L}(\phi) = \underbrace{\sum_i l(\hat{y}_{i}, y_{i})}_{\substack{\text{Perte sur les} \\ \text{observations}}} + \underbrace{\sum_k \Omega(f_{k})}_{\substack{\text{Fonction de} \\ \text{régularisation}}}\text{avec}\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{t=1}^T w_j^2  \tag{1}\]</span></span></p>
+</section>
+<section id="isoler-le-k-ième-arbre" class="level3">
+<h3 class="anchored" data-anchor-id="isoler-le-k-ième-arbre">Isoler le <span class="math inline">\(k\)</span>-ième arbre</h3>
+<p>La fonction-objectif introduite précédemment est très complexe et ne peut être utilisée directement pour entraîner le modèle, car il faudrait entraîner tous les arbres en même temps. On va donc reformuler donc cette fonction objectif de façon à isoler le <span class="math inline">\(k\)</span>-ième arbre, qui pourra ensuite être entraîné seul, une fois que les <span class="math inline">\(k-1\)</span> arbres précédents auront été entraînés. Pour cela, on note <span class="math inline">\(\hat{y}_i^{(k)}\)</span> la prédiction à l’issue de l’étape <span class="math inline">\(k\)</span>: <span class="math inline">\(\hat{y}_i^{(k)} = \sum_{j=1}^t f_j(\mathbf{x}_i)\)</span>, et on $1 la fonction-objectif <span class="math inline">\(\mathcal{L}^{(k)}\)</span> au moment de l’entraînement du <span class="math inline">\(k\)</span>-ième arbre:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L}^{(t)}
+&amp;= \sum_{i=1}^{n} l(y_i, \hat{y}_{i}^{(t)}) + \sum_{k=1}^t\Omega(f_k) \\
+&amp;= \sum_{i=1}^{n} l\left(y_i, \hat{y}_{i}^{(t-1)} + f_{t}(\mathbf{x}_i)\right) + \Omega(f_t) + constant
+\end{aligned}
+\]</span></p>
+</section>
+<section id="faire-apparaître-le-gradient" class="level3">
+<h3 class="anchored" data-anchor-id="faire-apparaître-le-gradient">Faire apparaître le gradient</h3>
+<p>Une fois isolé le <span class="math inline">\(k\)</span>-ième arbre, on fait un développement limité d’ordre 2 de <span class="math inline">\(l(y_i, \hat{y}_{i}^{(k-1)} + f_{k}(\mathbf{x}_i))\)</span> au voisinage de <span class="math inline">\(\hat{y}_{i}^{(k-1)}\)</span>, en considérant que la prédiction du <span class="math inline">\(k\)</span>-ième arbre <span class="math inline">\(f_{k}(\mathbf{x}_i)\)</span> est</p>
+<p><span class="math display">\[ \mathcal{L}^{(t)} \approx \sum_{i=1}^{n} [l(y_i, \hat{y}_{i}^{(t-1)}) + g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \Omega(f_t) \]</span></p>
+<p>avec</p>
+<p><span class="math display">\[ g_i = \frac{\partial l(y_i, \hat{y}_i^{(t-1)})}{\partial\hat{y}_i^{(t-1)}} \text{et} h_i = \frac{\partial^2 l(y_i, \hat{y}_i^{(t-1)})}{{\partial \hat{y}_i^{(t-1)}}^2} \]</span></p>
+<p>Les termes <span class="math inline">\(g_i\)</span> et <span class="math inline">\(h_i\)</span> désignent respectivement la dérivée première (le gradient) et la dérivée seconde (la hessienne) de la fonction de perte par rapport à la variable prédite. Il est important de noter que les termes (A) et (B) sont constants car les <span class="math inline">\(k-1\)</span> arbres précédents ont déjà été entraînés et ne sont pas modifiés par l’entraînement du <span class="math inline">\(k\)</span>-ième arbre. <!-- Autrement dit, la seule façon d'améliorer le modèle sera de trouver un $k$-ième arbre $f_t$ qui minimise la fonction-objectif \mathcal{L}^{(k)} ainsi ré$1e.  --> On peut donc retirer ces termes pour obtenir la fonction-objectif simplifiée qui sera utilisée pour l’entraînement du <span class="math inline">\(k\)</span>-ième arbre.</p>
+<p><span class="math display">\[ \mathcal{\tilde{L}}^{(t)} = \sum_{i=1}^{n} [g_i f_t(\mathbf{x}_i)+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)] + \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \]</span></p>
+<p>Cette expression est importante car elle montre qu’on est passé d’un problème complexe où il fallait entraîner un grand nombre d’arbres simultanément (équation <a href="#eq-fct-obj-initial" class="quarto-xref">Equation&nbsp;1</a>) à un problème beaucoup plus simple dans lequel il n’y a qu’un seul arbre à entraîner.</p>
+</section>
+<section id="calculer-les-poids-optimaux" class="level3">
+<h3 class="anchored" data-anchor-id="calculer-les-poids-optimaux">Calculer les poids optimaux</h3>
+<p>A partir de l’expression précédente, il est possible de faire apparaître les poids <span class="math inline">\(w_j\)</span> du <span class="math inline">\(k\)</span>-ième arbre. Pour une structure d’arbre donnée (<span class="math inline">\(q: \mathbb{R}^m \rightarrow \{1, \dots, T\}\)</span>), on définit <span class="math inline">\(I_j = \{ i | q(\mathbf{x}_i) = j \}\)</span> l’ensemble des observations situées sur la feuille <span class="math inline">\(j\)</span> puis on réorganise <span class="math inline">\(\mathcal{\tilde{L}}^{(k)}\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathcal{\tilde{L}}^{(t)} =&amp;   \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i f_t(\mathbf{x}_i)\phantom{\frac{1}{2}} &amp;+ \frac{1}{2} h_i f^2_t(\mathbf{x}_i)\bigg]&amp;+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &amp;= \sum_{j=1}^{T} \sum_{i\in I_{j}} \bigg[g_i w_j &amp;+ \frac{1}{2} h_i w_j^2\bigg] &amp;+ \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_i^2 \\
+     &amp;= \sum^T_{j=1} \bigg[w_j\sum_{i\in I_{j}} g_i &amp;+ \frac{1}{2} w_j^2 \sum_{i \in I_{j}} h_i + \lambda \bigg] &amp;+ \gamma T
+\end{align*}
+\]</span></p>
+<p>Dans la dernière expression, on voit que la fonction de perte simplifiée se reformule comme une combinaison quadratique des poids <span class="math inline">\(w_j\)</span>, dans laquelle les dérivées première et seconde de la fonction de perte interviennent sous forme de pondérations. Tout l’enjeu de l’entraînement devient donc de trouver les poids optimaux <span class="math inline">\(w_j\)</span> qui minimiseront cette fonction de perte, compte tenu de ces opérations.</p>
+<p>Il se trouve que le calculs de ces poids optimaux est très simple: pour une structure d’arbre donnée (<span class="math inline">\(q: \mathbb{R}^m \rightarrow \{1, \dots, T\}\)</span>), le poids optimal w_j^{} de la feuille <span class="math inline">\(j\)</span> est donné par l’équation:</p>
+<p>Par conséquent, la valeur optimale de la fonction objectif pour l’arbre <span class="math inline">\(q\)</span> est égale à</p>
+<p><span id="eq-fct-obj-optimal"><span class="math display">\[\mathcal{\tilde{L}}^{(t)}(q) = -\frac{1}{2} \sum_{j=1}^T \frac{\left(\sum_{i\in I_j} g_i\right)^2}{\sum_{i\in I_j} h_i+\lambda} + \gamma T \tag{2}\]</span></span></p>
+<p>Cette équation est utile car elle permet de comparer simplement la qualité de deux arbres, et de déterminer lequel est le meilleur.</p>
+</section>
+<section id="construire-le-k-ième-arbre" class="level3">
+<h3 class="anchored" data-anchor-id="construire-le-k-ième-arbre">Construire le <span class="math inline">\(k\)</span>-ième arbre</h3>
+<p>Dans la mesure où elle permet de comparer des arbres, on pourrait penser que l’équation <a href="#eq-fct-obj-optimal" class="quarto-xref">Equation&nbsp;2</a> est suffisante pour choisir directement le <span class="math inline">\(k\)</span>-ième arbre: il suffirait d’énumérer les arbres possibles, de calculer la qualité de chacun d’entre eux, et de retenir le meilleur. Bien que cette approche soit possible théoriquement, elle est inemployable en pratique car le nombre d’arbres possibles est extrêmement élevé. Par conséquent, le <span class="math inline">\(k\)</span>-ième arbre n’est pas défini en une fois, mais construit de façon gloutonne:</p>
+<p><strong>REFERENCE A LA PARTIE CART/RF?</strong></p>
+<ul>
+<li>on commence par le noeud racine et on cherche le <em>split</em> qui réduit au maximum la perte en séparant les données d’entraînement entre les deux noeuds-enfants.</li>
+<li>pour chaque noeud enfant, on cherche le <em>split</em> qui réduit au maximum la perte en séparant en deux la population de chacun de ces noeuds.</li>
+<li>Cette procédure recommence jusqu’à que l’arbre ait atteint sa taille maximale (définie par une combinaison d’hyperparamètres d$1s dans la partie <strong>référence à ajouter</strong>).</li>
+</ul>
+</section>
+<section id="choisir-les-splits" class="level3">
+<h3 class="anchored" data-anchor-id="choisir-les-splits">Choisir les <em>splits</em></h3>
+<p><strong>Traduire split par critère de partition?</strong></p>
+<p>Reste à comprendre comment le critère de partition optimal est choisi à chaque étape de la construction de l’arbre. Imaginons qu’on envisage de décomposer la feuille <span class="math inline">\(I\)</span> en deux nouvelles feuilles <span class="math inline">\(I_L\)</span> et <span class="math inline">\(I_R\)</span> (avec <span class="math inline">\(I = I_L \cup I_R\)</span>), selon une condition logique reposant sur une variable et une valeur de cette variable (exemple: <span class="math inline">\(x_6 &gt; 11\)</span>). Par application de l’équation <a href="#eq-fct-obj-optimal" class="quarto-xref">Equation&nbsp;2</a>, le gain potentiel induit par ce critère de partition est égal à:</p>
+<p><span id="eq-fct-eval-split"><span class="math display">\[ Gain = \frac{1}{2} \left[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\right] - \gamma  \tag{3}\]</span></span></p>
+<!-- $\text{Gain}_{\text{split}} = \frac{1}{2} \left[\frac{\left(\sum_{i\in I_L} g_i\right)^2}{\sum_{i\in I_L} h_i+\lambda}+\frac{\left(\sum_{i\in I_R} g_i\right)^2}{\sum_{i\in I_R} h_i+\lambda}-\frac{\left(\sum_{i\in I} g_i\right)^2}{\sum_{i\in I} h_i+\lambda}\right] - \gamma$ -->
+<p>Cette dernière équation est au coeur de la mécanique du <em>gradient boosting</em> car elle permet de comparer les critères de partition possibles. Plus précisément, l’algorithme de détermination des critère de partition (<em>split finding algorithm</em>) consiste en une double boucle sur les variables et les valeurs prises par ces variables, qui énumère un grand nombre de critères de partition et mesure le gain associé à chacun d’entre eux avec l’équation <a href="#eq-fct-eval-split" class="quarto-xref">Equation&nbsp;3</a>. Le critère de partition retenu est simplement celui dont le gain est le plus élevé.</p>
+<p>L’algorithme qui détermine les critère de partition est un enjeu de performance essentiel dans le <em>gradient boosting</em>. En effet, utiliser l’algorithme le plus simple (énumérer tous les critères de partition possibles, en balayant toutes les valeurs de toutes les variables) s’avère très coûteux dès lors que les données contiennent soit un grand nombre de variables, soit des variables continues prenant un grand nombre de valeurs. C’est pourquoi les algorithmes de détermination des critère de partition ont fait l’objet de multiples améliorations et optimisations visant à réduire leur coût computationnel sans dégrader la qualité des critères de partition.</p>
+</section>
+<section id="la-suite" class="level3">
+<h3 class="anchored" data-anchor-id="la-suite">La suite</h3>
+<section id="les-moyens-de-lutter-contre-loverfitting" class="level4">
+<h4 class="anchored" data-anchor-id="les-moyens-de-lutter-contre-loverfitting">Les moyens de lutter contre l’<em>overfitting</em>:</h4>
+<ul>
+<li>le <em>shrinkage</em>;</li>
+<li>le subsampling des lignes et des colonnes;</li>
+<li>les différentes pénalisations.</li>
+</ul>
+</section>
+<section id="les-hyperparamètres" class="level4">
+<h4 class="anchored" data-anchor-id="les-hyperparamètres">Les hyperparamètres</h4>
+<table class="caption-top table">
+<caption>Les principaux hyperparamètres d’XGBoost</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 60%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Hyperparamètre</th>
+<th>Description</th>
+<th style="text-align: center;">Valeur par défaut</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>booster</code></td>
+<td>Le type de <em>weak learner</em> utilisé</td>
+<td style="text-align: center;"><code>'gbtree'</code></td>
+</tr>
+<tr class="even">
+<td><code>learning_rate</code></td>
+<td>Le taux d’apprentissage</td>
+<td style="text-align: center;">0.3</td>
+</tr>
+<tr class="odd">
+<td><code>max_depth</code></td>
+<td>La profondeur maximale des arbres</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td><code>max_leaves</code></td>
+<td>Le nombre maximal de feuilles des arbres</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td><code>min_child_weight</code></td>
+<td>Le poids minimal qu’une feuille doit contenir</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td><code>n_estimators</code></td>
+<td>Le nombre d’arbres</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="odd">
+<td><code>lambda</code> ou <code>reg_lambda</code></td>
+<td>La pénalisation L2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td><code>alpha</code> ou <code>reg_alpha</code></td>
+<td>La pénalisation L1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td><code>gamma</code></td>
+<td>Le gain minimal nécessaire pour ajouter un noeud supplémentaire</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td><code>tree_method</code></td>
+<td>La méthode utilisée pour rechercher les splits</td>
+<td style="text-align: center;"><code>'hist'</code></td>
+</tr>
+<tr class="odd">
+<td><code>max_bin</code></td>
+<td>Le nombre utilisés pour discrétiser les variables continues</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td><code>subsample</code></td>
+<td>Le taux d’échantillonnage des données d’entraîenment</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td><code>sampling_method</code></td>
+<td>La méthode utilisée pour échantillonner les données d’entraînement</td>
+<td style="text-align: center;"><code>'uniform'</code></td>
+</tr>
+<tr class="even">
+<td><code>colsample_bytree</code> <br> <code>colsample_bylevel</code> <br> <code>colsample_bynode</code></td>
+<td>Taux d’échantillonnage des colonnes par arbre, par niveau et par noeud</td>
+<td style="text-align: center;">1, 1 et 1</td>
+</tr>
+<tr class="odd">
+<td><code>scale_pos_weight</code></td>
+<td>Le poids des observations de la classe positive (classification uniquement)</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td><code>sample_weight</code></td>
+<td>La pondération des données d’entraînement</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td><code>enable_categorical</code></td>
+<td>Activer le support des variables catégorielles</td>
+<td style="text-align: center;"><code>False</code></td>
+</tr>
+<tr class="even">
+<td><code>max_cat_to_onehot</code></td>
+<td>Nombre de modalités en-deça duquel XGBoost utilise le <em>one-hot-encoding</em></td>
+<td style="text-align: center;">A COMPLETER</td>
+</tr>
+<tr class="odd">
+<td><code>max_cat_threshold</code></td>
+<td>Nombre maximal de catégories considérées dans le partitionnement optimal des variables catégorielles</td>
+<td style="text-align: center;">A COMPLETER</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="la-préparation-des-données" class="level4">
+<h4 class="anchored" data-anchor-id="la-préparation-des-données">La préparation des données</h4>
+<ul>
+<li>les variables catégorielles:
+<ul>
+<li>ordonnées: passer en integer;</li>
+<li>non-ordonnées: OHE ou approche de Fisher.</li>
+</ul></li>
+<li>les variables continues:
+<ul>
+<li>inutile de faire des transformations monotones.</li>
+<li>Utile d’ajouter des transformations non monotones.</li>
+</ul></li>
+</ul>
+</section>
+<section id="les-fonctions-de-perte" class="level4">
+<h4 class="anchored" data-anchor-id="les-fonctions-de-perte">Les fonctions de perte</h4>
+</section>
+</section>
+<section id="liste-des-hyperparamètres-dune-rf" class="level3">
+<h3 class="anchored" data-anchor-id="liste-des-hyperparamètres-dune-rf">Liste des hyperparamètres d’une RF</h3>
+<p>Source: <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span></p>
+<ul>
+<li><p>structure of each individual tree:</p>
+<ul>
+<li>dudu</li>
+<li>dudu</li>
+<li>dudu</li>
+</ul></li>
+<li><p>structure and size of the forest:</p></li>
+<li><p>The level of randomness (je dirais plutôt : )</p></li>
+</ul>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-breiman1998rejoinder" class="csl-entry" role="listitem">
+Breiman, Leo. 1998. <span>“Rejoinder: Arcing Classifiers.”</span> <em>The Annals of Statistics</em> 26 (3): 841–49.
+</div>
+<div id="ref-chen2016xgboost" class="csl-entry" role="listitem">
+Chen, Tianqi, and Carlos Guestrin. 2016. <span>“Xgboost: A Scalable Tree Boosting System.”</span> In <em>Proceedings of the 22nd Acm Sigkdd International Conference on Knowledge Discovery and Data Mining</em>, 785–94.
+</div>
+<div id="ref-freund1997decision" class="csl-entry" role="listitem">
+Freund, Yoav, and Robert E Schapire. 1997. <span>“A Decision-Theoretic Generalization of on-Line Learning and an Application to Boosting.”</span> <em>Journal of Computer and System Sciences</em> 55 (1): 119–39.
+</div>
+<div id="ref-friedman2001greedy" class="csl-entry" role="listitem">
+Friedman, Jerome H. 2001. <span>“Greedy Function Approximation: A Gradient Boosting Machine.”</span> <em>Annals of Statistics</em>, 1189–1232.
+</div>
+<div id="ref-grove1998boosting" class="csl-entry" role="listitem">
+Grove, Adam J, and Dale Schuurmans. 1998. <span>“Boosting in the Limit: Maximizing the Margin of Learned Ensembles.”</span> In <em>AAAI/IAAI</em>, 692–99.
+</div>
+<div id="ref-ke2017lightgbm" class="csl-entry" role="listitem">
+Ke, Guolin, Qi Meng, Thomas Finley, Taifeng Wang, Wei Chen, Weidong Ma, Qiwei Ye, and Tie-Yan Liu. 2017. <span>“Lightgbm: A Highly Efficient Gradient Boosting Decision Tree.”</span> <em>Advances in Neural Information Processing Systems</em> 30.
+</div>
+<div id="ref-probst2019hyperparameters" class="csl-entry" role="listitem">
+Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019. <span>“Hyperparameters and Tuning Strategies for Random Forest.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301.
+</div>
+<div id="ref-prokhorenkova2018catboost" class="csl-entry" role="listitem">
+Prokhorenkova, Liudmila, Gleb Gusev, Aleksandr Vorobev, Anna Veronika Dorogush, and Andrey Gulin. 2018. <span>“CatBoost: Unbiased Boosting with Categorical Features.”</span> <em>Advances in Neural Information Processing Systems</em> 31.
+</div>
+<div id="ref-shapire1990strength" class="csl-entry" role="listitem">
+Shapire, R. 1990. <span>“The Strength of Weak Learning.”</span> <em>Machine Learning</em> 5 (2).
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/github\.com\/oliviermeslin\/DT_methodes_ensemblistes");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/chapter2/random_forest.html" class="pagination-link" aria-label="La forêt aléatoire">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">La forêt aléatoire</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter2/boosting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter2/boosting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

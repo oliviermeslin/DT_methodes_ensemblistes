@@ -1,1 +1,1 @@
-Sitemap: https://oliviermeslin.github.io/DT_methodes_ensemblistes/sitemap.xml
+Sitemap: https://github.com/oliviermeslin/DT_methodes_ensemblistes/sitemap.xml
