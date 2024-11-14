@@ -19,7 +19,11 @@ jobs:
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
-      # Step 3: Compile document
+      # Step 3: Make the shell script executable
+    - name: Make the shell script executable
+      run: chmod +x ./render_pdf_output.sh
+
+      # Step 4: Compile document
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
