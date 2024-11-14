@@ -33,10 +33,7 @@ website:
     style: "docked"
     search: true
     contents:
-      - text: "Introduction"
-        href: index.qmd
-        contents:
-          - index.qmd
+      - index.qmd
       - section: "Survol"
         href: chapters/chapter1/survol.qmd
         contents:
