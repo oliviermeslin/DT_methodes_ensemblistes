@@ -2,16 +2,17 @@ project:
   type: website
   output-dir: _site
   preview:
-    port: 4200
+    port: 4201
     browser: false
   render:
     - index.qmd
-
-title: "Introduction aux méthodes ensemblistes"
-subtitle: "On va vous booster le gradient"
-author: |
-  [Olivier Meslin](https://github.com/oliviermeslin)
-  [Mélina Hillion](https://github.com/melinahillion)
+    - chapters/chapter1/survol.qmd
+    - chapters/chapter1/comparaison_GB_RF.qmd
+    - chapters/chapter2/bagging.qmd
+    - chapters/chapter2/random_forest.qmd
+    - chapters/chapter2/boosting.qmd
+  resources: 
+    - "*.svg"
 
 website: 
   page-navigation: true
@@ -26,6 +27,23 @@ website:
     left: "&copy; CC-1.0"
   
   sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - text: "Introduction"
+        href: index.qmd
+        contents:
+          - index.qmd
+      - section: "Survol"
+        href: chapters/chapter1/survol.qmd
+        contents:
+          - chapters/chapter1/survol.qmd
+          - chapters/chapter1/comparaison_GB_RF.qmd
+      - section: "Détail"
+        contents:
+          - chapters/chapter2/bagging.qmd
+          - chapters/chapter2/random_forest.qmd
+          - chapters/chapter2/boosting.qmd
     background: "#D9E3E4"
     favicon: images/favicon.ico
     pinned: true
@@ -40,18 +58,18 @@ website:
 
 format:
   html: 
-    theme: cosmo
+    theme: litera
     code-copy: true
     code-overflow: wrap
     toc: true
-  # typst:
-  #   output-file: dt_methodes_ensemblistes.pdf
-  #   keep-typ: true
-  #   template: _extensions/quarto-ext/ams/template.typ
-  #   template-partials:
-  #     - _extensions/quarto-ext/ams/typst-template.typ
-  #     - _extensions/quarto-ext/ams/typst-show.typ
-  #     - customisation_template.typ
-  #   toc: true
-  #   section-numbering: 1.1.1
+  typst:
+    output-file: dt_methodes_ensemblistes.pdf
+    keep-typ: true
+    template: _extensions/quarto-ext/ams/template.typ
+    template-partials:
+      - _extensions/quarto-ext/ams/typst-template.typ
+      - _extensions/quarto-ext/ams/typst-show.typ
+      - customisation_template.typ
+    toc: true
+    section-numbering: 1.1.1
 bibliography: references.bib
