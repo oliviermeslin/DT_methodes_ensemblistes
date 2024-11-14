@@ -147,7 +147,7 @@ window.Quarto = {
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Introduction aux méthodes ensemblistes</a> 
         <div class="sidebar-tools-main">
-    <a href="../.././pdf/dt_methodes_ensemblistes.pdf" title="NMFS Open Science" class="quarto-navigation-tool px-1" aria-label="NMFS Open Science"><i class="bi bi-fill-pdf-fill"></i></a>
+    <a href="../.././pdf/dt_methodes_ensemblistes.pdf" title="NMFS Open Science" class="quarto-navigation-tool px-1" aria-label="NMFS Open Science"><i class="bi bi-file-pdf-fill"></i></a>
 </div>
     </div>
       </div>
@@ -283,10 +283,10 @@ window.Quarto = {
 <ul>
 <li>le <em>bagging</em>;</li>
 <li>la <em>random forest</em>;</li>
-<li>le <em>stacking</em>;</li>
-<li>le <em>boosting</em>.</li>
+<li>le <em>boosting</em>;</li>
+<li>le <em>stacking</em>.</li>
 </ul>
-<p>Le présent document se concentre sur deux approches: la <em>random forest</em> et le <em>boosting</em>.</p>
+<p>Le présent document se concentre sur trois approches: le <em>bagging</em>, la <em>random forest</em> et le <em>boosting</em>.</p>
 <p>Les méthodes ensemblistes désignent un ensemble d’algorithmes d’apprentissage supervisé (notamment les forêts aléatoires et le <em>boosting</em>) développés depuis le début des années 2000. Ces méthodes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits “apprenants faibles” (“weak learners”), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.</p>
 <p>Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu’elles s’appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont <em>entrainés en parallèle</em>, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d’entraînement, soit un sous-ensemble des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire. Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entrainés de manière séquentielle</em>, chaque modèle de base vise à minimiser l’erreur de prédiction de l’ensemble des modèles de base précédents. Les implémentations les plus courantes du <em>boosting</em> sont actuellement XGBoost, CatBoost et LightGBM.</p>
 </section>
