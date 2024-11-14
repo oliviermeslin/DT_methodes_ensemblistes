@@ -13,6 +13,9 @@ project:
     - chapters/chapter2/boosting.qmd
   resources: 
     - "*.svg"
+  post-render: 
+    render_pdf_output.sh
+
 
 website: 
   page-navigation: true
