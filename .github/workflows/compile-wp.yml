@@ -1,4 +1,4 @@
-name: Build PDF with Quarto and Typst
+name: Build the website and the pdf output
 
 on:
   push:
