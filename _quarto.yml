@@ -13,10 +13,9 @@ project:
     - chapters/chapter2/random_forest.qmd
     - chapters/chapter2/boosting.qmd
     - chapters/chapter3/guide_usage_RF.qmd
+    - pdf/*.qmd
   resources: 
     - "*.svg"
-  post-render: 
-    ./render_pdf_output.sh
 
 
 website: 
@@ -58,11 +57,8 @@ website:
     align: center
     tools: 
       - icon: globe
-        href: https://nmfs-opensci.github.io
+        href: ./pdf/dt_methodes_ensemblistes.pdf
         text: "NMFS Open Science"
-      - icon: github
-        href: https://github.com/nmfs-opensci
-        text: "NMFS OpenSci"
 
 format:
   html: 
@@ -70,4 +66,14 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: true
+  typst:
+    keep-typ: true
+    template: _extensions/quarto-ext/ams/template.typ
+    template-partials:
+      - _extensions/quarto-ext/ams/typst-template.typ
+      - _extensions/quarto-ext/ams/typst-show.typ
+      - customisation_template.typ
+    toc: true
+    section-numbering: 1.1.1
+
 bibliography: references.bib
