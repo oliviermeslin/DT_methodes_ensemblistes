@@ -5,13 +5,13 @@ Cette section rassemble et synthétise des recommandations sur l'entraînement d
 
 ### Mode de construction d'une forêt aléatoire
 
-Le processus pour construire une Random Forest se résume comme suit :
+Le processus pour construire une Random Forest se résume comme suit:
 
-- Sélectionnez le nombre d'arbres à construire (n_trees).
+- Sélectionnez le nombre d'arbres à construire (`n_trees`).
 - Pour chaque arbre, effectuez les étapes suivantes :
   - Générer un échantillon bootstrap à partir du jeu de données.
-  - Construire un arbre de décision à partir de cet échantillon :
-  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (mtry).
+  - Construire un arbre de décision à partir de cet échantillon:
+  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
   - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
   - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
 - Agréger les arbres pour effectuer les prédictions finales :
