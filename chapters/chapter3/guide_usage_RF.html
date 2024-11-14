@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>survol – Introduction aux méthodes ensemblistes</title>
+<title>guide_usage_rf – Introduction aux méthodes ensemblistes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,8 +49,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/chapter1/comparaison_GB_RF.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/chapter2/boosting.html" rel="prev">
 <link href="../../images/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -130,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter1/survol.html">Survol des méthodes ensemblistes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/guide_usage_RF.html">Comment bien utiliser les algorithmes?</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -167,7 +166,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link active">
+            <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Survol des méthodes ensemblistes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -176,7 +175,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/chapter1/survol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Que sont les méthodes ensemblistes?</span></a>
   </div>
 </li>
@@ -225,7 +224,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../chapters/chapter3/guide_usage_RF.html" class="sidebar-item-text sidebar-link">
+            <a href="../../chapters/chapter3/guide_usage_RF.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Comment bien utiliser les algorithmes?</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -234,7 +233,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/guide_usage_RF.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/chapter3/guide_usage_RF.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Guide d’entraînement des forêts aléatoires</span></a>
   </div>
 </li>
@@ -250,24 +249,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#que-sont-les-méthodes-ensemblistes" id="toc-que-sont-les-méthodes-ensemblistes" class="nav-link active" data-scroll-target="#que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</a>
+  <li><a href="#guide-dentraînement-des-forêts-aléatoires" id="toc-guide-dentraînement-des-forêts-aléatoires" class="nav-link active" data-scroll-target="#guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</a>
   <ul class="collapse">
-  <li><a href="#lunion-fait-la-force" id="toc-lunion-fait-la-force" class="nav-link" data-scroll-target="#lunion-fait-la-force">L’union fait la force</a></li>
-  </ul></li>
-  <li><a href="#pourquoi-utiliser-des-méthodes-ensemblistes" id="toc-pourquoi-utiliser-des-méthodes-ensemblistes" class="nav-link" data-scroll-target="#pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</a></li>
-  <li><a href="#comment-fonctionnent-les-méthodes-ensemblistes" id="toc-comment-fonctionnent-les-méthodes-ensemblistes" class="nav-link" data-scroll-target="#comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</a>
-  <ul class="collapse">
-  <li><a href="#le-point-de-départ-les-arbres-de-décision-et-de-régression" id="toc-le-point-de-départ-les-arbres-de-décision-et-de-régression" class="nav-link" data-scroll-target="#le-point-de-départ-les-arbres-de-décision-et-de-régression">Le point de départ: les arbres de décision et de régression</a></li>
-  <li><a href="#critères-de-performance-et-sélection-dun-modèle" id="toc-critères-de-performance-et-sélection-dun-modèle" class="nav-link" data-scroll-target="#critères-de-performance-et-sélection-dun-modèle">Critères de performance et sélection d’un modèle</a></li>
-  </ul></li>
-  <li><a href="#le-bagging-les-random-forests-et-le-boosting" id="toc-le-bagging-les-random-forests-et-le-boosting" class="nav-link" data-scroll-target="#le-bagging-les-random-forests-et-le-boosting">Le <em>bagging</em>, les <em>random forests</em> et le <em>boosting</em></a>
-  <ul class="collapse">
-  <li><a href="#le-bagging-bootstrap-aggregating" id="toc-le-bagging-bootstrap-aggregating" class="nav-link" data-scroll-target="#le-bagging-bootstrap-aggregating">Le <em>bagging</em> (Bootstrap Aggregating)</a></li>
-  <li><a href="#les-random-forests" id="toc-les-random-forests" class="nav-link" data-scroll-target="#les-random-forests">Les <em>random forests</em></a></li>
-  <li><a href="#le-boosting" id="toc-le-boosting" class="nav-link" data-scroll-target="#le-boosting">Le <em>boosting</em></a></li>
+  <li><a href="#mode-de-construction-dune-forêt-aléatoire" id="toc-mode-de-construction-dune-forêt-aléatoire" class="nav-link" data-scroll-target="#mode-de-construction-dune-forêt-aléatoire">Mode de construction d’une forêt aléatoire</a></li>
+  <li><a href="#quelle-implémentation-utiliser" id="toc-quelle-implémentation-utiliser" class="nav-link" data-scroll-target="#quelle-implémentation-utiliser">Quelle implémentation utiliser?</a></li>
+  <li><a href="#quels-sont-les-hyperparamètres-des-forêts-aléatoires" id="toc-quels-sont-les-hyperparamètres-des-forêts-aléatoires" class="nav-link" data-scroll-target="#quels-sont-les-hyperparamètres-des-forêts-aléatoires">Quels sont les hyperparamètres des forêts aléatoires?</a></li>
+  <li><a href="#comment-entraîner-une-forêt-aléatoire" id="toc-comment-entraîner-une-forêt-aléatoire" class="nav-link" data-scroll-target="#comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter1/survol.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter1/survol.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/guide_usage_RF.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/guide_usage_RF.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -275,134 +265,61 @@ window.Quarto = {
 
 
 
-<p><strong>Principe</strong>: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des <em>managers</em> sans bagage en <em>machine learning</em>. Elle ne contient aucune formalisation mathématique.</p>
-<section id="que-sont-les-méthodes-ensemblistes" class="level2">
-<h2 class="anchored" data-anchor-id="que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</h2>
-<section id="lunion-fait-la-force" class="level3">
-<h3 class="anchored" data-anchor-id="lunion-fait-la-force">L’union fait la force</h3>
-<p>Plutôt que de chercher à construire d’emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.</p>
-<p>Il existe quatre grandes approches ensemblistes:</p>
+<section id="guide-dentraînement-des-forêts-aléatoires" class="level2">
+<h2 class="anchored" data-anchor-id="guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</h2>
+<p>Cette section rassemble et synthétise des recommandations sur l’entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p>
+<section id="mode-de-construction-dune-forêt-aléatoire" class="level3">
+<h3 class="anchored" data-anchor-id="mode-de-construction-dune-forêt-aléatoire">Mode de construction d’une forêt aléatoire</h3>
+<p>Le processus pour construire une Random Forest se résume comme suit :</p>
 <ul>
-<li>le <em>bagging</em>;</li>
-<li>la <em>random forest</em>;</li>
-<li>le <em>stacking</em>;</li>
-<li>le <em>boosting</em>.</li>
-</ul>
-<p>Le présent document se concentre sur deux approches: la <em>random forest</em> et le <em>boosting</em>.</p>
-<p>Les méthodes ensemblistes désignent un ensemble d’algorithmes d’apprentissage supervisé (notamment les forêts aléatoires et le <em>boosting</em>) développés depuis le début des années 2000. Ces méthodes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits “apprenants faibles” (“weak learners”), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.</p>
-<p>Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu’elles s’appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont <em>entrainés en parallèle</em>, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d’entraînement, soit un sous-ensemble des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire. Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entrainés de manière séquentielle</em>, chaque modèle de base vise à minimiser l’erreur de prédiction de l’ensemble des modèles de base précédents. Les implémentations les plus courantes du <em>boosting</em> sont actuellement XGBoost, CatBoost et LightGBM.</p>
-</section>
-</section>
-<section id="pourquoi-utiliser-des-méthodes-ensemblistes" class="level2">
-<h2 class="anchored" data-anchor-id="pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</h2>
-<p>Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d’usage de la statistique publique, pour deux raisons. D’une part, elles sont conçues pour s’appliquer à des données tabulaires (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D’autre part, elles peuvent être mobilisées dans toutes les situations où on utilise une régression linéaire ou une régression logistisque (imputation, repondération…).</p>
-<p>Les méthodes ensemblistes présentent trois avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):</p>
+<li>Sélectionnez le nombre d’arbres à construire (n_trees).</li>
+<li>Pour chaque arbre, effectuez les étapes suivantes :
 <ul>
-<li><p>Elles ont une <strong>puissance prédictive supérieure</strong>: alors que les méthodes traditionnelles supposent fréquemment l’existence d’une relation linéaire ou log-linéaire entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>, les méthodes ensemblistes ne font quasiment aucune hypothèse sur la relation entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>, et se contentent d’approximer le mieux possible cette relation à partir des données disponibles. En particulier, les modèles ensemblistes peuvent facilement modéliser des <strong>non-linéarités</strong> de la relation entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span> et des <strong>interactions</strong> entre variables explicatives <em>sans avoir à les spécifier explicitement</em> au préalable, alors que les méthodes traditionnelles supposent fréquemment l’existence d’une relation linéaire ou log-linéaire entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>.</p></li>
-<li><p>Elles nécessitent <strong>moins de préparation des données</strong>: elles ne requièrent pas de normalisation des variables explicatives et peuvent s’accommoder des valeurs manquantes (selon des techniques variables selon les algorithmes).</p></li>
-<li><p>Elles sont généralement <strong>moins sensibles aux valeurs extrêmes et à l’hétéroscédasticité</strong> des variables explicatives que les approches traditionnelles.</p></li>
-</ul>
-<p>Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu’il existe désormais de multiples approches permettent d’interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste globalement moindre que celle d’une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l’objet d’une optimisation, par exemple au travers d’une validation croisée. Ce processus d’optimisation est généralement plus complexe et plus long que l’estimation d’une régression linéaire ou logistique. En revanche, utiliser des méthodes ensemblistes ne requiert pas de connaissances avancées en informatique ou de puissance de calcul importante.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Et par rapport au _deep learning_?">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Et par rapport au <em>deep learning</em>?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Si les approches de <em>deep learning</em> sont sans conteste très performantes pour le traitement du langage naturel et le traitement d’image, leur supériorité n’est pas établie pour les applications reposant sur des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d’arbres sont soit plus performantes que les approches de <em>deep learning</em> (<span class="citation" data-cites="grinsztajn2022tree">Grinsztajn, Oyallon, and Varoquaux (<a href="#ref-grinsztajn2022tree" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>), soit font jeu égal avec elles (<span class="citation" data-cites="mcelfresh2024neural">McElfresh et al. (<a href="#ref-mcelfresh2024neural" role="doc-biblioref">2024</a>)</span>). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d’approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l’optimisation des hyperparamètres s’avère souvent moins complexe (<span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>).</p>
-</div>
-</div>
-</section>
-<section id="comment-fonctionnent-les-méthodes-ensemblistes" class="level2">
-<h2 class="anchored" data-anchor-id="comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</h2>
-<p>Quatre temps:</p>
+<li>Générer un échantillon bootstrap à partir du jeu de données.</li>
+<li>Construire un arbre de décision à partir de cet échantillon :</li>
+<li>À chaque nœud de l’arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (mtry).</li>
+<li>Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.</li>
+<li>Arrêter la croissance de l’arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l’arbre.</li>
+</ul></li>
+<li>Agréger les arbres pour effectuer les prédictions finales :
 <ul>
-<li>les arbres de décision et de régression (CART);</li>
-<li>les forêts aléatoires;</li>
-<li>le boosting.</li>
+<li>Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.</li>
+<li>Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue.</li>
+</ul></li>
 </ul>
-<section id="le-point-de-départ-les-arbres-de-décision-et-de-régression" class="level3">
-<h3 class="anchored" data-anchor-id="le-point-de-départ-les-arbres-de-décision-et-de-régression">Le point de départ: les arbres de décision et de régression</h3>
-<p>Présenter <em>decision tree</em> et <em>regression tree</em>. Reprendre des éléments du chapitre 9 de https://bradleyboehmke.github.io/HOML/</p>
-<p>Principes d’un arbre:</p>
-<ul>
-<li>fonction constante par morceaux;</li>
-<li>partition de l’espace;</li>
-<li>interactions entre variables.</li>
-</ul>
-<p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
 </section>
-<section id="critères-de-performance-et-sélection-dun-modèle" class="level3">
-<h3 class="anchored" data-anchor-id="critères-de-performance-et-sélection-dun-modèle">Critères de performance et sélection d’un modèle</h3>
-<p>La performance d’un modèle augmente généralement avec sa complexité, jusqu’à atteindre un maximum, puis diminue. L’objectif est d’obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C’est ce qu’on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.</p>
-<div id="fig-rf" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-rf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../figures/rf.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Représentation schématique d’un algorithme de forêt aléatoire
-</figcaption>
-</figure>
-</div>
-<div id="fig-gb" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../../figures/gb.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Représentation schématique d’un algorithme de <em>boosting</em>
-</figcaption>
-</figure>
-</div>
+<section id="quelle-implémentation-utiliser" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-implémentation-utiliser">Quelle implémentation utiliser?</h3>
+<p>Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l’usage de deux implémentations de référence: le <em>package</em> <code>R</code> <code>ranger</code> et le <em>package</em> <code>Python</code> <code>scikit-learn</code>. Il est à noter qu’il est possible d’entraîner des forêts aléatoires avec les algorithmes <code>XGBoost</code> et <code>LightGBM</code>, mais il s’agit d’un usage avancé qui n’est recommandé en première approche. Cette approche est présentée dans la partie <strong>REFERENCE A LA PARTIE USAGE AVANCE</strong>.</p>
 </section>
-</section>
-<section id="le-bagging-les-random-forests-et-le-boosting" class="level2">
-<h2 class="anchored" data-anchor-id="le-bagging-les-random-forests-et-le-boosting">Le <em>bagging</em>, les <em>random forests</em> et le <em>boosting</em></h2>
-<p>Il existe plusieurs types de méthodes ensemblistes, toutes ayant en commun la combinaison de modèles élémentaires. Le présent document présente les 3 principales méthodes : le Bagging, la Random Forests et le Boosting.</p>
-<section id="le-bagging-bootstrap-aggregating" class="level3">
-<h3 class="anchored" data-anchor-id="le-bagging-bootstrap-aggregating">Le <em>bagging</em> (Bootstrap Aggregating)</h3>
-<p>Présenter le <em>bagging</em> en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML. Mettre une description de l’algorithme en pseudo-code?</p>
-<ul>
-<li>Présentation avec la figure en SVG;</li>
-<li>Illustration avec un cas d’usage de classification en deux dimensions.</li>
-</ul>
-<p>Le bagging, ou Bootstrap Aggregating, est une méthode ensembliste qui comporte trois étapes principales :</p>
-<pre><code>Création de sous-échantillons : À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (bootstrapping). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises. Cette technique permet de diversifier les données d'entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.
+<section id="quels-sont-les-hyperparamètres-des-forêts-aléatoires" class="level3">
+<h3 class="anchored" data-anchor-id="quels-sont-les-hyperparamètres-des-forêts-aléatoires">Quels sont les hyperparamètres des forêts aléatoires?</h3>
+<p>Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau . Les noms des hyperparamètres utilisés sont ceux figurant dans le <em>package</em> <code>R</code> <code>ranger</code>, et dans le <em>package</em> <code>Python</code> <code>scikit-learn</code>. Il arrive qu’ils portent un nom différent dans d’autres implémentations des <em>random forests</em>, mais il est généralement facile de s’y retrouver en lisant attentivement la documentation.</p>
+<!-- 
+| Hyperparamètre (`ranger` / `scikit-learn`) |                                  Description                                  |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `mtry`   / `max_features`                  | Le nombre de variables candidates à chaque noeud                              |
+| `replacement`   / absent                   | L'échantillonnage des données se fait-il avec ou sans remise?                 |
+| `sample.fraction`   / `max_samples`        | Le taux d'échantillonnage des données                                         |
+| `min.node.size`   / `min_samples_leaf`     | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé |
+| `num.trees`   / `n_estimators`             | Le nombre d'arbres                                                            |
+| `splitrule` / `criterion`                  | Le critère de choix de la règle de division des noeuds intermédiaires         |
+| `min.bucket`  / `min_samples_split`        | Nombre minimal d'observations dans les noeuds terminaux                       |
+| `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
 
-Entraînement parallèle : Un modèle distinct est entraîné sur chaque sous-échantillon de manière indépendante. Cette technique permet un gain d'efficacité et un meilleur contrôle du surapprentissage (overfitting).
-
-Agrégation des prédictions : Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu'en régression, elle correspond généralement à la moyenne des prédictions. En combinant les prédictions de plusieurs modèles, le bagging renforce la stabilité et la performance globale de l'algorithme, notamment en réduisant la variance des prédictions.</code></pre>
-<p>Le bagging appliqué aux arbres de décision est la forme la plus courante de cette technique.</p>
-<p>Le bagging est particulièrement efficace pour réduire la variance des modèles, ce qui les rend moins vulnérables au surapprentissage. Cette caractéristique est particulièrement utile dans les situations où la robustesse et la capacité de généralisation des modèles sont cruciales. De plus, comme le bagging repose sur des processus indépendants, l’exécution est plus plus rapide dans des environnements distribués.</p>
-<p>Cependant, bien que chaque modèle de base soit construit indépendamment sur des sous-échantillons distincts, les variables utilisées pour générer ces modèles ne sont pas forcément indépendantes d’un modèle à l’autre. Dans le cas du bagging appliqué aux arbres de décision, cela conduit souvent à des arbres ayant une structure similaire.</p>
-<p>Les forêts aléatoires apportent une amélioration à cette approche en réduisant cette corrélation entre les arbres, ce qui permet d’augmenter la précision de l’ensemble du modèle.</p>
-</section>
-<section id="les-random-forests" class="level3">
-<h3 class="anchored" data-anchor-id="les-random-forests">Les <em>random forests</em></h3>
-<p>Expliquer que les <em>random forests</em> sont une amélioration du <em>bagging</em>, en reprenant des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/</p>
-<!-- https://neptune.ai/blog/ensemble-learning-guide -->
-<!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
+: Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
+ -->
 <ul>
-<li>Présentation avec la figure en SVG;</li>
-<li>Difficile d’illustrer avec un exemple (car on ne peut pas vraiment représenter le <em>feature sampling</em>);</li>
-<li>Bien insister sur les avantages des RF: 1/ faible nombre d’hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l’overfitting.</li>
+<li><p>Le <strong>nombre de variables candidates à chaque noeud</strong> contrôle l’échantillonnage des variables lors de l’entraînement. La valeur par défaut est fréquemment <span class="math inline">\(\sqrt p\)</span> pour la classification et <span class="math inline">\(p/3\)</span> pour la régression. C’est l’hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C’est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.</p></li>
+<li><p>Le <strong>taux d’échantillonnage</strong> et le <strong>mode de tirage</strong> contrôlent le plan d’échantillonnage des données d’entraînement. Les valeurs par défaut varient d’une implémentation à l’autre; dans le cas de <code>ranger</code>, le taux d’échantillonnage est de 63,2% sans remise, et de 100% avec remise. L’implémentation <code>scikit-learn</code> ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais dans une moindre ampleur. Un taux d’échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d’échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l’échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu’il est préférable d’échantillonner sans remise (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p></li>
+<li><p>Le <strong>nombre minimal d’observations dans les noeuds terminaux</strong> contrôle la taille des noeuds terminaux. La valeur par défaut est faible dans la plupart des implémentations (entre 1 et 5). Il n’y a pas vraiment de consensus sur l’effet de cet hyperparamètre sur les performances. En revanche, il est certain que le temps d’entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l’entraînement, en particulier si les données sont volumineuses.</p></li>
+<li><p>Le <strong>nombre d’arbres</strong> par défaut varie selon les implémentations (500 dans <code>ranger</code>, 100 dans <code>scikit-learn</code>). Il s’agit d’un hyperparamètre particulier car il n’est associé à aucun arbitrage en matière de performance: la performance de la forêt aléatoire croît avec le nombre d’arbres, puis se stabilise à un niveau approximativement constant. Le nombre optimal d’arbres est donc intuitivement celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas). Il est important de noter que ce nombre optimal dépend des autres hyperparamètres. Par exemple, un taux d’échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d’arbres.</p></li>
+<li><p>Le <strong>critère de choix de la règle de division des noeuds intermédiaires</strong>: la plupart des implémentations des forêts aléatoires retiennent par défaut l’impureté de Gini pour la classification et la variance pour la régression, même si d’autres critères de choix ont été proposés dans la littérature. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p></li>
 </ul>
 </section>
-<section id="le-boosting" class="level3">
-<h3 class="anchored" data-anchor-id="le-boosting">Le <em>boosting</em></h3>
-<p>Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.</p>
-<p>Le <em>boosting</em> combine l’<span class="orange"><strong>approche ensembliste</strong></span> avec une <span class="orange"><strong>modélisation additive par étapes</strong></span> (<em>forward stagewise additive modeling</em>).</p>
-<ul>
-<li><p>Présentation;</p></li>
-<li><p>Avantage du boosting: performances particulièrement élevées.</p></li>
-<li><p>Inconvénients: 1/ nombre élevé d’hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d’overfitting.</p></li>
-<li><p>Préciser qu’il est possible d’utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.</p></li>
-</ul>
+<section id="comment-entraîner-une-forêt-aléatoire" class="level3">
+<h3 class="anchored" data-anchor-id="comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</h3>
+<p>Comme indiqué dans la partie <strong>REFERENCE A AJOUTER</strong>, la performance prédictive d’une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d’arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l’objectif de l’entraînement d’une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation.</p>
 
 
 
@@ -410,14 +327,8 @@ Agrégation des prédictions : Les prédictions des modèles sont combinées pou
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-grinsztajn2022tree" class="csl-entry" role="listitem">
-Grinsztajn, Léo, Edouard Oyallon, and Gaël Varoquaux. 2022. <span>“Why Do Tree-Based Models Still Outperform Deep Learning on Typical Tabular Data?”</span> <em>Advances in Neural Information Processing Systems</em> 35: 507–20.
-</div>
-<div id="ref-mcelfresh2024neural" class="csl-entry" role="listitem">
-McElfresh, Duncan, Sujay Khandagale, Jonathan Valverde, Vishak Prasad C, Ganesh Ramakrishnan, Micah Goldblum, and Colin White. 2024. <span>“When Do Neural Nets Outperform Boosted Trees on Tabular Data?”</span> <em>Advances in Neural Information Processing Systems</em> 36.
-</div>
-<div id="ref-shwartz2022tabular" class="csl-entry" role="listitem">
-Shwartz-Ziv, Ravid, and Amitai Armon. 2022. <span>“Tabular Data: Deep Learning Is Not All You Need.”</span> <em>Information Fusion</em> 81: 84–90.
+<div id="ref-probst2019hyperparameters" class="csl-entry" role="listitem">
+Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019. <span>“Hyperparameters and Tuning Strategies for Random Forest.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -842,14 +753,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Introduction aux méthodes ensemblistes">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction aux méthodes ensemblistes</span>
+      <a href="../../chapters/chapter2/boosting.html" class="pagination-link" aria-label="Le *boosting*">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Le <em>boosting</em></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter1/comparaison_GB_RF.html" class="pagination-link" aria-label="Comparaison RF-GBDT">
-        <span class="nav-page-text">Comparaison RF-GBDT</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -860,7 +768,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter1/survol.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter1/survol.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/guide_usage_RF.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/guide_usage_RF.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
