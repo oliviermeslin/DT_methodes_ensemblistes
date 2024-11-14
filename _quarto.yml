@@ -78,5 +78,6 @@ format:
       - customisation_template.typ
     toc: true
     section-numbering: 1.1.1
+format-links: false
 
 bibliography: references.bib
