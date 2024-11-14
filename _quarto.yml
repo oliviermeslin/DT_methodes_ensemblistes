@@ -14,7 +14,7 @@ project:
   resources: 
     - "*.svg"
   post-render: 
-    render_pdf_output.sh
+    ./render_pdf_output.sh
 
 
 website: 
