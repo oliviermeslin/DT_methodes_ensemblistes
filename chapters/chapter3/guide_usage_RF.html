@@ -269,14 +269,14 @@ window.Quarto = {
 <p>Cette section rassemble et synthétise des recommandations sur l’entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p>
 <section id="mode-de-construction-dune-forêt-aléatoire" class="level3">
 <h3 class="anchored" data-anchor-id="mode-de-construction-dune-forêt-aléatoire">Mode de construction d’une forêt aléatoire</h3>
-<p>Le processus pour construire une Random Forest se résume comme suit :</p>
+<p>Le processus pour construire une Random Forest se résume comme suit:</p>
 <ul>
-<li>Sélectionnez le nombre d’arbres à construire (n_trees).</li>
+<li>Sélectionnez le nombre d’arbres à construire (<code>n_trees</code>).</li>
 <li>Pour chaque arbre, effectuez les étapes suivantes :
 <ul>
 <li>Générer un échantillon bootstrap à partir du jeu de données.</li>
-<li>Construire un arbre de décision à partir de cet échantillon :</li>
-<li>À chaque nœud de l’arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (mtry).</li>
+<li>Construire un arbre de décision à partir de cet échantillon:</li>
+<li>À chaque nœud de l’arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (<code>mtry</code>).</li>
 <li>Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.</li>
 <li>Arrêter la croissance de l’arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l’arbre.</li>
 </ul></li>
