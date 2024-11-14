@@ -18,8 +18,6 @@ format:
 bibliography: ../references.bib
 ---
 
-# AAAAA
-
 {{< include ../index.qmd >}}
 
 {{< include ../chapters/chapter1/0-intro.qmd >}}
@@ -33,7 +31,5 @@ bibliography: ../references.bib
 {{< include ../chapters/chapter2/4-boosting.qmd >}}
 
 {{< include ../chapters/chapter3/0-intro.qmd >}}
-{{< include ../chapters/chapter3/guide_usage_RF.qmd >}}
+{{< include ../chapters/chapter3/1-guide_usage_RF.qmd >}}
 
-
-# Comment bien utiliser les algorithmes?
