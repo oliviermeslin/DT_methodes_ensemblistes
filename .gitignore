@@ -8,3 +8,4 @@ old/*
 *.html
 
 /.quarto/
+_site/*
