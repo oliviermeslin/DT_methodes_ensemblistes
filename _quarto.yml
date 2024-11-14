@@ -8,9 +8,11 @@ project:
     - index.qmd
     - chapters/chapter1/survol.qmd
     - chapters/chapter1/comparaison_GB_RF.qmd
+    - chapters/chapter2/CART.qmd
     - chapters/chapter2/bagging.qmd
     - chapters/chapter2/random_forest.qmd
     - chapters/chapter2/boosting.qmd
+    - chapters/chapter3/guide_usage_RF.qmd
   resources: 
     - "*.svg"
   post-render: 
@@ -34,16 +36,22 @@ website:
     search: true
     contents:
       - index.qmd
-      - section: "Survol"
+      - section: "Survol des méthodes ensemblistes"
         href: chapters/chapter1/survol.qmd
         contents:
           - chapters/chapter1/survol.qmd
           - chapters/chapter1/comparaison_GB_RF.qmd
-      - section: "Détail"
+      - section: "Présentation formelle des algorithmes"
+        href: chapters/chapter2/CART.qmd
         contents:
+          - chapters/chapter2/CART.qmd
           - chapters/chapter2/bagging.qmd
           - chapters/chapter2/random_forest.qmd
           - chapters/chapter2/boosting.qmd
+      - section: "Comment bien utiliser les algorithmes?"
+        href: chapters/chapter3/guide_usage_RF.qmd
+        contents:
+          - chapters/chapter3/guide_usage_RF.qmd
     background: "#D9E3E4"
     favicon: images/favicon.ico
     pinned: true
