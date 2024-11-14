@@ -1,35 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter2/boosting.html</loc>
-    <lastmod>2024-11-14T16:30:16.240Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter2/random_forest.html</loc>
-    <lastmod>2024-11-14T16:30:16.244Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter2/CART.html</loc>
-    <lastmod>2024-11-14T16:30:16.240Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter1/survol.html</loc>
-    <lastmod>2024-11-14T16:30:16.240Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter1/comparaison_GB_RF.html</loc>
-    <lastmod>2024-11-14T16:30:16.240Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter2/bagging.html</loc>
-    <lastmod>2024-11-14T16:30:16.240Z</lastmod>
-  </url>
-  <url>
     <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/index.html</loc>
-    <lastmod>2024-11-14T16:30:16.248Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/oliviermeslin/DT_methodes_ensemblistes/chapters/chapter3/guide_usage_RF.html</loc>
-    <lastmod>2024-11-14T16:30:16.248Z</lastmod>
+    <lastmod>2024-11-14T16:55:26.879Z</lastmod>
   </url>
 </urlset>
