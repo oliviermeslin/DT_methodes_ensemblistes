@@ -17,3 +17,6 @@ quarto render dt_methodes_ensemblistes.qmd --verbose --to typst --output dt_meth
 
 # Put the PDF output on the website
 mv dt_methodes_ensemblistes.pdf _site/dt_methodes_ensemblistes.pdf
+
+# Clean the repo
+rm dt_methodes_ensemblistes.qmd
