@@ -8,10 +8,10 @@ Il existe quatre grandes approches ensemblistes:
 
 - le _bagging_;
 - la _random forest_;
-- le _stacking_;
-- le _boosting_.
+- le _boosting_;
+- le _stacking_.
 
-Le présent document se concentre sur deux approches: la _random forest_ et le _boosting_.
+Le présent document se concentre sur trois approches: le _bagging_, la _random forest_ et le _boosting_.
 
 
 Les méthodes ensemblistes désignent un ensemble d'algorithmes d'apprentissage supervisé (notamment les forêts aléatoires et le _boosting_) développés depuis le début des années 2000. Ces méthodes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits "apprenants faibles" ("weak learners"), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.
