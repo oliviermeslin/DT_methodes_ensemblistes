@@ -12,9 +12,9 @@ Imaginez que vous souhaitiez prédire le prix d'une maison en fonction de sa sup
 
 L'objectif principal est de trouver la partition de l'espace des caractéristiques qui offre les meilleures prédictions possibles. Cependant, cet objectif se heurte à plusieurs difficultés, et la complexité du problème augmente rapidement avec le nombre de caractéristiques et la taille de l'échantillon:
 
-1. **Infinité des découpages possibles** : Il existe une infinité de façons de diviser l'espace des caractéristiques.
-2. **Complexité de la paramétrisation** : Il est difficile de représenter tous ces découpages avec un nombre limité de paramètres.
-3. **Optimisation complexe** : Même avec une paramétrisation, trouver le meilleur découpage nécessite une optimisation complexe, souvent irréaliste en pratique.
+- **Infinité des découpages possibles** : Il existe une infinité de façons de diviser l'espace des caractéristiques.
+- **Complexité de la paramétrisation** : Il est difficile de représenter tous ces découpages avec un nombre limité de paramètres.
+- **Optimisation complexe** : Même avec une paramétrisation, trouver le meilleur découpage nécessite une optimisation complexe, souvent irréaliste en pratique.
 
 
 ### Les solutions apportées par les arbres de décision
