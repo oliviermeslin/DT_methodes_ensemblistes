@@ -70,10 +70,10 @@ Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
 
 
-![Représentation schématique d'un algorithme de forêt aléatoire](figures/rf.svg){#fig-rf}
+![Représentation schématique d'un algorithme de forêt aléatoire](/figures/rf.svg){#fig-rf}
 
 
-![Représentation schématique d'un algorithme de _boosting_](figures/gb.svg){#fig-gb}
+![Représentation schématique d'un algorithme de _boosting_](/figures/gb.svg){#fig-gb}
 
 
 

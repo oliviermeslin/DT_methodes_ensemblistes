@@ -1,22 +1,13 @@
 
+---
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "On va vous booster le gradient"
+author: |
+  [Olivier Meslin](https://github.com/oliviermeslin)
+  [Mélina Hillion](https://github.com/melinahillion)
+---
 
+# Introduction
 
-# Survol des méthodes ensemblistes
+Une bien belle introduction
 
-{{< include "chapters/chapter1/survol.qmd" >}}
-
-{{< include "chapters/chapter1/comparaison_GB_RF.qmd" >}}
-
-# Méthodes ensemblistes: présentation mathématisée
-
-{{< include "chapters/chapter2/CART.qmd" >}}
-
-{{< include "chapters/chapter2/bagging.qmd" >}}
-
-{{< include "chapters/chapter2/random_forest.qmd" >}}
-
-{{< include "chapters/chapter2/boosting.qmd" >}}
-
-# Comment (bien) utiliser les approches ensemblistes
-
-{{< include "chapters/chapter3/guide_usage_RF.qmd" >}}

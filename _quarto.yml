@@ -1,22 +1,68 @@
 project:
   type: website
+  output-dir: _site
+  preview:
+    port: 4201
+    browser: false
   render:
     - index.qmd
+    - chapters/chapter1/survol.qmd
+    - chapters/chapter1/comparaison_GB_RF.qmd
+    - chapters/chapter2/bagging.qmd
+    - chapters/chapter2/random_forest.qmd
+    - chapters/chapter2/boosting.qmd
+  resources: 
+    - "*.svg"
+  post-render: 
+    render_pdf_output.sh
 
-title: "Introduction aux méthodes ensemblistes"
-subtitle: "Plan détaillé"
-author: |
-  [Olivier Meslin](https://github.com/oliviermeslin)
-  [Mélina Hillion](https://github.com/melinahillion)
+
+website: 
+  page-navigation: true
+  title: "Introduction aux méthodes ensemblistes"
+  site-url: "https://github.com/oliviermeslin/DT_methodes_ensemblistes" 
+  repo-url: "https://github.com/oliviermeslin/DT_methodes_ensemblistes"
+  repo-actions: [edit, source, issue]
+  favicon: images/favicon.ico
+  
+  page-footer:
+    right: "This page is built with [Quarto](https://quarto.org/)."
+    left: "&copy; CC-1.0"
+  
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - text: "Introduction"
+        href: index.qmd
+        contents:
+          - index.qmd
+      - section: "Survol"
+        href: chapters/chapter1/survol.qmd
+        contents:
+          - chapters/chapter1/survol.qmd
+          - chapters/chapter1/comparaison_GB_RF.qmd
+      - section: "Détail"
+        contents:
+          - chapters/chapter2/bagging.qmd
+          - chapters/chapter2/random_forest.qmd
+          - chapters/chapter2/boosting.qmd
+    background: "#D9E3E4"
+    favicon: images/favicon.ico
+    pinned: true
+    align: center
+    tools: 
+      - icon: globe
+        href: https://nmfs-opensci.github.io
+        text: "NMFS Open Science"
+      - icon: github
+        href: https://github.com/nmfs-opensci
+        text: "NMFS OpenSci"
+
 format:
-  typst:
-    output-file: dt_methodes_ensemblistes.pdf
-    keep-typ: true
-    template: _extensions/quarto-ext/ams/template.typ
-    template-partials:
-      - _extensions/quarto-ext/ams/typst-template.typ
-      - _extensions/quarto-ext/ams/typst-show.typ
-      - customisation_template.typ
+  html: 
+    theme: litera
+    code-copy: true
+    code-overflow: wrap
     toc: true
-    section-numbering: 1.1.1
 bibliography: references.bib

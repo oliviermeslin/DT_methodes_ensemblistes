@@ -27,3 +27,5 @@ wget --retry-on-http-error=429 https://marketplace.visualstudio.com/_apis/public
 code-server --install-extension copilot.vsix
 code-server --install-extension copilot-chat.vsix
 rm copilot.vsix copilot-chat.vsix
+
+chmod +x render_pdf_output.sh
