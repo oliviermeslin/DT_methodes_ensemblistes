@@ -18,17 +18,22 @@ format:
 bibliography: ../references.bib
 ---
 
-# Introduction
+# AAAAA
 
 {{< include ../index.qmd >}}
 
-## Survol
+# Survol des méthodes ensemblistes
 
 {{< include ../chapters/chapter1/survol.qmd >}}
 {{< include ../chapters/chapter1/comparaison_GB_RF.qmd >}}
 
-## Détail
+## Présentation formelle des algorithmes
 
+{{< include ../chapters/chapter2/CART.qmd >}}
 {{< include ../chapters/chapter2/bagging.qmd >}}
 {{< include ../chapters/chapter2/random_forest.qmd >}}
 {{< include ../chapters/chapter2/boosting.qmd >}}
+
+## Comment bien utiliser les algorithmes?
+
+{{< include ../chapters/chapter3/guide_usage_RF.qmd >}}
