@@ -59,7 +59,9 @@
 // emulate element function by creating show rule
 #show figure.where(kind: "chapter"): it => {
   set text(22pt)
-  counter(heading).update(0)
+  // if  reset-sections-numbering {
+  //   counter(heading).update(0)
+  // }
   if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body)
 }
 
@@ -125,7 +127,8 @@
   linkcolor: "#800000",
   title-page: false,
   blind: false,
-  chapters-in-toc: false,
+  chapters-in-toc: true,
+  reset-sections-numbering: false,
   doc,
 ) = {
 
@@ -343,14 +346,24 @@
     } else {
       toc_title
     }
-    block(above: 0em, below: 2em)[
-    #outline(
-      target: chapters-and-headings,
-      title: toc_title,
-      depth: toc_depth,
-      indent: toc_indent
-    );
-    ]
+    if chapters-in-toc {
+      block(above: 0em, below: 2em)[
+      #outline(
+        target: chapters-and-headings,
+        title: toc_title,
+        depth: toc_depth,
+        indent: toc_indent
+      );
+      ]
+    } else {
+      block(above: 0em, below: 2em)[
+      #outline(
+        title: toc_title,
+        depth: toc_depth,
+        indent: toc_indent
+      );
+      ]
+    }
   }
 
   if cols == 1 {

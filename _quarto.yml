@@ -16,7 +16,7 @@ project:
     - chapters/chapter2/4-boosting.qmd
     - chapters/chapter3/0-intro.qmd
     - chapters/chapter3/1-guide_usage_RF.qmd
-    - pdf/*.qmd
+    - pdf/dt_methodes_ensemblistes.qmd
   resources: 
     - "*.svg"
 
