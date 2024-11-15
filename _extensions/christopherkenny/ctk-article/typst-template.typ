@@ -75,9 +75,11 @@
 
     res += link(it.element.location(), it.page)
     strong(res)
+    
   } else {
     // we're doing indenting here
-    h(1em * it.level) + it
+    // h(1em * it.level) + it
+    it
   }
 }
 
@@ -87,8 +89,7 @@
 #set heading(numbering: "1.")
 
 // can't use set, so we reassign with default args
-#let chapter = chapter.with(numbering: "I")
-
+// #let chapter = chapter.with(numbering: "I")
 
 #let ctk-article(
   title: none,

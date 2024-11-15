@@ -1,3 +1,8 @@
+/* ---------------------------------------------------------
+   Settings for equations
+--------------------------------------------------------- */
+
+
 #set math.equation(
 numbering: "(1)",
 supplement: none
@@ -37,13 +42,28 @@ supplement: none
   it
 }
 
-#set par(leading: 0.55em, first-line-indent: 1.8em, justify: true)
+/* ---------------------------------------------------------
+   Spacing around headings
+--------------------------------------------------------- */
+
+
+#show heading.where(depth: 1): set block(above: 1em, below: 1.5em)
+#show heading.where(depth: 2): set block(above: 1em, below: 1em)
+#show heading.where(depth: 3): set block(above: 1em, below: 1em)
+
+
+/* ---------------------------------------------------------
+   Insert pagebreak before header 1
+--------------------------------------------------------- */
+
 
 // La police principale
-#set text(font: "IBM Plex Sans")
+#set text(font: "New Computer Modern")
+#show raw: set text(font: "New Computer Modern Mono")
+#set par(leading: 0.55em, first-line-indent: 1.8em, justify: true)
 
-#show heading: set block(above: 1.4em, below: 1em)
 
+// Add a 
 #show heading.where(depth: 1): it => {
   if it.supplement != [Outline] {
     pagebreak(weak: true)
@@ -51,4 +71,11 @@ supplement: none
   it
 }
 
-// #show heading.where(depth: 1): set text(blue)
+// Put all links in blue
+#show link: it => [
+  #set text(fill: rgb("#0000FF"))
+  #block(it.body)
+]
+
+// use French support
+#set text(lang: "fr")

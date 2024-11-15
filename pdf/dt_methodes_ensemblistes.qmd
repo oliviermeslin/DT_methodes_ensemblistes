@@ -24,17 +24,20 @@ keywords:
   - méthodes ensemblistes
   - formation
 thanks: "Nous remercions Daffy Duck et Mickey Mouse pour leur contribution."
+papersize: a4
+margins: 1.25in
+mainfont: New Computer Modern
 title-page: true
 toc: true
 toc-depth: 3
 toc-title: "Sommaire"
-blind: false
-papersize: a4
-margins: 1.25in
-bibliography: /references.bib
-bibliographystyle: chicago-author-date
 chaptersintoc: true
 resetsecnumbering: false
+blind: false
+linestretch: 1.25
+linkcolor: "#000000"
+bibliography: /references.bib
+bibliographystyle: chicago-author-date
 functions:
   - "titled-raw-block"
   - "text"
@@ -42,7 +45,6 @@ functions:
 
 {{< include ../index.qmd >}}
 
-{{< include ../chapters/chapter1/0-intro.qmd >}}
 {{< include ../chapters/chapter1/1-survol.qmd >}}
 {{< include ../chapters/chapter1/2-comparaison_GB_RF.qmd >}}
 
