@@ -1,0 +1,54 @@
+---
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "On va vous booster le gradient"
+format:
+  ctk-article-typst:
+    include-in-header: ../customisation_template.typ
+    keep-typ: true
+author:
+  - name: Mélina Hillion
+    affiliations:
+      - name: Insee
+        department: Unité SSP-Lab
+    email: melina.hillion@insee.fr
+  - name: Olivier Meslin
+    affiliations:
+      - name: Insee
+        department: Unité SSP-Lab
+    email: olivier.meslin@insee.fr
+date: today
+abstract: |
+  A compléter
+keywords:
+  - machine learning
+  - méthodes ensemblistes
+  - formation
+thanks: "Nous remercions Daffy Duck et Mickey Mouse pour leur contribution."
+title-page: true
+toc: true
+toc-depth: 3
+toc-title: "Sommaire"
+blind: false
+papersize: a4
+margins: 1.25in
+bibliography: /references.bib
+bibliographystyle: chicago-author-date
+functions:
+  - "titled-raw-block"
+  - "text"
+---
+
+{{< include ../index.qmd >}}
+
+{{< include ../chapters/chapter1/0-intro.qmd >}}
+{{< include ../chapters/chapter1/1-survol.qmd >}}
+{{< include ../chapters/chapter1/2-comparaison_GB_RF.qmd >}}
+
+{{< include ../chapters/chapter2/0-intro.qmd >}}
+{{< include ../chapters/chapter2/1-CART.qmd >}}
+{{< include ../chapters/chapter2/2-bagging.qmd >}}
+{{< include ../chapters/chapter2/3-random_forest.qmd >}}
+{{< include ../chapters/chapter2/4-boosting.qmd >}}
+
+{{< include ../chapters/chapter3/0-intro.qmd >}}
+{{< include ../chapters/chapter3/1-guide_usage_RF.qmd >}}
