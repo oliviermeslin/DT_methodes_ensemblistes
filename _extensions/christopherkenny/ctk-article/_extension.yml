@@ -28,6 +28,8 @@ contributes:
       title-page: false
       blind: false
       section-numbering: "1.1."
+      chaptersintoc: true
+      resetsecnumbering: false
       execute:
         echo: false
         warning: false

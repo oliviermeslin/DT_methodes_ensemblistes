@@ -56,15 +56,6 @@
   caption: [],
 )
 
-// emulate element function by creating show rule
-#show figure.where(kind: "chapter"): it => {
-  set text(22pt)
-  // if  reset-sections-numbering {
-  //   counter(heading).update(0)
-  // }
-  if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body)
-}
-
 // no access to element in outline(indent: it => ...), so we must do indentation in here instead of outline
 #show outline.entry: it => {
   if it.element.func() == figure {
@@ -127,10 +118,22 @@
   linkcolor: "#800000",
   title-page: false,
   blind: false,
-  chapters-in-toc: true,
-  reset-sections-numbering: false,
+  chaptersintoc: true,
+  resetsecnumbering: false,
   doc,
 ) = {
+
+
+  // emulate element function by creating show rule
+  show figure.where(kind: "chapter"): it => {
+    set text(20pt)
+    // Reset section numbering if chosen
+    if  resetsecnumbering {
+      counter(heading).update(0)
+    }
+    if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body) + linebreak(justify: false)
+  }
+
 
 
   let runningauth = if authors == none {
@@ -346,7 +349,7 @@
     } else {
       toc_title
     }
-    if chapters-in-toc {
+    if chaptersintoc {
       block(above: 0em, below: 2em)[
       #outline(
         target: chapters-and-headings,

@@ -33,6 +33,8 @@ papersize: a4
 margins: 1.25in
 bibliography: /references.bib
 bibliographystyle: chicago-author-date
+chaptersintoc: true
+resetsecnumbering: false
 functions:
   - "titled-raw-block"
   - "text"
