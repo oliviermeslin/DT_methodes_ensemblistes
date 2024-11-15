@@ -69,15 +69,15 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: true
-  typst:
-    keep-typ: true
-    template: _extensions/quarto-ext/ams/template.typ
-    template-partials:
-      - _extensions/quarto-ext/ams/typst-template.typ
-      - _extensions/quarto-ext/ams/typst-show.typ
-      - customisation_template.typ
-    toc: true
-    section-numbering: 1.1.1
-format-links: false
+#   typst:
+#     keep-typ: true
+#     template: _extensions/quarto-ext/ams/template.typ
+#     template-partials:
+#       - _extensions/quarto-ext/ams/typst-template.typ
+#       - _extensions/quarto-ext/ams/typst-show.typ
+#       - customisation_template.typ
+#     toc: true
+#     section-numbering: 1.1.1
+# format-links: false
 
 bibliography: references.bib

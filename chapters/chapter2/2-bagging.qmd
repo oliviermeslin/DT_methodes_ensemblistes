@@ -105,9 +105,8 @@ Dans le cas de la classification, le prédicteur agrégé est défini par le **v
 
 Formellement, le classificateur agrégé $φA(x)$ est défini par :
 
-$ φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x) $
+$φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$
  
-
 #### Performance globale: convergence vers un classificateur presque optimal
 
 @breiman1996bagging montre que si chaque prédicteur individuel $φ(x, L)$ est order-correct pour une observation $x$, alors le prédicteur agrégé $φA(x)$, obtenu par **vote majoritaire**, atteint la performance optimale pour cette observation, c'est-à-dire qu'il converge vers la classe ayant la probabilité maximale $P(j∣x)$ pour l'observation $x$ lorsque le nombre de prédicteurs individuels augmente. Le vote majoritaire permet ainsi de **réduire les erreurs aléatoires** des classificateurs individuels.
