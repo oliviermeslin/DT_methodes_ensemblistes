@@ -16,6 +16,7 @@ author:
       - name: Insee
         department: Unité SSP-Lab
     email: olivier.meslin@insee.fr
+fig-cap-location: top
 date: today
 abstract: |
   A compléter
@@ -27,6 +28,7 @@ thanks: "Nous remercions Daffy Duck et Mickey Mouse pour leur contribution."
 papersize: a4
 margins: 1.25in
 mainfont: New Computer Modern
+codefont: New Computer Modern Math
 title-page: true
 toc: true
 toc-depth: 3
@@ -34,7 +36,6 @@ toc-title: "Sommaire"
 chaptersintoc: true
 resetsecnumbering: false
 blind: false
-linestretch: 1.25
 linkcolor: "#000000"
 bibliography: /references.bib
 bibliographystyle: chicago-author-date

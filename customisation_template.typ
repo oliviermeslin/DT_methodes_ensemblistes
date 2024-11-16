@@ -9,6 +9,22 @@ supplement: none
 )
 
 /* ---------------------------------------------------------
+   Settings for figures
+--------------------------------------------------------- */
+
+// Position of caption
+#show figure: set figure.caption(position: top)
+
+#show figure.where(kind: "quarto-float-fig"): set figure.caption(position: top)
+
+
+// Figure caption should be bold
+#show figure.caption: it => {
+  set text(weight: "bold")
+  it
+}
+
+/* ---------------------------------------------------------
    Settings for tables
 --------------------------------------------------------- */
 
@@ -25,10 +41,6 @@ supplement: none
   stroke: 0.5pt + rgb("666675"),
 )
 
-// Position of caption
-#show figure.where(
-  kind: table
-): set figure.caption(position: top)
 
 /* ---------------------------------------------------------
    Insert pagebreak before header 1
@@ -46,29 +58,55 @@ supplement: none
    Spacing around headings
 --------------------------------------------------------- */
 
-
-#show heading.where(depth: 1): set block(above: 1em, below: 1.5em)
-#show heading.where(depth: 2): set block(above: 1em, below: 1em)
-#show heading.where(depth: 3): set block(above: 1em, below: 1em)
-
+#show heading: set block(above: 1.4em, below: 1em)
 
 /* ---------------------------------------------------------
    Insert pagebreak before header 1
 --------------------------------------------------------- */
 
-
-// La police principale
-#set text(font: "New Computer Modern")
-#show raw: set text(font: "New Computer Modern Mono")
-#set par(leading: 0.55em, first-line-indent: 1.8em, justify: true)
-
-
-// Add a 
+// Add a page break before all level 1 headings
 #show heading.where(depth: 1): it => {
   if it.supplement != [Outline] {
     pagebreak(weak: true)
   }
   it
+}
+
+ #show figure.where(kind: "chapter"): it => {
+  if it.supplement != [Outline] {
+    pagebreak(weak: true)
+  }
+  it
+  }
+
+
+/* ---------------------------------------------------------
+   General settings
+--------------------------------------------------------- */
+
+// use French support
+#set text(lang: "fr")
+
+// La police principale
+#set text(font: "New Computer Modern")
+
+// Define default text size
+#set text(11pt)
+
+// Define font for code
+#show raw: it => {
+  set text(
+    font: "DejaVu Sans Mono", 
+    10pt
+  )
+  it
+  // highlight(
+  //   fill: luma(230),
+  //   extent: 2pt,
+  //   bottom-edge: "descender", 
+  //   top-edge: "ascender",
+  //   it,
+  // )
 }
 
 // Put all links in blue
@@ -77,5 +115,11 @@ supplement: none
   #block(it.body)
 ]
 
-// use French support
-#set text(lang: "fr")
+#set page(margin: 1.25in)
+
+// Define paragraph settings
+#set text(top-edge: 0.7em, bottom-edge: -0.3em)
+#set par(leading: 0.5em, first-line-indent: 1.8em, justify: true)
+
+// Define paragraph settings: https://typst.app/blog/2024/typst-0.12/
+#show par: set block(spacing: 0.5em)
