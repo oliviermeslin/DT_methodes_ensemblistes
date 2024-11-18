@@ -251,14 +251,11 @@ window.Quarto = {
   <ul>
   <li><a href="#aperçu-des-méthodes-ensemblistes" id="toc-aperçu-des-méthodes-ensemblistes" class="nav-link active" data-scroll-target="#aperçu-des-méthodes-ensemblistes">Aperçu des méthodes ensemblistes</a>
   <ul class="collapse">
-  <li><a href="#que-sont-les-méthodes-ensemblistes" id="toc-que-sont-les-méthodes-ensemblistes" class="nav-link" data-scroll-target="#que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</a>
-  <ul class="collapse">
-  <li><a href="#lunion-fait-la-force" id="toc-lunion-fait-la-force" class="nav-link" data-scroll-target="#lunion-fait-la-force">L’union fait la force</a></li>
-  </ul></li>
+  <li><a href="#que-sont-les-méthodes-ensemblistes" id="toc-que-sont-les-méthodes-ensemblistes" class="nav-link" data-scroll-target="#que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</a></li>
   <li><a href="#pourquoi-utiliser-des-méthodes-ensemblistes" id="toc-pourquoi-utiliser-des-méthodes-ensemblistes" class="nav-link" data-scroll-target="#pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</a></li>
   <li><a href="#comment-fonctionnent-les-méthodes-ensemblistes" id="toc-comment-fonctionnent-les-méthodes-ensemblistes" class="nav-link" data-scroll-target="#comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</a>
   <ul class="collapse">
-  <li><a href="#le-point-de-départ-les-arbres-de-décision-et-de-régression" id="toc-le-point-de-départ-les-arbres-de-décision-et-de-régression" class="nav-link" data-scroll-target="#le-point-de-départ-les-arbres-de-décision-et-de-régression">Le point de départ: les arbres de décision et de régression</a></li>
+  <li><a href="#le-modèle-de-base-larbre-de-classification-et-de-régression" id="toc-le-modèle-de-base-larbre-de-classification-et-de-régression" class="nav-link" data-scroll-target="#le-modèle-de-base-larbre-de-classification-et-de-régression">Le modèle de base: l’arbre de classification et de régression</a></li>
   <li><a href="#critères-de-performance-et-sélection-dun-modèle" id="toc-critères-de-performance-et-sélection-dun-modèle" class="nav-link" data-scroll-target="#critères-de-performance-et-sélection-dun-modèle">Critères de performance et sélection d’un modèle</a></li>
   </ul></li>
   <li><a href="#le-bagging-les-random-forests-et-le-boosting" id="toc-le-bagging-les-random-forests-et-le-boosting" class="nav-link" data-scroll-target="#le-bagging-les-random-forests-et-le-boosting">Le <em>bagging</em>, les <em>random forests</em> et le <em>boosting</em></a>
@@ -282,31 +279,19 @@ window.Quarto = {
 <p><strong>Principe</strong>: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des <em>managers</em> sans bagage en <em>machine learning</em>. Elle ne contient aucune formalisation mathématique.</p>
 <section id="que-sont-les-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</h2>
-<section id="lunion-fait-la-force" class="level3">
-<h3 class="anchored" data-anchor-id="lunion-fait-la-force">L’union fait la force</h3>
-<p>Plutôt que de chercher à construire d’emblée un unique modèle très complexe, les approches ensemblistes vise à obtenir un modèle très performant en combinant un grand nombre de modèles simples.</p>
-<p>Il existe quatre grandes approches ensemblistes:</p>
-<ul>
-<li>le <em>bagging</em>;</li>
-<li>la <em>random forest</em>;</li>
-<li>le <em>boosting</em>;</li>
-<li>le <em>stacking</em>.</li>
-</ul>
-<p>Le présent document se concentre sur trois approches: le <em>bagging</em>, la <em>random forest</em> et le <em>boosting</em>.</p>
-<p>Les méthodes ensemblistes désignent un ensemble d’algorithmes d’apprentissage supervisé (notamment les forêts aléatoires et le <em>boosting</em>) développés depuis le début des années 2000. Ces méthodes consistent à entraîner plusieurs modèles de base, puis à combiner les résultats obtenus afin de produire une prédiction consolidée. Les modèles de base, dits “apprenants faibles” (“weak learners”), sont généralement peu complexes. Le choix de ces modèles et la manière dont leurs prédictions sont combinées sont des facteurs clés pour la performance de ces approches.</p>
-<p>Les méthodes ensemblistes peuvent être divisées en deux grandes familles selon qu’elles s’appuient sur des modèles entrainés en parallèle ou de manière imbriquée ou séquentielle. Lorsque les modèles sont <em>entrainés en parallèle</em>, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d’entraînement, soit un sous-ensemble des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire. Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entrainés de manière séquentielle</em>, chaque modèle de base vise à minimiser l’erreur de prédiction de l’ensemble des modèles de base précédents. Les implémentations les plus courantes du <em>boosting</em> sont actuellement XGBoost, CatBoost et LightGBM.</p>
-</section>
+<p>Les approches ensemblistes désignent un ensemble d’algorithmes de <em>machine learning</em> supervisé développés depuis le début des années 1990, c’est-à-dire des méthodes statistiques permettant de prédire une variable-cible <span class="math inline">\(y\)</span> à partir d’un ensemble de variables <span class="math inline">\(\mathbf{X}\)</span> (<em>features</em>). Elles peuvent par exemple être utilisées pour prédire le salaire d’un salarié, la probabilité de réponse dans une enquête, le niveau de diplôme… Ces approches se définissent par un point commun: plutôt que de tenter de construire d’emblée un unique modèle très complexe et très performant, elles visent à obtenir un modèle très performant en combinant intelligemment un ensemble de modèles simples et peu performants, dits “apprenants faibles” (<em>weak learner</em> ou <em>base learner</em>). Le choix de ces modèles de base (des arbres de décision dans la plupart des cas) et la manière dont leurs prédictions sont combinées sont des facteurs déterminants pour la performance de ces approches. Le présent document se concentre sur trois approches ensemblistes à base d’arbres de décisions qui sont fréquemment utilisées: le <em>bagging</em>, la forêt aléatoire (<em>random forest</em>) et le <em>boosting</em>.</p>
+<p>On distingue deux grandes familles de méthodes ensemblistes, selon qu’elles s’appuient sur des modèles de base entrainés en parallèle indépendamment les uns des autres, ou au contraire de façon séquentielle. Lorsque les modèles sont <em>entrainés en parallèle</em>, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d’entraînement, soit un sous-ensemble aléatoires des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire (<em>random forest</em>). Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entrainés de manière séquentielle</em>, chaque modèle de base vise à améliorer la prédiction proposée par l’ensemble des modèles de base précédents. Les implémentations les plus courantes du <em>boosting</em> sont actuellement <code>XGBoost</code>, <code>CatBoost</code> et <code>LightGBM</code>.</p>
 </section>
 <section id="pourquoi-utiliser-des-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</h2>
-<p>Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d’usage de la statistique publique, pour deux raisons. D’une part, elles sont conçues pour s’appliquer à des données tabulaires (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D’autre part, elles peuvent être mobilisées dans toutes les situations où on utilise une régression linéaire ou une régression logistisque (imputation, repondération…).</p>
+<p>Les méthodes ensemblistes sont particulièrement bien adaptées à de nombreux cas d’usage de la statistique publique, pour deux raisons. D’une, elles sont conçues pour s’appliquer à des <em>données tabulaires</em> (enregistrements en lignes, variables en colonnes), structure de données omniprésente dans la statistique publique. D’autre part, elles peuvent être mobilisées dans toutes les situations où le statisticien mobilise une régression linéaire ou une régression logistisque (imputation, repondération…).</p>
 <p>Les méthodes ensemblistes présentent trois avantages par rapport aux méthodes économétriques traditionnelles (régression linéaire et régression logistique):</p>
 <ul>
 <li><p>Elles ont une <strong>puissance prédictive supérieure</strong>: alors que les méthodes traditionnelles supposent fréquemment l’existence d’une relation linéaire ou log-linéaire entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>, les méthodes ensemblistes ne font quasiment aucune hypothèse sur la relation entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>, et se contentent d’approximer le mieux possible cette relation à partir des données disponibles. En particulier, les modèles ensemblistes peuvent facilement modéliser des <strong>non-linéarités</strong> de la relation entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span> et des <strong>interactions</strong> entre variables explicatives <em>sans avoir à les spécifier explicitement</em> au préalable, alors que les méthodes traditionnelles supposent fréquemment l’existence d’une relation linéaire ou log-linéaire entre <span class="math inline">\(y\)</span> et <span class="math inline">\(\mathbf{X}\)</span>.</p></li>
 <li><p>Elles nécessitent <strong>moins de préparation des données</strong>: elles ne requièrent pas de normalisation des variables explicatives et peuvent s’accommoder des valeurs manquantes (selon des techniques variables selon les algorithmes).</p></li>
 <li><p>Elles sont généralement <strong>moins sensibles aux valeurs extrêmes et à l’hétéroscédasticité</strong> des variables explicatives que les approches traditionnelles.</p></li>
 </ul>
-<p>Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu’il existe désormais de multiples approches permettent d’interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste globalement moindre que celle d’une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l’objet d’une optimisation, par exemple au travers d’une validation croisée. Ce processus d’optimisation est généralement plus complexe et plus long que l’estimation d’une régression linéaire ou logistique. En revanche, utiliser des méthodes ensemblistes ne requiert pas de connaissances avancées en informatique ou de puissance de calcul importante.</p>
+<p>Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu’il existe désormais de multiples approches permettent d’interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste globalement moindre que celle d’une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l’objet d’une optimisation, par exemple au travers d’une validation croisée. Ce processus d’optimisation est généralement plus complexe et plus long que l’estimation d’une régression linéaire ou logistique. En revanche, les méthodes ensemblistes sont relativement simples à prendre en main, et ne requièrent pas nécessairement une puissance de calcul importante.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Et par rapport au _deep learning_?">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -323,21 +308,16 @@ Et par rapport au <em>deep learning</em>?
 </section>
 <section id="comment-fonctionnent-les-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</h2>
-<p>Quatre temps:</p>
+<section id="le-modèle-de-base-larbre-de-classification-et-de-régression" class="level3">
+<h3 class="anchored" data-anchor-id="le-modèle-de-base-larbre-de-classification-et-de-régression">Le modèle de base: l’arbre de classification et de régression</h3>
+<p>Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (<span class="citation" data-cites="breiman1984cart">Breiman et al. (<a href="#ref-breiman1984cart" role="doc-biblioref">1984</a>)</span>). Un arbre est un algorithme prédictif assez simple avec trois caractéristiques essentielles:</p>
 <ul>
-<li>les arbres de décision et de régression (CART);</li>
-<li>les forêts aléatoires;</li>
-<li>le boosting.</li>
+<li>Un arbre est un partitionnement de l’espace des variables <span class="math inline">\(X\)</span> en régions homogènes au sens d’une certaine mesure de l’hétérogénéité;</li>
+<li>Ce partitionnement est réalisé à l’aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemple: <span class="math inline">\(age &gt; 40?\)</span>);</li>
+<li>Une fois entraîné, l’arbre est une fonction constante par morceaux: à chaque région est associé une valeur qui constitue la prédiction du modèle pour les observations situées dans cette région.</li>
 </ul>
-<section id="le-point-de-départ-les-arbres-de-décision-et-de-régression" class="level3">
-<h3 class="anchored" data-anchor-id="le-point-de-départ-les-arbres-de-décision-et-de-régression">Le point de départ: les arbres de décision et de régression</h3>
-<p>Présenter <em>decision tree</em> et <em>regression tree</em>. Reprendre des éléments du chapitre 9 de https://bradleyboehmke.github.io/HOML/</p>
-<p>Principes d’un arbre:</p>
-<ul>
-<li>fonction constante par morceaux;</li>
-<li>partition de l’espace;</li>
-<li>interactions entre variables.</li>
-</ul>
+<p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
+<p>Avantages: simplicité, interprétabilité, représentation graphique simple. Inconvénients: instabilité, faible pouvoir prédictif.</p>
 <p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
 </section>
 <section id="critères-de-performance-et-sélection-dun-modèle" class="level3">
@@ -407,6 +387,45 @@ Figure&nbsp;2: Représentation schématique d’un algorithme de <em>boosting</e
 <li><p>Inconvénients: 1/ nombre élevé d’hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d’overfitting.</p></li>
 <li><p>Préciser qu’il est possible d’utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.</p></li>
 </ul>
+<p>Un arbre CART (Classification And Regression Tree) est construit en utilisant une approche hiérarchique pour diviser un ensemble de données en sous-groupes de plus en plus homogènes. Intuitivement, voici comment cela se passe :</p>
+<ol type="1">
+<li><strong>Choix de la meilleure coupure</strong> :
+<ul>
+<li>L’arbre commence à la racine, c’est-à-dire l’ensemble complet des données.<br>
+</li>
+<li>À chaque étape, on cherche la variable et la valeur de seuil qui divisent le mieux les données en deux groupes selon un critère spécifique (comme l’entropie, l’indice de Gini pour la classification, ou la variance pour la régression).<br>
+</li>
+<li>L’objectif est de minimiser l’hétérogénéité (ou maximiser l’homogénéité) au sein des groupes créés par la division.</li>
+</ul></li>
+<li><strong>Division récursive</strong> :
+<ul>
+<li>Une fois la meilleure coupure trouvée, les données sont séparées en deux sous-groupes : un groupe pour les observations qui satisfont la condition de la coupure, et l’autre pour celles qui ne la satisfont pas.<br>
+</li>
+<li>Ce processus est répété récursivement sur chaque sous-groupe, formant ainsi de nouveaux “nœuds” dans l’arbre.</li>
+</ul></li>
+<li><strong>Arrêt de la croissance de l’arbre</strong> :
+<ul>
+<li>L’arbre ne continue pas à se développer indéfiniment. La division s’arrête lorsque l’un des critères de fin est atteint, par exemple :
+<ul>
+<li>Un nombre minimal d’observations dans un nœud.<br>
+</li>
+<li>Une amélioration trop faible dans le critère de division.<br>
+</li>
+<li>Une profondeur maximale spécifiée.</li>
+</ul></li>
+</ul></li>
+<li><strong>Assignation des prédictions</strong> :
+<ul>
+<li>Une fois l’arbre construit, chaque feuille (nœud terminal) contient un sous-ensemble de données.<br>
+</li>
+<li>Pour la classification, la classe prédominante dans une feuille est assignée comme prédiction pour toutes les observations appartenant à cette feuille.<br>
+</li>
+<li>Pour la régression, la moyenne (ou médiane) des valeurs dans une feuille est utilisée comme prédiction.</li>
+</ul></li>
+</ol>
+<p><strong>Exemple intuitif</strong> :<br>
+Imaginez que vous essayez de deviner si une personne préfère le café ou le thé. Vous commencez par poser une question générale, comme “Préfères-tu les boissons chaudes ?” Selon la réponse, vous posez d’autres questions plus spécifiques (comme “Ajoutes-tu du lait ?” ou “Aimes-tu les boissons amères ?”), jusqu’à ce que vous puissiez deviner leur préférence avec un haut degré de certitude.</p>
+<p>En résumé, construire un arbre CART revient à poser des questions successives qui divisent les données de manière optimale pour parvenir à une prédiction claire et précise.</p>
 
 
 
@@ -415,6 +434,9 @@ Figure&nbsp;2: Représentation schématique d’un algorithme de <em>boosting</e
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-breiman1984cart" class="csl-entry" role="listitem">
+Breiman, Leo, Jerome Friedman, Richard Olshen, and Charles Stone. 1984. <span>“Cart.”</span> <em>Classification and Regression Trees</em>.
+</div>
 <div id="ref-grinsztajn2022tree" class="csl-entry" role="listitem">
 Grinsztajn, Léo, Edouard Oyallon, and Gaël Varoquaux. 2022. <span>“Why Do Tree-Based Models Still Outperform Deep Learning on Typical Tabular Data?”</span> <em>Advances in Neural Information Processing Systems</em> 35: 507–20.
 </div>
