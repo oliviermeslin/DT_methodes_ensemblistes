@@ -114,9 +114,6 @@ Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 Avantages: simplicité, interprétabilité, représentation graphique simple.
 Inconvénients: instabilité, faible pouvoir prédictif.
 
-
-### Critères de performance et sélection d'un modèle 
-
 La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
 
 Toutes les méthodes ensemblistes ont en commun de construire des modèles performants en combinant un grand nombre d'arbres de décision. Le présent document présente les trois principales méthodes : le _bagging_, les _random forests_ et le _boosting_.

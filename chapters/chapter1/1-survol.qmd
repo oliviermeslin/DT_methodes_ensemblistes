@@ -26,25 +26,38 @@ Elles présentent par ailleurs deux inconvénients rapport aux méthodes économ
 Si les approches de _deep learning_ sont sans conteste très performantes pour le traitement du langage naturel et le traitement d'image, leur supériorité n'est pas établie pour les applications reposant sur des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d'arbres sont soit plus performantes que les approches de _deep learning_ (@grinsztajn2022tree, @shwartz2022tabular), soit font jeu égal avec elles (@mcelfresh2024neural). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d'approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l'optimisation des hyperparamètres s'avère souvent moins complexe (@shwartz2022tabular).
 :::
 
-
 ## Comment fonctionnent les méthodes ensemblistes?
 
 ### Le modèle de base: l'arbre de classification et de régression
 
-Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (@breiman1984cart). Un arbre est un algorithme prédictif assez simple avec trois caractéristiques essentielles:
+#### Qu'est-ce qu'un arbre CART?
 
-- Un arbre est un partitionnement de l'espace des variables $X$ en régions homogènes au sens d'une certaine mesure de l'hétérogénéité;
-- Ce partitionnement est réalisé à l'aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemple: $age > 40?$);
-- Une fois entraîné, l'arbre est une fonction constante par morceaux: à chaque région est associé une valeur qui constitue la prédiction du modèle pour les observations situées dans cette région.
+Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif assez simple avec trois caractéristiques essentielles:
+
+- L'arbre partitionne l'espace des variables $X$ en régions homogènes (appelées feuilles) au sens d'une certaine mesure de l'hétérogénéité;
+- Ce partitionnement est construit à l'aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemples: $age > 40?$, $diplome = 'Licence'$...);
+- Une fois l'arbre construit, les prédictions de l'arbre pour chaque région sont intuitives: il s'agira de la classe la plus fréquente parmi les observations situées dans cette région dans le cas d'une classification, et de la moyenne des observations situées dans cette région dans le cas d'une régression.
+
+La structure de cet algorithme a pour conséquence importante que **l'arbre final est une fonction constante par morceaux**: la prédiction est identique pour toutes les observations situées dans la même région, et ne varie que d'une région à l'autre. 
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).
+
+#### Comment construit-on un arbre?
+
+La grande difficulté que pose la construction d'un arbre de décision est la suivante: comment trouver le partitionnement optimal en un temps raisonnable? Les arbres CART proposent une solution efficace à ce problème en faisant deux hypothèses simplificatrices. D'une part, la procédure de construction de l'arbre ne s'intéresse qu'à des critères de décision binaires très simples, mobilisant à chaque fois une seule variable et un seul seuil (exemples: $age > 40?$, $diplome = 'Licence'$...). Autrement dit, les critères complexes mobilisant des combinaisons de variables et de seuils sont exclus _a priori_. D'autre part, la construction de l'arbre se fait de façon itérative, une règle de décision à la fois: la procédure se contente à chaque étape de chercher la règle de décision qui réduit le plus l'hétérogénéité des groupes, conditionnellement aux régles de décision qui ont été choisies au préalable. Cette procédure ne garantit donc pas que l'arbre final soit optimal, mais elle permet d'obtenir rapidement un arbre raisonnablement performant.
+
+
+Approche récursive
+
+
+#### Avantages et limites
 
 Avantages: simplicité, interprétabilité, représentation graphique simple.
 Inconvénients: instabilité, faible pouvoir prédictif.
 
-Illustration, et représentation graphique (sous forme d'arbre et de graphique).
+La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
 
-
+Toutes les méthodes ensemblistes ont en commun de construire des modèles performants en combinant un grand nombre d'arbres de décision. Le présent document présente les trois principales méthodes : le _bagging_, les _random forests_ et le _boosting_.
 
 ### Critères de performance et sélection d'un modèle 
 
