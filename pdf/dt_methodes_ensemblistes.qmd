@@ -38,7 +38,7 @@ resetsecnumbering: false
 blind: false
 linkcolor: "#000000"
 bibliography: /references.bib
-bibliographystyle: chicago-author-date
+bibliographystyle: ieee
 functions:
   - "titled-raw-block"
   - "text"
