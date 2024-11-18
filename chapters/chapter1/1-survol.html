@@ -310,15 +310,28 @@ Et par rapport au <em>deep learning</em>?
 <h2 class="anchored" data-anchor-id="comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</h2>
 <section id="le-modèle-de-base-larbre-de-classification-et-de-régression" class="level3">
 <h3 class="anchored" data-anchor-id="le-modèle-de-base-larbre-de-classification-et-de-régression">Le modèle de base: l’arbre de classification et de régression</h3>
-<p>Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (<span class="citation" data-cites="breiman1984cart">Breiman et al. (<a href="#ref-breiman1984cart" role="doc-biblioref">1984</a>)</span>). Un arbre est un algorithme prédictif assez simple avec trois caractéristiques essentielles:</p>
+<section id="quest-ce-quun-arbre-cart" class="level4">
+<h4 class="anchored" data-anchor-id="quest-ce-quun-arbre-cart">Qu’est-ce qu’un arbre CART?</h4>
+<p>Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (CART, <span class="citation" data-cites="breiman1984cart">Breiman et al. (<a href="#ref-breiman1984cart" role="doc-biblioref">1984</a>)</span>). Un arbre CART est un algorithme prédictif assez simple avec trois caractéristiques essentielles:</p>
 <ul>
-<li>Un arbre est un partitionnement de l’espace des variables <span class="math inline">\(X\)</span> en régions homogènes au sens d’une certaine mesure de l’hétérogénéité;</li>
-<li>Ce partitionnement est réalisé à l’aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemple: <span class="math inline">\(age &gt; 40?\)</span>);</li>
-<li>Une fois entraîné, l’arbre est une fonction constante par morceaux: à chaque région est associé une valeur qui constitue la prédiction du modèle pour les observations situées dans cette région.</li>
+<li>L’arbre partitionne l’espace des variables <span class="math inline">\(X\)</span> en régions homogènes (appelées feuilles) au sens d’une certaine mesure de l’hétérogénéité;</li>
+<li>Ce partitionnement est construit à l’aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemples: <span class="math inline">\(age &gt; 40?\)</span>, <span class="math inline">\(diplome = 'Licence'\)</span>…);</li>
+<li>Une fois l’arbre construit, les prédictions de l’arbre pour chaque région sont intuitives: il s’agira de la classe la plus fréquente parmi les observations situées dans cette région dans le cas d’une classification, et de la moyenne des observations situées dans cette région dans le cas d’une régression.</li>
 </ul>
+<p>La structure de cet algorithme a pour conséquence importante que <strong>l’arbre final est une fonction constante par morceaux</strong>: la prédiction est identique pour toutes les observations situées dans la même région, et ne varie que d’une région à l’autre.</p>
 <p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
+</section>
+<section id="comment-construit-on-un-arbre" class="level4">
+<h4 class="anchored" data-anchor-id="comment-construit-on-un-arbre">Comment construit-on un arbre?</h4>
+<p>La grande difficulté que pose la construction d’un arbre de décision est la suivante: comment trouver le partitionnement optimal en un temps raisonnable? Les arbres CART proposent une solution efficace à ce problème en faisant deux hypothèses simplificatrices. D’une part, la procédure de construction de l’arbre ne s’intéresse qu’à des critères de décision binaires très simples, mobilisant à chaque fois une seule variable et un seul seuil (exemples: <span class="math inline">\(age &gt; 40?\)</span>, <span class="math inline">\(diplome = 'Licence'\)</span>…). Autrement dit, les critères complexes mobilisant des combinaisons de variables et de seuils sont exclus <em>a priori</em>. D’autre part, la construction de l’arbre se fait de façon itérative, une règle de décision à la fois: la procédure se contente à chaque étape de chercher la règle de décision qui réduit le plus l’hétérogénéité des groupes, conditionnellement aux régles de décision qui ont été choisies au préalable. Cette procédure ne garantit donc pas que l’arbre final soit optimal, mais elle permet d’obtenir rapidement un arbre raisonnablement performant.</p>
+<p>Approche récursive</p>
+</section>
+<section id="avantages-et-limites" class="level4">
+<h4 class="anchored" data-anchor-id="avantages-et-limites">Avantages et limites</h4>
 <p>Avantages: simplicité, interprétabilité, représentation graphique simple. Inconvénients: instabilité, faible pouvoir prédictif.</p>
-<p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
+<p>La performance d’un modèle augmente généralement avec sa complexité, jusqu’à atteindre un maximum, puis diminue. L’objectif est d’obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C’est ce qu’on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.</p>
+<p>Toutes les méthodes ensemblistes ont en commun de construire des modèles performants en combinant un grand nombre d’arbres de décision. Le présent document présente les trois principales méthodes : le <em>bagging</em>, les <em>random forests</em> et le <em>boosting</em>.</p>
+</section>
 </section>
 <section id="critères-de-performance-et-sélection-dun-modèle" class="level3">
 <h3 class="anchored" data-anchor-id="critères-de-performance-et-sélection-dun-modèle">Critères de performance et sélection d’un modèle</h3>
