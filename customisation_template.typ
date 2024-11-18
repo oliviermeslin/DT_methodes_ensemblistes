@@ -17,7 +17,7 @@ supplement: none
 #show figure.where(kind: "quarto-float-fig"): set figure.caption(position: top)
 
 // Caption in bold and with a colon
-#show figure.where(kind: "quarto-float-fig").caption: it => [
+#show figure.caption: it => [
   #align(center)[
     #block(inset: 1em)[
       #text(weight: "bold")[
@@ -66,12 +66,12 @@ supplement: none
   it
 }
 
- #show figure.where(kind: "chapter"): it => {
-  if it.supplement != [Outline] {
-    pagebreak(weak: true)
-  }
-  it
-  }
+// #show figure.where(kind: "chapter"): it => {
+//   if it.supplement != [Outline] {
+//     pagebreak(weak: true)
+//   }
+//   it
+// }
 
 /* ---------------------------------------------------------
    Spacing around headings

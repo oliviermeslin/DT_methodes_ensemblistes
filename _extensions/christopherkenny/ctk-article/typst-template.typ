@@ -195,19 +195,19 @@
   show raw: set text(font: codefont)
 
 
-  show figure.caption: it => [
-    #v(-1em)
-    #align(left)[
-      #block(inset: 1em)[
-        #text(weight: "bold")[
-          #it.supplement
-          #context it.counter.display(it.numbering)
-        ]
-        #it.separator
-        #it.body
-      ]
-    ]
-  ]
+  // show figure.caption: it => [
+  //   #v(-1em)
+  //   #align(left)[
+  //     #block(inset: 1em)[
+  //       #text(weight: "bold")[
+  //         #it.supplement
+  //         #context it.counter.display(it.numbering)
+  //       ]
+  //       #it.separator
+  //       #it.body
+  //     ]
+  //   ]
+  // ]
 
 
   set heading(numbering: sectionnumbering)
