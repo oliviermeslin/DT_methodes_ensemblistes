@@ -14,15 +14,24 @@ supplement: none
 
 // Position of caption
 #show figure: set figure.caption(position: top)
-
 #show figure.where(kind: "quarto-float-fig"): set figure.caption(position: top)
 
+// Caption in bold and with a colon
+#show figure.where(kind: "quarto-float-fig").caption: it => [
+  #align(center)[
+    #block(inset: 1em)[
+      #text(weight: "bold")[
+        #it.supplement
+        #context it.counter.display(it.numbering)
+        :
+        #it.body
+      ]
+      // #it.separator
+      // #it.body
+    ]
+  ]
+]
 
-// Figure caption should be bold
-#show figure.caption: it => {
-  set text(weight: "bold")
-  it
-}
 
 /* ---------------------------------------------------------
    Settings for tables
@@ -41,30 +50,15 @@ supplement: none
   stroke: 0.5pt + rgb("666675"),
 )
 
-
+// Breakable table
+#show figure: set block(breakable: true)
+#show figure.where(kind: "table"): set block(breakable: true)
+ 
 /* ---------------------------------------------------------
    Insert pagebreak before header 1
 --------------------------------------------------------- */
 
 #show outline: set heading(supplement: [Outline])
-#show heading.where(depth: 1): it => {
-  if it.supplement != [Outline] {
-    pagebreak(weak: true)
-  }
-  it
-}
-
-/* ---------------------------------------------------------
-   Spacing around headings
---------------------------------------------------------- */
-
-#show heading: set block(above: 1.4em, below: 1em)
-
-/* ---------------------------------------------------------
-   Insert pagebreak before header 1
---------------------------------------------------------- */
-
-// Add a page break before all level 1 headings
 #show heading.where(depth: 1): it => {
   if it.supplement != [Outline] {
     pagebreak(weak: true)
@@ -79,6 +73,23 @@ supplement: none
   it
   }
 
+/* ---------------------------------------------------------
+   Spacing around headings
+--------------------------------------------------------- */
+
+#show heading: set block(above: 1.4em, below: 1em)
+
+/* ---------------------------------------------------------
+   Insert pagebreak before header 1
+--------------------------------------------------------- */
+
+// Add a page break before all level 1 headings
+// #show heading.where(depth: 1): it => {
+//   if it.supplement != [Outline] {
+//     pagebreak(weak: true)
+//   }
+//   it
+// }
 
 /* ---------------------------------------------------------
    General settings
@@ -119,7 +130,16 @@ supplement: none
 
 // Define paragraph settings
 #set text(top-edge: 0.7em, bottom-edge: -0.3em)
-#set par(leading: 0.5em, first-line-indent: 1.8em, justify: true)
+#set par(leading: 0.5em, first-line-indent: 1.8em, justify: true, hanging-indent: 0em)
 
 // Define paragraph settings: https://typst.app/blog/2024/typst-0.12/
 #show par: set block(spacing: 0.5em)
+
+// Define bibliography spacing
+#show bibliography: set par(leading: 0.25em, first-line-indent: 0em, justify: true)
+
+// use English support for the bibliography
+#show bibliography: set text(lang: "en")
+
+// Put all references in the bibliography
+// #set bibliography(full: true)
