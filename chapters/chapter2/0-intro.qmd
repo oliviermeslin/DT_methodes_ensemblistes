@@ -1,6 +1,7 @@
 ::: {.content-visible unless-format="html"}
 ```{=typst}
-#chapter[Présentation formelle des méthodes ensemblistes]
+// #pagebreak(weak: true)
+// #chapter[Présentation formelle des méthodes ensemblistes]
 ```
 :::
 
