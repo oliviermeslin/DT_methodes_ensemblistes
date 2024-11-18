@@ -1,4 +1,14 @@
-# Comment bien utiliser les algorithmes?
+::: {.content-visible unless-format="html"}
+```{=typst}
+// #pagebreak(weak: true)
+// #chapter[Comment bien utiliser les méthodes ensemblistes?]
+```
+# Une bien belle section
+:::
+
+::: {.content-visible when-format="html"}
+# Comment bien utiliser les méthodes ensemblistes?
+:::
 
 __Principe__: Conseils + mise en oeuvre pratique.
 

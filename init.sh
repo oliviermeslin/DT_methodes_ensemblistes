@@ -29,3 +29,8 @@ code-server --install-extension copilot-chat.vsix
 rm copilot.vsix copilot-chat.vsix
 
 chmod +x render_pdf_output.sh
+
+wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.6.36/quarto-1.6.36-linux-amd64.deb -O quarto.deb
+sudo dpkg -i quarto.deb
+quarto check install
+rm quarto.deb

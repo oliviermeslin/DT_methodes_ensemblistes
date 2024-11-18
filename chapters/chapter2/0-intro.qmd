@@ -1,5 +1,16 @@
-# Présentation formelle des algorithmes
+::: {.content-visible unless-format="html"}
+```{=typst}
+// #pagebreak(weak: true)
+// #chapter[Présentation formelle des méthodes ensemblistes]
+```
+:::
+
+::: {.content-visible when-format="html"}
+# Présentation formelle des méthodes ensemblistes
+:::
+
 
 __Principe__: cette partie propose une présentation formalisée des méthodes ensemblistes, à destination des personnes souhaitant comprendre en détail le fonctionnement des algorithmes.
+
 
 

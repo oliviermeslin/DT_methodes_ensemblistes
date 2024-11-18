@@ -16,7 +16,7 @@ project:
     - chapters/chapter2/4-boosting.qmd
     - chapters/chapter3/0-intro.qmd
     - chapters/chapter3/1-guide_usage_RF.qmd
-    - pdf/*.qmd
+    - pdf/dt_methodes_ensemblistes.qmd
   resources: 
     - "*.svg"
 
@@ -69,15 +69,15 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: true
-  typst:
-    keep-typ: true
-    template: _extensions/quarto-ext/ams/template.typ
-    template-partials:
-      - _extensions/quarto-ext/ams/typst-template.typ
-      - _extensions/quarto-ext/ams/typst-show.typ
-      - customisation_template.typ
-    toc: true
-    section-numbering: 1.1.1
-format-links: false
+#   typst:
+#     keep-typ: true
+#     template: _extensions/quarto-ext/ams/template.typ
+#     template-partials:
+#       - _extensions/quarto-ext/ams/typst-template.typ
+#       - _extensions/quarto-ext/ams/typst-show.typ
+#       - customisation_template.typ
+#     toc: true
+#     section-numbering: 1.1.1
+# format-links: false
 
 bibliography: references.bib
