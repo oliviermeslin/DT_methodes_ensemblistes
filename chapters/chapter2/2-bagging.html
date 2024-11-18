@@ -166,7 +166,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../chapters/chapter1/0-intro.html" class="sidebar-item-text sidebar-link">
+            <a href="../../chapters/chapter1/0-intro.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Survol des méthodes ensemblistes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -176,7 +176,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/chapter1/1-survol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Que sont les méthodes ensemblistes?</span></a>
+ <span class="menu-text">Aperçu des méthodes ensemblistes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -345,7 +345,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="prédicteur-agrégé-en-classification-le-vote-majoritaire">Prédicteur agrégé en classification: le vote majoritaire</h4>
 <p>Dans le cas de la classification, le prédicteur agrégé est défini par le <strong>vote majoritaire</strong>. Cela signifie que si <span class="math inline">\(K\)</span> classificateurs sont entraînés sur <span class="math inline">\(K\)</span> échantillons distincts, la classe prédite pour <span class="math inline">\(x\)</span> est celle qui reçoit <strong>le plus de votes</strong> de la part des modèles individuels.</p>
 <p>Formellement, le classificateur agrégé <span class="math inline">\(φA(x)\)</span> est défini par :</p>
-<p>$ φA(x) = <em>j </em>{L} I((x, L) = j) = argmax_j Q(j|x) $</p>
+<p><span class="math inline">\(φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)\)</span></p>
 </section>
 <section id="performance-globale-convergence-vers-un-classificateur-presque-optimal" class="level4">
 <h4 class="anchored" data-anchor-id="performance-globale-convergence-vers-un-classificateur-presque-optimal">Performance globale: convergence vers un classificateur presque optimal</h4>
