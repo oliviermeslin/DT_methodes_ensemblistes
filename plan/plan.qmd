@@ -43,6 +43,7 @@ bibliographystyle: ieee
 functions:
   - "titled-raw-block"
   - "text"
+bibliography: references.bib
 ---
 
 
@@ -98,88 +99,63 @@ Par rapport au _deep learning_: la supériorité du _deep learning_ n'est pas é
 :::
 
 
-
-
 ## Comment fonctionnent les méthodes ensemblistes?
-
-Quatre temps:
-  
-- les arbres de décision et de régression (CART);
-- les forêts aléatoires;
-- le boosting.
 
 ### Le point de départ: les arbres de décision et de régression
 
-Présenter _decision tree_ et _regression tree_. Reprendre des éléments du chapitre 9 de https://bradleyboehmke.github.io/HOML/
-  
-Principes d'un arbre: 
+Présentation intuitive  des arbres CART (@breiman1984cart). Un arbre est un algorithme prédictif assez simple avec trois caractéristiques essentielles:
 
-- fonction constante par morceaux;
-- partition de l'espace;
-- interactions entre variables.
+- Un arbre est un partitionnement de l'espace des variables en régions homogènes au sens d'une certaine mesure de l'hétérogénéité;
+- Ce partitionnement est réalisé à l'aide de régles de décision binaires très simples, mobilisant à chaque fois une variable et un seuil (exemple: $age > 40?$);
+- Une fois entraîné, l'arbre est une fonction constante par morceaux: à chaque région est associé une valeur qui constitue la prédiction du modèle pour les observations situées dans cette région.
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 
+Avantages: simplicité, interprétabilité, représentation graphique simple.
+Inconvénients: instabilité, faible pouvoir prédictif.
 
 
 ### Critères de performance et sélection d'un modèle 
 
 La performance d'un modèle augmente généralement avec sa complexité, jusqu'à atteindre un maximum, puis diminue. L'objectif est d'obtenir un modèle qui minimise à la fois le sous-apprentissage (biais) et le sur-apprentissage (variance). C'est ce qu'on appelle le compromis biais/variance. Cette section présente très brièvement les critères utilisés pour évaluer et comparer les performances des modèles.
 
+Toutes les méthodes ensemblistes ont en commun de construire des modèles performants en combinant un grand nombre d'arbres de décision. Le présent document présente les trois principales méthodes : le _bagging_, les _random forests_ et le _boosting_.
+
+### Le _bagging_ (Bootstrap Aggregating)
+
+Le _bagging_, ou _Bootstrap Aggregating_ (@breiman1996bagging), est une méthode ensembliste qui comporte trois étapes principales:
+
+- Création de sous-échantillons par échantillonnage aléatoire avec remise (_bootstrapping_). Cette technique permet de diversifier les données d'entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.
+- Entraînement parallèle: Un arbre est entraîné sur chaque sous-échantillon de manière indépendante.
+- Agrégation des prédictions: Les prédictions des modèles sont combinées pour produire le résultat final (vote majoritaire en classification, moyenne en régression).
+
+En combinant les prédictions de plusieurs modèles, le _bagging_ renforce la stabilité et la performance globale de l'algorithme, notamment en réduisant la variance des prédictions.
+
+Avantages: pouvoir prédictif, entraînement hautement parallélisable.
+Inconvénients: malgré l'échantillonnage des données, les arbres ont souvent une structure similaire car les variables hautement prédictives restent approximativement les mêmes dans les différents sous-échantillons. Ce phénomène de corrélation entre arbres est le principal frein à la puissance prédictive du _bagging_ et explique pourquoi il est très peu utilisé en pratique aujourd'hui. 
+
+![Représentation schématique d'un algorithme de _bagging_](/figures/bagging.svg){#fig-bagging}
+    
+### Les forêts aléatoires
+
+Les forêts aléatoires (_random forests_) sont une amélioration du _bagging_ qui tâche de surmonter (ou au moins de minimiser) le problème de corrélation entre arbres, ce qui permet d'augmenter la précision de l'ensemble du modèle. Les forêts aléatoires sont un algorithme qui est très largement employé.
 
 ![Représentation schématique d'un algorithme de forêt aléatoire](/figures/rf.svg){#fig-rf}
 
 
-![Représentation schématique d'un algorithme de _boosting_](/figures/gb.svg){#fig-gb}
-
-
-
-
-## Le _bagging_, les _random forests_ et le _boosting_
-
-Il existe plusieurs types de méthodes ensemblistes, toutes ayant en commun la combinaison de modèles élémentaires. Le présent document présente les 3 principales méthodes : le Bagging, la Random Forests et le Boosting.
-
-### Le _bagging_ (Bootstrap Aggregating)
-
-Présenter le _bagging_ en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML.
-Mettre une description de l'algorithme en pseudo-code?
-
-- Présentation avec la figure en SVG;
-- Illustration avec un cas d'usage de classification en deux dimensions.
-
-
-
-Le bagging, ou Bootstrap Aggregating, est une méthode ensembliste qui comporte trois étapes principales :
-
-- Création de sous-échantillons : À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (bootstrapping). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises. Cette technique permet de diversifier les données d'entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.
-
-- Entraînement parallèle : Un modèle distinct est entraîné sur chaque sous-échantillon de manière indépendante. Cette technique permet un gain d'efficacité et un meilleur contrôle du surapprentissage (overfitting).
-
-- Agrégation des prédictions : Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu'en régression, elle correspond généralement à la moyenne des prédictions. En combinant les prédictions de plusieurs modèles, le bagging renforce la stabilité et la performance globale de l'algorithme, notamment en réduisant la variance des prédictions.
-
-
-Le bagging appliqué aux arbres de décision est la forme la plus courante de cette technique.
-
-Le bagging est particulièrement efficace pour réduire la variance des modèles, ce qui les rend moins vulnérables au surapprentissage. Cette caractéristique est particulièrement utile dans les situations où la robustesse et la capacité de généralisation des modèles sont cruciales. De plus, comme le bagging repose sur des processus indépendants, l'exécution est plus plus rapide dans des environnements distribués.
-
-Cependant, bien que chaque modèle de base soit construit indépendamment sur des sous-échantillons distincts, les variables utilisées pour générer ces modèles ne sont pas forcément indépendantes d'un modèle à l'autre. Dans le cas du bagging appliqué aux arbres de décision, cela conduit souvent à des arbres ayant une structure similaire. 
-
-Les forêts aléatoires apportent une amélioration à cette approche en réduisant cette corrélation entre les arbres, ce qui permet d'augmenter la précision de l'ensemble du modèle.
-
-
-    
-### Les _random forests_
-
-Expliquer que les _random forests_ sont une amélioration du _bagging_, en reprenant des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/
 
 <!-- https://neptune.ai/blog/ensemble-learning-guide -->
 <!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
 
 - Présentation avec la figure en SVG;
 - Difficile d'illustrer avec un exemple (car on ne peut pas vraiment représenter le _feature sampling_);
-- Bien insister sur les avantages des RF: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
+Avantages des random forests: 1/ faible nombre d'hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l'overfitting.
 
 ### Le _boosting_
+
+
+![Représentation schématique d'un algorithme de _boosting_](/figures/gb.svg){#fig-gb}
+
 
 Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.
 
