@@ -1,0 +1,35 @@
+title: ctk-article
+author: Christopher Kenny
+version: 1.0.2
+quarto-required: ">=1.5.0"
+contributes:
+  formats:
+    typst:
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+        - biblio.typ
+      filters:
+        - insert-show-appendix.lua
+        - typst-function
+      format-resources:
+        - ORCIDiD.svg
+      mainfont:
+        - "Spectral"
+        - "Crimson"
+        - "Crimson Text"
+      codefont:
+        - "Fira Code"
+      date-format: long
+      linestretch: 1.25
+      linkcolor: "#800000"
+      bibliographystyle: chicago-author-date
+      biblio-title: References
+      title-page: false
+      blind: false
+      section-numbering: "1.1."
+      chaptersintoc: true
+      resetsecnumbering: false
+      execute:
+        echo: false
+        warning: false

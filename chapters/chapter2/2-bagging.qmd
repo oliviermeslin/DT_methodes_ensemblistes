@@ -1,6 +1,7 @@
 # Le bagging
 
-Le bagging, ou "bootstrap aggregating", est une méthode ensembliste qui vise à améliorer la stabilité et la précision des algorithmes d'apprentissage automatique en réduisant la variance des prédictions (@breiman1996bagging). Elle repose sur la construction de plusieurs modèles (plusieurs versions d'un même modèle dans la plupart des cas) entraînés sur des échantillons distincts générés par des techniques de rééchantillonnage (_bootstrap_). Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.
+Le bagging, ou "bootstrap aggregating", est une méthode ensembliste qui vise à améliorer la stabilité et la précision des algorithmes d'apprentissage automatique en agrégeant plusieurs modèles (@breiman1996bagging). Chaque modèle est entraîné sur un échantillon distinct généré par une technique de rééchantillonnage (_bootstrap_). Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.
+
 
 <!-- , qui consiste à créer des échantillons par tirage aléatoires avec remise à partir du jeu de données initial -->
 
@@ -34,7 +35,7 @@ Dans le contexte de la **régression**, l'objectif est de prédire une valeur nu
 
 Dans le cas de la régression, le **prédicteur agrégé** est défini comme suit :
 
-$$\phi_A(x) = E_L[\phi(x, L)]$$
+$ \phi_A(x) = E_L[\phi(x, L)] $
 
 où $\phi_A(x)$ représente la prédiction agrégée, $E_L[.]$ correspond à l'espérance prise sur tous les échantillons d'apprentissage possibles $L$, chacun étant tiré selon la même distribution que le jeu de données initial, et $\phi(x, L)$ correspond à la prédiction du modèle construit sur l'échantillon d'apprentissage $L$.
 
@@ -43,12 +44,7 @@ où $\phi_A(x)$ représente la prédiction agrégée, $E_L[.]$ correspond à l'e
 
 Pour mieux comprendre comment l'agrégation améliore la performance globale d'un modèle individuel $\phi(x, L)$, revenons à la **décomposition biais-variance** de l'erreur quadratique moyenne (il s'agit de la mesure de performance classiquement considérée dans un problème de régression): 
 
-```{=typst}
-#mitex(`
-$E_L[\left(Y - \phi(x, L)\right)^2] = \underbrace{
-\left(E_L\left[\phi(x, L) - Y\right]\right)^2}_{\text{Biais}^2} + \underbrace{E_L[\left(\phi(x, L) - E_L[\phi(x, L)]\right)^2]}_{\text{Variance}}$
-`) <decompo_biais_variance>
-```
+$$E_L[\left(Y - \phi(x, L)\right)^2] = \underbrace{\left(E_L\left[\phi(x, L) - Y\right]\right)^2}_{\text{Biais}^2} + \underbrace{E_L[\left(\phi(x, L) - E_L[\phi(x, L)]\right)^2]}_{\text{Variance}}$$ {#eq-decompo-biais-variance}
 
 
   - Le **biais** est la différence entre la valeur observée $Y$ que l'on souhaite prédire et la prédiction moyenne $E_L[\phi(x, L)]$. Si le modèle est sous-ajusté, le biais sera élevé.
@@ -56,7 +52,7 @@ $E_L[\left(Y - \phi(x, L)\right)^2] = \underbrace{
   - La **variance** est la variabilité des prédictions ($\phi(x, L)$) autour de leur moyenne ($E_L[\phi(x, L)]$). Un modèle avec une variance élevée est très sensible aux fluctuations au sein des données d'entraînement: ses prédictions varient beaucoup lorsque les données d'entraînement se modifient.
 
 
-L'équation `@decompo_biais_variance`{=typst} illustre l'__arbitrage biais-variance__ qui est omniprésent en _machine learning_: plus la complexité d'un modèle s'accroît (exemple: la profondeur d'un arbre), plus son biais sera plus faible (car ses prédictions seront de plus en plus proches des données d'entraînement), et plus sa variance sera élevée (car ses prédictions, étant très proches des données d'entraînement, auront tendance à varier fortement d'un jeu d'entraînement à l'autre).
+L'équation @eq-decompo-biais-variance illustre l'__arbitrage biais-variance__ qui est omniprésent en _machine learning_: plus la complexité d'un modèle s'accroît (exemple: la profondeur d'un arbre), plus son biais sera plus faible (car ses prédictions seront de plus en plus proches des données d'entraînement), et plus sa variance sera élevée (car ses prédictions, étant très proches des données d'entraînement, auront tendance à varier fortement d'un jeu d'entraînement à l'autre).
 
 #### L'inégalité de Breiman (1996)
 
@@ -64,11 +60,8 @@ L'équation `@decompo_biais_variance`{=typst} illustre l'__arbitrage biais-varia
 
 <!-- La démonstration s'appuie sur l'inégalité de Jensen appliquée au modèle agrégé: $E_L[\phi(x,L)^2]≥(E_L[\phi(x,L)])^2$.-->
 
-```{=typst}
-#mitex(`
-$(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$
-`) <inegalite_breiman1996>
-```
+
+$ (Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2] $ {#eq-inegalite-breiman1996}
 
   - Le terme $(Y - \phi_A(x))^2$ représente l'erreur quadratique du **prédicteur agrégé** $\phi_A(x)$;
   
@@ -76,7 +69,7 @@ $(Y - \phi_A(x))^2 \leq E_L[(Y - \phi(x, L))^2]$
     
 Cette inégalité montre que **l'erreur quadratique moyenne du prédicteur agrégé est toujours inférieure ou égale à la moyenne des erreurs des prédicteurs individuels**. Puisque le biais du prédicteur agrégé est identique au biais du prédicteur individuel, alors l'inégalité précédente implique que la **variance du modèle agrégé** $\phi_A(x)$ est **toujours inférieure ou égale** à la variance moyenne d'un modèle individuel : 
 
-$\text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))]$
+$ \text{Var}(\phi_A(x)) = \text{Var}(E_L[\phi(x, L)]) \leq E_L[\text{Var}(\phi(x, L))] $
 
 Autrement dit, le processus d'agrégation réduit l'erreur de prédiction globale en réduisant la **variance** des prédictions, tout en conservant un biais constant.
 
@@ -99,7 +92,7 @@ Cela signifie que si l'on considérait tous les ensemble de données possibles, 
 
 Formellement, un prédicteur est dit "order-correct" pour une entrée $x$ si :
 
-$argmax_j Q(j|x) = argmax_j P(j|x)$
+$ argmax_j Q(j|x) = argmax_j P(j|x) $
 
 où $P(j|x)$ est la vraie probabilité que l’observation $x$ appartienne à la classe $j$, et $Q(j|x)$ est la probabilité que $x$ appartienne à la classe $j$ prédite par le modèle $φ(x, L)$.
 
@@ -114,7 +107,6 @@ Formellement, le classificateur agrégé $φA(x)$ est défini par :
 
 $φA(x) =  \text{argmax}_j \sum_{L} I(\phi(x, L) = j) = argmax_j Q(j|x)$
  
-
 #### Performance globale: convergence vers un classificateur presque optimal
 
 @breiman1996bagging montre que si chaque prédicteur individuel $φ(x, L)$ est order-correct pour une observation $x$, alors le prédicteur agrégé $φA(x)$, obtenu par **vote majoritaire**, atteint la performance optimale pour cette observation, c'est-à-dire qu'il converge vers la classe ayant la probabilité maximale $P(j∣x)$ pour l'observation $x$ lorsque le nombre de prédicteurs individuels augmente. Le vote majoritaire permet ainsi de **réduire les erreurs aléatoires** des classificateurs individuels.

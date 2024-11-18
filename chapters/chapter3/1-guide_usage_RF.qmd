@@ -1,16 +1,17 @@
+
 ## Guide d'entraînement des forêts aléatoires
 
 Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
 
 ### Mode de construction d'une forêt aléatoire
 
-Le processus pour construire une Random Forest se résume comme suit :
+Le processus pour construire une Random Forest se résume comme suit:
 
-- Sélectionnez le nombre d'arbres à construire (n_trees).
+- Sélectionnez le nombre d'arbres à construire (`n_trees`).
 - Pour chaque arbre, effectuez les étapes suivantes :
   - Générer un échantillon bootstrap à partir du jeu de données.
-  - Construire un arbre de décision à partir de cet échantillon :
-  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (mtry).
+  - Construire un arbre de décision à partir de cet échantillon:
+  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
   - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
   - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
 - Agréger les arbres pour effectuer les prédictions finales :
@@ -27,6 +28,8 @@ Il existe de multiples implémentations des forêts aléatoires. Le présent doc
 
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
+::: {.content-visible unless-format="html"}
+
 ```{=typst}
 
 #figure(
@@ -36,7 +39,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
     table.header(
       table.cell(colspan: 2)[
         Hyperparamètre \ 
-        #text(box(image("./icons/logo-R.svg", height:2.4em))) #h(2.7cm) #text(box(image("./icons/logo-python.svg", height:2em))) \
+        #text(box(image("/icons/logo-R.svg", height:2.4em))) #h(2.7cm) #text(box(image("/icons/logo-python.svg", height:2em))) \
         #h(0.8cm) #text(weight: "regular")[`ranger`] #h(1.8cm)   #text(weight: "regular")[`scikit-learn`]
       ],
       [Description]
@@ -53,8 +56,11 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
     caption: [ Les principaux hyperparamètres des forêts aléatoires],
 ) <tbl-hyp-rf>
 ```
+:::
 
-<!-- 
+::: {.content-visible when-format="html"}
+
+
 | Hyperparamètre (`ranger` / `scikit-learn`) |                                  Description                                  |
 | ------------------------------------------ | ----------------------------------------------------------------------------- |
 | `mtry`   / `max_features`                  | Le nombre de variables candidates à chaque noeud                              |
@@ -67,7 +73,9 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 | `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
 
 : Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
- -->
+
+
+:::
 
 - Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 

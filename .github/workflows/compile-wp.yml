@@ -1,4 +1,4 @@
-name: Build PDF with Quarto and Typst
+name: Build the website and the pdf output
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       # Step 2: Set up Quarto
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        
+
       # Step 3: Compile document
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
