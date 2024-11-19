@@ -1,8 +1,8 @@
 # La forêt aléatoire
 
-La forêt aléatoire (_random forests_) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l'agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (overfitting).
+La forêt aléatoire (_random forests_) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l'agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (_overfitting_).
 
-La méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d'un arbre, puisqu'à chaque nouvelle division (_noeud_), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
+La méthode s’appuie sur la technique du _bagging_, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d'un arbre, puisqu'à chaque nouvelle division (_noeud_), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
 
 Objectifs: 
 
@@ -77,7 +77,7 @@ L'objectif des forêts aléatoires est donc de minimiser la corrélation entre l
 
 ## Evaluation des performances du modèle et choix des hyper-paramètres
 
-### Estimation de l'erreur Out-of-Bag (OOB)
+### Estimation de l'erreur Out-of-Bag (OOB) {#sec-rf-oob}
 
 L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace pour évaluer les performances des forêts aléatoires sans nécessité une **validation croisée** ou de réserver une partie des données pour l'étape du test. Cette technique repose sur le fait que chaque arbre dans une forêt aléatoire est construit à partir d'un échantillon bootstrap du jeu de données d'origine, c'est-à-dire un échantillon tiré avec remise. Or, en moyenne, environ **36 %** des observations ne sont pas inclus dans chaque échantillon bootstrap, ce qui signifie qu'elles ne sont pas utilisées pour entraîner l'arbre correspondant. Ces observations laissées de côté forment un **échantillon out-of-bag**. Chaque arbre peut donc être évalué sur son **échantillon out-of-bag** plutôt que sur un échantillon test.
 
