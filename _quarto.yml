@@ -17,6 +17,7 @@ project:
     - chapters/chapter3/0-intro.qmd
     - chapters/chapter3/1-guide_usage_RF.qmd
     - pdf/dt_methodes_ensemblistes.qmd
+    - pdf/partie_toute_redigee.qmd
   resources: 
     - "*.svg"
 
