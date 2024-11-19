@@ -50,8 +50,7 @@ supplement: none
   stroke: 0.5pt + rgb("666675"),
 )
 
-// Breakable table
-#show figure: set block(breakable: true)
+// Breakable table (but not other figures!!)
 #show figure.where(kind: "table"): set block(breakable: true)
  
 /* ---------------------------------------------------------
