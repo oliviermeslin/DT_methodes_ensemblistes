@@ -44,7 +44,7 @@ Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictiv
 - Affiner les hyperparamètres en fonction des performances observées.
 
 
-### Ajuster les hyperparamètres cléss des forêts aléatoires
+### Ajuster les hyperparamètres clés des forêts aléatoires
 
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
