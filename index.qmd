@@ -1,49 +1,18 @@
-```{=typst} 
-#import "@preview/mitex:0.2.4": *
-#set math.equation(
-numbering: "(1)",
-supplement: none
-)
 
-#set page("a4")
+---
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "On va vous booster le gradient"
+author: |
+  [Olivier Meslin](https://github.com/oliviermeslin)
+  [Mélina Hillion](https://github.com/melinahillion)
+---
 
-#set text(font: "IBM Plex Sans")
+# Introduction
 
-// Bold titles.
-#show table.cell.where(y: 0): set text(weight: "bold")
+Une bien belle introduction pour le site et le DT.
 
-// Tableaux alignés à gauche, sauf première ligne centrée
-#show table.cell: set align(left+horizon)
-#show table.cell.where(y: 0): set align(center+horizon)
+::: {.content-visible when-format="html"}
 
-#show figure.where(
-  kind: table
-): set figure.caption(position: top)
+La version pdf de ce document est disponible [ici](https://oliviermeslin.github.io/DT_methodes_ensemblistes/pdf/dt_methodes_ensemblistes.pdf).
 
-// Tableau zébré
-#set table(
-  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
-  stroke: 0.5pt + rgb("666675"),
-)
-```
-
-
-# Survol des méthodes ensemblistes
-
-{{< include "chapters/chapter1/survol.qmd" >}}
-
-{{< include "chapters/chapter1/comparaison_GB_RF.qmd" >}}
-
-# Méthodes ensemblistes: présentation mathématisée
-
-{{< include "chapters/chapter2/CART.qmd" >}}
-
-{{< include "chapters/chapter2/bagging.qmd" >}}
-
-{{< include "chapters/chapter2/random_forest.qmd" >}}
-
-{{< include "chapters/chapter2/boosting.qmd" >}}
-
-# Comment (bien) utiliser les approches ensemblistes
-
-{{< include "chapters/chapter3/guide_usage_RF.qmd" >}}
+:::
