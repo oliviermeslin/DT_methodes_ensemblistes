@@ -60,23 +60,29 @@ Où $\rho(x)$ est le coefficient de corrélation moyen entre les arbres individu
 
 Cette décomposition fait apparaître l'influence de la corrélation entre les arbres sur les performance de la forêt aléatoire:
 
-- **Si $\rho(x)$ est faible** : La variance est significativement réduite avec l'augmentation du nombre d'arbres $M$.
-- **Si $\rho(x)$ est élevée** : Les arbres sont plus corrélés entre eux et la réduction de variance est moindre lorque le nombre d'arbres augmente.
+- **Si $\rho(x)$ est élevée** (forte corrélation entre les arbres) : la première composante $\rho \sigma^2$ domine et la réduction de variance est moindre lorque le nombre d'arbres augmente.
+- **Si $\rho(x)$ est faible** (faible corrélation entre les arbres) : la seconde composante $\frac{1 - \rho}{M} \sigma^2$ et la variance est davantage réduite avec l'augmentation du nombre d'arbres $M$.
 
 L'objectif des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais.
+
 
 
 ## Les hyper-paramètres clés des forêts aléatoires
 
 - **Nombre d'arbres** : plus le nombre d'arbes est élevé, plus la variance est réduite, jusqu'à un certain point de saturation. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.
 
+- **Méthode d'échantillonnage** : les échantillons bootstrap peuvent être construits par tirage aléatoire **avec** ou **sans** remise.
+
 - **Nombre de variables considérées à chaque noeud**: cet hyperparamètre contrôle l'interdépendance entre les arbres. Avec $K$ le nombre total de variables sélectionnées à chaque noeud, une règle empirique usuelle est de considérer $\sqrt{K}$ pour une classification et $K/3$ pour une régression.
 
 - **Nombre minimal d'observations dans une feuille** : Un nombre d'observation minimal peut réduire le surapprentissage et surtout le temps de calcul.
 
+- **Critère de division des noeuds** (_splitting rule_) : 
+
+- **Nombre d'observations tirées pour construire un arbre** : 
+
 - **Profondeur maximale des arbres** : en général, il est conseillé de laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation. Limiter la profondeur des arbres peut toutefois réduire le risque de surapprentissage et diminuer le temps de calcul.
 
-- **Nombre minimal d'observations pour diviser un nœud** : Empêche la création de nœuds avec très peu d'observations, ce qui peut améliorer la généralisation des prédictions. 
 
 
 ## Evaluation des performances du modèle et optimisation des hyper-paramètres
@@ -146,13 +152,17 @@ Voici une bonne pratique:
 
 ## Interprétation et importance des variables
 
-Objectif: Identifier les variables qui contribuent le plus à la prédiction, c'est-à-dire qui influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent, établir des règles de décision simplifiées etc.
+Les forêts aléatoires sont des modèles d'apprentissage machine performants mais difficiles à interpréter, souvent qualifiés de "boîtes noires". Comprendre l'influence de chaque variable explicative (covariable) sur la prédiction est crucial pour l'interprétation. Dans cet objectif, plusieurs mesures d'importance des variables ont été développées.
+
+Objectif: Identifier les variables qui contribuent le plus à la prédiction, c'est-à-dire qui influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent ou établir des règles de décision simplifiées et transparentes par exemple.
 
 Méthodes ususelles (mais biaisées): 
 
 - **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_) : pour chaque variable, on calcule la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants.
 
-- **Permutation importance** (_Mean Decrease Accuracy_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation.
+- **Permutation importance** (_Mean Decrease Accuracy_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation. Néanmoins, la MDA peut être biaisée lorsque les variables sont corrélées, ce qui conduit au classement erroné des variables par ordre d'importance @benard2022mda.
+
+- **Valeurs de shapley** (_Shapley values_): 
 
 
 Il est essentiel de noter que ces deux mesures peuvent présenter des **biais** importants. Elles sont notamment sensibles aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes, ainsi qu'au variables avec une échelle de valeurs importante. Elles sont également fortement biaisée en présence de variables explicatives corrélées ou d'interactions complexes avec la cible.
@@ -160,11 +170,12 @@ Il est essentiel de noter que ces deux mesures peuvent présenter des **biais** 
 
 Quelques pistes pour atténuer les biais d'interprétation:
 
-- Utiliser des méthodes d'interprétabilité avancées : SHAP values, LIME (?)
+- Utiliser des méthodes d'interprétabilité avancées : La Sobol-MDA
 - Prétraiter les variables : Uniformiser les échelles, regrouper les catégories rares, limiter le nombre de modalités.
 - Analyser les corrélations : Identifier les variables fortement corrélées qui peuvent influencer la mesure d'importance.
 
 
+- **Sobol-MDA** : Au lieu de permuter les valeurs des covariables, la Sobol-MDA modifie la prédiction des arbres en ignorant les divisions basées sur la covariable cible. Elle utilise un algorithme "Projected-CART" pour projeter la partition de l'espace des covariables sur le sous-espace sans la covariable cible. Elle converge asymptotiquement vers l'indice de Sobol total, la mesure appropriée pour identifier les covariables les plus influentes, même avec des dépendances. De plus, elle est beaucoup plus efficace en termes de calcul que les méthodes alternatives utilisant la MDA.
 
 
 

@@ -7,13 +7,15 @@ Cette section rassemble et synthétise des recommandations sur l'entraînement d
 
 Le processus pour construire une Random Forest se résume comme suit:
 
-- Sélectionnez le nombre d'arbres à construire (`n_trees`).
+- Précisez le nombre d'arbres à construire (`n_trees`).
+
 - Pour chaque arbre, effectuez les étapes suivantes :
   - Générer un échantillon bootstrap à partir du jeu de données.
   - Construire un arbre de décision à partir de cet échantillon:
-  - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
-  - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
-  - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
+    - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
+    - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
+    - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
+    
 - Agréger les arbres pour effectuer les prédictions finales :
   - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
   - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue.
@@ -35,17 +37,21 @@ Il existe de multiples implémentations des forêts aléatoires. Le présent doc
 
 ### Définir un plan d'expérimentation: Comment entraîner une forêt aléatoire?
 
-Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d'arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l'objectif de l'entraînement d'une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation. 
+Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec leur corrélation. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
 
-- Commencer avec les valeurs par défaut des hyperparamètres.
+Recommandations:
+
+- Commencer par entraîner une forêt aléatoire avec les valeurs par défaut des hyperparamètres.
 
 - Utiliser l'erreur OOB pour une première évaluation rapide.
 
 - Affiner les hyperparamètres en fonction des performances observées.
 
 
-### Ajuster les hyperparamètres clés des forêts aléatoires
+#### Les hyperparamètres clés des forêts aléatoires
 
+Les forêts aléatoires sont relativement moins "tunables" que d'autres algorithmes, mais un léger gain de performance est possible en optimisant les hyperparamètres.
+ 
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
 ::: {.content-visible unless-format="html"}
@@ -97,24 +103,53 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 
 :::
 
+- Le __nombre d'arbres__ par défaut varie selon les implémentations (500 dans `ranger`, 100 dans `scikit-learn`).  Il s'agit d'un hyperparamètre particulier car il n'est associé à aucun arbitrage en matière de performance: la performance de la forêt aléatoire croît avec le nombre d'arbres, puis se stabilise. Le nombre optimal d'arbres est celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas) où à partir duquel l'ajout d'arbres supplémentaires génère des gains marginaux. Il est important de noter que ce nombre optimal dépend des autres hyperparamètres. Par exemple, un taux d'échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d'arbres. L'utilisation de mesures comme le score de Brier est recommandée pour évaluer la convergence plutôt que le taux d'erreur.
+
+
 - Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
 
-- Le __taux d'échantillonnage__ et le __mode de tirage__ contrôlent le plan d'échantillonnage des données d'entraînement. Les valeurs par défaut varient d'une implémentation à l'autre; dans le cas de `ranger`, le taux d'échantillonnage est de 63,2% sans remise, et de 100% avec remise. L'implémentation `scikit-learn` ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais dans une moindre ampleur. Un taux d'échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d'échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l'échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu'il est préférable d'échantillonner sans remise (@probst2019hyperparameters).
+Le nombre de variables candidates à chaque nœud, souvent noté mtry, est un hyperparamètre fondamental qui détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Ce paramètre exerce la plus forte influence sur les performances du modèle.
 
-- Le __nombre minimal d'observations dans les noeuds terminaux__ contrôle la taille des noeuds terminaux. La valeur par défaut est faible dans la plupart des implémentations (entre 1 et 5). Il n'y a pas vraiment de consensus sur l'effet de cet hyperparamètre sur les performances. En revanche, il est certain que le temps d'entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l'entraînement, en particulier si les données sont volumineuses.
+Un compromis doit être trouvé entre la diversité des arbres (faible mtry) et la qualité individuelle des arbres (haute mtry). Le choix optimal dépend du nombre de variables réellement pertinentes. Un faible mtry est préférable avec beaucoup de variables pertinentes, tandis qu'un mtry élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
 
-- Le __nombre d'arbres__ par défaut varie selon les implémentations (500 dans `ranger`, 100 dans `scikit-learn`).  Il s'agit d'un hyperparamètre particulier car il n'est associé à aucun arbitrage en matière de performance: la performance de la forêt aléatoire croît avec le nombre d'arbres, puis se stabilise à un niveau approximativement constant. Le nombre optimal d'arbres est donc intuitivement celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas). Il est important de noter que ce nombre optimal dépend des autres hyperparamètres. Par exemple, un taux d'échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d'arbres.
+Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l'agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cette approche peut entraîner une diminution de la performance individuelle des arbres, car ils sont parfois contraints de se diviser sur des variables moins pertinentes, ce qui peut réduire la qualité des prédictions.
 
-- Le __critère de choix de la règle de division des noeuds intermédiaires__: la plupart des implémentations des forêts aléatoires retiennent par défaut l'impureté de Gini pour la classification et la variance pour la régression, même si d'autres critères de choix ont été proposés dans la littérature. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans @probst2019hyperparameters.
+À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
 
+Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problèmes de classification et à $p/3$ pour les problèmes de régression, où $p$ représente le nombre total de variables prédictives disponibles. Ces choix par défaut reposent sur des heuristiques empiriques qui offrent généralement un bon compromis entre la précision des prédictions et la diversité des arbres.
+
+
+- Le __taux d'échantillonnage__ et le __mode de tirage__ contrôlent le plan d'échantillonnage des données d'entraînement. Les valeurs par défaut varient d'une implémentation à l'autre; dans le cas de `ranger`, le taux d'échantillonnage est de 63,2% sans remise, et de 100% avec remise. L'implémentation `scikit-learn` ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais d'une moindre ampleur. Un taux d'échantillonnage plus faible aboutit à des arbres plus diversifiés et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d'échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l'échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu'il est préférable d'échantillonner sans remise (@probst2019hyperparameters).
+
+
+- Le __nombre minimal d'observations dans les noeuds terminaux__ contrôle la taille des noeuds terminaux. La valeur par défaut est faible dans la plupart des implémentations (entre 1 et 5). Il n'y a pas vraiment de consensus sur l'effet de cet hyperparamètre sur les performances, bien qu'une valeur plus faible augmente le risque de sur-apprentissage. En revanche, il est certain que le temps d'entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l'entraînement, en particulier si les données sont volumineuses. Cela se fait généralement sans perte significative de performance.
+
+ 
+- Le __critère de choix de la règle de division des noeuds intermédiaires__: la plupart des implémentations des forêts aléatoires retiennent par défaut l'impureté de Gini pour la classification et la variance pour la régression, même si d'autres critères de choix ont été proposés dans la littérature (p-value dans les forêts d'inférence conditionnelle, arbres extrêmement randomisés, etc.). Chaque règle présente des avantages et des inconvénients, notamment en termes de biais de sélection des variables et de vitesse de calcul. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans @probst2019hyperparameters.
+
+
+#### Les méthodes d'optimisation des hyperparamètres des forêts aléatoires
+
+Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l'optimisation basée sur modèle séquentiel (SMBO). 
+
+En R, il existe plusieurs implémentations d'appuyant sur ces méthodes (mlrHyperopt, caret, tuneRF, tuneRanger).
 
 
 
 #### Classification ordonnée versus non ordonnée
 
 
+#### Classes équilibrées versus non équilibrées
 
 
+### Mesurer l'importance des variables
+
+Cependant, les mesures d’importance des variables
+
+Lorsque les variables prédictives présentent des échelles de mesure différentes (variables continues) ou des nombres de catégories différents (variables catégorielles), les mesures d'importance classiques, comme l'indice de Gini et l'importance permutationnelle, peuvent produire des résultats biaisés (@strobl2007bias). Les variables avec un grand nombre de catégories ou des échelles continues sont artificiellement privilégiées, même si elles ne sont pas réellement les plus importantes pour prédire la variable cible.
+
+
+@strobl2007bias propose d'utiliser des forêts aléatoires basées sur l'inférence conditionnelle (Conditional Inference Forests, CIF), implémentées dans le package party de R (algotithme cforest). Les CIF corrigent le biais de sélection des variables en utilisant des tests statistiques conditionnels pour choisir les variables et les points de coupure. Couplé à un échantillonnage sans remise, cette méthode permet d'obtenir des mesures d'importance des variables fiables et non biaisées, même avec des variables hétérogènes.
 
 
 
