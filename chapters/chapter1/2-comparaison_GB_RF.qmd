@@ -6,7 +6,7 @@ Les forêts aléatoires et le *gradient boosting* paraissent très similaires au
 
 -   __Les arbres n'ont pas le même statut dans les deux approches__. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de *boosting*, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n'a pas de sens indépendamment de l'ensemble des arbres qui l'ont précédé dans l'entraînement. Par ailleurs, les arbres d'une forêt aléatoire sont relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont plus souvent simples et peu profonds.
 
--   Les __points d'attention lors de l'entraînement__ des algorithmes sont différents: l'enjeu principal de l'entraînement d'une forêt aléatoire est l'arbitrage entre puissance prédictive des arbres et corrélation entre arbres, tandis que l'entraînement d'un algorithme de _gradient boosting_ porte davantage sur l'optimisation des hyperparamètres et la lutte contre le surapprentissage.
+-   Les __points d'attention lors de l'entraînement__ des algorithmes sont différents: l'enjeu principal de l'entraînement d'une forêt aléatoire est trouver le bon arbitrage entre puissance prédictive des arbres et corrélation entre arbres, tandis que l'entraînement d'un algorithme de _gradient boosting_ porte davantage sur la lutte contre le surapprentissage.
 
 -   __Complexité d'usage__: les forêts aléatoires s'avèrent plus faciles à prendre en main que le _gradient boosting_, car elles comprennent moins d'hyperparamètres dont l'optimisation est moins complexe.
 
