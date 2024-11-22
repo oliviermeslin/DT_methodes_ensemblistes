@@ -103,7 +103,8 @@ Les forêts aléatoires sont relativement moins optimisables que d'autres algori
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec la corrélation des arbres entre eux. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
 
-Les reco
+#### Première approche bête et méchante
+
 
 Recommandations:
 
@@ -114,7 +115,7 @@ Recommandations:
 - Affiner les hyperparamètres en fonction des performances observées.
 
 
-#### Les méthodes d'optimisation des hyperparamètres des forêts aléatoires
+#### Approches plus avancées
 
 Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l'optimisation basée sur modèle séquentiel (SMBO). 
 
