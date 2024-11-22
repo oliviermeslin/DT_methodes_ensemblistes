@@ -130,7 +130,7 @@ Voici quelques recommandations pratiques.
 
 Commencer par des stratégies simples :
 - Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
-- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size).
+- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.
 
 Utiliser des outils adaptés en R :
 - Privilégier caret pour une optimisation rapide sur de petits espaces.
