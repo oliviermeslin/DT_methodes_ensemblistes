@@ -99,45 +99,35 @@ Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problè
 
 ### Comment entraîner une forêt aléatoire?
 
-Les forêts aléatoires sont relativement moins optimisables que d'autres algorithmes, au sens où leur performance varie en général assez peu en fonction des valeurs des hyperparamètres. C'est plutôt un avantage en pratique: __les hyperparamètres par défaut fournissent le plus souvent une forêt aléatoire relativement performante__, et il n'est donc pas forcément utile de passer beaucoup de temps à les optimiser. Ceci dit, un léger gain de performance est possible en optimisant les hyperparamètres.
+Les forêts aléatoires nécessitent généralement moins d’optimisation que d’autres modèles d’apprentissage. En effet, leurs performances varient relativement peu en fonction des hyperparamètres. Les valeurs par défaut fournissent souvent des résultats satisfaisants, ce qui réduit le besoin d'optimisation intensive. Cependant, un ajustement précis des hyperparamètres peut apporter des gains marginaux mais utiles, notamment sur des jeux de données complexes.
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec la corrélation des arbres entre eux. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
 
-#### Première approche bête et méchante
+Ce compromis est atteint en ajustant certains hyperparamètres clés comme le nombre de variables candidates à chaque division, la taille de l'échantilon ou encore la taille minimale des feuilles.
 
-
-Recommandations:
-
-- Commencer par entraîner une forêt aléatoire avec les valeurs par défaut des hyperparamètres.
-
-- Utiliser l'erreur OOB pour une première évaluation rapide.
-
-- Affiner les hyperparamètres en fonction des performances observées.
-
-
-#### Approches plus avancées
+L'ajustement du nombre d'arbre relève plutôt d'un arbitrage entre performance et temps de cacul. Il est recommandé de fixer le nombre d'arbre à une valeur au-delà de laquelle les gains de performance peuvent être considérés comme marginaux.
 
 Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l'optimisation basée sur modèle séquentiel (SMBO). 
 
-Voici quelques recommandations pratiques. Commencer par des stratégies simples :
 
-Commencer par des stratégies simples :
+#### Première approche exploratoire
 
-- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
-- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: `tuneRF` (limité à l’optimisation de `mtry`), tuneRanger (optimise simultanément `mtry`, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.
+Voici quelques recommandations:
 
-
-Utiliser des outils adaptés en `R` :
-
-
-- Privilégier `caret` pour une optimisation rapide sur de petits espaces.
-- Choisir `tuneRanger` pour une optimisation complète avec des paramètres multiples.
-
-Evaluer les résultats :
-- Utiliser des prédictions OOB pour réduire le temps de calcul.
-- Ajuster les métriques selon l’objectif (ex. Brier Score pour la classification).
+- Débuter avec les valeurs par défaut: entraîner une forêt aléatoire avec les valeurs des hyperparamètres par défaut. 
+- Ajuster le nombre d’arbres: augmenter progressivement le nombre d'arbres jusqu'à atteindre une performance stable. Fixer le nombre d'arbres à cette valeur par la suite.
+- Explorer rapidement les hyperparamètres principaux: utiliser les méthodes _grid search_ (pour explorer toutes les combinaisons possibles dans un espace discret) ou _random search_ (pour explorer aléatoirement un espace plus large). Outils recommandés : `caret` (R) ou `scikit-learn` (Python).
+- Évaluer avec l’erreur Out-of-Bag (OOB) : utiliser l'erreur OOB pour une évaluation rapide offre et fiable des performances du modèle en fonction des différents hyper-paramètres (sans nécessiter de cross-validation).
+- Validation finale du modèle optimisé: comparer les performances finales sur un jeu de test ou par une validation croisée.
 
 
+#### Approche plus avancée
+
+Lorsque l’espace des hyperparamètres est large ou que les performances initiales sont insuffisantes, adopter des méthodes avancées comme l'ptimisation basée sur un modèle séquentiel (SMBO). En `R`, il existe plusieurs implémentations d'appuyant sur cette méthode: `tuneRF` (limité à l’optimisation de `mtry`), tuneRanger (optimise simultanément `mtry`, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.
+
+Il est également possible de remplacer les critères classiques (le taux d'erreur pour une classification par exemple) par d'autres critères de performance, comme le score de Brier ou la fonction de perte logarithmique (@probst2018tune).
+
+Pour gérer la contrainte computationnelle, il est possible de commencer par utiliser des échantillons réduits pour les étapes exploratoires, puis d'augmenter la taille de l'échantillon pour les tests finaux.
 
 
 #### Classification ordonnée versus non ordonnée
@@ -148,9 +138,11 @@ Evaluer les résultats :
 
 ### Mesurer l'importance des variables
 
-Lorsque les variables prédictives sont très corrélées, présentent des échelles de mesure différentes (variables continues) ou des nombres de catégories différents (variables catégorielles), les mesures d'importance classiques, comme l'indice de Gini, l'importance permutationnelle ou encore les valeurs de Shapley, peuvent produire des résultats biaisés (@strobl2007bias, @benard2022mda, @benard2022shaff). En particulier, les variables avec un grand nombre de catégories ou des échelles continues sont artificiellement privilégiées, même si elles ne sont pas réellement les plus importantes pour prédire la variable cible.
+Les méthodes classiques d'évaluation de l'importance des variables, telles que l'indice de Gini (Mean Decrease in Impurity - MDI) et l'importance par permutation (Mean Decrease Accuracy - MDA), peuvent produire des résultats biaisés dans certaines situations (@strobl2007bias, @benard2022mda, @benard2022shaff). Notamment, lorsque les variables prédictives sont fortement corrélées, présentent des échelles de mesure différentes ou possèdent un nombre variable de catégories, ces méthodes peuvent surestimer l'importance de certaines variables. Par exemple, les variables avec un grand nombre de catégories ou des échelles continues étendues peuvent être artificiellement privilégiées, même si leur contribution réelle à la prédiction est limitée.
 
-On propose ici 3 implémentations non biaisées des principales méthodes utilisées pour comparer l'importances des variables d'une forêt aléatoire:
+En pratique, il est recommandé d'utiliser des méthodes d'importance des variables moins sensibles aux biais, comme les CIF ou la Sobol-MDA. Les valeurs de Shapley, issues de la théorie des jeux, sont également une alternative intéressante. Elles attribuent à chaque variable une contribution proportionnelle à son impact sur la prédiction. Cependant, leur calcul est souvent complexe et coûteux en ressources computationnelles, surtout en présence de nombreuses variables. Des méthodes comme SHAFF (SHApley eFfects via random Forests) ont été développées pour estimer efficacement ces valeurs, même en présence de dépendances entre variables.
+
+On conseil l'utilisation de trois implémentations pour comparer l'importances des variables d'une forêt aléatoire:
 
 - Pour la MDI: l'algorithme CIF proposé par @strobl2007bias et implémenté en R
 
@@ -158,4 +150,5 @@ On propose ici 3 implémentations non biaisées des principales méthodes utilis
 
 - Pour les valeurs de shapley : l'alogrithme SHAFF proposé par @benard2022shaff et implémenté en R
 
+Enfin, nous recommandons de combiner plusieurs méthodes pour une analyse plus robuste et de tenir compte des prétraitements des données afin de minimiser les biais potentiels.
 
