@@ -70,7 +70,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 | `min.node.size`   / `min_samples_split`    | Nombre minimal d'observations nécessaire pour qu'un noeud puisse être partagé |
 | `num.trees`   / `n_estimators`             | Le nombre d'arbres                                                            |
 | `splitrule` / `criterion`                  | Le critère de choix de la règle de division des noeuds intermédiaires         |
-| `min.bucket`  / `min_samples_leaf `        | Nombre minimal d'observations dans les noeuds terminaux                       |
+| `min.bucket`  / `min_samples_leaf`         | Nombre minimal d'observations dans les noeuds terminaux                       |
 | `max.depth`  / `max_depth`                 | Profondeur maximale des arbres                                                |
 
 : Les principaux hyperparamètres des forêts aléatoires {tbl-colwidths="[30,70]"}
