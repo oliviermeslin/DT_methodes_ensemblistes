@@ -1,0 +1,18 @@
+
+## Préparation des données
+
+### Préparation des données (Feature Engineering)
+
+- **Valeurs manquantes** : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.
+
+- **Variables catégorielles** : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c'est possible.
+
+- **Échelle des Variables** : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.
+
+### Process: utiliser les pipelines
+
+
+### Train-test
+
+Pas indispensable pour RF, mais faisable. Indispensable pour GB.
+

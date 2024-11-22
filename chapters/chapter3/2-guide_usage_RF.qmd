@@ -3,54 +3,29 @@
 
 Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
 
-### Mode de construction d'une forêt aléatoire
+### Quelle implémentation utiliser?
+
+Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l'usage de deux implémentations de référence: le _package_ `R` `ranger` et le _package_ `Python` `scikit-learn` pour leur rigueur, leur efficacité et leur simplicité d'utilisation. Il est à noter qu'il est possible d'entraîner des forêts aléatoires avec les algorithmes `XGBoost` et `LightGBM`, mais il s'agit d'un usage avancé qui n'est pas recommandé en première approche. Cette approche est présentée dans la partie __REFERENCE A LA PARTIE USAGE AVANCE__.
+
+<!-- ### Mode de construction d'une forêt aléatoire
 
 Le processus pour construire une Random Forest se résume comme suit:
 
 - Précisez le nombre d'arbres à construire (`n_trees`).
 
 - Pour chaque arbre, effectuez les étapes suivantes :
-  - Générer un échantillon bootstrap à partir du jeu de données.
-  - Construire un arbre de décision à partir de cet échantillon:
-    - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
-    - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
-    - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
+    - Générer un échantillon bootstrap à partir du jeu de données.
+    - Construire un arbre de décision à partir de cet échantillon:
+        - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
+        - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
+        - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
     
 - Agréger les arbres pour effectuer les prédictions finales :
-  - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
-  - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue.
+    - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
+    - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue. -->
 
 
-### Préparation des données (Feature Engineering)
-
-- **Variables catégorielles** : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données.
-
-- **Valeurs manquantes** : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.
-
-- **Échelle des Variables** : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.
-
-
-### Quelle implémentation utiliser?
-
-Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l'usage de deux implémentations de référence: le _package_ `R` `ranger` et le _package_ `Python` `scikit-learn` pour leur rigueur, leur efficacité et leur simplicité d'utilisation. Il est à noter qu'il est possible d'entraîner des forêts aléatoires avec les algorithmes `XGBoost` et `LightGBM`, mais il s'agit d'un usage avancé qui n'est recommandé en première approche. Cette approche est présentée dans la partie __REFERENCE A LA PARTIE USAGE AVANCE__.
-
-
-### Définir un plan d'expérimentation: Comment entraîner une forêt aléatoire?
-
-Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec leur corrélation. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
-
-Recommandations:
-
-- Commencer par entraîner une forêt aléatoire avec les valeurs par défaut des hyperparamètres.
-
-- Utiliser l'erreur OOB pour une première évaluation rapide.
-
-- Affiner les hyperparamètres en fonction des performances observées.
-
-
-#### Les hyperparamètres clés des forêts aléatoires
-
-Les forêts aléatoires sont relativement moins "tunables" que d'autres algorithmes, mais un léger gain de performance est possible en optimisant les hyperparamètres.
+### Les hyperparamètres clés des forêts aléatoires
  
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
@@ -108,7 +83,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 
 - Le __nombre de variables candidates à chaque noeud__ est un hyperparamètre fondamental qui détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Ce paramètre exerce la plus forte influence sur les performances du modèle.
 
-Un nombre plus faible de variables candidates, souvent dénoté _mtry_, conduit à des arbres plus diversifiés et donc moins corrélés entre eux. À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Un compromis doit être trouvé et le choix optimal dépend du nombre de variables réellement pertinentes. Une faible valeur de _mtry_ est préférable avec beaucoup de variables pertinentes, tandis qu'un _mtry_ élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
+Un nombre plus faible de variables candidates, souvent dénoté `mtry`, conduit à des arbres plus diversifiés et donc moins corrélés entre eux. À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Un compromis doit être trouvé et le choix optimal dépend du nombre de variables réellement pertinentes. Une faible valeur de _mtry_ est préférable avec beaucoup de variables pertinentes, tandis qu'un `mtry` élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
 
 Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problèmes de classification et à $p/3$ pour les problèmes de régression, où $p$ représente le nombre total de variables prédictives disponibles. Ces choix par défaut reposent sur des heuristiques empiriques qui offrent généralement un bon compromis entre la précision des prédictions et la diversité des arbres.
 
@@ -122,19 +97,40 @@ Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problè
 - Le __critère de choix de la règle de division des noeuds intermédiaires__: la plupart des implémentations des forêts aléatoires retiennent par défaut l'impureté de Gini pour la classification et la variance pour la régression, même si d'autres critères de choix ont été proposés dans la littérature (p-value dans les forêts d'inférence conditionnelle, arbres extrêmement randomisés, etc.). Chaque règle présente des avantages et des inconvénients, notamment en termes de biais de sélection des variables et de vitesse de calcul. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans @probst2019hyperparameters.
 
 
+### Comment entraîner une forêt aléatoire?
+
+Les forêts aléatoires sont relativement moins optimisables que d'autres algorithmes, au sens où leur performance varie en général assez peu en fonction des valeurs des hyperparamètres. C'est plutôt un avantage en pratique: __les hyperparamètres par défaut fournissent le plus souvent une forêt aléatoire relativement performante__, et il n'est donc pas forcément utile de passer beaucoup de temps à les optimiser. Ceci dit, un léger gain de performance est possible en optimisant les hyperparamètres.
+
+Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec la corrélation des arbres entre eux. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
+
+Les reco
+
+Recommandations:
+
+- Commencer par entraîner une forêt aléatoire avec les valeurs par défaut des hyperparamètres.
+
+- Utiliser l'erreur OOB pour une première évaluation rapide.
+
+- Affiner les hyperparamètres en fonction des performances observées.
+
+
 #### Les méthodes d'optimisation des hyperparamètres des forêts aléatoires
 
 Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l'optimisation basée sur modèle séquentiel (SMBO). 
 
-Voici quelques recommandations pratiques.
+Voici quelques recommandations pratiques. Commencer par des stratégies simples :
 
 Commencer par des stratégies simples :
-- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret
-- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.
 
-Utiliser des outils adaptés en R :
-- Privilégier caret pour une optimisation rapide sur de petits espaces.
-- Choisir tuneRanger pour une optimisation complète avec des paramètres multiples.
+- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
+- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: `tuneRF` (limité à l’optimisation de `mtry`), tuneRanger (optimise simultanément `mtry`, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.
+
+
+Utiliser des outils adaptés en `R` :
+
+
+- Privilégier `caret` pour une optimisation rapide sur de petits espaces.
+- Choisir `tuneRanger` pour une optimisation complète avec des paramètres multiples.
 
 Evaluer les résultats :
 - Utiliser des prédictions OOB pour réduire le temps de calcul.
