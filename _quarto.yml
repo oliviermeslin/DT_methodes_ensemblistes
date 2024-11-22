@@ -15,7 +15,8 @@ project:
     - chapters/chapter2/3-random_forest.qmd
     - chapters/chapter2/4-boosting.qmd
     - chapters/chapter3/0-intro.qmd
-    - chapters/chapter3/1-guide_usage_RF.qmd
+    - chapters/chapter3/1-preparation_donnees.qmd
+    - chapters/chapter3/2-guide_usage_RF.qmd
     - pdf/dt_methodes_ensemblistes.qmd
   resources: 
     - "*.svg"
@@ -53,7 +54,8 @@ website:
       - section: "Comment bien utiliser les algorithmes?"
         href: chapters/chapter3/0-intro.qmd
         contents:
-          - chapters/chapter3/1-guide_usage_RF.qmd
+          - chapters/chapter3/1-preparation_donnees.qmd
+          - chapters/chapter3/2-guide_usage_RF.qmd
     background: "#D9E3E4"
     favicon: images/favicon.ico
     pinned: true
