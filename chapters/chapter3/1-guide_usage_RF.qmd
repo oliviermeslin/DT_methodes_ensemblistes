@@ -106,15 +106,9 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 - Le __nombre d'arbres__ par défaut varie selon les implémentations (500 dans `ranger`, 100 dans `scikit-learn`).  Il s'agit d'un hyperparamètre particulier car il n'est associé à aucun arbitrage en matière de performance: la performance de la forêt aléatoire croît avec le nombre d'arbres, puis se stabilise. Le nombre optimal d'arbres est celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas) où à partir duquel l'ajout d'arbres supplémentaires génère des gains marginaux. Il est important de noter que ce nombre optimal dépend des autres hyperparamètres. Par exemple, un taux d'échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d'arbres. L'utilisation de mesures comme le score de Brier est recommandée pour évaluer la convergence plutôt que le taux d'erreur.
 
 
-- Le __nombre de variables candidates à chaque noeud__ contrôle l'échantillonnage des variables lors de l'entraînement. La valeur par défaut est fréquemment $\sqrt p$ pour la classification et $p/3$ pour la régression. C'est l'hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C'est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.
+- Le __nombre de variables candidates à chaque noeud__ est un hyperparamètre fondamental qui détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Ce paramètre exerce la plus forte influence sur les performances du modèle.
 
-Le nombre de variables candidates à chaque nœud, souvent noté mtry, est un hyperparamètre fondamental qui détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Ce paramètre exerce la plus forte influence sur les performances du modèle.
-
-Un compromis doit être trouvé entre la diversité des arbres (faible mtry) et la qualité individuelle des arbres (haute mtry). Le choix optimal dépend du nombre de variables réellement pertinentes. Un faible mtry est préférable avec beaucoup de variables pertinentes, tandis qu'un mtry élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
-
-Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l'agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cette approche peut entraîner une diminution de la performance individuelle des arbres, car ils sont parfois contraints de se diviser sur des variables moins pertinentes, ce qui peut réduire la qualité des prédictions.
-
-À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
+Un nombre plus faible de variables candidates, souvent dénoté _mtry_, conduit à des arbres plus diversifiés et donc moins corrélés entre eux. À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Un compromis doit être trouvé et le choix optimal dépend du nombre de variables réellement pertinentes. Une faible valeur de _mtry_ est préférable avec beaucoup de variables pertinentes, tandis qu'un _mtry_ élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
 
 Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problèmes de classification et à $p/3$ pour les problèmes de régression, où $p$ représente le nombre total de variables prédictives disponibles. Ces choix par défaut reposent sur des heuristiques empiriques qui offrent généralement un bon compromis entre la précision des prédictions et la diversité des arbres.
 
@@ -132,7 +126,20 @@ Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problè
 
 Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l'optimisation basée sur modèle séquentiel (SMBO). 
 
-En R, il existe plusieurs implémentations d'appuyant sur ces méthodes (mlrHyperopt, caret, tuneRF, tuneRanger).
+Voici quelques recommandations pratiques.
+
+Commencer par des stratégies simples :
+- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
+- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size).
+
+Utiliser des outils adaptés en R :
+- Privilégier caret pour une optimisation rapide sur de petits espaces.
+- Choisir tuneRanger pour une optimisation complète avec des paramètres multiples.
+
+Evaluer les résultats :
+- Utiliser des prédictions OOB pour réduire le temps de calcul.
+- Ajuster les métriques selon l’objectif (ex. Brier Score pour la classification).
+
 
 
 
@@ -144,12 +151,14 @@ En R, il existe plusieurs implémentations d'appuyant sur ces méthodes (mlrHype
 
 ### Mesurer l'importance des variables
 
-Cependant, les mesures d’importance des variables
+Lorsque les variables prédictives sont très corrélées, présentent des échelles de mesure différentes (variables continues) ou des nombres de catégories différents (variables catégorielles), les mesures d'importance classiques, comme l'indice de Gini, l'importance permutationnelle ou encore les valeurs de Shapley, peuvent produire des résultats biaisés (@strobl2007bias, @benard2022mda, @benard2022shaff). En particulier, les variables avec un grand nombre de catégories ou des échelles continues sont artificiellement privilégiées, même si elles ne sont pas réellement les plus importantes pour prédire la variable cible.
 
-Lorsque les variables prédictives présentent des échelles de mesure différentes (variables continues) ou des nombres de catégories différents (variables catégorielles), les mesures d'importance classiques, comme l'indice de Gini et l'importance permutationnelle, peuvent produire des résultats biaisés (@strobl2007bias). Les variables avec un grand nombre de catégories ou des échelles continues sont artificiellement privilégiées, même si elles ne sont pas réellement les plus importantes pour prédire la variable cible.
+On propose ici 3 implémentations non biaisées des principales méthodes utilisées pour comparer l'importances des variables d'une forêt aléatoire:
 
+- Pour la MDI: l'algorithme CIF proposé par @strobl2007bias et implémenté en R
 
-@strobl2007bias propose d'utiliser des forêts aléatoires basées sur l'inférence conditionnelle (Conditional Inference Forests, CIF), implémentées dans le package party de R (algotithme cforest). Les CIF corrigent le biais de sélection des variables en utilisant des tests statistiques conditionnels pour choisir les variables et les points de coupure. Couplé à un échantillonnage sans remise, cette méthode permet d'obtenir des mesures d'importance des variables fiables et non biaisées, même avec des variables hétérogènes.
+- Pour la MDA: l'algorithme Sobol-MDA proposé par @benard2022mda et implémenté en R
 
+- Pour les valeurs de shapley : l'alogrithme SHAFF proposé par @benard2022shaff et implémenté en R
 
 

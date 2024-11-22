@@ -73,7 +73,12 @@ L'objectif des forêts aléatoires est donc de minimiser la corrélation entre l
 
 - **Méthode d'échantillonnage** : les échantillons bootstrap peuvent être construits par tirage aléatoire **avec** ou **sans** remise.
 
-- **Nombre de variables considérées à chaque noeud**: cet hyperparamètre contrôle l'interdépendance entre les arbres. Avec $K$ le nombre total de variables sélectionnées à chaque noeud, une règle empirique usuelle est de considérer $\sqrt{K}$ pour une classification et $K/3$ pour une régression.
+- **Nombre de variables considérées à chaque noeud**: cet hyperparamètre détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres.
+
+Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l'agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cela peut entraîner une diminution de la qualité prédictive des arbres individuels, car ils sont parfois contraints de se diviser sur des variables moins pertinentes.
+
+À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
+
 
 - **Nombre minimal d'observations dans une feuille** : Un nombre d'observation minimal peut réduire le surapprentissage et surtout le temps de calcul.
 
@@ -138,44 +143,68 @@ Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à 
 
 ### Choix des hyper-paramètres du modèle
 
-L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important.
+L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important.
 
-Voici une bonne pratique:
+Il convient néanmoins de mettre en place une stratégie d'optimisation des hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans ce qui suit.
 
-- Tester **différentes combinaisons d'hyperparamètres** en utilisant une recherche en grille ou aléatoire.
+Il convient de noter que les implémentations "clés en main" en R ou Python ne permettent en général d'optimiser que les hyper-paramètres qui influent le plus sur la performance du modèle. Il s'agit généralement de mtry (nombre de variables sélectionnées aléatoirement à chaque nœud), la taille minimale des nœuds (nodesize ou min_node_size), et la taille de l'échantillon utilisé pour construire chaque arbre (sample size).
 
-- Utiliser l'**erreur OOB** pour une optimisation rapide des hyperparamètres.
 
-- **Valider** les résultats avec une **validation croisée** pour une estimation plus robuste.
 
+#### Méthodes de recherche exhaustives
+
+- **Recherche sur grille** (Grid Search): Cette approche simple explore toutes les combinaisons possibles d'hyperparamètres définis sur une grille. Les paramètres continus doivent être discrétisés au préalable. La méthode est exhaustive mais coûteuse en calcul, surtout pour un grand nombre d'hyperparamètres.
+
+- **Recherche aléatoire** (Random Search): Plus efficace que la recherche sur grille, cette méthode échantillonne aléatoirement les valeurs des hyperparamètres dans un espace défini. Bergstra et Bengio (2012) ont démontré sa supériorité pour les réseaux neuronaux, et elle est également pertinente pour les forêts aléatoires. La distribution d'échantillonnage est souvent uniforme.
+
+
+#### Optimisation séquentielle/itérative basée sur un modèle (SMBO)
+
+La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s'appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester. 
+
+Voici les étapes clés de cette méthode:
+
+- Définition du problème: On spécifie une mesure d'évaluation (ex: AUC pour la classification, MSE pour la régression), une stratégie d'évaluation (ex: validation croisée k-fold), et l'espace des hyperparamètres à explorer.
+
+- Initialisation: échantillonner aléatoirement des points dans l’espace des hyperparamètres et évaluer leurs performances.
+
+- Boucle itérative :
+  - Construction d'un modèle de substitution (surrogate model): un modèle de régression (ex: krigeage ou une forêt aléatoire) est ajusté aux données déjà observées. Ce modèle prédit la performance en fonction des hyperparamètres.
+  - Sélection d'un nouvel hyperparamètre: un critère basé sur le modèle de substitution sélectionne le prochain ensemble d'hyperparamètres à évaluer. Ce critère vise à explorer des régions prometteuses de l'espace des hyperparamètres qui n'ont pas encore été suffisamment explorées.
+  - Évaluer les points proposés et les ajouter à l’ensemble déjà exploré: la performance du nouvel ensemble d'hyperparamètres est évaluée et ajoutée à l'ensemble des données d'apprentissage du modèle de substitution afin d'orienter les recherches vers de nouveaux hyper-paramètres prometteurs.
 
 
 ## Interprétation et importance des variables
 
-Les forêts aléatoires sont des modèles d'apprentissage machine performants mais difficiles à interpréter, souvent qualifiés de "boîtes noires". Comprendre l'influence de chaque variable explicative (covariable) sur la prédiction est crucial pour l'interprétation. Dans cet objectif, plusieurs mesures d'importance des variables ont été développées.
+Les forêts aléatoires sont des modèles d'apprentissage performants mais difficiles à interpréter, souvent qualifiés de "boîtes noires". Comprendre l'influence de chaque variable explicative sur la prédiction est crucial pour l'interprétation. Dans cet objectif, plusieurs mesures d'importance des variables ont été développées.
 
 Objectif: Identifier les variables qui contribuent le plus à la prédiction, c'est-à-dire qui influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent ou établir des règles de décision simplifiées et transparentes par exemple.
 
-Méthodes ususelles (mais biaisées): 
+**Méthodes ususelles (mais biaisées)**: 
 
-- **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_) : pour chaque variable, on calcule la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants.
+- **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_ ou _MDI_) : pour chaque variable, on calcule la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants.
 
-- **Permutation importance** (_Mean Decrease Accuracy_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation. Néanmoins, la MDA peut être biaisée lorsque les variables sont corrélées, ce qui conduit au classement erroné des variables par ordre d'importance @benard2022mda.
-
-- **Valeurs de shapley** (_Shapley values_): 
-
+- **Permutation importance** (_Mean Decrease Accuracy_ ou _MDA_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation. Il existe de nombreuses implémentations de la MDA que l'on retrouve dans les différents packages usuels en R et en Python. Néanmoins, la MDA peut être biaisée lorsque les variables sont corrélées, ce qui conduit au classement erroné des variables par ordre d'importance @benard2022mda.
 
 Il est essentiel de noter que ces deux mesures peuvent présenter des **biais** importants. Elles sont notamment sensibles aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes, ainsi qu'au variables avec une échelle de valeurs importante. Elles sont également fortement biaisée en présence de variables explicatives corrélées ou d'interactions complexes avec la cible.
 
 
+- **Valeurs de shapley** (_Shapley values_): Les valeurs de Shapley permettent de quantifier la contribution de chaque variable explicative à la variance expliquée de la variable cible, en tenant compte des interactions entre les variables. Cependant, leur estimation est computationnellement coûteuse (exponentielle avec le nombre de variables) et pose des défis méthodologiques. La plupart des méthodes /implémentations présentent soit des biais du fait de l'usage d'approximations, soit une complexité computationnelle élevée (en entraînant un modèle pour chaque sous-ensemble de variables). La méthode SHAFF (@benard2022shaff), implémentée en R, permet toutefois de pallier à ces problèmes: elle offre une estimation rapide et sans biais des valeurs de Shapley.
+
+
 Quelques pistes pour atténuer les biais d'interprétation:
 
-- Utiliser des méthodes d'interprétabilité avancées : La Sobol-MDA
 - Prétraiter les variables : Uniformiser les échelles, regrouper les catégories rares, limiter le nombre de modalités.
 - Analyser les corrélations : Identifier les variables fortement corrélées qui peuvent influencer la mesure d'importance.
+- Utiliser des méthodes d'interprétabilité avancées alternatives : La Sobol-MDA, 
 
 
-- **Sobol-MDA** : Au lieu de permuter les valeurs des covariables, la Sobol-MDA modifie la prédiction des arbres en ignorant les divisions basées sur la covariable cible. Elle utilise un algorithme "Projected-CART" pour projeter la partition de l'espace des covariables sur le sous-espace sans la covariable cible. Elle converge asymptotiquement vers l'indice de Sobol total, la mesure appropriée pour identifier les covariables les plus influentes, même avec des dépendances. De plus, elle est beaucoup plus efficace en termes de calcul que les méthodes alternatives utilisant la MDA.
+**Méthodes recommandées**: 
+
+- **Conditional Inference Forests** (CIF) : Au lieu des implémentations classiques de la MDI, @strobl2007bias propose d'utiliser des forêts aléatoires basées sur l'inférence conditionnelle, implémentées dans le package party de R (algotithme cforest). Les CIF corrigent le biais de sélection des variables en utilisant des tests statistiques conditionnels pour choisir les variables et les points de coupure. Couplé à un échantillonnage sans remise, cette méthode permet d'obtenir des mesures d'importance des variables fiables et non biaisées, même avec des variables hétérogènes.
+
+- **Sobol-MDA** : La Sobol-MDA vise à corriger les limites de la MDA en fournissant une mesure d'importance cohérente, même en présence de variables dépendantes. Au lieu de permuter les valeurs des covariables, la Sobol-MDA modifie la prédiction des arbres en ignorant les divisions basées sur la covariable cible. Elle utilise un algorithme "Projected-CART" pour projeter la partition de l'espace des covariables sur le sous-espace sans la covariable cible. Cela permet de simuler la suppression effective de cette variable. Elle converge asymptotiquement vers l'indice de Sobol total, la mesure appropriée pour identifier les covariables les plus influentes, même avec des dépendances. De plus, elle est beaucoup plus efficace en termes de calcul que les méthodes alternatives utilisant la MDA.
+
 
 
 
