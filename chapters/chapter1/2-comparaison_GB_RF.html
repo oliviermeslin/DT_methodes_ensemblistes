@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -110,7 +81,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter1/0-intro.qmd">Survol des méthodes ensemblistes</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter1/2-comparaison_GB_RF.html">Comparaison RF-GBDT</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter1/0-intro.qmd">Survol des méthodes ensemblistes</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter1/2-comparaison_GB_RF.html">Comparaison entre forêts aléatoires et <em>gradient boosting</em></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -162,7 +133,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/chapter1/2-comparaison_GB_RF.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Comparaison RF-GBDT</span></a>
+ <span class="menu-text">Comparaison entre forêts aléatoires et <em>gradient boosting</em></span></a>
   </div>
 </li>
       </ul>
@@ -229,7 +200,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#comparaison-rf-gbdt" id="toc-comparaison-rf-gbdt" class="nav-link active" data-scroll-target="#comparaison-rf-gbdt">Comparaison RF-GBDT</a></li>
+  <li><a href="#comparaison-entre-forêts-aléatoires-et-gradient-boosting" id="toc-comparaison-entre-forêts-aléatoires-et-gradient-boosting" class="nav-link active" data-scroll-target="#comparaison-entre-forêts-aléatoires-et-gradient-boosting">Comparaison entre forêts aléatoires et <em>gradient boosting</em></a>
+  <ul class="collapse">
+  <li><a href="#quelle-approche-choisir" id="toc-quelle-approche-choisir" class="nav-link" data-scroll-target="#quelle-approche-choisir">Quelle approche choisir?</a></li>
+  </ul></li>
+  <li><a href="#le-point-de-départ-recommandé-est-de-commencer-par-entraîner-une-forêt-aléatoire-avec-les-hyperparamètres-par-défaut." id="toc-le-point-de-départ-recommandé-est-de-commencer-par-entraîner-une-forêt-aléatoire-avec-les-hyperparamètres-par-défaut." class="nav-link" data-scroll-target="#le-point-de-départ-recommandé-est-de-commencer-par-entraîner-une-forêt-aléatoire-avec-les-hyperparamètres-par-défaut.">Le point de départ recommandé est de commencer par entraîner une forêt aléatoire avec les hyperparamètres par défaut.</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter1/2-comparaison_GB_RF.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter1/2-comparaison_GB_RF.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -239,20 +214,22 @@ window.Quarto = {
 
 
 
-<section id="comparaison-rf-gbdt" class="level3">
-<h3 class="anchored" data-anchor-id="comparaison-rf-gbdt">Comparaison RF-GBDT</h3>
+<section id="comparaison-entre-forêts-aléatoires-et-gradient-boosting" class="level2">
+<h2 class="anchored" data-anchor-id="comparaison-entre-forêts-aléatoires-et-gradient-boosting">Comparaison entre forêts aléatoires et <em>gradient boosting</em></h2>
 <p>Les forêts aléatoires et le <em>gradient boosting</em> paraissent très similaires au premier abord: il s’agit de deux approches ensemblistes, qui construisent des modèles très prédictifs performants en combinant un grand nombre d’arbres de décision. Mais en réalité, ces deux approches présentent plusieurs différences fondamentales:</p>
 <ul>
-<li><p>Les deux approches reposent sur des fondements théoriques différents: la loi des grands nombres pour les forêts aléatoires, la théorie de l’apprentissage statistique pour le <em>boosting</em>.</p></li>
-<li><p>Les arbres n’ont pas le même statut dans les deux approches. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de <em>boosting</em>, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n’a pas de sens indépendamment de l’ensemble des arbres qui l’ont précédé dans l’entraînement.</p></li>
-<li><p>Les points d’attention dans l’entraînement ne sont pas les mêmes: arbitrage puissance-corrélation dans la RF, arbitrage puissance-overfitting dans le <em>boosting</em>.</p></li>
+<li><p>Les deux approches reposent sur des <strong>fondements théoriques différents</strong>: la loi des grands nombres pour les forêts aléatoires, la théorie de l’apprentissage statistique pour le <em>boosting</em>.</p></li>
+<li><p><strong>Les arbres n’ont pas le même statut dans les deux approches</strong>. Dans une forêt aléatoire, les arbres sont entraînés indépendamment les uns des autres et constituent chacun un modèle à part entière, qui peut être utilisé, représenté et interprété isolément. Dans un modèle de <em>boosting</em>, les arbres sont entraînés séquentiellement, ce qui implique que chaque arbre n’a pas de sens indépendamment de l’ensemble des arbres qui l’ont précédé dans l’entraînement. Par ailleurs, les arbres d’une forêt aléatoire sont relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le <em>boosting</em> les arbres sont plus souvent simples et peu profonds.</p></li>
+<li><p>Les <strong>points d’attention lors de l’entraînement</strong> des algorithmes sont différents: l’enjeu principal de l’entraînement d’une forêt aléatoire est trouver le bon arbitrage entre puissance prédictive des arbres et corrélation entre arbres, tandis que l’entraînement d’un algorithme de <em>gradient boosting</em> porte davantage sur la lutte contre le surapprentissage.</p></li>
+<li><p><strong>Complexité d’usage</strong>: les forêts aléatoires s’avèrent plus faciles à prendre en main que le <em>gradient boosting</em>, car elles comprennent moins d’hyperparamètres dont l’optimisation est moins complexe.</p></li>
+<li><p><strong>Conditions d’utilisation</strong>: il est possible d’évaluer la qualité d’une forêt aléatoire en utilisant les données sur lesquelles elle a été entraînée grâce à l’approche <em>out-of-bag</em>, alors que c’est impossible avec le <em>gradient boosting</em>, pour lequel il faut impérativement conserver un ensemble de test. Cette différence peut sembler purement technique en apparence, mais elle s’avère importante en pratique dans de nombreuses situations, par exemple lorsque les données disponibles sont de taille restreinte ou lorsque les ressources informatiques disponibles ne sont pas suffisantes pour mener un exercice de validation croisée.</p></li>
 </ul>
-<!-- Par ailleurs, les arbres d'une forêt aléatoire sont souvent relativement complexes et profonds (car ce sont des modèles à part entière), alors que dans le _boosting_ les arbres sont généralement simples et peu profonds. -->
-<ul>
-<li><p><em>overfitting</em>: borne théorique à l’<em>overfitting</em> dans les RF, contre pas de borne dans le <em>boosting</em>. Deux conséquences: 1/ lutter contre l’overfitting est essentiel dans l’usage du <em>boosting</em>; 2/ le <em>boosting</em> est plus sensible au bruit et aux erreurs sur <span class="math inline">\(y\)</span> que la RF.</p></li>
-<li><p>Conditions d’utilisation: la RF peut être utilisée en OOB, pas le <em>boosting</em>.</p></li>
-<li><p>Complexité d’usage: peu d’hyperparamètres dans les RF, contre un grand nombre dans le <em>boosting</em>.</p></li>
-</ul>
+<section id="quelle-approche-choisir" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-approche-choisir">Quelle approche choisir?</h3>
+</section>
+</section>
+<section id="le-point-de-départ-recommandé-est-de-commencer-par-entraîner-une-forêt-aléatoire-avec-les-hyperparamètres-par-défaut." class="level2">
+<h2 class="anchored" data-anchor-id="le-point-de-départ-recommandé-est-de-commencer-par-entraîner-une-forêt-aléatoire-avec-les-hyperparamètres-par-défaut.">Le point de départ recommandé est de commencer par entraîner une forêt aléatoire avec les hyperparamètres par défaut.</h2>
 
 
 </section>

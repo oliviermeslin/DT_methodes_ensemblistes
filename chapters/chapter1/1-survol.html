@@ -182,7 +182,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/chapter1/2-comparaison_GB_RF.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Comparaison RF-GBDT</span></a>
+ <span class="menu-text">Comparaison entre forêts aléatoires et <em>gradient boosting</em></span></a>
   </div>
 </li>
       </ul>
@@ -255,10 +255,9 @@ window.Quarto = {
   <li><a href="#pourquoi-utiliser-des-méthodes-ensemblistes" id="toc-pourquoi-utiliser-des-méthodes-ensemblistes" class="nav-link" data-scroll-target="#pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</a></li>
   <li><a href="#comment-fonctionnent-les-méthodes-ensemblistes" id="toc-comment-fonctionnent-les-méthodes-ensemblistes" class="nav-link" data-scroll-target="#comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</a>
   <ul class="collapse">
-  <li><a href="#le-modèle-de-base-larbre-de-classification-et-de-régression" id="toc-le-modèle-de-base-larbre-de-classification-et-de-régression" class="nav-link" data-scroll-target="#le-modèle-de-base-larbre-de-classification-et-de-régression">Le modèle de base: l’arbre de classification et de régression</a></li>
-  <li><a href="#le-bagging-bootstrap-aggregating" id="toc-le-bagging-bootstrap-aggregating" class="nav-link" data-scroll-target="#le-bagging-bootstrap-aggregating">Le <em>bagging</em> (Bootstrap Aggregating)</a></li>
-  <li><a href="#les-random-forests" id="toc-les-random-forests" class="nav-link" data-scroll-target="#les-random-forests">Les <em>random forests</em></a></li>
-  <li><a href="#le-boosting" id="toc-le-boosting" class="nav-link" data-scroll-target="#le-boosting">Le <em>boosting</em></a></li>
+  <li><a href="#sec-cart-intuition" id="toc-sec-cart-intuition" class="nav-link" data-scroll-target="#sec-cart-intuition">Le modèle de base: l’arbre de classification et de régression</a></li>
+  <li><a href="#sec-rf-intuition" id="toc-sec-rf-intuition" class="nav-link" data-scroll-target="#sec-rf-intuition">Le <em>bagging</em> (Bootstrap Aggregating) et les forêts aléatoires</a></li>
+  <li><a href="#sec-gb-intuition" id="toc-sec-gb-intuition" class="nav-link" data-scroll-target="#sec-gb-intuition">Le <em>gradient boosting</em></a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -272,11 +271,11 @@ window.Quarto = {
 
 <section id="aperçu-des-méthodes-ensemblistes" class="level1">
 <h1>Aperçu des méthodes ensemblistes</h1>
-<p><strong>Principe</strong>: cette partie propose une présentation intuitive des méthodes ensemblistes, à destination notamment des <em>managers</em> sans bagage en <em>machine learning</em>. Elle ne contient aucune formalisation mathématique.</p>
+<p><strong>Principe</strong>: cette partie propose une présentation intuitive des méthodes ensemblistes à destination des lecteurs souhaitant un aperçu du fonctionnement et des cas d’utilisation de ces méthodes. Elle ne contient aucun formalisme mathématique.</p>
 <section id="que-sont-les-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="que-sont-les-méthodes-ensemblistes">Que sont les méthodes ensemblistes?</h2>
-<p>Les approches ensemblistes désignent un ensemble d’algorithmes de <em>machine learning</em> supervisé développés depuis le début des années 1990, c’est-à-dire des méthodes statistiques permettant de prédire une variable-cible <span class="math inline">\(y\)</span> à partir d’un ensemble de variables <span class="math inline">\(\mathbf{X}\)</span> (<em>features</em>). Elles peuvent par exemple être utilisées pour prédire le salaire d’un salarié, la probabilité de réponse dans une enquête, le niveau de diplôme… Ces approches se définissent par un point commun: plutôt que de tenter de construire d’emblée un unique modèle très complexe et très performant, elles visent à obtenir un modèle très performant en combinant intelligemment un ensemble de modèles simples et peu performants, dits “apprenants faibles” (<em>weak learner</em> ou <em>base learner</em>). Le choix de ces modèles de base (des arbres de décision dans la plupart des cas) et la manière dont leurs prédictions sont combinées sont des facteurs déterminants pour la performance de ces approches. Le présent document se concentre sur trois approches ensemblistes à base d’arbres de décisions qui sont fréquemment utilisées: le <em>bagging</em>, la forêt aléatoire (<em>random forest</em>) et le <em>boosting</em>.</p>
-<p>On distingue deux grandes familles de méthodes ensemblistes, selon qu’elles s’appuient sur des modèles de base entrainés en parallèle indépendamment les uns des autres, ou au contraire de façon séquentielle. Lorsque les modèles sont <em>entrainés en parallèle</em>, chaque modèle de base est entraîné en utilisant soit un échantillon aléatoire des données d’entraînement, soit un sous-ensemble aléatoires des variables disponibles, et le plus souvent une combinaison des deux, auquel cas on parle de forêt aléatoire (<em>random forest</em>). Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entrainés de manière séquentielle</em>, chaque modèle de base vise à améliorer la prédiction proposée par l’ensemble des modèles de base précédents. Les implémentations les plus courantes du <em>boosting</em> sont actuellement <code>XGBoost</code>, <code>CatBoost</code> et <code>LightGBM</code>.</p>
+<p>Les approches ensemblistes désignent un ensemble d’algorithmes de <em>machine learning</em> supervisé développés depuis le début des années 1990, c’est-à-dire des méthodes statistiques permettant de prédire une variable-cible <span class="math inline">\(y\)</span> (appelée <em>target</em>) à partir d’un ensemble de variables <span class="math inline">\(\mathbf{X}\)</span> (appelées <em>features</em>). Elles peuvent par exemple être utilisées pour prédire le salaire d’un salarié, la probabilité de réponse dans une enquête, le niveau de diplôme… Au-delà de leur diversité, ces approches se définissent par un point commun: plutôt que de tenter de construire d’emblée un unique modèle très complexe et très performant, elles visent à obtenir un modèle très performant en combinant intelligemment un ensemble de modèles peu performants, appelés “apprenants faibles” (<em>weak learner</em> ou <em>base learner</em>). Le choix de ces modèles de base (des arbres de décision dans la plupart des cas) et la manière dont leurs prédictions sont combinées sont des facteurs déterminants pour la performance de ces approches. Le présent document se concentre sur les méthodes ensemblistes à base d’arbres de décisions qui sont parmi les plus utilisées en pratique.</p>
+<p>On distingue <strong>deux grandes familles de méthodes ensemblistes</strong> à base d’arbres de décisions, selon qu’elles s’appuient sur des modèles de base entraînés en parallèle indépendamment les uns des autres, ou au contraire entraînés de façon séquentielle. Lorsque les modèles sont <em>entrainés en parallèle, indépendamment les uns des autres</em>, on parle de <em>bagging</em> ou de forêt aléatoire (<em>random forest</em>). Les implémentations les plus courantes des forêts aléatoires sont les <em>packages</em> <code>ranger</code> en <code>R</code> et <code>scikit-learn</code> en Python. Lorsque les modèles de base sont <em>entraînés de manière séquentielle</em>, chaque modèle de base visant à améliorer la prédiction proposée par l’ensemble des modèles de base précédents, on parle de <em>boosting</em>. Ce document aborde essentiellement le <em>gradient boosting</em>, qui est l’approche de <em>boosting</em> la plus utilisée actuellement. Les implémentations les plus courantes du <em>gradient boosting</em> sont actuellement <code>XGBoost</code>, <code>CatBoost</code> et <code>LightGBM</code>.</p>
 </section>
 <section id="pourquoi-utiliser-des-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="pourquoi-utiliser-des-méthodes-ensemblistes">Pourquoi utiliser des méthodes ensemblistes?</h2>
@@ -287,7 +286,7 @@ window.Quarto = {
 <li><p>Elles nécessitent <strong>moins de préparation des données</strong>: elles ne requièrent pas de normalisation des variables explicatives et peuvent s’accommoder des valeurs manquantes (selon des techniques variables selon les algorithmes).</p></li>
 <li><p>Elles sont généralement <strong>moins sensibles aux valeurs extrêmes et à l’hétéroscédasticité</strong> des variables explicatives que les approches traditionnelles.</p></li>
 </ul>
-<p>Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu’il existe désormais de multiples approches permettent d’interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste globalement moindre que celle d’une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l’objet d’une optimisation, par exemple au travers d’une validation croisée. Ce processus d’optimisation est généralement plus complexe et plus long que l’estimation d’une régression linéaire ou logistique. En revanche, les méthodes ensemblistes sont relativement simples à prendre en main, et ne requièrent pas nécessairement une puissance de calcul importante.</p>
+<p>Elles présentent par ailleurs deux inconvénients rapport aux méthodes économétriques traditionnelles. Premièrement, bien qu’il existe désormais de multiples approches permettent d’interpétrer partiellement les modèles ensemblistes, leur interprétabilité reste moindre que celle d’une régression linéaire ou logistique. Deuxièmement, les modèles ensemblistes sont plus complexes que les approches traditionnelles, et leurs hyperparamètres doivent faire l’objet d’une optimisation, par exemple au travers d’une validation croisée. Ce processus d’optimisation est généralement plus complexe et plus long que l’estimation d’une régression linéaire ou logistique. En revanche, les méthodes ensemblistes sont relativement simples à prendre en main, et ne requièrent pas nécessairement une puissance de calcul importante.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Et par rapport au _deep learning_?">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -298,50 +297,56 @@ Et par rapport au <em>deep learning</em>?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si les approches de <em>deep learning</em> sont sans conteste très performantes pour le traitement du langage naturel et le traitement d’image, leur supériorité n’est pas établie pour les applications reposant sur des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d’arbres sont soit plus performantes que les approches de <em>deep learning</em> (<span class="citation" data-cites="grinsztajn2022tree">Grinsztajn, Oyallon, and Varoquaux (<a href="#ref-grinsztajn2022tree" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>), soit font jeu égal avec elles (<span class="citation" data-cites="mcelfresh2024neural">McElfresh et al. (<a href="#ref-mcelfresh2024neural" role="doc-biblioref">2024</a>)</span>). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d’approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l’optimisation des hyperparamètres s’avère souvent moins complexe (<span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>).</p>
+<p>Si les approches de <em>deep learning</em> sont sans conteste très performantes pour le traitement du langage naturel, des images et du son, leur supériorité n’est pas établie pour les applications reposant sur des données tabulaires. Les comparaisons disponibles dans la littérature concluent en effet que les méthodes ensemblistes à base d’arbres sont soit plus performantes que les approches de <em>deep learning</em> (<span class="citation" data-cites="grinsztajn2022tree">Grinsztajn, Oyallon, and Varoquaux (<a href="#ref-grinsztajn2022tree" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>), soit font jeu égal avec elles (<span class="citation" data-cites="mcelfresh2024neural">McElfresh et al. (<a href="#ref-mcelfresh2024neural" role="doc-biblioref">2024</a>)</span>). Ces études ont identifié trois avantages des méthodes ensemblistes: elles sont peu sensibles aux variables explicatives non pertinentes, robustes aux valeurs extrêmes des variables explicatives, et capables d’approximer des fonctions très irrégulières. De plus, dans la pratique les méthodes ensemblistes sont souvent plus rapides à entraîner et moins gourmandes en ressources informatiques, et l’optimisation des hyperparamètres s’avère souvent moins complexe (<span class="citation" data-cites="shwartz2022tabular">Shwartz-Ziv and Armon (<a href="#ref-shwartz2022tabular" role="doc-biblioref">2022</a>)</span>).</p>
 </div>
 </div>
 </section>
 <section id="comment-fonctionnent-les-méthodes-ensemblistes" class="level2">
 <h2 class="anchored" data-anchor-id="comment-fonctionnent-les-méthodes-ensemblistes">Comment fonctionnent les méthodes ensemblistes?</h2>
-<section id="le-modèle-de-base-larbre-de-classification-et-de-régression" class="level3">
-<h3 class="anchored" data-anchor-id="le-modèle-de-base-larbre-de-classification-et-de-régression">Le modèle de base: l’arbre de classification et de régression</h3>
+<p>Ce paragraphe présente d’abord le modèle de base sur lesquelles sont construites les méthodes ensemblistes à base d’arbres: l’arbre de classification et de régression (<a href="#sec-cart-intuition" class="quarto-xref">Section&nbsp;1.3.1</a>). Elle introduit ensuite les deux grandes familles de méthodes ensemblistes couvertes dans ce document: le <em>bagging</em> et les forêts aléatoires (<a href="#sec-rf-intuition" class="quarto-xref">Section&nbsp;1.3.2</a>), puis le <em>gradient boosting</em> (<a href="#sec-gb-intuition" class="quarto-xref">Section&nbsp;1.3.3</a>).</p>
+<section id="sec-cart-intuition" class="level3">
+<h3 class="anchored" data-anchor-id="sec-cart-intuition">Le modèle de base: l’arbre de classification et de régression</h3>
 <section id="quest-ce-quun-arbre-cart" class="level4">
 <h4 class="anchored" data-anchor-id="quest-ce-quun-arbre-cart">Qu’est-ce qu’un arbre CART?</h4>
 <p>Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (CART, <span class="citation" data-cites="breiman1984cart">Breiman et al. (<a href="#ref-breiman1984cart" role="doc-biblioref">1984</a>)</span>). Un arbre CART est un algorithme prédictif assez simple avec trois caractéristiques essentielles:</p>
 <ul>
-<li>L’arbre partitionne l’espace des variables explicatives <span class="math inline">\(X\)</span> en régions (appelées feuilles ou <em>leaves</em>) homogènes au sens d’une certaine mesure de l’hétérogénéité;</li>
-<li>Chaque région est définie par un ensemble de conditions, appelées régles de décision (<em>splitting rules</em>), qui portent sur les valeurs des variables explicatives (par exemple, une région peut être définie par la condition: <span class="math inline">\(age &gt; 40 &amp; statut = 'Cadre'\)</span>);</li>
+<li>L’arbre partitionne l’espace des variables explicatives <span class="math inline">\(X\)</span> en régions (appelées feuilles ou <em>leaves</em>) les plus homogènes possible, au sens d’une certaine mesure de l’hétérogénéité;</li>
+<li>Chaque région est définie par un ensemble de conditions, appelées régles de décision (<em>splitting rules</em>), qui portent sur les valeurs des variables explicatives (par exemple, une région peut être définie par la condition: <span class="math inline">\(age &gt; 40 \text{ et } statut = 'Cadre'\)</span>);</li>
 <li>Une fois l’arbre construit, les prédictions de l’arbre pour chaque région se déduisent des données d’entraînement de façon intuitive: il s’agira de la classe la plus fréquente parmi les observations situées dans cette région dans le cas d’une classification, et de la moyenne des observations situées dans cette région dans le cas d’une régression.</li>
 </ul>
-<p>La structure de cet algorithme a trois conséquences importantes:</p>
+<p>La structure de cet algorithme a deux conséquences importantes:</p>
 <ul>
-<li><strong>l’arbre final est une fonction constante par morceaux</strong>: la prédiction est identique pour toutes les observations situées dans la même région, et ne varie que d’une région à l’autre.</li>
-<li>aucune hypothèse sur le lien entre <span class="math inline">\(X\)</span> et <span class="math inline">\(y\)</span> forme fonctionnelle précise;</li>
-<li>présence d’interactions entre variables.</li>
+<li>L’algorithme CART ne fait <strong>aucune hypothèse <em>a priori</em> sur la relation entre <span class="math inline">\(X\)</span> et <span class="math inline">\(y\)</span></strong> et se laisse au contraire guider par les données. Par exemple, on ne suppose pas qu’il existe une relation linéaire de type <span class="math inline">\(y = \mathbf{X \beta}\)</span>.</li>
+<li><strong>L’arbre final est une fonction constante par morceaux</strong>: la prédiction est identique pour toutes les observations situées dans la même région, et ne varie que d’une région à l’autre.</li>
 </ul>
 <p>Illustration, et représentation graphique (sous forme d’arbre et de graphique).</p>
-</section>
-<section id="comment-construit-on-un-arbre" class="level4">
-<h4 class="anchored" data-anchor-id="comment-construit-on-un-arbre">Comment construit-on un arbre?</h4>
-<p>Si son principe est simple, la construction d’un arbre de décision se heurte à trois difficultés pratiques.</p>
-<p>Première difficulté: comment trouver le partitionnement optimal en un temps raisonnable? Les arbres CART proposent une solution efficace à ce problème en faisant deux hypothèses simplificatrices. D’une part, la procédure de construction de l’arbre ne s’intéresse qu’à des critères de décision binaires très simples, mobilisant à chaque fois une seule variable et un seul seuil (exemples: <span class="math inline">\(age &gt; 40?\)</span>, <span class="math inline">\(diplome = 'Licence'\)</span>…). Autrement dit, les critères complexes mobilisant des combinaisons de variables et de seuils sont exclus <em>a priori</em>. D’autre part, la construction de l’arbre se fait de façon itérative, une règle de décision à la fois: la procédure se contente à chaque étape de chercher la règle de décision qui réduit le plus l’hétérogénéité des groupes, conditionnellement aux régles de décision qui ont été choisies au préalable. Cette procédure ne garantit donc pas que l’arbre final soit optimal, mais elle permet d’obtenir rapidement un arbre raisonnablement performant.</p>
-<p>Deuxième difficulté: comment mesurer l’homogénéité des régions?</p>
-<p>Troisième difficulté: à quel moment faut-il s’arrêter?</p>
+<!-- #### Comment construit-on un arbre?
+
+Si son principe est simple, la construction d'un arbre de décision se heurte à trois difficultés pratiques.
+
+Première difficulté: comment trouver le partitionnement optimal en un temps raisonnable? Les arbres CART proposent une solution efficace à ce problème en faisant deux hypothèses simplificatrices. D'une part, la procédure de construction de l'arbre ne s'intéresse qu'à des critères de décision binaires très simples, mobilisant à chaque fois une seule variable et un seul seuil (exemples: $age > 40?$, $diplome = 'Licence'$...). Autrement dit, les critères complexes mobilisant des combinaisons de variables et de seuils sont exclus _a priori_. D'autre part, la construction de l'arbre se fait de façon itérative, une règle de décision à la fois: la procédure se contente à chaque étape de chercher la règle de décision qui réduit le plus l'hétérogénéité des groupes, conditionnellement aux règles de décision qui ont été choisies au préalable. Cette procédure ne garantit donc pas que l'arbre final soit optimal, mais elle permet d'obtenir rapidement un arbre raisonnablement performant.
+
+Deuxième difficulté: comment mesurer l'homogénéité des régions? => mesure d'hétérogénéité
+
+Troisième difficulté: à quel moment faut-il s'arrêter? => critère d'arrêt, profondeur max, pruning -->
 </section>
 <section id="avantages-et-limites-des-arbres-cart" class="level4">
 <h4 class="anchored" data-anchor-id="avantages-et-limites-des-arbres-cart">Avantages et limites des arbres CART</h4>
 <p>Les arbres CART présentent plusieurs avantages: leur principe est simple, ils sont aisément interprétables et peuvent faire l’objet de représentations graphiques intuitives. Par ailleurs, la flexibilité offerte par le partitionnement récursif assure que les arbres obtenus reflètent les corrélations observées dans les données d’entraînement.</p>
-<p>Ils souffrent néanmoins de deux limites. D’une part, les arbres CART ont souvent un <strong>pouvoir prédictif faible</strong> qui en limite l’usage. D’autre part, ils sont <strong>peu robustes et instables</strong>. Ainsi, un léger changement dans les données (par exemple l’ajout ou la suppression de quelques observations) peut entraîner des modifications significatives dans la structure de l’arbre et dans la définition des feuilles. De plus, les prédictions des arbres CART sont sensibles à de petites fluctuations des données: celles-ci peuvent aboutir à ce qu’une partie des observations change brutalement de feuille et donc de valeur prédite.</p>
-<p>Toute les méthodes ensemblistes présentées ci-dessous (<em>bagging</em>, <em>random forests</em> et <em>boosting</em>) combinent un grand nombre d’arbres de décision pour en surmonter les deux limites: il s’agit d’obtenir un modèle dont le pouvoir prédictif est élevé et dont les prédictions sont stables.</p>
+<p>Ils souffrent néanmoins de deux limites. D’une part, les arbres CART ont souvent un <strong>pouvoir prédictif faible</strong> qui en limite l’usage. D’autre part, ils sont <strong>peu robustes et instables</strong>: on dit qu’ils présentent une <strong>variance élevée</strong>. Ainsi, un léger changement dans les données (par exemple l’ajout ou la suppression de quelques observations) peut entraîner des modifications significatives dans la structure de l’arbre et dans la définition des feuilles. Les arbres CART sont notamment sensibles aux valeurs extrêmes, aux points aberrants et au bruit statistique. De plus, les prédictions des arbres CART sont sensibles à de petites fluctuations des données: celles-ci peuvent aboutir à ce qu’une partie des observations change brutalement de feuille et donc de valeur prédite.</p>
+<p>Les deux familles de méthodes ensemblistes présentées ci-dessous (<em>bagging</em>, <em>random forests</em> et <em>gradient boosting</em>) combinent un grand nombre d’arbres de décision pour en surmonter les deux limites: il s’agit d’obtenir un modèle dont le pouvoir prédictif est élevé et dont les prédictions sont stables. La différence essentielle entre ces deux familles portent sur la façon dont les arbres sont entraînés.</p>
 </section>
 </section>
-<section id="le-bagging-bootstrap-aggregating" class="level3">
-<h3 class="anchored" data-anchor-id="le-bagging-bootstrap-aggregating">Le <em>bagging</em> (Bootstrap Aggregating)</h3>
-<p>Présenter le <em>bagging</em> en reprenant des éléments du chapitre 10 de https://bradleyboehmke.github.io/HOML. Mettre une description de l’algorithme en pseudo-code?</p>
+<section id="sec-rf-intuition" class="level3">
+<h3 class="anchored" data-anchor-id="sec-rf-intuition">Le <em>bagging</em> (Bootstrap Aggregating) et les forêts aléatoires</h3>
+<p>Le <em>bagging</em> (Bootstrap Aggregating) et les forêts aléatoires constituent une famille de méthodes ensemblistes dont le point commun est de combiner des modèles de bases qui ont été entraînés indépendamment les uns des autres.</p>
+<section id="le-bagging" class="level4">
+<h4 class="anchored" data-anchor-id="le-bagging">Le <em>bagging</em></h4>
+<p>Le <em>bagging</em>, ou <em>Bootstrap Aggregating</em> (<span class="citation" data-cites="breiman1996bagging">Breiman (<a href="#ref-breiman1996bagging" role="doc-biblioref">1996</a>)</span>), est une méthode ensembliste qui comporte trois étapes principales:</p>
 <ul>
-<li>Présentation avec la figure en SVG;</li>
-<li>Illustration avec un cas d’usage de classification en deux dimensions.</li>
+<li><strong>Tirage de sous-échantillons aléatoires</strong>: À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (<em>bootstrapping</em>). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d’autres peuvent être omises.</li>
+<li><strong>Entraînement parallèle</strong>: Un arbre est entraîné sur chaque sous-échantillon de manière indépendante. Ces arbres sont habituellement assez complexes et profonds.</li>
+<li><strong>Agrégation des prédictions</strong>: Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu’en régression, elle correspond généralement à la moyenne des prédictions.</li>
 </ul>
 <div id="fig-bagging" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -353,22 +358,16 @@ Figure&nbsp;1: Représentation schématique d’un algorithme de <em>bagging</em
 </figcaption>
 </figure>
 </div>
-<p>Le <em>bagging</em>, ou <em>Bootstrap Aggregating</em> (<span class="citation" data-cites="breiman1996bagging">Breiman (<a href="#ref-breiman1996bagging" role="doc-biblioref">1996</a>)</span>), est une méthode ensembliste qui comporte trois étapes principales:</p>
+<p>La figure <a href="#fig-bagging" class="quarto-xref">Figure&nbsp;1</a> propose une représentation schématique du <em>bagging</em>: tout d’abord, on tire des sous-échantillons aléatoires des données d’entraînement. Ensuite, un arbre est entraîné sur chaque sous-échantillon. Enfin, les arbres sont combinés de façon à obtenir la prédiction finale.</p>
 <ul>
-<li><p><strong>Tirage de sous-échantillons aléatoires</strong>: À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (<em>bootstrapping</em>). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d’autres peuvent être omises.</p></li>
-<li><p><strong>Entraînement parallèle</strong>: Un arbre est entraîné sur chaque sous-échantillon de manière indépendante. Cette technique permet un gain d’efficacité et un meilleur contrôle du surapprentissage (overfitting).</p></li>
-<li><p><strong>Agrégation des prédictions</strong>: Les prédictions des modèles sont combinées pour produire le résultat final. En classification, la prédiction finale est souvent déterminée par un vote majoritaire, tandis qu’en régression, elle correspond généralement à la moyenne des prédictions.</p></li>
+<li>Illustration avec un cas d’usage de classification en deux dimensions.</li>
 </ul>
-<p>Cette technique permet de diversifier les données d’entraînement en créant des échantillons variés, ce qui aide à réduire la variance et à améliorer la robustesse du modèle.</p>
-<p>En combinant les prédictions de plusieurs modèles, le <em>bagging</em> renforce la stabilité et la performance globale de l’algorithme, notamment en réduisant la variance des prédictions.</p>
-<p>Avantages: pouvoir prédictif, entraînement hautement parallélisable. Inconvénients: malgré l’échantillonnage des données, les arbres ont souvent une structure similaire car les variables hautement prédictives restent approximativement les mêmes dans les différents sous-échantillons. Ce phénomène de corrélation entre arbres est le principal frein à la puissance prédictive du <em>bagging</em> et explique pourquoi il est très peu utilisé en pratique aujourd’hui.</p>
-<p>Le bagging est particulièrement efficace pour réduire la variance des modèles, ce qui les rend moins vulnérables au surapprentissage. Cette caractéristique est particulièrement utile dans les situations où la robustesse et la capacité de généralisation des modèles sont cruciales. De plus, comme le bagging repose sur des processus indépendants, l’exécution est plus plus rapide dans des environnements distribués.</p>
-<p>Cependant, bien que chaque modèle de base soit construit indépendamment sur des sous-échantillons distincts, les variables utilisées pour générer ces modèles ne sont pas forcément indépendantes d’un modèle à l’autre. Dans le cas du bagging appliqué aux arbres de décision, cela conduit souvent à des arbres ayant une structure similaire.</p>
-<p>Les forêts aléatoires apportent une amélioration à cette approche en réduisant cette corrélation entre les arbres, ce qui permet d’augmenter la précision de l’ensemble du modèle.</p>
+<p>L’intuition qui explique l’efficacité du <em>bagging</em> est la suivante: en diversifiant les données d’entraînement par le tirage d’échantillons aléatoires, on obtient un grand nombre d’arbres différents les uns des autres et qui, pris dans leur ensemble, constituent un modèle plus prédictif et plus stable que chaque arbre pris isolément. Une image fréquemment employée pour décrire le <em>bagging</em> est celle d’un collège de juges. Chaque juge a sa propre façon de juger, qui est imparfaite et qui dépend des cas qu’il a déjà rencontrés. Il peut donc rendre une décision complètement erronée dans telle ou telle situation, rendant son verdict instable et peu fiable. Mais si le verdict repose sur l’opinion majoritaire d’un ensemble de juges différents les uns des autres, il est probable que le jugement sera plus robuste et plus fiable.</p>
+<p>Le <em>bagging</em> présente donc deux avantages par rapport aux arbres CART: un pouvoir prédictif plus élevé et des prédictions plus stables. L’inconvénient du <em>bagging</em> réside dans la corrélation des arbres entre eux: malgré l’échantillonnage des données, les arbres ont souvent une structure similaire car les relations entre variables restent à peu près les mêmes dans les différents sous-échantillons. Ce phénomène de corrélation entre arbres est le principal frein à la puissance prédictive du <em>bagging</em>, et c’est pour surmonter (ou au moins minimiser) ce problème que les forêts aléatoires ont été mises au point. Le pouvoir prédictif plus élevé des forêts aléatoires explique pourquoi le <em>bagging</em> est très peu utilisé en pratique aujourd’hui.</p>
 </section>
-<section id="les-random-forests" class="level3">
-<h3 class="anchored" data-anchor-id="les-random-forests">Les <em>random forests</em></h3>
-<p>Expliquer que les <em>random forests</em> sont une amélioration du <em>bagging</em>, en reprenant des éléments du chapitre 11 de https://bradleyboehmke.github.io/HOML/</p>
+<section id="les-random-forests" class="level4">
+<h4 class="anchored" data-anchor-id="les-random-forests">Les <em>random forests</em></h4>
+<p>Les forêts aléatoires (<em>random forests</em>, <span class="citation" data-cites="breiman2001random">Breiman (<a href="#ref-breiman2001random" role="doc-biblioref">2001</a>)</span>) sont une variante du <em>bagging</em> qui vise à produire des modèles très performants en conciliant deux objectifs: maximiser le pouvoir prédictif des arbres pris isolément, et minimiser la corrélation entre ces arbres (le problème inhérent au <em>bagging</em>). Pour atteindre ce second objectif, la forêt aléatoire introduit une nouvelle source de variation aléatoire dans la construction des arbres: au moment de choisir une règle de décision pour diviser une région en deux sous-régions, la procédure d’entraînement ne considère qu’<strong>un sous-ensemble de variables sélectionnées aléatoirement</strong>, et non toutes les variables. Cette randomisation supplémentaire a pour effet mécanique d’aboutir à des arbres plus diversifiés (parce que des arbres différents ne peuvent pas mobiliser les mêmes variables au même moment) et donc de <strong>réduire la corrélation entre arbres</strong>, ce qui permet d’améliorer la performance et la stabilité du modèle agrégé. Un enjeu important de l’entraînement d’une forêt aléatoire est l’arbitrage entre puissance prédictive des arbres et corrélation entre arbres.</p>
 <div id="fig-rf" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -379,73 +378,76 @@ Figure&nbsp;2: Représentation schématique d’un algorithme de forêt aléatoi
 </figcaption>
 </figure>
 </div>
+<p>La figure <a href="#fig-rf" class="quarto-xref">Figure&nbsp;2</a> propose une représentation schématique d’une forêt aléatoire. La logique d’ensemble est identique à celle du <em>bagging</em>: combinés de façon à obtenir la prédiction finale. La seule différence est que la liste des variables utilisables pour construire des règles de décision varie à chaque étape de l’entraînement. Cette restriction de la liste des variables considérées permet de réduire l’utilisation des variables les plus prédictives et de mieux mobiliser l’information disponible dans les variables peu corrélées avec <span class="math inline">\(y\)</span>.</p>
+<p>Contrairement au <em>bagging</em>, les forêts aléatoires sont un algorithme qui est très largement employé pour plusieurs raisons: les forêts aléatoires ont un faible nombre d’hyperparamètres, sont généralement peu sensibles aux valeurs de ces hyperparamètres et proposent de bonnes performances avec les valeurs par défaut. Les forêts aléatoires sont toutefois sujettes au problème de surapprentissage (voir encadré), bien que dans une mesure moindre que le <em>gradient boosting</em>.</p>
+<p>Les forêts aléatoires présentent également un avantage de taille: <strong>il est possible d’évaluer la qualité d’une forêt aléatoire en utilisant les données sur lesquelles elle a été entraînée</strong>, sans avoir besoin d’un jeu de test séparé. En effet, lors de la construction de chaque arbre, l’échantillonnage aléatoire implique que certaines observations ne sont pas utilisées pour entraîner cet arbre; ces observations sont dites <em>out-of-bag</em>. On peut donc construire pour chaque observation une prédiction qui agrège uniquement les arbres pour lesquels cette observation est <em>out-of-bag</em>; cette prédiction n’est pas affectée par le surapprentissage. De cette façon, il est possible d’évaluer correctement la performance de la forêt aléatoire.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Qu'est-ce que le surapprentissage?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Qu’est-ce que le surapprentissage?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le surapprentissage (<em>overfitting</em>) est un phénomène fréquent en <em>machine learning</em> où un modèle apprend non seulement les relations sous-jacentes entre la variable cible et les variables explicatives, mais également le bruit présent dans les données d’entraînement. En capturant ces fluctuations aléatoires plutôt que les tendances générales, le modèle affiche une performance excellente mais trompeuse sur les données d’entraînement, et s’avère médiocre sur des données nouvelles ou de test, car il ne parvient pas à généraliser efficacement.</p>
+</div>
+</div>
 <!-- https://neptune.ai/blog/ensemble-learning-guide -->
 <!-- https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/ -->
-<ul>
-<li>Présentation avec la figure en SVG;</li>
-<li>Difficile d’illustrer avec un exemple (car on ne peut pas vraiment représenter le <em>feature sampling</em>);</li>
-<li>Bien insister sur les avantages des RF: 1/ faible nombre d’hyperparamètres; 2/ faible sensibilité aux hyperparamètres; 3/ limite intrinsèque à l’overfitting.</li>
-</ul>
 </section>
-<section id="le-boosting" class="level3">
-<h3 class="anchored" data-anchor-id="le-boosting">Le <em>boosting</em></h3>
-<p>Reprendre des éléments du chapitre 12 de https://bradleyboehmke.github.io/HOML/ et des éléments de la formation boosting.</p>
-<p>Le <em>boosting</em> combine l’<span class="orange"><strong>approche ensembliste</strong></span> avec une <span class="orange"><strong>modélisation additive par étapes</strong></span> (<em>forward stagewise additive modeling</em>).</p>
-<ul>
-<li><p>Présentation;</p></li>
-<li><p>Avantage du boosting: performances particulièrement élevées.</p></li>
-<li><p>Inconvénients: 1/ nombre élevé d’hyperparamètres; 2/ sensibilité des performances aux hyperparamètres; 3/ risque élevé d’overfitting.</p></li>
-<li><p>Préciser qu’il est possible d’utiliser du subsampling par lignes et colonnes pour un algoithme de boosting. Ce point est abordé plus en détail dans la partie sur les hyperparamètres.</p></li>
-</ul>
+</section>
+<section id="sec-gb-intuition" class="level3">
+<h3 class="anchored" data-anchor-id="sec-gb-intuition">Le <em>gradient boosting</em></h3>
+<p>Alors que les forêts aléatoires construisent un ensemble d’arbres complexes et indépendants les uns des autres, le <em>gradient boosting</em> adopte une autre approche, dans laquelle les arbres sont peu complexes et entraînés de façon séquentielle, chaque arbre essayant d’améliorer la prédiction proposée par l’ensemble des arbres précédents. Bien qu’elles ressemblent fortement aux forêts aléatoires en apparence, il est important de noter que les approches de <em>boosting</em> reposent sur des fondements théoriques très différents. La logique du <em>gradient boosting</em> est illustrée par la figure <a href="#fig-gb" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div id="fig-gb" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../../figures/gb.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Représentation schématique d’un algorithme de <em>boosting</em>
+Figure&nbsp;3: Représentation schématique d’un algorithme de <em>gradient boosting</em>
 </figcaption>
 </figure>
 </div>
-<p>Un arbre CART (Classification And Regression Tree) est construit en utilisant une approche hiérarchique pour diviser un ensemble de données en sous-groupes de plus en plus homogènes. Intuitivement, voici comment cela se passe :</p>
-<ol type="1">
-<li><strong>Choix de la meilleure coupure</strong> :
 <ul>
-<li>L’arbre commence à la racine, c’est-à-dire l’ensemble complet des données.<br>
-</li>
-<li>À chaque étape, on cherche la variable et la valeur de seuil qui divisent le mieux les données en deux groupes selon un critère spécifique (comme l’entropie, l’indice de Gini pour la classification, ou la variance pour la régression).<br>
-</li>
-<li>L’objectif est de minimiser l’hétérogénéité (ou maximiser l’homogénéité) au sein des groupes créés par la division.</li>
-</ul></li>
-<li><strong>Division récursive</strong> :
-<ul>
-<li>Une fois la meilleure coupure trouvée, les données sont séparées en deux sous-groupes : un groupe pour les observations qui satisfont la condition de la coupure, et l’autre pour celles qui ne la satisfont pas.<br>
-</li>
-<li>Ce processus est répété récursivement sur chaque sous-groupe, formant ainsi de nouveaux “nœuds” dans l’arbre.</li>
-</ul></li>
-<li><strong>Arrêt de la croissance de l’arbre</strong> :
-<ul>
-<li>L’arbre ne continue pas à se développer indéfiniment. La division s’arrête lorsque l’un des critères de fin est atteint, par exemple :
-<ul>
-<li>Un nombre minimal d’observations dans un nœud.<br>
-</li>
-<li>Une amélioration trop faible dans le critère de division.<br>
-</li>
-<li>Une profondeur maximale spécifiée.</li>
-</ul></li>
-</ul></li>
-<li><strong>Assignation des prédictions</strong> :
-<ul>
-<li>Une fois l’arbre construit, chaque feuille (nœud terminal) contient un sous-ensemble de données.<br>
-</li>
-<li>Pour la classification, la classe prédominante dans une feuille est assignée comme prédiction pour toutes les observations appartenant à cette feuille.<br>
-</li>
-<li>Pour la régression, la moyenne (ou médiane) des valeurs dans une feuille est utilisée comme prédiction.</li>
-</ul></li>
-</ol>
-<p><strong>Exemple intuitif</strong> :<br>
-Imaginez que vous essayez de deviner si une personne préfère le café ou le thé. Vous commencez par poser une question générale, comme “Préfères-tu les boissons chaudes ?” Selon la réponse, vous posez d’autres questions plus spécifiques (comme “Ajoutes-tu du lait ?” ou “Aimes-tu les boissons amères ?”), jusqu’à ce que vous puissiez deviner leur préférence avec un haut degré de certitude.</p>
-<p>En résumé, construire un arbre CART revient à poser des questions successives qui divisent les données de manière optimale pour parvenir à une prédiction claire et précise.</p>
+<li>Un premier modèle simple et peu performant est entraîné sur les données.</li>
+<li>Un deuxième modèle est entraîné de façon à corriger les erreurs du premier modèle (par exemple en pondérant davantage les observations mal prédites);</li>
+<li>Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l’ensemble des modèles précédents;</li>
+<li>Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.</li>
+</ul>
+<p>Il s’avère que le <em>gradient boosting</em> offre des performances prédictives particulièrement élevées. Toutefois, cet avantage incontestable ne doit pas masquer les sérieux inconvénients de cette approche: les algorithmes de <em>gradient boosting</em> comprennent un nombre élevé d’hyperparamètres et sont plus sensibles que les forêts aléatoires aux valeurs de ces hyperparamètres. Par ailleurs, ces algorithmes se caractérisent par un risque élevé de surapprentissage, et sont assez sensibles au bruit statistique et aux éventuelles erreurs sur <span class="math inline">\(y\)</span>. Par conséquent, l’usage de ces algorithmes est plus délicat, et l’optimisation de leurs hyperparamètres est une étape importante qui peut prendre un certain temps et demande une bonne connaissance des algorithmes.</p>
+<!-- ::: {.callout-note title="Qu'est-ce qu'on fait de cette partie?"}
+
+Un arbre CART (Classification And Regression Tree) est construit en utilisant une approche hiérarchique pour diviser un ensemble de données en sous-groupes de plus en plus homogènes. Intuitivement, voici comment cela se passe :
+
+1. **Choix de la meilleure coupure** :  
+   - L’arbre commence à la racine, c’est-à-dire l’ensemble complet des données.  
+   - À chaque étape, on cherche la variable et la valeur de seuil qui divisent le mieux les données en deux groupes selon un critère spécifique (comme l'entropie, l'indice de Gini pour la classification, ou la variance pour la régression).  
+   - L'objectif est de minimiser l’hétérogénéité (ou maximiser l’homogénéité) au sein des groupes créés par la division.
+
+2. **Division récursive** :  
+   - Une fois la meilleure coupure trouvée, les données sont séparées en deux sous-groupes : un groupe pour les observations qui satisfont la condition de la coupure, et l'autre pour celles qui ne la satisfont pas.  
+   - Ce processus est répété récursivement sur chaque sous-groupe, formant ainsi de nouveaux "nœuds" dans l’arbre.
+
+3. **Arrêt de la croissance de l’arbre** :  
+   - L’arbre ne continue pas à se développer indéfiniment. La division s’arrête lorsque l’un des critères de fin est atteint, par exemple :  
+     - Un nombre minimal d’observations dans un nœud.  
+     - Une amélioration trop faible dans le critère de division.  
+     - Une profondeur maximale spécifiée.
+
+4. **Assignation des prédictions** :  
+   - Une fois l’arbre construit, chaque feuille (nœud terminal) contient un sous-ensemble de données.  
+   - Pour la classification, la classe prédominante dans une feuille est assignée comme prédiction pour toutes les observations appartenant à cette feuille.  
+   - Pour la régression, la moyenne (ou médiane) des valeurs dans une feuille est utilisée comme prédiction.
+
+**Exemple intuitif** :  
+Imaginez que vous essayez de deviner si une personne préfère le café ou le thé. Vous commencez par poser une question générale, comme "Préfères-tu les boissons chaudes ?" Selon la réponse, vous posez d'autres questions plus spécifiques (comme "Ajoutes-tu du lait ?" ou "Aimes-tu les boissons amères ?"), jusqu’à ce que vous puissiez deviner leur préférence avec un haut degré de certitude.
+
+En résumé, construire un arbre CART revient à poser des questions successives qui divisent les données de manière optimale pour parvenir à une prédiction claire et précise.
+
+::: -->
 
 
 
@@ -456,6 +458,9 @@ Imaginez que vous essayez de deviner si une personne préfère le café ou le th
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-breiman1996bagging" class="csl-entry" role="listitem">
 Breiman, Leo. 1996. <span>“Bagging Predictors.”</span> <em>Machine Learning</em> 24: 123–40.
+</div>
+<div id="ref-breiman2001random" class="csl-entry" role="listitem">
+———. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em> 45: 5–32.
 </div>
 <div id="ref-breiman1984cart" class="csl-entry" role="listitem">
 Breiman, Leo, Jerome Friedman, Richard Olshen, and Charles Stone. 1984. <span>“Cart.”</span> <em>Classification and Regression Trees</em>.
@@ -897,8 +902,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/chapter1/2-comparaison_GB_RF.html" class="pagination-link" aria-label="Comparaison RF-GBDT">
-        <span class="nav-page-text">Comparaison RF-GBDT</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/chapter1/2-comparaison_GB_RF.html" class="pagination-link" aria-label="Comparaison entre forêts aléatoires et _gradient boosting_">
+        <span class="nav-page-text">Comparaison entre forêts aléatoires et <em>gradient boosting</em></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

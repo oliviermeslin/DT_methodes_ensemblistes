@@ -162,7 +162,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/chapter1/2-comparaison_GB_RF.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Comparaison RF-GBDT</span></a>
+ <span class="menu-text">Comparaison entre forêts aléatoires et <em>gradient boosting</em></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ window.Quarto = {
   <li><a href="#les-hyper-paramètres-clés" id="toc-les-hyper-paramètres-clés" class="nav-link" data-scroll-target="#les-hyper-paramètres-clés">Les hyper-paramètres clés</a></li>
   <li><a href="#evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" id="toc-evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" class="nav-link" data-scroll-target="#evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres">Evaluation des performances du modèle et choix des hyper-paramètres</a>
   <ul class="collapse">
-  <li><a href="#estimation-de-lerreur-out-of-bag-oob" id="toc-estimation-de-lerreur-out-of-bag-oob" class="nav-link" data-scroll-target="#estimation-de-lerreur-out-of-bag-oob">Estimation de l’erreur Out-of-Bag (OOB)</a></li>
+  <li><a href="#sec-rf-oob" id="toc-sec-rf-oob" class="nav-link" data-scroll-target="#sec-rf-oob">Estimation de l’erreur Out-of-Bag (OOB)</a></li>
   <li><a href="#estimation-de-lerreur-par-cross-validation" id="toc-estimation-de-lerreur-par-cross-validation" class="nav-link" data-scroll-target="#estimation-de-lerreur-par-cross-validation">Estimation de l’erreur par cross-validation</a></li>
   <li><a href="#choix-des-hyper-paramètres-du-modèle" id="toc-choix-des-hyper-paramètres-du-modèle" class="nav-link" data-scroll-target="#choix-des-hyper-paramètres-du-modèle">Choix des hyper-paramètres du modèle</a></li>
   </ul></li>
@@ -259,8 +259,8 @@ window.Quarto = {
 
 <section id="la-forêt-aléatoire" class="level1">
 <h1>La forêt aléatoire</h1>
-<p>La forêt aléatoire (<em>random forests</em>) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l’agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (overfitting).</p>
-<p>La méthode s’appuie sur la technique du bagging, qui consiste à entraîner chaque arbre sur un échantillon (<em>bootstrap</em>) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d’un arbre, puisqu’à chaque nouvelle division (<em>noeud</em>), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est <strong>sélectionné aléatoirement</strong>. Cette randomisation supplémentaire <strong>réduit la corrélation</strong> entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.</p>
+<p>La forêt aléatoire (<em>random forests</em>) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l’agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (<em>overfitting</em>).</p>
+<p>La méthode s’appuie sur la technique du <em>bagging</em>, qui consiste à entraîner chaque arbre sur un échantillon (<em>bootstrap</em>) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d’un arbre, puisqu’à chaque nouvelle division (<em>noeud</em>), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est <strong>sélectionné aléatoirement</strong>. Cette randomisation supplémentaire <strong>réduit la corrélation</strong> entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.</p>
 <p>Objectifs:</p>
 <ul>
 <li><p>comprendre les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles</p></li>
@@ -319,8 +319,8 @@ window.Quarto = {
 </section>
 <section id="evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" class="level2">
 <h2 class="anchored" data-anchor-id="evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres">Evaluation des performances du modèle et choix des hyper-paramètres</h2>
-<section id="estimation-de-lerreur-out-of-bag-oob" class="level3">
-<h3 class="anchored" data-anchor-id="estimation-de-lerreur-out-of-bag-oob">Estimation de l’erreur Out-of-Bag (OOB)</h3>
+<section id="sec-rf-oob" class="level3">
+<h3 class="anchored" data-anchor-id="sec-rf-oob">Estimation de l’erreur Out-of-Bag (OOB)</h3>
 <p>L’estimation <strong>Out-of-Bag (OOB)</strong> est une méthode particulièrement efficace pour évaluer les performances des forêts aléatoires sans nécessité une <strong>validation croisée</strong> ou de réserver une partie des données pour l’étape du test. Cette technique repose sur le fait que chaque arbre dans une forêt aléatoire est construit à partir d’un échantillon bootstrap du jeu de données d’origine, c’est-à-dire un échantillon tiré avec remise. Or, en moyenne, environ <strong>36 %</strong> des observations ne sont pas inclus dans chaque échantillon bootstrap, ce qui signifie qu’elles ne sont pas utilisées pour entraîner l’arbre correspondant. Ces observations laissées de côté forment un <strong>échantillon out-of-bag</strong>. Chaque arbre peut donc être évalué sur son <strong>échantillon out-of-bag</strong> plutôt que sur un échantillon test.</p>
 <p><strong>Procédure d’Estimation OOB</strong>:</p>
 <ol type="1">
