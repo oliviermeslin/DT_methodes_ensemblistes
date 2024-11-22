@@ -50,7 +50,7 @@ Recommandations:
 
 #### Les hyperparamètres clés des forêts aléatoires
 
-Les forêts aléatoires sont relativement moins "tunables" que d'autres algorithmes, mais un léger gain de performance est possible en optimisant les hyperparamètres.
+Les forêts aléatoires sont relativement moins "tunables" que d'autres algorithmes, mais un léger gain de performance est possible en optimisant les hyperparamètres. C'est plutôt un avantage en pratique: les hyperparamètres par défaut fournissent le plus souvent une forêt aléatoire relativement performante, et il n'est pas forcément utile de passer beaucoup de temps à les optimiser.
  
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
@@ -108,7 +108,7 @@ Cette section décrit en détail les principaux hyperparamètres des forêts al�
 
 - Le __nombre de variables candidates à chaque noeud__ est un hyperparamètre fondamental qui détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Ce paramètre exerce la plus forte influence sur les performances du modèle.
 
-Un nombre plus faible de variables candidates, souvent dénoté _mtry_, conduit à des arbres plus diversifiés et donc moins corrélés entre eux. À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Un compromis doit être trouvé et le choix optimal dépend du nombre de variables réellement pertinentes. Une faible valeur de _mtry_ est préférable avec beaucoup de variables pertinentes, tandis qu'un _mtry_ élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
+Un nombre plus faible de variables candidates, souvent dénoté `mtry`, conduit à des arbres plus diversifiés et donc moins corrélés entre eux. À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Un compromis doit être trouvé et le choix optimal dépend du nombre de variables réellement pertinentes. Une faible valeur de _mtry_ est préférable avec beaucoup de variables pertinentes, tandis qu'un `mtry` élevé est meilleur avec peu de variables pertinentes parmi l'ensemble des variables considérées.
 
 Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problèmes de classification et à $p/3$ pour les problèmes de régression, où $p$ représente le nombre total de variables prédictives disponibles. Ces choix par défaut reposent sur des heuristiques empiriques qui offrent généralement un bon compromis entre la précision des prédictions et la diversité des arbres.
 
@@ -129,10 +129,12 @@ Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hy
 Voici quelques recommandations pratiques.
 
 Commencer par des stratégies simples :
-- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
-- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En R, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size).
 
-Utiliser des outils adaptés en R :
+- Utiliser les méthodes _grid search_ ou _random search_ pour une exploration initiale de l’espace des hyperparamètres. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: caret, 
+- Adopter des approches basées sur SMBO si les performances initiales sont insuffisantes ou si l’espace est complexe. En `R`, il existe plusieurs implémentations d'appuyant sur ces méthodes: tuneRF (limité à l’optimisation de mtry), tuneRanger (optimise simultanément mtry, node size, et sample size).
+
+Utiliser des outils adaptés en `R` :
+
 - Privilégier caret pour une optimisation rapide sur de petits espaces.
 - Choisir tuneRanger pour une optimisation complète avec des paramètres multiples.
 
