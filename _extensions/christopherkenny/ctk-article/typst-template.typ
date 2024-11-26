@@ -41,56 +41,6 @@
 // ctk-article definition starts here
 // everything above is inserted by Quarto
 
-// Add zero-level chapters
-// https://sitandr.github.io/typst-examples-book/book/typstonomicon/chapters.html
-
-// author: tinger
-
-#let chapter = figure.with(
-  kind: "chapter",
-  // same as heading
-  numbering: none,
-  // this cannot use auto to translate this automatically as headings can, auto also means something different for figures
-  supplement: "Chapter",
-  // empty caption required to be included in outline
-  caption: [],
-)
-
-// no access to element in outline(indent: it => ...), so we must do indentation in here instead of outline
-#show outline.entry: it => {
-  if it.element.func() == figure {
-    // we're configuring chapter printing here, effectively recreating the default show impl with slight tweaks
-    let res = link(it.element.location(), 
-      // we must recreate part of the show rule from above once again
-      if it.element.numbering != none {
-        numbering(it.element.numbering, ..it.element.counter.at(it.element.location()))
-      } + [ ] + it.element.body
-    )
-
-    if it.fill != none {
-      res += [ ] + box(width: 1fr, it.fill) + [ ] 
-    } else {
-      res += h(1fr)
-    }
-
-    res += link(it.element.location(), it.page)
-    strong(res)
-    
-  } else {
-    // we're doing indenting here
-    // h(1em * it.level) + it
-    it
-  }
-}
-
-// new target selector for default outline
-#let chapters-and-headings = figure.where(kind: "chapter", outlined: true).or(heading.where(outlined: true))
-
-#set heading(numbering: "1.")
-
-// can't use set, so we reassign with default args
-// #let chapter = chapter.with(numbering: "I")
-
 #let ctk-article(
   title: none,
   subtitle: none,
@@ -119,8 +69,6 @@
   linkcolor: "#800000",
   title-page: false,
   blind: false,
-  chaptersintoc: true,
-  resetsecnumbering: false,
   doc,
 ) = {
 
@@ -129,9 +77,6 @@
   show figure.where(kind: "chapter"): it => {
     set text(20pt)
     // Reset section numbering if chosen
-    if  resetsecnumbering {
-      counter(heading).update(0)
-    }
     if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body) + linebreak(justify: false)
   }
 
@@ -350,24 +295,13 @@
     } else {
       toc_title
     }
-    if chaptersintoc {
-      block(above: 0em, below: 2em)[
-      #outline(
-        target: chapters-and-headings,
-        title: toc_title,
-        depth: toc_depth,
-        indent: toc_indent
-      );
-      ]
-    } else {
-      block(above: 0em, below: 2em)[
-      #outline(
-        title: toc_title,
-        depth: toc_depth,
-        indent: toc_indent
-      );
-      ]
-    }
+    block(above: 0em, below: 2em)[
+    #outline(
+      title: toc_title,
+      depth: toc_depth,
+      indent: toc_indent
+    );
+    ]
   }
 
   if cols == 1 {
