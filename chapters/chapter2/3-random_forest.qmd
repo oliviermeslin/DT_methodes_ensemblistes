@@ -25,6 +25,97 @@ Les forêts aléatoires reposent sur quatre éléments essentiels :
 
 - **L'agrégation des prédictions** : Comme pour le _bagging_, les prédictions de tous les arbres sont combinées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
 
+
+## Comment construit-on une forêt aléatoire?
+
+L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et se résume comme suit:
+
+- Le nombre d'arbres à construire est défini _a priori_.
+- Pour chaque arbre, on effectue les étapes suivantes:
+    - Générer un échantillon _bootstrap_ de taille fixe à partir du jeu de données.
+    - Construire récursivement un arbre de décision à partir de cet échantillon:
+        - À chaque nœud de l'arbre, un sous-ensemble de _features_ est sélectionné aléatoirement.
+        - Déterminer quel couple (variable, valeur) définit la règle de décision qui divise la population du nœud en deux sous-groupes les plus homogènes possibles
+        - Créer des nœuds enfants.
+        - Arrêter la croissance de l'arbre selon des critères d'arrêt fixés _a priori_.
+
+Pour construire la prédiction de la forêt aléatoire, on agrège les arbres selon une méthode qui dépend du problème modélisé:
+    - Régression: la prédiction finale est la moyenne des prédictions de tous les arbres.
+    - Classification: chaque arbre vote pour une classe, et la classe majoritaire est retenue.
+
+Les principaux hyper-paramètres des forêts aléatoires sont donc les suivants: le nombre d'arbres, la méthode et le taux d'échantillonnage, le nombre (ou la proportion) de variables considérées à chaque nœud, le critère de division des nœuds (ou mesure d'hétérogénéité), et les critères d'arrêt (notamment la profondeur de l'arbre, le nombre minimal d'observations dans une feuille terminale, et le nombre minimal d'observations qu'un nœud doit comprendre pour être divisé en deux).
+
+<!-- ::: {.content-visible unless-format="html"}
+```{=typst}
+#import "@preview/lovelace:0.3.0": *
+#align(center, pseudocode-list(
+  title: text(weight: "bold")[Pseudocode de l'entraînement d'une forêt aléatoire],
+  booktabs: true,
+  line-numbering: none,
+  indentation: 0em, 
+  line-gap: 0.3em
+  )[
+  + *for* 1 to `n_trees`
+    + Tirer un échantillon aléatoire de taille `n`.
+    + Construire un arbre CART à partir de cet échantillon, en répétant récursivement les étapes suivantes jusqu'à ce que chaque feuille terminale ne puisse plus être divisée:
+      + Sélectionner aléatoirement `mtry` variables;
+      + Déterminer quel couple (variable, valeur) définit la règle de décision qui définit les deux sous-groupes les plus homogènes possibles;
+      + Diviser le noeud considéré en deux noeuds-enfants.
+  + *end*
+]
+)
+
+
+// #import "@preview/algo:0.3.4": algo, i, d, comment, code
+
+// #set table(
+//   fill: white,
+// )
+
+// #algo(
+//   title: [                    // note that title and parameters
+//     #set text(size: 15pt)     // can be content
+//     #emph(smallcaps("Fib"))
+//   ],
+//   line-numbers: false,
+//   strong-keywords: false,
+//   parameters: ([#math.italic("n")],),
+//   comment-prefix: [#sym.triangle.stroked.r ],
+//   comment-styles: (fill: rgb(100%, 0%, 0%)),
+//   indent-size: 15pt,
+//   indent-guides: 1pt + gray,
+//   row-gutter: 5pt,
+//   column-gutter: 5pt,
+//   inset: 5pt,
+//   stroke: 2pt + black,
+//   fill: white
+
+// )[
+//   if $n < 0$:#i\
+//     return null#d\
+//   if $n = 0$ or $n = 1$:#i\
+//     return $n$#d\
+//   \
+//   let $x <- 0$\
+//   let $y <- 1$\
+//   for $i <- 2$ to $n-1$:#i #comment[so dynamic!]\
+//     let $z <- x+y$\
+//     $x <- y$\
+//     $y <- z$#d\
+//     \
+//   return $x+y$
+// ]
+
+// #set table(
+//   fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+// )
+
+```
+::: -->
+
+
+
+
 ## Pourquoi les forêts aléatoires sont-elles performantes?
 
 Les propriétés théoriques des forêts aléatoires permettent de comprendre pourquoi (et dans quelles situations) elles sont particulièrement robustes et performantes.
