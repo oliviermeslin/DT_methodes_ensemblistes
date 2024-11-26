@@ -34,7 +34,7 @@ Les propriétés théoriques des forêts aléatoires permettent de comprendre po
 
 L'agrégation de plusieurs arbres permet de réduire la variance globale du modèle, ce qui améliore la stabilité des prédictions. Lorsque les estimateurs sont (faiblement) biaisés mais caractérisés par une variance élevée, l'agrégation permet d'obtenir un estimateur avec un biais similaire mais une variance réduite. La démonstration est présentée dans la section _bagging_.
 
-### Convergence et absence de surapprentissage
+### Convergence et limite théorique au surapprentissage
 
 Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
 
