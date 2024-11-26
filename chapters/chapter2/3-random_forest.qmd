@@ -39,7 +39,7 @@ L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et s
         - Créer les deux nœuds-enfants à partir de cette règle de décision.
         - Arrêter la croissance de l'arbre selon des critères d'arrêt fixés _a priori_.
 
-Pour construire la prédiction de la forêt aléatoire, on agrège les arbres selon une méthode qui dépend du problème modélisé:
+Pour construire la prédiction de la forêt aléatoire une fois celle-ci entraînée, on agrège les arbres selon une méthode qui dépend du problème modélisé:
 
 - Régression: la prédiction finale est la moyenne des prédictions de tous les arbres.
 - Classification: chaque arbre vote pour une classe, et la classe majoritaire est retenue.
@@ -189,11 +189,11 @@ L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace po
 - **Approximation de l'erreur de généralisation** : L'erreur OOB est considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold. 
 
 
-### Estimation de l'erreur par cross-validation
+### Estimation de l'erreur par validation croisée
 
-La validation croisée est une technique d'évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d'un modèle à généraliser les prédictions à de nouvelles données. Bien que l'estimation Out-of-Bag (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d'obtenir une évaluation plus robuste, car moins sensible à l'échantillon d'entraînement, notamment sur des jeux de données de petite taille.
+La validation croisée est une technique d'évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d'un modèle à généraliser les prédictions à de nouvelles données. Bien que l'évaluation par l'erreur _Out-of-Bag_ (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d'obtenir une évaluation plus robuste, car moins sensible à l'échantillon d'entraînement, notamment sur des jeux de données de petite taille.
 
-Concrètement, le jeu de donné est divisé en $k$ sous-ensembles, un modèle est entraîné sur k-1 sous-ensembles et testé sur le sous-ensemble restant. L'opération est répétée k-fois de manière à ce que chaque observation apparaisse au moins une fois dans l'échantillon test. L'erreur est ensuite moyennée sur l'ensemble des échantillons test.
+Concrètement, le jeu de donné est divisé en $k$ sous-ensembles, un modèle est entraîné sur $k-1$ sous-ensembles et testé sur le sous-ensemble restant. L'opération est répétée $k$ fois de manière à ce que chaque observation apparaisse au moins une fois dans l'échantillon test. L'erreur est ensuite moyennée sur l'ensemble des échantillons test.
 
 
 **Procédure de validation croisée**:
