@@ -25,8 +25,7 @@ Les forêts aléatoires reposent sur quatre éléments essentiels :
 
 - **L'agrégation des prédictions** : Comme pour le _bagging_, les prédictions de tous les arbres sont combinées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
 
-
-## Pourquoi (et dans quelles situations) la random forest fonctionne: fondements théoriques des forêts aléatoires
+## Pourquoi les forêts aléatoires sont-elles performantes?
 
 Les propriétés théoriques des forêts aléatoires permettent de comprendre pourquoi (et dans quelles situations) elles sont particulièrement robustes et performantes.
 
