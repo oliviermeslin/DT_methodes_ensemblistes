@@ -35,8 +35,8 @@ L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et s
     - Générer un échantillon _bootstrap_ de taille fixe à partir des données d'entraînement.
     - Construire récursivement un arbre de décision à partir de cet échantillon:
         - À chaque nœud de l'arbre, un sous-ensemble de _features_ est sélectionné aléatoirement.
-        - Déterminer quel couple (variable, valeur) définit la règle de décision qui divise la population du nœud en deux sous-groupes les plus homogènes possibles
-        - Créer des nœuds enfants.
+        - Déterminer quel couple (variable, valeur) définit la règle de décision qui divise la population du nœud en deux sous-groupes les plus homogènes possibles.
+        - Créer les deux nœuds-enfants à partir de cette règle de décision.
         - Arrêter la croissance de l'arbre selon des critères d'arrêt fixés _a priori_.
 
 Pour construire la prédiction de la forêt aléatoire, on agrège les arbres selon une méthode qui dépend du problème modélisé:
@@ -113,9 +113,6 @@ Les principaux hyper-paramètres des forêts aléatoires (détaillés dans la se
 
 ```
 ::: -->
-
-
-
 
 ## Pourquoi les forêts aléatoires sont-elles performantes?
 
@@ -227,11 +224,7 @@ Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à 
 
 L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters).
 
-Il convient néanmoins de mettre en place une stratégie d'optimisation des hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans ce qui suit.
-
-Il convient de noter que les implémentations "clés en main" en R ou Python ne permettent en général d'optimiser que les hyper-paramètres qui influent le plus sur la performance du modèle. Il s'agit généralement de mtry (nombre de variables sélectionnées aléatoirement à chaque nœud), la taille minimale des nœuds (nodesize ou min_node_size), et la taille de l'échantillon utilisé pour construire chaque arbre (sample size).
-
-
+Il convient de définir une stratégie d'optimisation des hyperparamètres pour ne pas perdre de temps à tester trop de jeux d'hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans la section @sec-guide-rf. Les implémentations des forêts aléatoires disponibles en `R` et en Python permettent d'optimiser aisément les principaux hyper-paramètres des forêts aléatoires.
 
 #### Méthodes de recherche exhaustives
 
