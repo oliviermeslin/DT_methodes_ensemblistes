@@ -1,5 +1,5 @@
 
-# Guide d'entraînement des forêts aléatoires
+# Guide d'entraînement des forêts aléatoires  {#sec-guide-rf}
 
 Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
 
