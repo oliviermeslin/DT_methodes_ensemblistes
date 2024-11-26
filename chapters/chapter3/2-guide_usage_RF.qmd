@@ -99,7 +99,7 @@ Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problè
 
 ### Comment entraîner une forêt aléatoire?
 
-Les forêts aléatoires nécessitent généralement moins d’optimisation que d’autres modèles d’apprentissage. En effet, leurs performances varient relativement peu en fonction des hyperparamètres. Les valeurs par défaut fournissent souvent des résultats satisfaisants, ce qui réduit le besoin d'optimisation intensive. Cependant, un ajustement précis des hyperparamètres peut apporter des gains marginaux mais utiles, notamment sur des jeux de données complexes.
+Les forêts aléatoires nécessitent généralement moins d’optimisation que d’autres modèles de _machine learning_, car leurs performances varient relativement peu en fonction des hyperparamètres. Les valeurs par défaut fournissent souvent des résultats satisfaisants, ce qui réduit le besoin d'optimisation intensive. Cependant, un ajustement précis des hyperparamètres peut apporter des gains de performance, notamment sur des jeux de données complexes.
 
 Comme indiqué dans la partie __REFERENCE A AJOUTER__, la performance prédictive d'une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec la corrélation des arbres entre eux. L'entraînement d'une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas corrélées. Ce compromis permet de maximiser la performance globale de la forêt aléatoire en profitant à la fois de la qualité des prédictions individuelles et de la réduction de variance apportée par l'agrégation.
 
