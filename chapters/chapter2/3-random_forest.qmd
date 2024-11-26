@@ -46,25 +46,21 @@ L'erreur de généralisation des forêts aléatoires est influencée par deux fa
 
 - **La puissance prédictrice des arbres individuels** : Les arbres doivent être suffisamment prédictifs pour contribuer positivement à l'ensemble, et idéalement sans biais. 
 
-- **La corrélation entre les arbres** : Moins les arbres sont corrélés, plus la variance de l'ensemble est réduite. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La sélection aléatoires des caractéristiques (_variables_) à chaque nœud contribue à réduire cette corrélation, ce qui améliore la performance globale.
+- **La corrélation entre les arbres** : Moins les arbres sont corrélés, plus la variance de l'ensemble est réduite, car leurs erreurs tendront à se compenser. Inversement, des arbres fortement corrélés auront tendance à faire des erreurs similaires, donc agréger un grand nombre d'arbres n'apportera pas grand chose.
 
-La variance de la prédiction d'une forêt aléatoire en régression (où l'objectif est de minimiser l'erreur quadratique moyenne) peut être exprimée par :
+On peut mettre en évidence ces deux facteurs dans le cas d'une forêt aléatoire utilisée pour une tâche de régression (où l'objectif est de minimiser l'erreur quadratique moyenne). Dans ce cas, la variance de la prédiction du modèle peut être décomposée de la façon suivante:
 
 
 $$
 \text{Var}(\hat{f}(x)) = \rho(x) \sigma(x)^2 + \frac{1 - \rho(x)}{M} \sigma(x)^2
 $$
 
-Où $\rho(x)$ est le coefficient de corrélation moyen entre les arbres individuels, $\sigma(x)^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt.
+où $\rho(x)$ est le coefficient de corrélation moyen entre les arbres individuels, $\sigma(x)^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt. Cette décomposition fait apparaître l'influence de la corrélation entre les arbres sur les performance de la forêt aléatoire:
 
-Cette décomposition fait apparaître l'influence de la corrélation entre les arbres sur les performance de la forêt aléatoire:
+- **Si $\rho(x)$ est proche de 1** (forte corrélation entre les arbres) : la première composante $\rho \sigma^2$ domine et la réduction de variance est moindre lorsque le nombre d'arbres augmente.
+- **Si $\rho(x)$ est proche de 0** (faible corrélation entre les arbres) : la seconde composante $\frac{1 - \rho}{M} \sigma^2$ et la variance est davantage réduite avec l'augmentation du nombre d'arbres $M$.
 
-- **Si $\rho(x)$ est élevée** (forte corrélation entre les arbres) : la première composante $\rho \sigma^2$ domine et la réduction de variance est moindre lorque le nombre d'arbres augmente.
-- **Si $\rho(x)$ est faible** (faible corrélation entre les arbres) : la seconde composante $\frac{1 - \rho}{M} \sigma^2$ et la variance est davantage réduite avec l'augmentation du nombre d'arbres $M$.
-
-L'objectif des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais.
-
-
+L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais. La sélection aléatoires des caractéristiques (_features_) à chaque nœud joue un rôle majeur dans cet arbitrage entre puissance prédictive des arbres et corrélation entre arbres.
 
 ## Les hyper-paramètres clés des forêts aléatoires
 
