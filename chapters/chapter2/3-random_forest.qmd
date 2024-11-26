@@ -15,7 +15,7 @@ Objectifs:
 
 ## Principe de la forêt aléatoire 
 
-Les forêts aléatoires reposent sur plusieurs éléments essentiels :
+Les forêts aléatoires reposent sur quatre éléments essentiels :
 
 - **Les arbres CART**: Les modèles élémentaires sont des arbres CART non élagués, c'est-à-dire autorisés à pousser jusqu'à l'atteinte d'un critère d'arrêt défini en amont.
 
@@ -23,7 +23,7 @@ Les forêts aléatoires reposent sur plusieurs éléments essentiels :
 
 - **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction d'un arbre, à chaque nœud de celui-ci, un sous-ensemble aléatoire de variables est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires.
 
-- **L'agrégation des prédictions** : Comme pour le bagging, les prédictions de tous les arbres sont combinées On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
+- **L'agrégation des prédictions** : Comme pour le _bagging_, les prédictions de tous les arbres sont combinées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
 
 
 ## Pourquoi (et dans quelles situations) la random forest fonctionne: fondements théoriques des forêts aléatoires
