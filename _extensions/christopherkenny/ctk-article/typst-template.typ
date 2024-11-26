@@ -72,16 +72,6 @@
   doc,
 ) = {
 
-
-  // emulate element function by creating show rule
-  show figure.where(kind: "chapter"): it => {
-    set text(20pt)
-    // Reset section numbering if chosen
-    if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body) + linebreak(justify: false)
-  }
-
-
-
   let runningauth = if authors == none {
     none
   } else if authors.len() == 2 {
