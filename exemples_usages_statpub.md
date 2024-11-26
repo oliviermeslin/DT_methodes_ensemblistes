@@ -22,10 +22,14 @@ Le choix du meilleur modèle pour chaque étape se base sur les performances glo
 ### Enquêtes auprès des entreprises:
 
 
-_les Enquetes Sectorielles Annuelles_
+_Le redressement de la non-réponse totale dans l'Enquete Sectorielle Annuelle_
 
+L'Enquête sectorielle annuelle (ESA) a pour objectif d'identifier les diverses activités exercées par les entreprises en détaillant leur chiffre d'affaires par branches d'activité. 
+Cette ventilation sectorielle permet notamment de déterminer l'activité principale exercée (APE) de chaque entreprise.
 
-
+La correction de la non-réponse totale dans les enquêtes sectorielles annuelles (ESA) repose sur la méthode des groupes de réponse homogène (GRH). 
+Les variables les plus corrélées au fait de répondre sont sélectionnées à l’aide d’un modèle logistique. Ces variables sont ensuite hiérarchisées selon leur importance, mesurée par la variation du critère d’information d’Akaike.
+Les GRH sont formés en appliquant une méthode par croisements. Cela consiste à regrouper les entreprises selon les modalités des variables auxiliaires corrélées au comportement de réponse, en s’assurant qu’à l’intérieur de chaque groupe, il n’y ait plus de corrélation détectable entre ces variables et la probabilité de réponse. 
 
 
 ### Enquêtes auprès des ménages:
