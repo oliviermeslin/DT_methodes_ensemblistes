@@ -36,7 +36,7 @@ L'agrégation de plusieurs arbres permet de réduire la variance globale du mod�
 
 ### Convergence et absence de surapprentissage
 
-Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de consistance pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
+Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
 
 Même si la convergence vers le modèle optimal n'est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l'erreur de généralisation de l'ensemble diminue lorsque le **nombre d'arbres** augmente. Cela implique que la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres inclus dans le modèle (l'erreur de généralisation tend à se stabiliser), ce qui la rend particulièrement robuste.
 
