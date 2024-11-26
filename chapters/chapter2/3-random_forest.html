@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -37,10 +57,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3e293e72bd4276b15eaf903c56998264.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -213,7 +233,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/1-guide_usage_RF.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/chapter3/1-preparation_donnees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Préparation des données</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/2-guide_usage_RF.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide d’entraînement des forêts aléatoires</span></a>
   </div>
 </li>
@@ -235,24 +261,27 @@ window.Quarto = {
   <li><a href="#pourquoi-et-dans-quelles-situations-la-random-forest-fonctionne-fondements-théoriques-des-forêts-aléatoires" id="toc-pourquoi-et-dans-quelles-situations-la-random-forest-fonctionne-fondements-théoriques-des-forêts-aléatoires" class="nav-link" data-scroll-target="#pourquoi-et-dans-quelles-situations-la-random-forest-fonctionne-fondements-théoriques-des-forêts-aléatoires">Pourquoi (et dans quelles situations) la random forest fonctionne: fondements théoriques des forêts aléatoires</a>
   <ul class="collapse">
   <li><a href="#réduction-de-la-variance-par-agrégation" id="toc-réduction-de-la-variance-par-agrégation" class="nav-link" data-scroll-target="#réduction-de-la-variance-par-agrégation">Réduction de la variance par agrégation</a></li>
-  <li><a href="#convergence-et-absence-de-surapprentissage" id="toc-convergence-et-absence-de-surapprentissage" class="nav-link" data-scroll-target="#convergence-et-absence-de-surapprentissage">Convergence et absence de surapprentissage</a></li>
-  <li><a href="#facteurs-déterminants-la-diminution-de-lerreur-de-généralisation" id="toc-facteurs-déterminants-la-diminution-de-lerreur-de-généralisation" class="nav-link" data-scroll-target="#facteurs-déterminants-la-diminution-de-lerreur-de-généralisation">Facteurs déterminants la diminution de l’erreur de généralisation</a></li>
+  <li><a href="#convergence-et-limite-théorique-au-surapprentissage" id="toc-convergence-et-limite-théorique-au-surapprentissage" class="nav-link" data-scroll-target="#convergence-et-limite-théorique-au-surapprentissage">Convergence et limite théorique au surapprentissage</a></li>
+  <li><a href="#facteurs-influençant-lerreur-de-généralisation" id="toc-facteurs-influençant-lerreur-de-généralisation" class="nav-link" data-scroll-target="#facteurs-influençant-lerreur-de-généralisation">Facteurs influençant l’erreur de généralisation</a></li>
   </ul></li>
-  <li><a href="#les-hyper-paramètres-clés" id="toc-les-hyper-paramètres-clés" class="nav-link" data-scroll-target="#les-hyper-paramètres-clés">Les hyper-paramètres clés</a></li>
-  <li><a href="#evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" id="toc-evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" class="nav-link" data-scroll-target="#evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres">Evaluation des performances du modèle et choix des hyper-paramètres</a>
+  <li><a href="#les-hyper-paramètres-clés-des-forêts-aléatoires" id="toc-les-hyper-paramètres-clés-des-forêts-aléatoires" class="nav-link" data-scroll-target="#les-hyper-paramètres-clés-des-forêts-aléatoires">Les hyper-paramètres clés des forêts aléatoires</a></li>
+  <li><a href="#evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" id="toc-evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" class="nav-link" data-scroll-target="#evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres">Evaluation des performances du modèle et optimisation des hyper-paramètres</a>
   <ul class="collapse">
   <li><a href="#sec-rf-oob" id="toc-sec-rf-oob" class="nav-link" data-scroll-target="#sec-rf-oob">Estimation de l’erreur Out-of-Bag (OOB)</a></li>
   <li><a href="#estimation-de-lerreur-par-cross-validation" id="toc-estimation-de-lerreur-par-cross-validation" class="nav-link" data-scroll-target="#estimation-de-lerreur-par-cross-validation">Estimation de l’erreur par cross-validation</a></li>
   <li><a href="#choix-des-hyper-paramètres-du-modèle" id="toc-choix-des-hyper-paramètres-du-modèle" class="nav-link" data-scroll-target="#choix-des-hyper-paramètres-du-modèle">Choix des hyper-paramètres du modèle</a></li>
   </ul></li>
-  <li><a href="#interprétation-et-importance-des-variables" id="toc-interprétation-et-importance-des-variables" class="nav-link" data-scroll-target="#interprétation-et-importance-des-variables">Interprétation et importance des variables</a></li>
-  <li><a href="#préparation-des-données-feature-engineering" id="toc-préparation-des-données-feature-engineering" class="nav-link" data-scroll-target="#préparation-des-données-feature-engineering">Préparation des données (Feature Engineering)</a></li>
+  <li><a href="#interprétation-et-importance-des-variables" id="toc-interprétation-et-importance-des-variables" class="nav-link" data-scroll-target="#interprétation-et-importance-des-variables">Interprétation et importance des variables</a>
+  <ul class="collapse">
+  <li><a href="#mesures-dimportance-classiques-et-leurs-biais" id="toc-mesures-dimportance-classiques-et-leurs-biais" class="nav-link" data-scroll-target="#mesures-dimportance-classiques-et-leurs-biais">Mesures d’importance classiques (et leurs biais)</a></li>
+  <li><a href="#méthodes-dimportance-avancées" id="toc-méthodes-dimportance-avancées" class="nav-link" data-scroll-target="#méthodes-dimportance-avancées">Méthodes d’importance avancées</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter2/3-random_forest.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter2/3-random_forest.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter2/0-intro.html">Présentation formelle des algorithmes</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter2/3-random_forest.html">La forêt aléatoire</a></li></ol></nav></header>
 
 
 
@@ -263,9 +292,9 @@ window.Quarto = {
 <p>La méthode s’appuie sur la technique du <em>bagging</em>, qui consiste à entraîner chaque arbre sur un échantillon (<em>bootstrap</em>) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d’un arbre, puisqu’à chaque nouvelle division (<em>noeud</em>), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est <strong>sélectionné aléatoirement</strong>. Cette randomisation supplémentaire <strong>réduit la corrélation</strong> entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.</p>
 <p>Objectifs:</p>
 <ul>
-<li><p>comprendre les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles</p></li>
-<li><p>comprendre les étapes permettant de construire une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation</p></li>
-<li><p>permettre l’optimisation des performances du modèle: fournir une présentation formelle pour guider le choix des hyperparamètres, la préparation des données, etc.</p></li>
+<li><p>comprendre le principe et les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles</p></li>
+<li><p>Apprendre les étapes de construction d’une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation</p></li>
+<li><p>Optimiser les performances du modèle: savoir préparer les données adéquatement, ajuster les hyperparamètres et comprendre les implications théoriques de ces choix.</p></li>
 </ul>
 <section id="principe-de-la-forêt-aléatoire" class="level2">
 <h2 class="anchored" data-anchor-id="principe-de-la-forêt-aléatoire">Principe de la forêt aléatoire</h2>
@@ -282,43 +311,51 @@ window.Quarto = {
 <p>Les propriétés théoriques des forêts aléatoires permettent de comprendre pourquoi (et dans quelles situations) elles sont particulièrement robustes et performantes.</p>
 <section id="réduction-de-la-variance-par-agrégation" class="level3">
 <h3 class="anchored" data-anchor-id="réduction-de-la-variance-par-agrégation">Réduction de la variance par agrégation</h3>
-<p>L’agrégation de plusieurs arbres dans une forêt aléatoire permet de réduire la variance globale du modèle, ce qui améliore la stabilité et la précision des prédictions lorsque les biais initiaux sont “faibles”. La démonstration est présentée dans la section <em>bagging</em>.</p>
+<p>L’agrégation de plusieurs arbres permet de réduire la variance globale du modèle, ce qui améliore la stabilité des prédictions. Lorsque les estimateurs sont (faiblement) biaisés mais caractérisés par une variance élevée, l’agrégation permet d’obtenir un estimateur avec un biais similaire mais une variance réduite. La démonstration est présentée dans la section <em>bagging</em>.</p>
 </section>
-<section id="convergence-et-absence-de-surapprentissage" class="level3">
-<h3 class="anchored" data-anchor-id="convergence-et-absence-de-surapprentissage">Convergence et absence de surapprentissage</h3>
-<p>Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l’échantillon tend vers l’infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de consistance pour des versions simplifiées de l’algorithme (par exemple, Biau 2012).</p>
-<p>Même si la convergence vers le modèle optimal n’est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l’erreur de généralisation de l’ensemble diminue lorsque le <strong>nombre d’arbres</strong> augmente. Cela implique que la forêt aléatoire ne souffre pas d’un surapprentissage (également appelé <em>overfitting</em>) croissant avec le nombre d’arbres inclus dans le modèle, ce qui la rend particulièrement robuste.</p>
+<section id="convergence-et-limite-théorique-au-surapprentissage" class="level3">
+<h3 class="anchored" data-anchor-id="convergence-et-limite-théorique-au-surapprentissage">Convergence et limite théorique au surapprentissage</h3>
+<p>Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l’échantillon tend vers l’infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l’algorithme (par exemple, Biau 2012).</p>
+<p>Même si la convergence vers le modèle optimal n’est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l’erreur de généralisation de l’ensemble diminue lorsque le <strong>nombre d’arbres</strong> augmente. Cela implique que la forêt aléatoire ne souffre pas d’un surapprentissage (également appelé <em>overfitting</em>) croissant avec le nombre d’arbres inclus dans le modèle (l’erreur de généralisation tend à se stabiliser), ce qui la rend particulièrement robuste.</p>
 </section>
-<section id="facteurs-déterminants-la-diminution-de-lerreur-de-généralisation" class="level3">
-<h3 class="anchored" data-anchor-id="facteurs-déterminants-la-diminution-de-lerreur-de-généralisation">Facteurs déterminants la diminution de l’erreur de généralisation</h3>
+<section id="facteurs-influençant-lerreur-de-généralisation" class="level3">
+<h3 class="anchored" data-anchor-id="facteurs-influençant-lerreur-de-généralisation">Facteurs influençant l’erreur de généralisation</h3>
 <p>L’erreur de généralisation des forêts aléatoires est influencée par deux facteurs principaux :</p>
 <ul>
-<li><p><strong>La force (<em>puissance prédictrice</em>) des arbres individuels</strong> : La force d’un arbre dépend de sa capacité à faire des prédictions correctes (sans biais). Pour que l’ensemble soit performant, chaque arbre doit être suffisamment prédictif.</p></li>
-<li><p><strong>La corrélation entre les arbres</strong> : Une corrélation faible entre les arbres améliore les performances globales. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La randomisation des caractéristiques à chaque nœud contribue à réduire cette corrélation, ce qui améliore la précision globale.</p></li>
+<li><p><strong>La puissance prédictrice des arbres individuels</strong> : Les arbres doivent être suffisamment prédictifs pour contribuer positivement à l’ensemble, et idéalement sans biais.</p></li>
+<li><p><strong>La corrélation entre les arbres</strong> : Moins les arbres sont corrélés, plus la variance de l’ensemble est réduite. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La sélection aléatoires des caractéristiques (<em>variables</em>) à chaque nœud contribue à réduire cette corrélation, ce qui améliore la performance globale.</p></li>
 </ul>
-<p>Dans le cas de la régression, où l’objectif est de minimiser l’erreur quadratique moyenne, la décomposition de la variance de l’ensemble (la forêt aléatoire) permet de faire apparaître le rôle de la corrélation entre les arbres:</p>
+<p>La variance de la prédiction d’une forêt aléatoire en régression (où l’objectif est de minimiser l’erreur quadratique moyenne) peut être exprimée par :</p>
 <p><span class="math display">\[
 \text{Var}(\hat{f}(x)) = \rho(x) \sigma(x)^2 + \frac{1 - \rho(x)}{M} \sigma(x)^2
 \]</span></p>
-<p>Où <span class="math inline">\(\rho(x)\)</span> est le coefficient de corrélation entre les arbres individuels, <span class="math inline">\(\sigma(x)^2\)</span> est la variance d’un arbre individuel, <span class="math inline">\(M\)</span> est le nombre d’arbres dans la forêt.</p>
-<p>Conséquences:</p>
+<p>Où <span class="math inline">\(\rho(x)\)</span> est le coefficient de corrélation moyen entre les arbres individuels, <span class="math inline">\(\sigma(x)^2\)</span> est la variance d’un arbre individuel, <span class="math inline">\(M\)</span> est le nombre d’arbres dans la forêt.</p>
+<p>Cette décomposition fait apparaître l’influence de la corrélation entre les arbres sur les performance de la forêt aléatoire:</p>
 <ul>
-<li><strong>Si <span class="math inline">\(\rho(x)\)</span> est faible</strong> : La variance est significativement réduite avec l’augmentation du nombre d’arbres <span class="math inline">\(M\)</span>.</li>
-<li><strong>Si <span class="math inline">\(\rho(x)\)</span> est élevée</strong> : La réduction de variance est moindre, car les arbres sont plus corrélés entre eux.</li>
+<li><strong>Si <span class="math inline">\(\rho(x)\)</span> est élevée</strong> (forte corrélation entre les arbres) : la première composante <span class="math inline">\(\rho \sigma^2\)</span> domine et la réduction de variance est moindre lorque le nombre d’arbres augmente.</li>
+<li><strong>Si <span class="math inline">\(\rho(x)\)</span> est faible</strong> (faible corrélation entre les arbres) : la seconde composante <span class="math inline">\(\frac{1 - \rho}{M} \sigma^2\)</span> et la variance est davantage réduite avec l’augmentation du nombre d’arbres <span class="math inline">\(M\)</span>.</li>
 </ul>
 <p>L’objectif des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais.</p>
 </section>
 </section>
-<section id="les-hyper-paramètres-clés" class="level2">
-<h2 class="anchored" data-anchor-id="les-hyper-paramètres-clés">Les hyper-paramètres clés</h2>
+<section id="les-hyper-paramètres-clés-des-forêts-aléatoires" class="level2">
+<h2 class="anchored" data-anchor-id="les-hyper-paramètres-clés-des-forêts-aléatoires">Les hyper-paramètres clés des forêts aléatoires</h2>
 <ul>
-<li><strong>Nombre d’arbres</strong> : plus le nombre d’arbes est élevé, plus la variance est réduite, jusqu’à un certain point de saturation. Souvent, quelques centaines d’arbres suffisent à stabiliser les performances des modèles.</li>
-<li><strong>Nombre de variables à sélectionner à chaque noeud</strong>: cet hyperparamètre permet de contrôler l’interdépendance entre les arbres. Avec <span class="math inline">\(K\)</span> le nombre total de variables, une règle empirique usuelle est de considérer <span class="math inline">\(\sqrt{K}\)</span> pour une classification et <span class="math inline">\(K/3\)</span> pour une régression.</li>
-<li><strong>Profondeur des arbres</strong> : laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation.</li>
+<li><p><strong>Nombre d’arbres</strong> : plus le nombre d’arbes est élevé, plus la variance est réduite, jusqu’à un certain point de saturation. Souvent, quelques centaines d’arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.</p></li>
+<li><p><strong>Méthode d’échantillonnage</strong> : les échantillons bootstrap peuvent être construits par tirage aléatoire <strong>avec</strong> ou <strong>sans</strong> remise.</p></li>
+<li><p><strong>Nombre de variables considérées à chaque noeud</strong>: cet hyperparamètre détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres.</p></li>
+</ul>
+<p>Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l’agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cela peut entraîner une diminution de la qualité prédictive des arbres individuels, car ils sont parfois contraints de se diviser sur des variables moins pertinentes.</p>
+<p>À l’inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d’utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l’agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.</p>
+<ul>
+<li><p><strong>Nombre minimal d’observations dans une feuille</strong> : Un nombre d’observation minimal peut réduire le surapprentissage et surtout le temps de calcul.</p></li>
+<li><p><strong>Critère de division des noeuds</strong> (<em>splitting rule</em>) :</p></li>
+<li><p><strong>Nombre d’observations tirées pour construire un arbre</strong> :</p></li>
+<li><p><strong>Profondeur maximale des arbres</strong> : en général, il est conseillé de laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation. Limiter la profondeur des arbres peut toutefois réduire le risque de surapprentissage et diminuer le temps de calcul.</p></li>
 </ul>
 </section>
-<section id="evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres" class="level2">
-<h2 class="anchored" data-anchor-id="evaluation-des-performances-du-modèle-et-choix-des-hyper-paramètres">Evaluation des performances du modèle et choix des hyper-paramètres</h2>
+<section id="evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres">Evaluation des performances du modèle et optimisation des hyper-paramètres</h2>
 <section id="sec-rf-oob" class="level3">
 <h3 class="anchored" data-anchor-id="sec-rf-oob">Estimation de l’erreur Out-of-Bag (OOB)</h3>
 <p>L’estimation <strong>Out-of-Bag (OOB)</strong> est une méthode particulièrement efficace pour évaluer les performances des forêts aléatoires sans nécessité une <strong>validation croisée</strong> ou de réserver une partie des données pour l’étape du test. Cette technique repose sur le fait que chaque arbre dans une forêt aléatoire est construit à partir d’un échantillon bootstrap du jeu de données d’origine, c’est-à-dire un échantillon tiré avec remise. Or, en moyenne, environ <strong>36 %</strong> des observations ne sont pas inclus dans chaque échantillon bootstrap, ce qui signifie qu’elles ne sont pas utilisées pour entraîner l’arbre correspondant. Ces observations laissées de côté forment un <strong>échantillon out-of-bag</strong>. Chaque arbre peut donc être évalué sur son <strong>échantillon out-of-bag</strong> plutôt que sur un échantillon test.</p>
@@ -332,14 +369,14 @@ window.Quarto = {
 <p><strong>Avantages de l’Estimation OOB</strong>:</p>
 <ul>
 <li><strong>Pas besoin de jeu de validation séparé</strong> : L’un des principaux avantages de l’estimation OOB est qu’elle ne nécessite pas de réserver une partie des données pour la validation. Cela est particulièrement utile lorsque la taille du jeu de données est limitée, car toutes les données peuvent être utilisées pour l’entraînement tout en ayant une estimation fiable de la performance.</li>
-<li><strong>Estimation directe et éfficace</strong> : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l’estimation OOB est disponible “gratuitement” pendant la construction des arbres. Cela permet d’évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle.</li>
+<li><strong>Estimation directe et efficace</strong> : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l’estimation OOB est disponible “gratuitement” pendant la construction des arbres. Cela permet d’évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle et d’optimiser plus rapidement les hyperparamètres.</li>
 <li><strong>Approximation de l’erreur de généralisation</strong> : L’erreur OOB est considérée comme une bonne approximation de l’erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold.</li>
 </ul>
 </section>
 <section id="estimation-de-lerreur-par-cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="estimation-de-lerreur-par-cross-validation">Estimation de l’erreur par cross-validation</h3>
-<p>La validation croisée est une technique d’évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d’un modèle à généraliser à de nouvelles données. Bien que l’estimation Out-of-Bag (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d’obtenir une évaluation plus robuste, notamment sur des jeux de données de petite taille.</p>
-<p>L’idée derrière la validation croisée est de maximiser l’utilisation des données disponibles en réutilisant chaque observation à la fois pour l’entraînement et pour le test. Cela permet d’obtenir une estimation de la performance du modèle qui est moins sensible aux fluctuations dues à la division des données en ensembles d’entraînement et de test. La validation croisée répète cette division plusieurs fois, puis moyenne les résultats pour obtenir une estimation plus fiable.</p>
+<p>La validation croisée est une technique d’évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d’un modèle à généraliser les prédictions à de nouvelles données. Bien que l’estimation Out-of-Bag (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d’obtenir une évaluation plus robuste, car moins sensible à l’échantillon d’entraînement, notamment sur des jeux de données de petite taille.</p>
+<p>Concrètement, le jeu de donné est divisé en <span class="math inline">\(k\)</span> sous-ensembles, un modèle est entraîné sur k-1 sous-ensembles et testé sur le sous-ensemble restant. L’opération est répétée k-fois de manière à ce que chaque observation apparaisse au moins une fois dans l’échantillon test. L’erreur est ensuite moyennée sur l’ensemble des échantillons test.</p>
 <p><strong>Procédure de validation croisée</strong>:</p>
 <p>La validation croisée la plus courante est la validation croisée en k sous-échantillons (<em>k-fold cross-validation</em>):</p>
 <ul>
@@ -357,32 +394,83 @@ window.Quarto = {
 </section>
 <section id="choix-des-hyper-paramètres-du-modèle" class="level3">
 <h3 class="anchored" data-anchor-id="choix-des-hyper-paramètres-du-modèle">Choix des hyper-paramètres du modèle</h3>
-<p>L’estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d’une forêt aléatoire. Les deux approches permettent de comparer différentes combinaisons d’hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l’OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important.</p>
+<p>L’estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d’une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d’hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l’OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p>
+<p>Il convient néanmoins de mettre en place une stratégie d’optimisation des hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans ce qui suit.</p>
+<p>Il convient de noter que les implémentations “clés en main” en R ou Python ne permettent en général d’optimiser que les hyper-paramètres qui influent le plus sur la performance du modèle. Il s’agit généralement de mtry (nombre de variables sélectionnées aléatoirement à chaque nœud), la taille minimale des nœuds (nodesize ou min_node_size), et la taille de l’échantillon utilisé pour construire chaque arbre (sample size).</p>
+<section id="méthodes-de-recherche-exhaustives" class="level4">
+<h4 class="anchored" data-anchor-id="méthodes-de-recherche-exhaustives">Méthodes de recherche exhaustives</h4>
+<ul>
+<li><p><strong>Recherche sur grille</strong> (Grid Search): Cette approche simple explore toutes les combinaisons possibles d’hyperparamètres définis sur une grille. Les paramètres continus doivent être discrétisés au préalable. La méthode est exhaustive mais coûteuse en calcul, surtout pour un grand nombre d’hyperparamètres.</p></li>
+<li><p><strong>Recherche aléatoire</strong> (Random Search): Plus efficace que la recherche sur grille, cette méthode échantillonne aléatoirement les valeurs des hyperparamètres dans un espace défini. Bergstra et Bengio (2012) ont démontré sa supériorité pour les réseaux neuronaux, et elle est également pertinente pour les forêts aléatoires. La distribution d’échantillonnage est souvent uniforme.</p></li>
+</ul>
+</section>
+<section id="optimisation-séquentielleitérative-basée-sur-un-modèle-smbo" class="level4">
+<h4 class="anchored" data-anchor-id="optimisation-séquentielleitérative-basée-sur-un-modèle-smbo">Optimisation séquentielle/itérative basée sur un modèle (SMBO)</h4>
+<p>La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s’appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p>
+<p>Voici les étapes clés de cette méthode:</p>
+<ul>
+<li><p>Définition du problème: On spécifie une mesure d’évaluation (ex: AUC pour la classification, MSE pour la régression), une stratégie d’évaluation (ex: validation croisée k-fold), et l’espace des hyperparamètres à explorer.</p></li>
+<li><p>Initialisation: échantillonner aléatoirement des points dans l’espace des hyperparamètres et évaluer leurs performances.</p></li>
+<li><p>Boucle itérative :</p>
+<ul>
+<li>Construction d’un modèle de substitution (surrogate model): un modèle de régression (ex: krigeage ou une forêt aléatoire) est ajusté aux données déjà observées. Ce modèle prédit la performance en fonction des hyperparamètres.</li>
+<li>Sélection d’un nouvel hyperparamètre: un critère basé sur le modèle de substitution sélectionne le prochain ensemble d’hyperparamètres à évaluer. Ce critère vise à explorer des régions prometteuses de l’espace des hyperparamètres qui n’ont pas encore été suffisamment explorées.</li>
+<li>Évaluer les points proposés et les ajouter à l’ensemble déjà exploré: la performance du nouvel ensemble d’hyperparamètres est évaluée et ajoutée à l’ensemble des données d’apprentissage du modèle de substitution afin d’orienter les recherches vers de nouveaux hyper-paramètres prometteurs.</li>
+</ul></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="interprétation-et-importance-des-variables" class="level2">
 <h2 class="anchored" data-anchor-id="interprétation-et-importance-des-variables">Interprétation et importance des variables</h2>
-<p>Objectif: Identifier les variables qui contribuent le plus à la prédiction/influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent, établir des règles de décision simplifiées etc.</p>
-<p>Méthodes ususelles (mais biaisées):</p>
+<p>Les forêts aléatoires sont des modèles d’apprentissage performants, mais leur complexité interne les rend difficiles à interpréter, ce qui leur vaut souvent le qualificatif de “boîtes noires”. Comprendre l’influence des variables explicatives sur les prédictions est crucial pour interpréter les résulats et être en mesure d’extraire des connaissances.</p>
+<p>L’objectif des <strong>méthodes d’interprétabilité</strong> (ou d’importance des variables) est d’identifier les variables les plus influentes sur la variable cible, de comprendre les mécanismes prédictifs sous-jacents, et potentiellement d’extraire des règles de décision simples et transparentes. Plusieurs méthodes d’importance des variables existent, mais il est important de comprendre leurs forces et faiblesses.</p>
+<section id="mesures-dimportance-classiques-et-leurs-biais" class="level3">
+<h3 class="anchored" data-anchor-id="mesures-dimportance-classiques-et-leurs-biais">Mesures d’importance classiques (et leurs biais)</h3>
 <ul>
-<li><p><strong>Réduction moyenne de l’impureté</strong> (<em>Mean Decrease in Impurity</em>) : pour chaque variable, on calcule la moyenne des réductions d’impureté qu’elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d’impureté la plus élevée sont considérées comme les prédicteurs les plus importants.</p></li>
-<li><p><strong>Permutation importance</strong> (<em>Mean Decrease Accuracy</em>) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L’idée est que si l’on permute aléatoirement les valeurs d’une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l’erreur de généralisation.</p></li>
+<li><strong>Réduction moyenne de l’impureté</strong> (<em>Mean Decrease in Impurity</em> - <em>MDI</em>) : Cette méthode quantifie l’importance d’une variable par la somme des réductions d’impureté qu’elle induit dans tous les arbres de la forêt. Plus spécifiquement, pour chaque variable, on s’intéresse à la moyenne des réductions d’impureté qu’elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d’impureté la plus élevée sont considérées comme les prédicteurs les plus importants.</li>
 </ul>
-<p>Il est essentiel de noter que ces deux mesures peuvent présenter des <strong>biais</strong> importants. Elles sont notamment sensibles aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes. Elles sont également fortement biaisée en présence de variables explicatives corrélées ou d’interactions complexes avec la cible.</p>
-</section>
-<section id="préparation-des-données-feature-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="préparation-des-données-feature-engineering">Préparation des données (Feature Engineering)</h2>
+<p>La MDI présente des biais importants. Elle est notamment sensible aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes (même si leur influence réelle est faible), ainsi qu’aux variables avec une échelle de valeurs plus étendues, qui obtiennent des scores plus élevés, indépendamment de leur importance réelle. Elle est également fortement biaisée en présence de variables explicatives corrélées, ce qui conduit à surestimer l’importance de variables redondantes. Les interactions entre variables ne sont pas non plus prises en compte de manière adéquate.</p>
 <ul>
-<li><p><strong>Variables catégorielles</strong> : Encoder correctement (one-hot encoding, ordinal encoding).</p></li>
-<li><p><strong>Valeurs manquantes</strong> : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.</p></li>
-<li><p><strong>Échelle des Variables</strong> : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.</p></li>
+<li><strong>Importance par permutation</strong> (<em>Mean Decrease Accuracy</em> - <em>MDA</em>) : Cette méthode évalue l’importance d’une variable en mesurant la diminution de précision du modèle après permutation aléatoire de ses valeurs. Plus spécifiquement, pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L’idée est que si l’on permute aléatoirement les valeurs d’une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l’erreur de généralisation.</li>
+</ul>
+<p>Comme la MDI, la MDA présente des biais lorsque les variables sont corrélées. En particulier, la MDA peut surévaluer l’importance de variables qui sont corrélées à d’autres variables importantes, même si elles n’ont pas d’influence directe sur la cible (<span class="citation" data-cites="benard2022mda">Bénard, Da Veiga, and Scornet (<a href="#ref-benard2022mda" role="doc-biblioref">2022</a>)</span>).</p>
+<p>Plusieurs stratégies peuvent aider à réduire les biais d’interprétation :</p>
+<ul>
+<li>Prétraitement des variables: Standardisation des variables, regroupement des modalités rares des variables catégorielles, réduction de la cardinalité des variables catégorielles.</li>
+<li>Analyse des corrélations: Identification et gestion des variables fortement corrélées, qui peuvent fausser les mesures d’importance.</li>
+<li>Choix de méthodes robustes: Privilégier les méthodes moins sensibles aux biais, comme les CIF ou la Sobol-MDA, et, le cas échéant, SHAFF pour les valeurs de Shapley. Ces méthodes sont présentées dans la sectio suivante.</li>
+</ul>
+</section>
+<section id="méthodes-dimportance-avancées" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-dimportance-avancées">Méthodes d’importance avancées</h3>
+<p>Pour pallier les limites des méthodes traditionnelles, des approches plus sophistiquées ont été développées.</p>
+<ul>
+<li><p><strong>Valeurs de Shapley</strong>: Les valeurs de Shapley permettent de quantifier la contribution de chaque variable explicative à la variance expliquée de la variable cible, en tenant compte des interactions entre les variables. Elles attribuent à chaque variable une contribution marginale moyenne à la performance du modèle, en considérant toutes les combinaisons possibles de sous-ensembles de variables. Cependant, l’estimation des valeurs de Shapley est computationnellement coûteuse (complexité exponentielle avec le nombre de variables). Des méthodes approximatives existent, mais peuvent introduire des biais. L’algorithme SHAFF (<span class="citation" data-cites="benard2022shaff">Bénard et al. (<a href="#ref-benard2022shaff" role="doc-biblioref">2022</a>)</span>) propose une solution rapide et précise à ce problème, en tirant parti des propriétés des forêts aléatoires.</p></li>
+<li><p><strong>Conditional Inference Forests</strong> (CIF): Les CIF (<span class="citation" data-cites="strobl2007bias">Strobl et al. (<a href="#ref-strobl2007bias" role="doc-biblioref">2007</a>)</span>), implémentées dans le package party de R (cforest), corrigent certains biais de la MDI en utilisant des tests statistiques conditionnels pour sélectionner les variables et les seuils de coupure dans les arbres. Elles sont particulièrement robustes face aux variables hétérogènes et aux corrélations entre variables. Couplées à un échantillonnage sans remise, les CIF fournissent des mesures d’importance plus fiables.</p></li>
+<li><p><strong>Sobol-MDA</strong>: La Sobol-MDA combine l’idée de la MDA avec une approche basée sur les indices de Sobol, permettant de gérer efficacement les variables dépendantes. Au lieu de permuter les valeurs, elle projette la partition des arbres sur le sous-espace excluant la variable dont on souhaite mesurer l’importance, simulant ainsi son absence. Elle est plus efficace en calcul que les méthodes MDA classiques tout en fournissant une mesure d’importance cohérente, convergeant vers l’indice de Sobol total (la mesure appropriée pour identifier les covariables les plus influentes, même avec des dépendances) (<span class="citation" data-cites="benard2022mda">Bénard, Da Veiga, and Scornet (<a href="#ref-benard2022mda" role="doc-biblioref">2022</a>)</span>).</p></li>
 </ul>
 
 
+
+</section>
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-benard2022shaff" class="csl-entry" role="listitem">
+Bénard, Clément, Gérard Biau, Sébastien Da Veiga, and Erwan Scornet. 2022. <span>“SHAFF: Fast and Consistent SHApley eFfect Estimates via Random Forests.”</span> In <em>International Conference on Artificial Intelligence and Statistics</em>, 5563–82. PMLR.
+</div>
+<div id="ref-benard2022mda" class="csl-entry" role="listitem">
+Bénard, Clément, Sébastien Da Veiga, and Erwan Scornet. 2022. <span>“Mean Decrease Accuracy for Random Forests: Inconsistency, and a Practical Solution via the Sobol-MDA.”</span> <em>Biometrika</em> 109 (4): 881–900. <a href="https://doi.org/10.1093/biomet/asac017">https://doi.org/10.1093/biomet/asac017</a>.
+</div>
+<div id="ref-probst2019hyperparameters" class="csl-entry" role="listitem">
+Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019. <span>“Hyperparameters and Tuning Strategies for Random Forest.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301.
+</div>
+<div id="ref-strobl2007bias" class="csl-entry" role="listitem">
+Strobl, Carolin, Anne-Laure Boulesteix, Achim Zeileis, and Torsten Hothorn. 2007. <span>“Bias in Random Forest Variable Importance Measures: Illustrations, Sources and a Solution.”</span> <em>BMC Bioinformatics</em> 8: 1–21.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -465,8 +553,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -577,7 +663,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

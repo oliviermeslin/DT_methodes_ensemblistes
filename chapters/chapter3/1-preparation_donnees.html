@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>guide_usage_rf – Introduction aux méthodes ensemblistes</title>
+<title>preparation_donnees – Introduction aux méthodes ensemblistes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,6 +29,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../chapters/chapter3/2-guide_usage_RF.html" rel="next">
 <link href="../../chapters/chapter3/0-intro.html" rel="prev">
 <link href="../../images/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
@@ -56,10 +37,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3e293e72bd4276b15eaf903c56998264.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -88,35 +69,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -129,7 +81,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/0-intro.html">Comment bien utiliser les algorithmes?</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/1-guide_usage_RF.html">Guide d’entraînement des forêts aléatoires</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/0-intro.html">Comment bien utiliser les algorithmes?</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/1-preparation_donnees.html">Préparation des données</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -232,7 +184,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/chapter3/1-guide_usage_RF.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/chapter3/1-preparation_donnees.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Préparation des données</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/chapter3/2-guide_usage_RF.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Guide d’entraînement des forêts aléatoires</span></a>
   </div>
 </li>
@@ -248,121 +206,43 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#guide-dentraînement-des-forêts-aléatoires" id="toc-guide-dentraînement-des-forêts-aléatoires" class="nav-link active" data-scroll-target="#guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</a>
+  <li><a href="#préparation-des-données" id="toc-préparation-des-données" class="nav-link active" data-scroll-target="#préparation-des-données">Préparation des données</a>
   <ul class="collapse">
-  <li><a href="#mode-de-construction-dune-forêt-aléatoire" id="toc-mode-de-construction-dune-forêt-aléatoire" class="nav-link" data-scroll-target="#mode-de-construction-dune-forêt-aléatoire">Mode de construction d’une forêt aléatoire</a></li>
-  <li><a href="#quelle-implémentation-utiliser" id="toc-quelle-implémentation-utiliser" class="nav-link" data-scroll-target="#quelle-implémentation-utiliser">Quelle implémentation utiliser?</a></li>
-  <li><a href="#quels-sont-les-hyperparamètres-des-forêts-aléatoires" id="toc-quels-sont-les-hyperparamètres-des-forêts-aléatoires" class="nav-link" data-scroll-target="#quels-sont-les-hyperparamètres-des-forêts-aléatoires">Quels sont les hyperparamètres des forêts aléatoires?</a></li>
-  <li><a href="#comment-entraîner-une-forêt-aléatoire" id="toc-comment-entraîner-une-forêt-aléatoire" class="nav-link" data-scroll-target="#comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</a></li>
+  <li><a href="#préparation-des-données-feature-engineering" id="toc-préparation-des-données-feature-engineering" class="nav-link" data-scroll-target="#préparation-des-données-feature-engineering">Préparation des données (Feature Engineering)</a></li>
+  <li><a href="#process-utiliser-les-pipelines" id="toc-process-utiliser-les-pipelines" class="nav-link" data-scroll-target="#process-utiliser-les-pipelines">Process: utiliser les pipelines</a></li>
+  <li><a href="#train-test" id="toc-train-test" class="nav-link" data-scroll-target="#train-test">Train-test</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/1-guide_usage_RF.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/1-guide_usage_RF.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/chapter3/0-intro.html">Comment bien utiliser les algorithmes?</a></li><li class="breadcrumb-item"><a href="../../chapters/chapter3/1-preparation_donnees.html">Préparation des données</a></li></ol></nav></header>
 
 
 
 
-<section id="guide-dentraînement-des-forêts-aléatoires" class="level2">
-<h2 class="anchored" data-anchor-id="guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</h2>
-<p>Cette section rassemble et synthétise des recommandations sur l’entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p>
-<section id="mode-de-construction-dune-forêt-aléatoire" class="level3">
-<h3 class="anchored" data-anchor-id="mode-de-construction-dune-forêt-aléatoire">Mode de construction d’une forêt aléatoire</h3>
-<p>Le processus pour construire une Random Forest se résume comme suit:</p>
+<section id="préparation-des-données" class="level2">
+<h2 class="anchored" data-anchor-id="préparation-des-données">Préparation des données</h2>
+<section id="préparation-des-données-feature-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="préparation-des-données-feature-engineering">Préparation des données (Feature Engineering)</h3>
 <ul>
-<li>Sélectionnez le nombre d’arbres à construire (<code>n_trees</code>).</li>
-<li>Pour chaque arbre, effectuez les étapes suivantes :
-<ul>
-<li>Générer un échantillon bootstrap à partir du jeu de données.</li>
-<li>Construire un arbre de décision à partir de cet échantillon:</li>
-<li>À chaque nœud de l’arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (<code>mtry</code>).</li>
-<li>Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.</li>
-<li>Arrêter la croissance de l’arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l’arbre.</li>
-</ul></li>
-<li>Agréger les arbres pour effectuer les prédictions finales :
-<ul>
-<li>Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.</li>
-<li>Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue.</li>
-</ul></li>
+<li><p><strong>Valeurs manquantes</strong> : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.</p></li>
+<li><p><strong>Variables catégorielles</strong> : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c’est possible.</p></li>
+<li><p><strong>Échelle des Variables</strong> : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.</p></li>
 </ul>
 </section>
-<section id="quelle-implémentation-utiliser" class="level3">
-<h3 class="anchored" data-anchor-id="quelle-implémentation-utiliser">Quelle implémentation utiliser?</h3>
-<p>Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l’usage de deux implémentations de référence: le <em>package</em> <code>R</code> <code>ranger</code> et le <em>package</em> <code>Python</code> <code>scikit-learn</code>. Il est à noter qu’il est possible d’entraîner des forêts aléatoires avec les algorithmes <code>XGBoost</code> et <code>LightGBM</code>, mais il s’agit d’un usage avancé qui n’est recommandé en première approche. Cette approche est présentée dans la partie <strong>REFERENCE A LA PARTIE USAGE AVANCE</strong>.</p>
+<section id="process-utiliser-les-pipelines" class="level3">
+<h3 class="anchored" data-anchor-id="process-utiliser-les-pipelines">Process: utiliser les pipelines</h3>
 </section>
-<section id="quels-sont-les-hyperparamètres-des-forêts-aléatoires" class="level3">
-<h3 class="anchored" data-anchor-id="quels-sont-les-hyperparamètres-des-forêts-aléatoires">Quels sont les hyperparamètres des forêts aléatoires?</h3>
-<p>Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau . Les noms des hyperparamètres utilisés sont ceux figurant dans le <em>package</em> <code>R</code> <code>ranger</code>, et dans le <em>package</em> <code>Python</code> <code>scikit-learn</code>. Il arrive qu’ils portent un nom différent dans d’autres implémentations des <em>random forests</em>, mais il est généralement facile de s’y retrouver en lisant attentivement la documentation.</p>
-<table class="caption-top table">
-<caption>Les principaux hyperparamètres des forêts aléatoires</caption>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 70%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Hyperparamètre (<code>ranger</code> / <code>scikit-learn</code>)</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>mtry</code> / <code>max_features</code></td>
-<td>Le nombre de variables candidates à chaque noeud</td>
-</tr>
-<tr class="even">
-<td><code>replacement</code> / absent</td>
-<td>L’échantillonnage des données se fait-il avec ou sans remise?</td>
-</tr>
-<tr class="odd">
-<td><code>sample.fraction</code> / <code>max_samples</code></td>
-<td>Le taux d’échantillonnage des données</td>
-</tr>
-<tr class="even">
-<td><code>min.node.size</code> / <code>min_samples_leaf</code></td>
-<td>Nombre minimal d’observations nécessaire pour qu’un noeud puisse être partagé</td>
-</tr>
-<tr class="odd">
-<td><code>num.trees</code> / <code>n_estimators</code></td>
-<td>Le nombre d’arbres</td>
-</tr>
-<tr class="even">
-<td><code>splitrule</code> / <code>criterion</code></td>
-<td>Le critère de choix de la règle de division des noeuds intermédiaires</td>
-</tr>
-<tr class="odd">
-<td><code>min.bucket</code> / <code>min_samples_split</code></td>
-<td>Nombre minimal d’observations dans les noeuds terminaux</td>
-</tr>
-<tr class="even">
-<td><code>max.depth</code> / <code>max_depth</code></td>
-<td>Profondeur maximale des arbres</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><p>Le <strong>nombre de variables candidates à chaque noeud</strong> contrôle l’échantillonnage des variables lors de l’entraînement. La valeur par défaut est fréquemment <span class="math inline">\(\sqrt p\)</span> pour la classification et <span class="math inline">\(p/3\)</span> pour la régression. C’est l’hyperparamètre qui a le plus fort effet sur la performance de la forêt aléatoire. Une valeur plus basse aboutit à des arbres plus différents, donc moins corrélés (car ils reposent sur des variables différentes), mais ces arbres peuvent être moins performants car ils reposent parfois sur des variables peu pertinentes. Inversement, une valeur plus élevée du nombre de variables candidates aboutit à des arbres plus performants, mais plus corrélés. C’est en particulier le cas si seulement certaines variables sont très prédictives, car ce sont ces variables qui apparaitront dans la plupart des arbres.</p></li>
-<li><p>Le <strong>taux d’échantillonnage</strong> et le <strong>mode de tirage</strong> contrôlent le plan d’échantillonnage des données d’entraînement. Les valeurs par défaut varient d’une implémentation à l’autre; dans le cas de <code>ranger</code>, le taux d’échantillonnage est de 63,2% sans remise, et de 100% avec remise. L’implémentation <code>scikit-learn</code> ne propose pas le tirage sans remise. Ces hyperparamètres ont des effets sur la performance similaires à ceux du nombre de variables candidates, mais dans une moindre ampleur. Un taux d’échantillonnage plus faible aboutit à des arbres plus différents et donc moins corrélés (car ils sont entraînés sur des échantillons très différents), mais ces arbres peuvent être peu performants car ils sont entraînés sur des échantillons de petite taille. Inversement, un taux d’échantillonnage élevé aboutit à des arbres plus performants mais plus corrélés. Les effets de l’échantillonnage avec ou sans remise sur la performance de la forêt aléatoire sont moins clairs et ne font pas consensus. Les travaux les plus récents suggèrent toutefois qu’il est préférable d’échantillonner sans remise (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p></li>
-<li><p>Le <strong>nombre minimal d’observations dans les noeuds terminaux</strong> contrôle la taille des noeuds terminaux. La valeur par défaut est faible dans la plupart des implémentations (entre 1 et 5). Il n’y a pas vraiment de consensus sur l’effet de cet hyperparamètre sur les performances. En revanche, il est certain que le temps d’entraînement décroît fortement avec cet hyperparamètre: une valeur faible implique des arbres très profonds, avec un grand nombre de noeuds. Il peut donc être utile de fixer ce nombre à une valeur plus élevée pour accélérer l’entraînement, en particulier si les données sont volumineuses.</p></li>
-<li><p>Le <strong>nombre d’arbres</strong> par défaut varie selon les implémentations (500 dans <code>ranger</code>, 100 dans <code>scikit-learn</code>). Il s’agit d’un hyperparamètre particulier car il n’est associé à aucun arbitrage en matière de performance: la performance de la forêt aléatoire croît avec le nombre d’arbres, puis se stabilise à un niveau approximativement constant. Le nombre optimal d’arbres est donc intuitivement celui à partir duquel la performance de la forêt ne croît plus (ce point est détaillé plus bas). Il est important de noter que ce nombre optimal dépend des autres hyperparamètres. Par exemple, un taux d’échantillonnage faible et un nombre faible de variables candidates à chaque noeud aboutissent à des arbres peu corrélés, mais peu performants, ce qui requiert probablement un plus grand nombre d’arbres.</p></li>
-<li><p>Le <strong>critère de choix de la règle de division des noeuds intermédiaires</strong>: la plupart des implémentations des forêts aléatoires retiennent par défaut l’impureté de Gini pour la classification et la variance pour la régression, même si d’autres critères de choix ont été proposés dans la littérature. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Le lecteur intéressé pourra se référer à la discussion détaillée dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p></li>
-</ul>
-</section>
-<section id="comment-entraîner-une-forêt-aléatoire" class="level3">
-<h3 class="anchored" data-anchor-id="comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</h3>
-<p>Comme indiqué dans la partie <strong>REFERENCE A AJOUTER</strong>, la performance prédictive d’une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif moyen des arbres, et décroît avec la corrélation entre les arbres. La recherche d’arbres très prédictifs pouvant aboutir à augmenter la corrélation entre eux, l’objectif de l’entraînement d’une forêt aléatoire revient à trouver le meilleur arbitrage possible entre pouvoir prédictif et corrélation.</p>
-
+<section id="train-test" class="level3">
+<h3 class="anchored" data-anchor-id="train-test">Train-test</h3>
+<p>Pas indispensable pour RF, mais faisable. Indispensable pour GB.</p>
 
 
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-probst2019hyperparameters" class="csl-entry" role="listitem">
-Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019. <span>“Hyperparameters and Tuning Strategies for Random Forest.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -445,8 +325,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -557,7 +435,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -790,6 +667,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../chapters/chapter3/2-guide_usage_RF.html" class="pagination-link" aria-label="Guide d'entraînement des forêts aléatoires">
+        <span class="nav-page-text">Guide d’entraînement des forêts aléatoires</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -800,7 +680,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/1-guide_usage_RF.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/1-guide_usage_RF.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
