@@ -143,7 +143,7 @@ Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à 
 
 ### Choix des hyper-paramètres du modèle
 
-L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important.
+L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters).
 
 Il convient néanmoins de mettre en place une stratégie d'optimisation des hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans ce qui suit.
 
@@ -160,7 +160,7 @@ Il convient de noter que les implémentations "clés en main" en R ou Python ne 
 
 #### Optimisation séquentielle/itérative basée sur un modèle (SMBO)
 
-La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s'appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester. 
+La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s'appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester (@probst2019hyperparameters). 
 
 Voici les étapes clés de cette méthode:
 
@@ -176,7 +176,7 @@ Voici les étapes clés de cette méthode:
 
 ## Interprétation et importance des variables
 
-Les forêts aléatoires sont des modèles d'apprentissage performants, mais leur complexité interne les rend  difficiles à interpréter, ce qui leur vaut souvent le qualificatif de "boîtes noires". Comprendre l'influence des variables explicatives sur les prédictions est crucial pour une interprétation fiable et l'extraction de connaissances. 
+Les forêts aléatoires sont des modèles d'apprentissage performants, mais leur complexité interne les rend  difficiles à interpréter, ce qui leur vaut souvent le qualificatif de "boîtes noires". Comprendre l'influence des variables explicatives sur les prédictions est crucial pour interpréter les résulats et être en mesure d'extraire des connaissances. 
 
 L'objectif des **méthodes d'interprétabilité** (ou d'importance des variables) est d'identifier les variables les plus influentes sur la variable cible, de comprendre les mécanismes prédictifs sous-jacents, et potentiellement d'extraire des règles de décision simples et transparentes. Plusieurs méthodes d'importance des variables existent, mais il est important de comprendre leurs forces et faiblesses.
 
