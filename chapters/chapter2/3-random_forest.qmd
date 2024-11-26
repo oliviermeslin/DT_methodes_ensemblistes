@@ -32,7 +32,7 @@ L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et s
 
 - Le nombre d'arbres à construire est défini _a priori_.
 - Pour chaque arbre, on effectue les étapes suivantes:
-    - Générer un échantillon _bootstrap_ de taille fixe à partir du jeu de données.
+    - Générer un échantillon _bootstrap_ de taille fixe à partir des données d'entraînement.
     - Construire récursivement un arbre de décision à partir de cet échantillon:
         - À chaque nœud de l'arbre, un sous-ensemble de _features_ est sélectionné aléatoirement.
         - Déterminer quel couple (variable, valeur) définit la règle de décision qui divise la population du nœud en deux sous-groupes les plus homogènes possibles
@@ -40,8 +40,9 @@ L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et s
         - Arrêter la croissance de l'arbre selon des critères d'arrêt fixés _a priori_.
 
 Pour construire la prédiction de la forêt aléatoire, on agrège les arbres selon une méthode qui dépend du problème modélisé:
-    - Régression: la prédiction finale est la moyenne des prédictions de tous les arbres.
-    - Classification: chaque arbre vote pour une classe, et la classe majoritaire est retenue.
+
+- Régression: la prédiction finale est la moyenne des prédictions de tous les arbres.
+- Classification: chaque arbre vote pour une classe, et la classe majoritaire est retenue.
 
 Les principaux hyper-paramètres des forêts aléatoires (détaillés dans la section @sec-guide-rf) sont les suivants: le nombre d'arbres, la méthode et le taux d'échantillonnage, le nombre (ou la proportion) de variables considérées à chaque nœud, le critère de division des nœuds (ou mesure d'hétérogénéité), et les critères d'arrêt (notamment la profondeur de l'arbre, le nombre minimal d'observations dans une feuille terminale, et le nombre minimal d'observations qu'un nœud doit comprendre pour être divisé en deux).
 
