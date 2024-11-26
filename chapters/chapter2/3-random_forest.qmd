@@ -64,22 +64,18 @@ L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la c
 
 ## Les hyper-paramètres clés des forêts aléatoires
 
-- **Nombre d'arbres** : plus le nombre d'arbes est élevé, plus la variance est réduite, jusqu'à un certain point de saturation. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.
+- **Nombre d'arbres**: les performances croissent avec le nombre d'arbres, jusqu'à un certain seuil à partir duquel elles se stabilisent. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.
 
-- **Méthode d'échantillonnage** : les échantillons bootstrap peuvent être construits par tirage aléatoire **avec** ou **sans** remise.
+- **Méthode d'échantillonnage**: les échantillons _bootstrap_ peuvent être construits par tirage aléatoire **avec** ou **sans** remise.
 
-- **Nombre de variables considérées à chaque noeud**: cet hyperparamètre détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres.
+- **Taux d'échantillonnage**: cet hyperparamètre contrôle la taille des échantillons _bootstrap_ utilisés pour entraîner les arbres.
 
-Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l'agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cela peut entraîner une diminution de la qualité prédictive des arbres individuels, car ils sont parfois contraints de se diviser sur des variables moins pertinentes.
-
-À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
+- **Nombre de variables considérées à chaque noeud**: cet hyperparamètre détermine le nombre (ou la proportion) de _features_ sélectionnées aléatoirement à chaque nœud lors de la construction des arbres. Un nombre plus faible conduit à des arbres plus diversifiés et donc moins corrélés entre eux, mais peut entraîner une diminution de la qualité prédictive des arbres individuels, car ils sont parfois contraints de se diviser sur des variables moins pertinentes. Inversement, un nombre plus élevé améliore la performance des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
 
 
 - **Nombre minimal d'observations dans une feuille** : Un nombre d'observation minimal peut réduire le surapprentissage et surtout le temps de calcul.
 
 - **Critère de division des noeuds** (_splitting rule_) : 
-
-- **Nombre d'observations tirées pour construire un arbre** : 
 
 - **Profondeur maximale des arbres** : en général, il est conseillé de laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation. Limiter la profondeur des arbres peut toutefois réduire le risque de surapprentissage et diminuer le temps de calcul.
 
