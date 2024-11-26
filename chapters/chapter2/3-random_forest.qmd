@@ -124,9 +124,9 @@ L'agrégation de plusieurs arbres permet de réduire la variance globale du mod�
 
 ### Convergence et limite théorique au surapprentissage
 
-Les forêts aléatoires sont très performantes en pratique, mais il n'est pas prouvé à ce stade qu'elles convergent vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini (@louppe2014understanding). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, @biau2012analysis). 
+Bien qu'elle s'avèrent très performantes en pratique, __il n'est pas prouvé à ce stade que les forêts aléatoires convergent vers une solution optimale__ lorsque la taille de l'échantillon tend vers l'infini (@louppe2014understanding). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, @biau2012analysis). 
 
-Par ailleurs, il est possible de démontrer que l'erreur de généralisation, c'est-à-dire l'écart entre les prédictions du modèle et les résultats attendus sur des données jamais vues (donc hors de l'échantillon d'entraînement), diminue à mesure que le nombre d'arbres augmente. Autrement dit, la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres. La conséquence pratique de ce résultat est qu'inclure un (trop) grand nombre d'arbres dans le modèle n'en dégrade pas la qualité, ce qui contribue à la rendre particulièrement robuste.
+Par ailleurs, une propriété importante des forêts aléatoires démontrée par @breiman2001random est que leur erreur de généralisation, c'est-à-dire l'écart entre les prédictions du modèle et les résultats attendus sur des données jamais vues (donc hors de l'échantillon d'entraînement), diminue à mesure que le nombre d'arbres augmente et converge vers une valeur constante. Autrement dit, __la forêt aléatoire ne souffre pas d'un surapprentissage croissant avec le nombre d'arbres__. La conséquence pratique de ce résultat est qu'inclure un (trop) grand nombre d'arbres dans le modèle n'en dégrade pas la qualité, ce qui contribue à la rendre particulièrement robuste. En revanche, une forêt aléatoire peut souffrir de surapprentissage si ses autres hyperparamètres sont mal choisis (des arbres trop profonds par exemple).
 
 ### Facteurs influençant l'erreur de généralisation
 
@@ -222,7 +222,7 @@ Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à 
 
 ### Choix des hyper-paramètres du modèle
 
-L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters).
+L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters). 
 
 Il convient de définir une stratégie d'optimisation des hyperparamètres pour ne pas perdre de temps à tester trop de jeux d'hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans la section @sec-guide-rf. Les implémentations des forêts aléatoires disponibles en `R` et en Python permettent d'optimiser aisément les principaux hyper-paramètres des forêts aléatoires.
 
