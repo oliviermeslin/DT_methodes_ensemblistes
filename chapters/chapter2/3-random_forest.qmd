@@ -6,11 +6,11 @@ La méthode s’appuie sur la technique du _bagging_, qui consiste à entraîner
 
 Objectifs: 
 
-- comprendre les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles
+- comprendre le principe et les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles
 
-- comprendre les étapes permettant de construire une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation
+- Apprendre les étapes de construction d'une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation
 
-- permettre l'optimisation des performances du modèle: fournir une présentation formelle pour guider le choix des hyperparamètres, la préparation des données, etc.
+- Optimiser les performances du modèle: savoir préparer les données adéquatement, ajuster les hyperparamètres et comprendre les implications théoriques de ces choix.
 
 
 ## Principe de la forêt aléatoire 
@@ -30,52 +30,67 @@ Les forêts aléatoires reposent sur plusieurs éléments essentiels :
 
 Les propriétés théoriques des forêts aléatoires permettent de comprendre pourquoi (et dans quelles situations) elles sont particulièrement robustes et performantes.
 
-
 ### Réduction de la variance par agrégation
 
-L'agrégation de plusieurs arbres dans une forêt aléatoire permet de réduire la variance globale du modèle, ce qui améliore la stabilité et la précision des prédictions lorsque les biais initiaux sont "faibles". La démonstration est présentée dans la section _bagging_.
+L'agrégation de plusieurs arbres permet de réduire la variance globale du modèle, ce qui améliore la stabilité des prédictions. Lorsque les estimateurs sont (faiblement) biaisés mais caractérisés par une variance élevée, l'agrégation permet d'obtenir un estimateur avec un biais similaire mais une variance réduite. La démonstration est présentée dans la section _bagging_.
+
+### Convergence et limite théorique au surapprentissage
+
+Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
+
+Même si la convergence vers le modèle optimal n'est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l'erreur de généralisation de l'ensemble diminue lorsque le **nombre d'arbres** augmente. Cela implique que la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres inclus dans le modèle (l'erreur de généralisation tend à se stabiliser), ce qui la rend particulièrement robuste.
 
 
-### Convergence et absence de surapprentissage
-
-Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de consistance pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
-
-Même si la convergence vers le modèle optimal n'est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l'erreur de généralisation de l'ensemble diminue lorsque le **nombre d'arbres** augmente. Cela implique que la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres inclus dans le modèle, ce qui la rend particulièrement robuste.
-
-
-### Facteurs déterminants la diminution de l'erreur de généralisation
+### Facteurs influençant l'erreur de généralisation
 
 L'erreur de généralisation des forêts aléatoires est influencée par deux facteurs principaux :
 
-- **La force (_puissance prédictrice_) des arbres individuels** : La force d'un arbre dépend de sa capacité à faire des prédictions correctes (sans biais). Pour que l'ensemble soit performant, chaque arbre doit être suffisamment prédictif.
+- **La puissance prédictrice des arbres individuels** : Les arbres doivent être suffisamment prédictifs pour contribuer positivement à l'ensemble, et idéalement sans biais. 
 
-- **La corrélation entre les arbres** : Une  corrélation faible entre les arbres  améliore les performances globales. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La randomisation des caractéristiques à chaque nœud contribue à réduire cette corrélation, ce qui améliore la précision globale.
+- **La corrélation entre les arbres** : Moins les arbres sont corrélés, plus la variance de l'ensemble est réduite. En effet, des arbres fortement corrélés auront tendance à faire des erreurs similaires. La sélection aléatoires des caractéristiques (_variables_) à chaque nœud contribue à réduire cette corrélation, ce qui améliore la performance globale.
 
-Dans le cas de la régression, où l'objectif est de minimiser l'erreur quadratique moyenne, la décomposition de la variance de l'ensemble (la forêt aléatoire) permet de faire apparaître le rôle de la corrélation entre les arbres:
+La variance de la prédiction d'une forêt aléatoire en régression (où l'objectif est de minimiser l'erreur quadratique moyenne) peut être exprimée par :
 
 
 $$
 \text{Var}(\hat{f}(x)) = \rho(x) \sigma(x)^2 + \frac{1 - \rho(x)}{M} \sigma(x)^2
 $$
 
-Où $\rho(x)$ est le coefficient de corrélation entre les arbres individuels, $\sigma(x)^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt.
+Où $\rho(x)$ est le coefficient de corrélation moyen entre les arbres individuels, $\sigma(x)^2$ est la variance d'un arbre individuel, $M$ est le nombre d'arbres dans la forêt.
 
-Conséquences:
+Cette décomposition fait apparaître l'influence de la corrélation entre les arbres sur les performance de la forêt aléatoire:
 
-- **Si $\rho(x)$ est faible** : La variance est significativement réduite avec l'augmentation du nombre d'arbres $M$.
-- **Si $\rho(x)$ est élevée** : La réduction de variance est moindre, car les arbres sont plus corrélés entre eux.
+- **Si $\rho(x)$ est élevée** (forte corrélation entre les arbres) : la première composante $\rho \sigma^2$ domine et la réduction de variance est moindre lorque le nombre d'arbres augmente.
+- **Si $\rho(x)$ est faible** (faible corrélation entre les arbres) : la seconde composante $\frac{1 - \rho}{M} \sigma^2$ et la variance est davantage réduite avec l'augmentation du nombre d'arbres $M$.
 
 L'objectif des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais.
 
 
-## Les hyper-paramètres clés
 
-- **Nombre d'arbres** : plus le nombre d'arbes est élevé, plus la variance est réduite, jusqu'à un certain point de saturation. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. 
-- **Nombre de variables à sélectionner à chaque noeud**: cet hyperparamètre permet de contrôler l'interdépendance entre les arbres. Avec $K$ le nombre total de variables, une règle empirique usuelle est de considérer $\sqrt{K}$ pour une classification et $K/3$ pour une régression.
-- **Profondeur des arbres** : laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation.
+## Les hyper-paramètres clés des forêts aléatoires
+
+- **Nombre d'arbres** : plus le nombre d'arbes est élevé, plus la variance est réduite, jusqu'à un certain point de saturation. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.
+
+- **Méthode d'échantillonnage** : les échantillons bootstrap peuvent être construits par tirage aléatoire **avec** ou **sans** remise.
+
+- **Nombre de variables considérées à chaque noeud**: cet hyperparamètre détermine le nombre de variables prédictives sélectionnées aléatoirement à chaque nœud lors de la construction des arbres.
+
+Un nombre plus faible de variables candidates conduit à des arbres plus diversifiés et donc moins corrélés entre eux. Cette réduction de la corrélation entre les arbres est bénéfique pour l'agrégation finale, car elle permet de réduire la variance globale du modèle, améliorant ainsi sa capacité de généralisation. Cependant, cela peut entraîner une diminution de la qualité prédictive des arbres individuels, car ils sont parfois contraints de se diviser sur des variables moins pertinentes.
+
+À l'inverse, un nombre plus élevé de variables candidates améliore la précision des arbres individuels en leur permettant d'utiliser des variables plus informatives, mais accroît leur corrélation (les mêmes variables ayant tendance à être sélectionnées dans tous les arbres), limitant ainsi les bénéfices de l'agrégation en termes de réduction de variance. Ce phénomène est amplifié si seules quelques variables sont fortement prédictives, car elles dominent les divisions dans la majorité des arbres.
 
 
-## Evaluation des performances du modèle et choix des hyper-paramètres
+- **Nombre minimal d'observations dans une feuille** : Un nombre d'observation minimal peut réduire le surapprentissage et surtout le temps de calcul.
+
+- **Critère de division des noeuds** (_splitting rule_) : 
+
+- **Nombre d'observations tirées pour construire un arbre** : 
+
+- **Profondeur maximale des arbres** : en général, il est conseillé de laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation. Limiter la profondeur des arbres peut toutefois réduire le risque de surapprentissage et diminuer le temps de calcul.
+
+
+
+## Evaluation des performances du modèle et optimisation des hyper-paramètres
 
 ### Estimation de l'erreur Out-of-Bag (OOB) {#sec-rf-oob}
 
@@ -91,15 +106,16 @@ L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace po
 **Avantages de l'Estimation OOB**:
 
 - **Pas besoin de jeu de validation séparé** : L'un des principaux avantages de l'estimation OOB est qu'elle ne nécessite pas de réserver une partie des données pour la validation. Cela est particulièrement utile lorsque la taille du jeu de données est limitée, car toutes les données peuvent être utilisées pour l'entraînement tout en ayant une estimation fiable de la performance.
-- **Estimation directe et éfficace** : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l'estimation OOB est disponible "gratuitement" pendant la construction des arbres. Cela permet d'évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle.
+- **Estimation directe et efficace** : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l'estimation OOB est disponible "gratuitement" pendant la construction des arbres. Cela permet d'évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle et d'optimiser plus rapidement les hyperparamètres.
 - **Approximation de l'erreur de généralisation** : L'erreur OOB est considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold. 
 
 
 ### Estimation de l'erreur par cross-validation
 
-La validation croisée est une technique d'évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d'un modèle à généraliser à de nouvelles données. Bien que l'estimation Out-of-Bag (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d'obtenir une évaluation plus robuste, notamment sur des jeux de données de petite taille.
+La validation croisée est une technique d'évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d'un modèle à généraliser les prédictions à de nouvelles données. Bien que l'estimation Out-of-Bag (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d'obtenir une évaluation plus robuste, car moins sensible à l'échantillon d'entraînement, notamment sur des jeux de données de petite taille.
 
-L'idée derrière la validation croisée est de maximiser l'utilisation des données disponibles en réutilisant chaque observation à la fois pour l'entraînement et pour le test. Cela permet d'obtenir une estimation de la performance du modèle qui est moins sensible aux fluctuations dues à la division des données en ensembles d'entraînement et de test. La validation croisée répète cette division plusieurs fois, puis moyenne les résultats pour obtenir une estimation plus fiable.
+Concrètement, le jeu de donné est divisé en $k$ sous-ensembles, un modèle est entraîné sur k-1 sous-ensembles et testé sur le sous-ensemble restant. L'opération est répétée k-fois de manière à ce que chaque observation apparaisse au moins une fois dans l'échantillon test. L'erreur est ensuite moyennée sur l'ensemble des échantillons test.
+
 
 **Procédure de validation croisée**:
 
@@ -127,29 +143,73 @@ Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à 
 
 ### Choix des hyper-paramètres du modèle
 
-L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important.
+L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters).
+
+Il convient néanmoins de mettre en place une stratégie d'optimisation des hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans ce qui suit.
+
+Il convient de noter que les implémentations "clés en main" en R ou Python ne permettent en général d'optimiser que les hyper-paramètres qui influent le plus sur la performance du modèle. Il s'agit généralement de mtry (nombre de variables sélectionnées aléatoirement à chaque nœud), la taille minimale des nœuds (nodesize ou min_node_size), et la taille de l'échantillon utilisé pour construire chaque arbre (sample size).
+
+
+
+#### Méthodes de recherche exhaustives
+
+- **Recherche sur grille** (Grid Search): Cette approche simple explore toutes les combinaisons possibles d'hyperparamètres définis sur une grille. Les paramètres continus doivent être discrétisés au préalable. La méthode est exhaustive mais coûteuse en calcul, surtout pour un grand nombre d'hyperparamètres.
+
+- **Recherche aléatoire** (Random Search): Plus efficace que la recherche sur grille, cette méthode échantillonne aléatoirement les valeurs des hyperparamètres dans un espace défini. Bergstra et Bengio (2012) ont démontré sa supériorité pour les réseaux neuronaux, et elle est également pertinente pour les forêts aléatoires. La distribution d'échantillonnage est souvent uniforme.
+
+
+#### Optimisation séquentielle/itérative basée sur un modèle (SMBO)
+
+La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s'appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester (@probst2019hyperparameters). 
+
+Voici les étapes clés de cette méthode:
+
+- Définition du problème: On spécifie une mesure d'évaluation (ex: AUC pour la classification, MSE pour la régression), une stratégie d'évaluation (ex: validation croisée k-fold), et l'espace des hyperparamètres à explorer.
+
+- Initialisation: échantillonner aléatoirement des points dans l’espace des hyperparamètres et évaluer leurs performances.
+
+- Boucle itérative :
+  - Construction d'un modèle de substitution (surrogate model): un modèle de régression (ex: krigeage ou une forêt aléatoire) est ajusté aux données déjà observées. Ce modèle prédit la performance en fonction des hyperparamètres.
+  - Sélection d'un nouvel hyperparamètre: un critère basé sur le modèle de substitution sélectionne le prochain ensemble d'hyperparamètres à évaluer. Ce critère vise à explorer des régions prometteuses de l'espace des hyperparamètres qui n'ont pas encore été suffisamment explorées.
+  - Évaluer les points proposés et les ajouter à l’ensemble déjà exploré: la performance du nouvel ensemble d'hyperparamètres est évaluée et ajoutée à l'ensemble des données d'apprentissage du modèle de substitution afin d'orienter les recherches vers de nouveaux hyper-paramètres prometteurs.
 
 
 ## Interprétation et importance des variables
-Objectif: Identifier les variables qui contribuent le plus à la prédiction/influencent le plus la variable cible, extraire des caractéristiques pertinentes pour comprendre les mécanismes de prédiction sous-jacent, établir des règles de décision simplifiées etc.
 
-Méthodes ususelles (mais biaisées): 
+Les forêts aléatoires sont des modèles d'apprentissage performants, mais leur complexité interne les rend  difficiles à interpréter, ce qui leur vaut souvent le qualificatif de "boîtes noires". Comprendre l'influence des variables explicatives sur les prédictions est crucial pour interpréter les résulats et être en mesure d'extraire des connaissances. 
 
-- **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_) : pour chaque variable, on calcule la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants.
-
-- **Permutation importance** (_Mean Decrease Accuracy_) : Pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation.
+L'objectif des **méthodes d'interprétabilité** (ou d'importance des variables) est d'identifier les variables les plus influentes sur la variable cible, de comprendre les mécanismes prédictifs sous-jacents, et potentiellement d'extraire des règles de décision simples et transparentes. Plusieurs méthodes d'importance des variables existent, mais il est important de comprendre leurs forces et faiblesses.
 
 
-Il est essentiel de noter que ces deux mesures peuvent présenter des **biais** importants. Elles sont notamment sensibles aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes. Elles sont également fortement biaisée en présence de variables explicatives corrélées ou d'interactions complexes avec la cible.
+### Mesures d'importance classiques (et leurs biais)
+
+- **Réduction moyenne de l'impureté** (_Mean Decrease in Impurity_ - _MDI_) : Cette méthode quantifie l'importance d'une variable par la somme des réductions d'impureté qu'elle induit dans tous les arbres de la forêt. Plus spécifiquement, pour chaque variable, on s'intéresse à la moyenne des réductions d'impureté qu'elle a engendrées dans tous les nœuds de tous les arbres où elle est impliquée. Les variables présentant la réduction moyenne d'impureté la plus élevée sont considérées comme les prédicteurs les plus importants. 
+
+La MDI présente des biais importants. Elle est notamment sensible aux variables catégorielles avec de nombreuses modalités, qui peuvent apparaître artificiellement importantes (même si leur influence réelle est faible), ainsi qu'aux variables avec une échelle de valeurs plus étendues, qui obtiennent des scores plus élevés, indépendamment de leur importance réelle. Elle est également fortement biaisée en présence de variables explicatives corrélées, ce qui conduit à surestimer l'importance de variables redondantes. Les interactions entre variables ne sont pas non plus prises en compte de manière adéquate.
+
+
+- **Importance par permutation** (_Mean Decrease Accuracy_ - _MDA_) : Cette méthode évalue l'importance d'une variable en mesurant la diminution de précision du modèle après permutation aléatoire de ses valeurs. Plus spécifiquement, pour chaque variable, les performances du modèle sont comparées avant et après la permutation de ses valeurs. La différence moyenne de performance correspond à la MDA. L'idée est que si l'on permute aléatoirement les valeurs d'une variable (cassant ainsi sa relation avec la cible), une variable importante entraînera une hausse significative de l'erreur de généralisation. 
+
+Comme la MDI, la MDA présente des biais lorsque les variables sont corrélées. En particulier, la MDA peut surévaluer l'importance de variables qui sont corrélées à d'autres variables importantes, même si elles n'ont pas d'influence directe sur la cible (@benard2022mda).
 
 
 
-## Préparation des données (Feature Engineering)
-- **Variables catégorielles** : Encoder correctement (one-hot encoding, ordinal encoding).
-- **Valeurs manquantes** : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.
+Plusieurs stratégies peuvent aider à réduire les biais d'interprétation :
 
-- **Échelle des Variables** : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.
+- Prétraitement des variables: Standardisation des variables, regroupement des modalités rares des variables catégorielles, réduction de la cardinalité des variables catégorielles.
+- Analyse des corrélations: Identification et gestion des variables fortement corrélées, qui peuvent fausser les mesures d'importance.
+- Choix de méthodes robustes: Privilégier les méthodes moins sensibles aux biais, comme les CIF ou la Sobol-MDA, et, le cas échéant, SHAFF pour les valeurs de Shapley. Ces méthodes sont présentées dans la sectio suivante.
 
+
+### Méthodes d'importance avancées
+
+Pour pallier les limites des méthodes traditionnelles, des approches plus sophistiquées ont été développées. 
+
+- **Valeurs de Shapley**: Les valeurs de Shapley permettent de quantifier la contribution de chaque variable explicative à la variance expliquée de la variable cible, en tenant compte des interactions entre les variables. Elles attribuent à chaque variable une contribution marginale moyenne à la performance du modèle, en considérant toutes les combinaisons possibles de sous-ensembles de variables. Cependant, l'estimation des valeurs de Shapley est computationnellement coûteuse (complexité exponentielle avec le nombre de variables). Des méthodes approximatives existent, mais peuvent introduire des biais. L'algorithme SHAFF (@benard2022shaff) propose une solution rapide et précise à ce problème, en tirant parti des propriétés des forêts aléatoires.
+
+- **Conditional Inference Forests** (CIF): Les CIF (@strobl2007bias), implémentées dans le package party de R (cforest), corrigent certains biais de la MDI en utilisant des tests statistiques conditionnels pour sélectionner les variables et les seuils de coupure dans les arbres. Elles sont particulièrement robustes face aux variables hétérogènes et aux corrélations entre variables. Couplées à un échantillonnage sans remise, les CIF fournissent des mesures d'importance plus fiables.
+
+- **Sobol-MDA**: La Sobol-MDA combine l'idée de la MDA avec une approche basée sur les indices de Sobol, permettant de gérer efficacement les variables dépendantes. Au lieu de permuter les valeurs, elle projette la partition des arbres sur le sous-espace excluant la variable dont on souhaite mesurer l'importance, simulant ainsi son absence. Elle est plus efficace en calcul que les méthodes MDA classiques tout en fournissant une mesure d'importance cohérente, convergeant vers l'indice de Sobol total (la mesure appropriée pour identifier les covariables les plus influentes, même avec des dépendances) (@benard2022mda).
 
 
 

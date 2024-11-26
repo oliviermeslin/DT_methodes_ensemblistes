@@ -57,4 +57,6 @@ functions:
 {{< include ../chapters/chapter2/4-boosting.qmd >}}
 
 {{< include ../chapters/chapter3/0-intro.qmd >}}
-{{< include ../chapters/chapter3/1-guide_usage_RF.qmd >}}
+{{< include ../chapters/chapter3/1-preparation_donnees.qmd >}}
+{{< include ../chapters/chapter3/2-guide_usage_RF.qmd >}}
+
