@@ -6,7 +6,7 @@ La méthode s’appuie sur la technique du _bagging_, qui consiste à entraîner
 
 Objectifs: 
 
-- comprendre le principe et les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles
+- comprendre le principe et les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles; 
 
 - Apprendre les étapes de construction d'une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation
 
