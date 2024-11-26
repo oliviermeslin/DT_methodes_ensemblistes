@@ -36,10 +36,9 @@ L'agrégation de plusieurs arbres permet de réduire la variance globale du mod�
 
 ### Convergence et limite théorique au surapprentissage
 
-Les forêts aléatoires sont très performantes en pratique, mais la question de leur convergence vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini reste ouverte (Loupes 2014). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, Biau 2012).
+Les forêts aléatoires sont très performantes en pratique, mais il n'est pas prouvé à ce stade qu'elles convergent vers une solution optimale lorsque la taille de l'échantillon tend vers l'infini (@louppe2014understanding). Plusieurs travaux théoriques ont toutefois fourni des preuves de convergence pour des versions simplifiées de l'algorithme (par exemple, @biau2012analysis). 
 
-Même si la convergence vers le modèle optimal n'est pas encore formellement établie, il est possible de montrer, grâce à la Loi des Grands Nombres, que l'erreur de généralisation de l'ensemble diminue lorsque le **nombre d'arbres** augmente. Cela implique que la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres inclus dans le modèle (l'erreur de généralisation tend à se stabiliser), ce qui la rend particulièrement robuste.
-
+Par ailleurs, il est possible de démontrer que l'erreur de généralisation, c'est-à-dire l'écart entre les prédictions du modèle et les résultats attendus sur des données jamais vues (donc hors de l'échantillon d'entraînement), diminue à mesure que le nombre d'arbres augmente. Autrement dit, la forêt aléatoire ne souffre pas d'un surapprentissage (également appelé _overfitting_) croissant avec le nombre d'arbres. La conséquence pratique de ce résultat est qu'inclure un (trop) grand nombre d'arbres dans le modèle n'en dégrade pas la qualité, ce qui contribue à la rendre particulièrement robuste.
 
 ### Facteurs influençant l'erreur de généralisation
 
