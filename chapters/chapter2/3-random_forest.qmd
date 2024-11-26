@@ -61,7 +61,7 @@ où $\rho(x)$ est le coefficient de corrélation moyen entre les arbres individu
 
 L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la corrélation entre les arbres tout en maximisant leur capacité à prédire correctement, ce qui permet de réduire la variance globale sans augmenter excessivement le biais. La sélection aléatoires des caractéristiques (_features_) à chaque nœud joue un rôle majeur dans cet arbitrage entre puissance prédictive des arbres et corrélation entre arbres.
 
-## Les hyper-paramètres clés des forêts aléatoires
+<!-- ## Les hyper-paramètres clés des forêts aléatoires
 
 - **Nombre d'arbres**: les performances croissent avec le nombre d'arbres, jusqu'à un certain seuil à partir duquel elles se stabilisent. Souvent, quelques centaines d'arbres suffisent à stabiliser les performances des modèles. Au-delà, les gains de performance sont marginaux par rapport au temps de calcul nécessaire.
 
@@ -77,7 +77,7 @@ L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la c
 - **Critère de division des noeuds** (_splitting rule_) : 
 
 - **Profondeur maximale des arbres** : en général, il est conseillé de laisser les arbres se développer pleinement (sans élagage) pour profiter de la réduction de variance par agrégation. Limiter la profondeur des arbres peut toutefois réduire le risque de surapprentissage et diminuer le temps de calcul.
-
+ -->
 
 
 ## Evaluation des performances du modèle et optimisation des hyper-paramètres
