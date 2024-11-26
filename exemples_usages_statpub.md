@@ -26,7 +26,16 @@ Le choix du meilleur modèle pour chaque étape se base sur les performances glo
 ### Enquêtes auprès des ménages:
 
 
+_Le redressement de la non-réponse totale dans l'Enquête Histoire de Vie et Patrimoine_
 
+[Enquête  Histoire de Vie et Patrimoine: Calcul des pondérations](https://www.insee.fr/fr/statistiques/fichier/1381170/f1503.pdf)
+
+L'objectif est de corriger les biais de représentativité liés à la non-réponse totale de certaines personnes enquêtées. 
+Cette correction s’appuie sur une méthode basée sur les scores de réponse.
+La probabilité qu’un ménage réponde à l’enquête est estimée à l’aide d’un modèle logit. 
+Les ménages sont ensuite regroupés en ensembles de réponses homogènes (GRH), caractérisés par des probabilités de réponse sont similaires. 
+Pour chaque groupe, on calcule le taux de réponse observé.
+Les poids des répondants sont ajustés en les multipliant par l’inverse de ce taux de réponse.
 
 
 
