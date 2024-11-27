@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.37">
+<meta name="generator" content="quarto-1.6.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -37,7 +57,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b663525e4b92bb903b2199e2d401bf36.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-3e293e72bd4276b15eaf903c56998264.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -69,6 +89,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -212,6 +261,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#process-utiliser-les-pipelines" id="toc-process-utiliser-les-pipelines" class="nav-link" data-scroll-target="#process-utiliser-les-pipelines">Process: utiliser les pipelines</a></li>
   <li><a href="#train-test" id="toc-train-test" class="nav-link" data-scroll-target="#train-test">Train-test</a></li>
   </ul></li>
+  <li><a href="#evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" id="toc-evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" class="nav-link" data-scroll-target="#evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres">Evaluation des performances du modèle et optimisation des hyper-paramètres</a>
+  <ul class="collapse">
+  <li><a href="#estimation-de-lerreur-par-validation-croisée" id="toc-estimation-de-lerreur-par-validation-croisée" class="nav-link" data-scroll-target="#estimation-de-lerreur-par-validation-croisée">Estimation de l’erreur par validation croisée</a></li>
+  <li><a href="#choix-des-hyper-paramètres-du-modèle" id="toc-choix-des-hyper-paramètres-du-modèle" class="nav-link" data-scroll-target="#choix-des-hyper-paramètres-du-modèle">Choix des hyper-paramètres du modèle</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/edit/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/blob/main/chapters/chapter3/1-preparation_donnees.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/oliviermeslin/DT_methodes_ensemblistes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -237,12 +291,66 @@ ul.task-list li input[type="checkbox"] {
 <section id="train-test" class="level3">
 <h3 class="anchored" data-anchor-id="train-test">Train-test</h3>
 <p>Pas indispensable pour RF, mais faisable. Indispensable pour GB.</p>
+</section>
+</section>
+<section id="evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-des-performances-du-modèle-et-optimisation-des-hyper-paramètres">Evaluation des performances du modèle et optimisation des hyper-paramètres</h2>
+<section id="estimation-de-lerreur-par-validation-croisée" class="level3">
+<h3 class="anchored" data-anchor-id="estimation-de-lerreur-par-validation-croisée">Estimation de l’erreur par validation croisée</h3>
+<p>La validation croisée est une méthode d’évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d’un modèle à généraliser les prédictions à de nouvelles données. Bien que l’évaluation par l’erreur <em>Out-of-Bag</em> (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d’obtenir une évaluation plus robuste, car moins sensible à l’échantillon d’entraînement, notamment sur des jeux de données de petite taille.</p>
+<p>Concrètement, le jeu de donné est divisé en <span class="math inline">\(k\)</span> sous-ensembles, un modèle est entraîné sur <span class="math inline">\(k-1\)</span> sous-ensembles et testé sur le sous-ensemble restant. L’opération est répétée <span class="math inline">\(k\)</span> fois de manière à ce que chaque observation apparaisse au moins une fois dans l’échantillon test. L’erreur est ensuite moyennée sur l’ensemble des échantillons test.</p>
+<p><strong>Procédure de validation croisée</strong>:</p>
+<p>La validation croisée la plus courante est la validation croisée en k sous-échantillons (<em>k-fold cross-validation</em>):</p>
+<ul>
+<li><p><strong>Division des données</strong> : Le jeu de données est divisé en k sous-échantillons égaux, appelés folds. Typiquement, k est choisi entre 5 et 10, mais il peut être ajusté en fonction de la taille des données.</p></li>
+<li><p><strong>Entraînement et test</strong> : Le modèle est entraîné sur k - 1 sous-échantillons et testé sur le sous-échantillon restant. Cette opération est répétée k fois, chaque sous-échantillon jouant à tour de rôle le rôle de jeu de test.</p></li>
+<li><p><strong>Calcul de la performance</strong> : Les k performances obtenues (par exemple, l’erreur quadratique moyenne pour une régression, ou l’accuracy (<em>exactitude</em>) pour une classification) sont moyennées pour obtenir une estimation finale de la performance du modèle.</p></li>
+</ul>
+<p><strong>Avantages de la validation croisée</strong>:</p>
+<ul>
+<li><p><strong>Utilisation optimale des données</strong> : En particulier lorsque les données sont limitées, la validation croisée maximise l’utilisation de l’ensemble des données en permettant à chaque échantillon de contribuer à la fois à l’entraînement et au test.</p></li>
+<li><p><strong>Réduction de la variance</strong> : En utilisant plusieurs divisions des données, on obtient une estimation de la performance moins sensible aux particularités d’une seule division.</p></li>
+</ul>
+<p>Bien que plus coûteuse en termes de calcul, la validation croisée est souvent préférée lorsque les données sont limitées ou lorsque l’on souhaite évaluer différents modèles ou hyperparamètres avec précision.</p>
+<p><strong>Leave-One-Out Cross-Validation (LOOCV)</strong> : Il s’agit d’un cas particulier où le nombre de sous-échantillons est égal à la taille du jeu de données. En d’autres termes, chaque échantillon est utilisé une fois comme jeu de test, et tous les autres échantillons pour l’entraînement. LOOCV fournit une estimation très précise de la performance, mais est très coûteuse en temps de calcul, surtout pour de grands jeux de données.</p>
+</section>
+<section id="choix-des-hyper-paramètres-du-modèle" class="level3">
+<h3 class="anchored" data-anchor-id="choix-des-hyper-paramètres-du-modèle">Choix des hyper-paramètres du modèle</h3>
+<p>L’estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d’une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d’hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l’OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p>
+<p>Il convient de définir une stratégie d’optimisation des hyperparamètres pour ne pas perdre de temps à tester trop de jeux d’hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans la section <strong>?@sec-guide-rf</strong>. Les implémentations des forêts aléatoires disponibles en <code>R</code> et en Python permettent d’optimiser aisément les principaux hyper-paramètres des forêts aléatoires.</p>
+<section id="méthodes-de-recherche-exhaustives" class="level4">
+<h4 class="anchored" data-anchor-id="méthodes-de-recherche-exhaustives">Méthodes de recherche exhaustives</h4>
+<ul>
+<li><p><strong>Recherche sur grille</strong> (Grid Search): Cette approche simple explore toutes les combinaisons possibles d’hyperparamètres définis sur une grille. Les paramètres continus doivent être discrétisés au préalable. La méthode est exhaustive mais coûteuse en calcul, surtout pour un grand nombre d’hyperparamètres.</p></li>
+<li><p><strong>Recherche aléatoire</strong> (Random Search): Plus efficace que la recherche sur grille, cette méthode échantillonne aléatoirement les valeurs des hyperparamètres dans un espace défini. Bergstra et Bengio (2012) ont démontré sa supériorité pour les réseaux neuronaux, et elle est également pertinente pour les forêts aléatoires. La distribution d’échantillonnage est souvent uniforme.</p></li>
+</ul>
+</section>
+<section id="optimisation-séquentielleitérative-basée-sur-un-modèle-smbo" class="level4">
+<h4 class="anchored" data-anchor-id="optimisation-séquentielleitérative-basée-sur-un-modèle-smbo">Optimisation séquentielle/itérative basée sur un modèle (SMBO)</h4>
+<p>La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s’appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester (<span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>).</p>
+<p>Voici les étapes clés de cette méthode:</p>
+<ul>
+<li><p>Définition du problème: On spécifie une mesure d’évaluation (ex: AUC pour la classification, MSE pour la régression), une stratégie d’évaluation (ex: validation croisée k-fold), et l’espace des hyperparamètres à explorer.</p></li>
+<li><p>Initialisation: échantillonner aléatoirement des points dans l’espace des hyperparamètres et évaluer leurs performances.</p></li>
+<li><p>Boucle itérative :</p>
+<ul>
+<li>Construction d’un modèle de substitution (surrogate model): un modèle de régression (ex: krigeage ou une forêt aléatoire) est ajusté aux données déjà observées. Ce modèle prédit la performance en fonction des hyperparamètres.</li>
+<li>Sélection d’un nouvel hyperparamètre: un critère basé sur le modèle de substitution sélectionne le prochain ensemble d’hyperparamètres à évaluer. Ce critère vise à explorer des régions prometteuses de l’espace des hyperparamètres qui n’ont pas encore été suffisamment explorées.</li>
+<li>Évaluer les points proposés et les ajouter à l’ensemble déjà exploré: la performance du nouvel ensemble d’hyperparamètres est évaluée et ajoutée à l’ensemble des données d’apprentissage du modèle de substitution afin d’orienter les recherches vers de nouveaux hyper-paramètres prometteurs.</li>
+</ul></li>
+</ul>
+
 
 
 </section>
 </section>
+</section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-probst2019hyperparameters" class="csl-entry" role="listitem">
+Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019. <span>“Hyperparameters and Tuning Strategies for Random Forest.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

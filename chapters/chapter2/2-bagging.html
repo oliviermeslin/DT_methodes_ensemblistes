@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.37">
+<meta name="generator" content="quarto-1.6.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b663525e4b92bb903b2199e2d401bf36.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-3e293e72bd4276b15eaf903c56998264.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -255,7 +255,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#le-bagging" id="toc-le-bagging" class="nav-link active" data-scroll-target="#le-bagging">Le bagging</a>
+  <li><a href="#sec-bagging-detail" id="toc-sec-bagging-detail" class="nav-link active" data-scroll-target="#sec-bagging-detail">Le bagging</a>
   <ul class="collapse">
   <li><a href="#principe-du-bagging" id="toc-principe-du-bagging" class="nav-link" data-scroll-target="#principe-du-bagging">Principe du bagging</a></li>
   <li><a href="#pourquoi-et-dans-quelles-situations-le-bagging-fonctionne" id="toc-pourquoi-et-dans-quelles-situations-le-bagging-fonctionne" class="nav-link" data-scroll-target="#pourquoi-et-dans-quelles-situations-le-bagging-fonctionne">Pourquoi (et dans quelles situations) le bagging fonctionne</a>
@@ -281,7 +281,7 @@ window.Quarto = {
 
 
 
-<section id="le-bagging" class="level1">
+<section id="sec-bagging-detail" class="level1">
 <h1>Le bagging</h1>
 <p>Le bagging, ou “bootstrap aggregating”, est une méthode ensembliste qui vise à améliorer la stabilité et la précision des algorithmes d’apprentissage automatique en agrégeant plusieurs modèles (<span class="citation" data-cites="breiman1996bagging">Breiman (<a href="#ref-breiman1996bagging" role="doc-biblioref">1996</a>)</span>). Chaque modèle est entraîné sur un échantillon distinct généré par une technique de rééchantillonnage (<em>bootstrap</em>). Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.</p>
 <!-- , qui consiste à créer des échantillons par tirage aléatoires avec remise à partir du jeu de données initial -->

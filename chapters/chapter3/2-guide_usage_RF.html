@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.37">
+<meta name="generator" content="quarto-1.6.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -56,7 +56,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b663525e4b92bb903b2199e2d401bf36.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-3e293e72bd4276b15eaf903c56998264.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -254,11 +254,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#guide-dentraînement-des-forêts-aléatoires" id="toc-guide-dentraînement-des-forêts-aléatoires" class="nav-link active" data-scroll-target="#guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</a>
+  <li><a href="#sec-guide-rf" id="toc-sec-guide-rf" class="nav-link active" data-scroll-target="#sec-guide-rf">Guide d’entraînement des forêts aléatoires</a>
   <ul class="collapse">
-  <li><a href="#quelle-implémentation-utiliser" id="toc-quelle-implémentation-utiliser" class="nav-link" data-scroll-target="#quelle-implémentation-utiliser">Quelle implémentation utiliser?</a></li>
-  <li><a href="#les-hyperparamètres-clés-des-forêts-aléatoires" id="toc-les-hyperparamètres-clés-des-forêts-aléatoires" class="nav-link" data-scroll-target="#les-hyperparamètres-clés-des-forêts-aléatoires">Les hyperparamètres clés des forêts aléatoires</a></li>
-  <li><a href="#comment-entraîner-une-forêt-aléatoire" id="toc-comment-entraîner-une-forêt-aléatoire" class="nav-link" data-scroll-target="#comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</a></li>
+  <li><a href="#sec-implementation-rf" id="toc-sec-implementation-rf" class="nav-link" data-scroll-target="#sec-implementation-rf">Quelles implémentations utiliser?</a></li>
+  <li><a href="#sec-hyperparam-rf" id="toc-sec-hyperparam-rf" class="nav-link" data-scroll-target="#sec-hyperparam-rf">Les hyperparamètres clés des forêts aléatoires</a></li>
+  <li><a href="#sec-procedure-training-rf" id="toc-sec-procedure-training-rf" class="nav-link" data-scroll-target="#sec-procedure-training-rf">Comment entraîner une forêt aléatoire?</a>
+  <ul class="collapse">
+  <li><a href="#première-approche-exploratoire" id="toc-première-approche-exploratoire" class="nav-link" data-scroll-target="#première-approche-exploratoire">Première approche exploratoire</a></li>
+  <li><a href="#approches-plus-avancées" id="toc-approches-plus-avancées" class="nav-link" data-scroll-target="#approches-plus-avancées">Approches plus avancées</a></li>
+  </ul></li>
   <li><a href="#mesurer-limportance-des-variables" id="toc-mesurer-limportance-des-variables" class="nav-link" data-scroll-target="#mesurer-limportance-des-variables">Mesurer l’importance des variables</a></li>
   </ul></li>
   </ul>
@@ -270,31 +274,15 @@ window.Quarto = {
 
 
 
-<section id="guide-dentraînement-des-forêts-aléatoires" class="level2">
-<h2 class="anchored" data-anchor-id="guide-dentraînement-des-forêts-aléatoires">Guide d’entraînement des forêts aléatoires</h2>
-<p>Cette section rassemble et synthétise des recommandations sur l’entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p>
-<section id="quelle-implémentation-utiliser" class="level3">
-<h3 class="anchored" data-anchor-id="quelle-implémentation-utiliser">Quelle implémentation utiliser?</h3>
+<section id="sec-guide-rf" class="level1">
+<h1>Guide d’entraînement des forêts aléatoires</h1>
+<p>Ce guide d’entraînement des forêts aléatoires rassemble et synthétise des recommandations sur l’entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>. Ce guide comporte un certain nombre de choix méthodologiques forts, comme les implémentations recommandées ou la procédure d’entraînement proposée, et d’autres choix sont évidemment possibles. Les recommandations de ce guide doivent donc être considérées comme un point de départ raisonnable, pas comme un ensemble de règles devant être respectées à tout prix.</p>
+<section id="sec-implementation-rf" class="level2">
+<h2 class="anchored" data-anchor-id="sec-implementation-rf">Quelles implémentations utiliser?</h2>
 <p>Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l’usage de deux implémentations de référence: le <em>package</em> <code>R</code> <code>ranger</code> et le <em>package</em> <code>Python</code> <code>scikit-learn</code> pour leur rigueur, leur efficacité et leur simplicité d’utilisation. Il est à noter qu’il est possible d’entraîner des forêts aléatoires avec les algorithmes <code>XGBoost</code> et <code>LightGBM</code>, mais il s’agit d’un usage avancé qui n’est pas recommandé en première approche. Cette approche est présentée dans la partie <strong>REFERENCE A LA PARTIE USAGE AVANCE</strong>.</p>
-<!-- ### Mode de construction d'une forêt aléatoire
-
-Le processus pour construire une Random Forest se résume comme suit:
-
-- Précisez le nombre d'arbres à construire (`n_trees`).
-
-- Pour chaque arbre, effectuez les étapes suivantes :
-    - Générer un échantillon bootstrap à partir du jeu de données.
-    - Construire un arbre de décision à partir de cet échantillon:
-        - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
-        - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
-        - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
-    
-- Agréger les arbres pour effectuer les prédictions finales :
-    - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
-    - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue. -->
 </section>
-<section id="les-hyperparamètres-clés-des-forêts-aléatoires" class="level3">
-<h3 class="anchored" data-anchor-id="les-hyperparamètres-clés-des-forêts-aléatoires">Les hyperparamètres clés des forêts aléatoires</h3>
+<section id="sec-hyperparam-rf" class="level2">
+<h2 class="anchored" data-anchor-id="sec-hyperparam-rf">Les hyperparamètres clés des forêts aléatoires</h2>
 <p>Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau . Les noms des hyperparamètres utilisés sont ceux figurant dans le <em>package</em> <code>R</code> <code>ranger</code>, et dans le <em>package</em> <code>Python</code> <code>scikit-learn</code>. Il arrive qu’ils portent un nom différent dans d’autres implémentations des <em>random forests</em>, mais il est généralement facile de s’y retrouver en lisant attentivement la documentation.</p>
 <table class="caption-top table">
 <caption>Les principaux hyperparamètres des forêts aléatoires</caption>
@@ -355,14 +343,14 @@ Le processus pour construire une Random Forest se résume comme suit:
 <li><p>Le <strong>critère de choix de la règle de division des noeuds intermédiaires</strong>: la plupart des implémentations des forêts aléatoires retiennent par défaut l’impureté de Gini pour la classification et la variance pour la régression, même si d’autres critères de choix ont été proposés dans la littérature (p-value dans les forêts d’inférence conditionnelle, arbres extrêmement randomisés, etc.). Chaque règle présente des avantages et des inconvénients, notamment en termes de biais de sélection des variables et de vitesse de calcul. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Modifier cet hyperparamètre relève d’un usage avancé des forêts aléatoires. Le lecteur intéressé pourra se référer à la discussion détaillée dans <span class="citation" data-cites="probst2019hyperparameters">Probst, Wright, and Boulesteix (<a href="#ref-probst2019hyperparameters" role="doc-biblioref">2019</a>)</span>.</p></li>
 </ul>
 </section>
-<section id="comment-entraîner-une-forêt-aléatoire" class="level3">
-<h3 class="anchored" data-anchor-id="comment-entraîner-une-forêt-aléatoire">Comment entraîner une forêt aléatoire?</h3>
+<section id="sec-procedure-training-rf" class="level2">
+<h2 class="anchored" data-anchor-id="sec-procedure-training-rf">Comment entraîner une forêt aléatoire?</h2>
 <p>Les forêts aléatoires nécessitent généralement moins d’optimisation que d’autres modèles de <em>machine learning</em>, car leurs performances varient relativement peu en fonction des hyperparamètres. Les valeurs par défaut fournissent souvent des résultats satisfaisants, ce qui réduit le besoin d’optimisation intensive. Cependant, un ajustement précis des hyperparamètres peut apporter des gains de performance, notamment sur des jeux de données complexes.</p>
 <p>Comme indiqué dans la partie <strong>REFERENCE A AJOUTER</strong>, la performance prédictive d’une forêt aléatoire varie en fonction de deux critères essentiels: elle croît avec le pouvoir prédictif des arbres, et décroît avec la corrélation des arbres entre eux. L’entraînement d’une forêt aléatoire implique de trouver un équilibre optimal où les arbres sont suffisamment puissants pour être prédictifs, tout en étant suffisamment diversifiés pour que leurs erreurs ne soient pas trop corrélées. Cet arbitrage s’opère en ajustant certains hyperparamètres clés comme le nombre de variables candidates à chaque division, la taille de l’échantillon ou encore la taille minimale des feuilles. L’ajustement du nombre d’arbre relève plutôt d’un arbitrage entre performance et temps de calcul. Il est recommandé de fixer le nombre d’arbre à une valeur au-delà de laquelle les gains de performance peuvent être considérés comme marginaux.</p>
 <p>Il existe plusieurs méthodes permettant d’optimiser simultanément plusieurs hyperparamètres: la recherche par grille, la recherche aléatoire et l’optimisation basée sur modèle séquentiel (SMBO).</p>
-<section id="première-approche-exploratoire" class="level4">
-<h4 class="anchored" data-anchor-id="première-approche-exploratoire">Première approche exploratoire</h4>
-<p>Voici une procédure simple pour entraîner rapidement une forêt aléatoire. Elle ne garantit pas l’obtention d’un modèle optimal, mais elle est lisible et permet d’obtenir rapidement un modèle raisonnablement performant.</p>
+<section id="première-approche-exploratoire" class="level3">
+<h3 class="anchored" data-anchor-id="première-approche-exploratoire">Première approche exploratoire</h3>
+<p>Voici une procédure simple pour entraîner une forêt aléatoire. Elle ne garantit pas l’obtention d’un modèle optimal, mais elle est lisible et permet d’obtenir rapidement un modèle raisonnablement performant.</p>
 <ul>
 <li><strong>Commencer par entraîner une forêt aléatoire avec les valeurs des hyperparamètres par défaut</strong>. Ce premier modèle servira de point de comparaison pour la suite.</li>
 <li><strong>Ajuster le nombre d’arbres</strong>: entraîner une forêt aléatoire avec les hyperparamètres par défaut en augmentant progressivement le nombre d’arbres, puis déterminer à partir de quel nombre d’arbres la performance se stabilise. Fixer le nombre d’arbres à cette valeur par la suite.</li>
@@ -371,24 +359,22 @@ Le processus pour construire une Random Forest se résume comme suit:
 <li><strong>Evaluation du modèle final</strong>: mesurer la performance du modèle final soit avec l’approche Out-of-Bag (OOB), soit avec un ensemble de test. Il est souvent instructif de comparer les performances du modèle final et du modèle entraîné avec les valeurs des hyperparamètres par défaut.</li>
 </ul>
 </section>
-<section id="approche-plus-avancée" class="level4">
-<h4 class="anchored" data-anchor-id="approche-plus-avancée">Approche plus avancée</h4>
+<section id="approches-plus-avancées" class="level3">
+<h3 class="anchored" data-anchor-id="approches-plus-avancées">Approches plus avancées</h3>
 <p>Lorsque l’espace des hyperparamètres est large ou que les performances initiales sont insuffisantes, adopter des méthodes avancées comme l’ptimisation basée sur un modèle séquentiel (SMBO). En <code>R</code>, il existe plusieurs implémentations d’appuyant sur cette méthode: <code>tuneRF</code> (limité à l’optimisation de <code>mtry</code>), tuneRanger (optimise simultanément <code>mtry</code>, node size, et sample size). La méthode SMBO est généralement la plus performante, mais demande un temps de calcul plus important.</p>
 <p>Il est également possible de remplacer les critères classiques (le taux d’erreur pour une classification par exemple) par d’autres critères de performance, comme le score de Brier ou la fonction de perte logarithmique (<span class="citation" data-cites="probst2018tune">Probst and Boulesteix (<a href="#ref-probst2018tune" role="doc-biblioref">2018</a>)</span>).</p>
 <p>Pour gérer la contrainte computationnelle, il est possible de commencer par utiliser des échantillons réduits pour les étapes exploratoires, puis d’augmenter la taille de l’échantillon pour les tests finaux.</p>
-</section>
-<section id="classification-ordonnée-versus-non-ordonnée" class="level4">
-<h4 class="anchored" data-anchor-id="classification-ordonnée-versus-non-ordonnée">Classification ordonnée versus non ordonnée</h4>
-</section>
-<section id="classes-équilibrées-versus-non-équilibrées" class="level4">
-<h4 class="anchored" data-anchor-id="classes-équilibrées-versus-non-équilibrées">Classes équilibrées versus non équilibrées</h4>
+<!-- #### Classification ordonnée versus non ordonnée
+
+
+#### Classes équilibrées versus non équilibrées -->
 </section>
 </section>
-<section id="mesurer-limportance-des-variables" class="level3">
-<h3 class="anchored" data-anchor-id="mesurer-limportance-des-variables">Mesurer l’importance des variables</h3>
+<section id="mesurer-limportance-des-variables" class="level2">
+<h2 class="anchored" data-anchor-id="mesurer-limportance-des-variables">Mesurer l’importance des variables</h2>
 <p>Les méthodes classiques d’évaluation de l’importance des variables, telles que l’indice de Gini (Mean Decrease in Impurity - MDI) et l’importance par permutation (Mean Decrease Accuracy - MDA), peuvent produire des résultats biaisés dans certaines situations (<span class="citation" data-cites="strobl2007bias">Strobl et al. (<a href="#ref-strobl2007bias" role="doc-biblioref">2007</a>)</span>, <span class="citation" data-cites="benard2022mda">Bénard, Da Veiga, and Scornet (<a href="#ref-benard2022mda" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="benard2022shaff">Bénard et al. (<a href="#ref-benard2022shaff" role="doc-biblioref">2022</a>)</span>). Notamment, lorsque les variables prédictives sont fortement corrélées, présentent des échelles de mesure différentes ou possèdent un nombre variable de catégories, ces méthodes peuvent surestimer l’importance de certaines variables. Par exemple, les variables avec un grand nombre de catégories ou des échelles continues étendues peuvent être artificiellement privilégiées, même si leur contribution réelle à la prédiction est limitée.</p>
 <p>En pratique, il est recommandé d’utiliser des méthodes d’importance des variables moins sensibles aux biais, comme les CIF ou la Sobol-MDA. Les valeurs de Shapley, issues de la théorie des jeux, sont également une alternative intéressante. Elles attribuent à chaque variable une contribution proportionnelle à son impact sur la prédiction. Cependant, leur calcul est souvent complexe et coûteux en ressources computationnelles, surtout en présence de nombreuses variables. Des méthodes comme SHAFF (SHApley eFfects via random Forests) ont été développées pour estimer efficacement ces valeurs, même en présence de dépendances entre variables.</p>
-<p>On conseil l’utilisation de trois implémentations pour comparer l’importances des variables d’une forêt aléatoire:</p>
+<p>On conseille l’utilisation de trois implémentations pour comparer l’importances des variables d’une forêt aléatoire:</p>
 <ul>
 <li><p>Pour la MDI: l’algorithme CIF proposé par <span class="citation" data-cites="strobl2007bias">Strobl et al. (<a href="#ref-strobl2007bias" role="doc-biblioref">2007</a>)</span> et implémenté en R</p></li>
 <li><p>Pour la MDA: l’algorithme Sobol-MDA proposé par <span class="citation" data-cites="benard2022mda">Bénard, Da Veiga, and Scornet (<a href="#ref-benard2022mda" role="doc-biblioref">2022</a>)</span> et implémenté en R</p></li>
