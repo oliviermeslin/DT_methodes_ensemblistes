@@ -50,3 +50,7 @@ functions:
 {{< include ../chapters/chapter1/1-survol.qmd >}}
 {{< include ../chapters/chapter1/2-comparaison_GB_RF.qmd >}}
 
+{{< include ../chapters/chapter2/3-random_forest.qmd >}}
+
+{{< include ../chapters/chapter3/1-preparation_donnees.qmd >}}
+{{< include ../chapters/chapter3/2-guide_usage_RF.qmd >}}

@@ -65,13 +65,6 @@ supplement: none
   it
 }
 
-// #show figure.where(kind: "chapter"): it => {
-//   if it.supplement != [Outline] {
-//     pagebreak(weak: true)
-//   }
-//   it
-// }
-
 /* ---------------------------------------------------------
    Spacing around headings
 --------------------------------------------------------- */
