@@ -1,7 +1,8 @@
 
-# Guide d'entraînement des forêts aléatoires  {#sec-guide-rf}
+# Guide d'entraînement des forêts aléatoires {#sec-guide-rf}
 
-Cette section rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters.
+Ce guide d'entraînement des forêts aléatoires rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters. Ce guide comporte un certain nombre de choix méthodologiques forts, comme les implémentations recommandées ou la procédure d'entraînement proposée, et d'autres choix sont évidemment possibles. Les recommandations de ce guide doivent donc être considérées comme un point de départ raisonnable, pas comme un ensemble de règles devant être respectées à tout prix.
+
 
 ## Quelle implémentation utiliser?
 
