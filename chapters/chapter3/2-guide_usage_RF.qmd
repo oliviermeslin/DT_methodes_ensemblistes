@@ -4,29 +4,11 @@
 Ce guide d'entraînement des forêts aléatoires rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters. Ce guide comporte un certain nombre de choix méthodologiques forts, comme les implémentations recommandées ou la procédure d'entraînement proposée, et d'autres choix sont évidemment possibles. Les recommandations de ce guide doivent donc être considérées comme un point de départ raisonnable, pas comme un ensemble de règles devant être respectées à tout prix.
 
 
-## Quelle implémentation utiliser?
+## Quelles implémentations utiliser? {#sec-implementation-rf}
 
 Il existe de multiples implémentations des forêts aléatoires. Le présent document présente et recommande l'usage de deux implémentations de référence: le _package_ `R` `ranger` et le _package_ `Python` `scikit-learn` pour leur rigueur, leur efficacité et leur simplicité d'utilisation. Il est à noter qu'il est possible d'entraîner des forêts aléatoires avec les algorithmes `XGBoost` et `LightGBM`, mais il s'agit d'un usage avancé qui n'est pas recommandé en première approche. Cette approche est présentée dans la partie __REFERENCE A LA PARTIE USAGE AVANCE__.
 
-<!-- ### Mode de construction d'une forêt aléatoire
-
-Le processus pour construire une Random Forest se résume comme suit:
-
-- Précisez le nombre d'arbres à construire (`n_trees`).
-
-- Pour chaque arbre, effectuez les étapes suivantes :
-    - Générer un échantillon bootstrap à partir du jeu de données.
-    - Construire un arbre de décision à partir de cet échantillon:
-        - À chaque nœud de l'arbre, sélectionner un sous-ensemble aléatoire de caractéristiques (`mtry`).
-        - Trouver la meilleure division parmi ce sous-ensemble et créer des nœuds enfants.
-        - Arrêter la croissance de l'arbre selon des critères de fin spécifiques (comme une taille minimale de nœud), mais sans élaguer l'arbre.
-    
-- Agréger les arbres pour effectuer les prédictions finales :
-    - Régression : la prédiction finale est la moyenne des prédictions de tous les arbres.
-    - Classification : chaque arbre vote pour une classe, et la classe majoritaire est retenue. -->
-
-
-## Les hyperparamètres clés des forêts aléatoires
+## Les hyperparamètres clés des forêts aléatoires {#sec-hyperparam-rf}
  
 Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
@@ -98,7 +80,7 @@ Par défaut, cette valeur est fréquemment fixée à $\sqrt{p}$ pour les problè
 - Le __critère de choix de la règle de division des noeuds intermédiaires__: la plupart des implémentations des forêts aléatoires retiennent par défaut l'impureté de Gini pour la classification et la variance pour la régression, même si d'autres critères de choix ont été proposés dans la littérature (p-value dans les forêts d'inférence conditionnelle, arbres extrêmement randomisés, etc.). Chaque règle présente des avantages et des inconvénients, notamment en termes de biais de sélection des variables et de vitesse de calcul. A ce stade, aucun critère de choix ne paraît systématiquement supérieur aux autres en matière de performance. Modifier cet hyperparamètre relève d'un usage avancé des forêts aléatoires. Le lecteur intéressé pourra se référer à la discussion détaillée dans @probst2019hyperparameters.
 
 
-## Comment entraîner une forêt aléatoire?
+## Comment entraîner une forêt aléatoire? {#sec-procedure-training-rf}
 
 Les forêts aléatoires nécessitent généralement moins d’optimisation que d’autres modèles de _machine learning_, car leurs performances varient relativement peu en fonction des hyperparamètres. Les valeurs par défaut fournissent souvent des résultats satisfaisants, ce qui réduit le besoin d'optimisation intensive. Cependant, un ajustement précis des hyperparamètres peut apporter des gains de performance, notamment sur des jeux de données complexes.
 
