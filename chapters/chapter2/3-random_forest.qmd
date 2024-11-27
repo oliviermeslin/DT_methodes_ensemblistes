@@ -1,9 +1,8 @@
-# La forêt aléatoire
+# La forêt aléatoire {#sec-rf-detail}
 
-La forêt aléatoire (_random forests_) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision avec la puissance de l'agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (_overfitting_).
+La forêt aléatoire (_random forests_) est une méthode ensembliste puissante, largement utilisée pour les tâches de classification et de régression. Elle combine la simplicité des arbres de décision et l'échantillonnage des observations et des variables avec la puissance de l'agrégation pour améliorer les performances prédictives et réduire le risque de surapprentissage (_overfitting_).
 
-La méthode s’appuie sur la technique du _bagging_, qui consiste à entraîner chaque arbre sur un échantillon (_bootstrap_) tiré au hasard à partir du jeu de données initial. Elle introduit un degré supplémentaire de randomisation au moment de la construction d'un arbre, puisqu'à chaque nouvelle division (_noeud_), un sous-ensemble de variables sur lequel sera fondé le critère de séparation est **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
-
+<!-- 
 Objectifs: 
 
 - comprendre le principe et les propriétés fondamentales des forêts aléatoires afin de comprendre comment elles améliorent les performances des modèles; 
@@ -11,9 +10,11 @@ Objectifs:
 - Apprendre les étapes de construction d'une forêt aléatoire : échantillonnage bootstrap, sélection de variables, partitions, prédiction, évaluation, interprétation
 
 - Optimiser les performances du modèle: savoir préparer les données adéquatement, ajuster les hyperparamètres et comprendre les implications théoriques de ces choix.
-
+ -->
 
 ## Principe de la forêt aléatoire 
+
+La forêt aléatoire est une extension du _bagging_, présenté dans la section @sec-bagging-detail. Elle introduit un niveau supplémentaire de randomisation dans la construction des arbres, puisqu'à chaque nouvelle division (_noeud_), le critère de séparation est choisi en considérant uniuquement un sous-ensemble de variables **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
 
 Les forêts aléatoires reposent sur quatre éléments essentiels :
 
@@ -28,7 +29,7 @@ Les forêts aléatoires reposent sur quatre éléments essentiels :
 
 ## Comment construit-on une forêt aléatoire?
 
-L'entraînement d'une forêt aléatoire est similaire à celui du _bagging_ et se résume comme suit:
+L'entraînement d'une forêt aléatoire est très similaire à celui du _bagging_ et se résume comme suit:
 
 - Le nombre d'arbres à construire est défini _a priori_.
 - Pour chaque arbre, on effectue les étapes suivantes:
@@ -251,7 +252,7 @@ Voici les étapes clés de cette méthode:
 
 ## Interprétation et importance des variables
 
-Les forêts aléatoires sont des modèles d'apprentissage performants, mais leur complexité interne les rend  difficiles à interpréter, ce qui leur vaut souvent le qualificatif de "boîtes noires". Comprendre l'influence des variables explicatives sur les prédictions est crucial pour interpréter les résulats et être en mesure d'extraire des connaissances. 
+Les forêts aléatoires sont des modèles d'apprentissage performants, mais leur complexité interne les rend difficiles à interpréter, ce qui leur vaut souvent le qualificatif de "boîtes noires". Comprendre l'influence des variables explicatives sur les prédictions est crucial pour interpréter les résutlats et être en mesure d'extraire des connaissances. 
 
 L'objectif des **méthodes d'interprétabilité** (ou d'importance des variables) est d'identifier les variables les plus influentes sur la variable cible, de comprendre les mécanismes prédictifs sous-jacents, et potentiellement d'extraire des règles de décision simples et transparentes. Plusieurs méthodes d'importance des variables existent, mais il est important de comprendre leurs forces et faiblesses.
 
