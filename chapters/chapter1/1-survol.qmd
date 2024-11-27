@@ -89,11 +89,13 @@ Les méthodes ensemblistes basées sur des arbres de décision se répartissent 
 
 ### Le _bagging_ (Bootstrap Aggregating) et les forêts aléatoires {#sec-rf-intuition}
 
-Le _bagging_ (Bootstrap Aggregating) et les forêts aléatoires constituent une famille de méthodes ensemblistes dont le point commun est de combiner des modèles de bases qui ont été entraînés indépendamment les uns des autres.
-
 #### Le _bagging_
 
-Le _bagging_, ou _Bootstrap Aggregating_ (@breiman1996bagging), est une méthode ensembliste qui comporte trois étapes principales:
+Le _bagging_ (Bootstrap Aggregating) est une méthode ensembliste qui repose sur l’agrégation des prédictions de plusieurs modèles de individuels, entraînés indépendamment les uns des autres, pour construire un modèle global plus performant (@breiman1996bagging). Cette approche constitue également le socle des forêts aléatoires, qui en sont une version améliorée.
+
+Le bagging offre deux avantages majeurs par rapport aux arbres de décision CART : une meilleure capacité prédictive et une plus grande stabilité des prédictions. 
+
+Cette amélioration découle de la stratégie d'entraînement. Au lieu d'entraîner un seul modèle sur l'ensemble des données, le bagging procède en trois étapes principales:
 
 - __Tirage de sous-échantillons aléatoires__: À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (_bootstrapping_). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises.
 - __Entraînement parallèle__: Un arbre est entraîné sur chaque sous-échantillon de manière indépendante. Ces arbres sont habituellement assez complexes et profonds.
@@ -101,13 +103,19 @@ Le _bagging_, ou _Bootstrap Aggregating_ (@breiman1996bagging), est une méthode
 
 ![Représentation schématique d'un algorithme de _bagging_](/figures/bagging.svg){#fig-bagging}
 
-La figure @fig-bagging propose une représentation schématique du _bagging_: tout d'abord, on tire des sous-échantillons aléatoires des données d'entraînement. Ensuite, un arbre est entraîné sur chaque sous-échantillon. Enfin, les arbres sont combinés de façon à obtenir la prédiction finale.
+La @fig-bagging propose une représentation schématique du _bagging_: d'abord, des sous-échantillons sont générés aléatoires avec remise à partir du jeu de données d'entraînement. Ensuite, des arbres de décision sont entraînés indépendamment sur ces sous-échantillons. Enfin, leurs prédictions sont agrégées pour obtenir les prédictions finales. On procède généralement au vote majoritaire (la classe prédite majoritairement par les arbres) dans un problème de classification, et à la moyenne dans un problème de régression. 
+
+L'efficacité du bagging provient de la réduction de la variance qui découle de l'agrégation des prédictions. Chaque arbre est entraîné sur un sous-échantillon légèrement différent, sujet à des fluctuations aléatoires. L'agrégation des prédictions (par moyenne ou vote majoritaire) de tous les arbres réduit la sensibilité du modèle final aux fluctuations des données d’entraînement. Le modèle final est ainsi plus robuste et plus précis que chacun des arbres pris individuellement.
+
 
 - Illustration avec un cas d'usage de classification en deux dimensions.
 
-L'intuition qui explique l'efficacité du _bagging_ est la suivante:  en diversifiant les données d'entraînement par le tirage d'échantillons aléatoires, on obtient un grand nombre d'arbres différents les uns des autres et qui, pris dans leur ensemble, constituent un modèle plus prédictif et plus stable que chaque arbre pris isolément. Une image fréquemment employée pour décrire le _bagging_ est celle d'un collège de juges. Chaque juge a sa propre façon de juger, qui est imparfaite et qui dépend des cas qu'il a déjà rencontrés. Il peut donc rendre une décision complètement erronée dans telle ou telle situation, rendant son verdict instable et peu fiable. Mais si le verdict repose sur l'opinion majoritaire d'un ensemble de juges différents les uns des autres, il est probable que le jugement sera plus robuste et plus fiable.
+Malgré ses avantages, le bagging souffre d'une limite importante qui provient de la corrélation entre les arbres. En effet, malgré le tirage aléatoire, les arbres présentent souvent des structures similaires, car les règles de décision sous-jacentes à chaque arbre restent généralement les mêmes. Cette corrélation réduit l’efficacité de l’agrégation et limite les gains en performance.
 
-Le _bagging_ présente donc deux avantages par rapport aux arbres CART: un pouvoir prédictif plus élevé et des prédictions plus stables. L'inconvénient du _bagging_ réside dans la corrélation des arbres entre eux: malgré l'échantillonnage des données, les arbres ont souvent une structure similaire car les relations entre variables restent à peu près les mêmes dans les différents sous-échantillons. Ce phénomène de corrélation entre arbres est le principal frein à la puissance prédictive du _bagging_, et c'est pour surmonter (ou au moins minimiser) ce problème que les forêts aléatoires ont été mises au point. Le pouvoir prédictif plus élevé des forêts aléatoires explique pourquoi le _bagging_ est très peu utilisé en pratique aujourd'hui. 
+Pour réduire cette corrélation entre arbres, les forêts aléatoires introduisent une étape supplémentaire de randomisation. Leur supériorité prédictive explique pourquoi le bagging seul est rarement utilisé en pratique. Néanmoins, les forêts aléatoires tirent leur efficacité des principes fondamentaux du bagging.
+
+
+
 
 #### Les _random forests_
 
