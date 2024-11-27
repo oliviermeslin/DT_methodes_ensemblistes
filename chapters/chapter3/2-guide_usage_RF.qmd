@@ -108,7 +108,7 @@ Il existe plusieurs méthodes permettant d'optimiser simultanément plusieurs hy
 
 ### Première approche exploratoire
 
-Voici une procédure simple pour entraîner rapidement une forêt aléatoire. Elle ne garantit pas l'obtention d'un modèle optimal, mais elle est lisible et permet d'obtenir rapidement un modèle raisonnablement performant.
+Voici une procédure simple pour entraîner une forêt aléatoire. Elle ne garantit pas l'obtention d'un modèle optimal, mais elle est lisible et permet d'obtenir rapidement un modèle raisonnablement performant.
 
 - __Commencer par entraîner une forêt aléatoire avec les valeurs des hyperparamètres par défaut__. Ce premier modèle servira de point de comparaison pour la suite.
 - __Ajuster le nombre d’arbres__: entraîner une forêt aléatoire avec les hyperparamètres par défaut en augmentant progressivement le nombre d'arbres, puis déterminer à partir de quel nombre d'arbres la performance se stabilise. Fixer le nombre d'arbres à cette valeur par la suite.
