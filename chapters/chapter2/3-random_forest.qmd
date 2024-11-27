@@ -121,7 +121,7 @@ Les propriétés théoriques des forêts aléatoires permettent de comprendre po
 
 ### Réduction de la variance par agrégation
 
-L'agrégation de plusieurs arbres permet de réduire la variance globale du modèle, ce qui améliore la stabilité des prédictions. Lorsque les estimateurs sont (faiblement) biaisés mais caractérisés par une variance élevée, l'agrégation permet d'obtenir un estimateur avec un biais similaire mais une variance réduite. La démonstration est présentée dans la section _bagging_.
+L'agrégation de plusieurs arbres permet de réduire la variance globale du modèle, ce qui améliore la stabilité des prédictions. Lorsque les estimateurs sont (faiblement) biaisés mais caractérisés par une variance élevée, l'agrégation permet d'obtenir un estimateur avec un biais similaire mais une variance réduite. La démonstration est identique à celle présentée dans la section @sec-bagging-detail.
 
 ### Convergence et limite théorique au surapprentissage
 
@@ -174,6 +174,27 @@ L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la c
 
 ### Estimation de l'erreur Out-of-Bag (OOB) {#sec-rf-oob}
 
+La forêt aléatoire présente une particularité intéressante et très utile en pratique: __il est possible d'évaluer les performances d'une forêt aléatoire directement à partir des données d'entraînement__, grâce à l'estimation de l'erreur _Out-of-Bag_ (OOB). Cette technique repose sur le fait que chaque arbre est construit à partir d'un échantillon _bootstrap_, c'est-à-dire un échantillon tiré avec remise. Cela implique qu'une part conséquente des observations ne sont pas utilisées pour entraîner un arbre donné. Ces observations laissées de côté forment un **échantillon dit _out-of-bag_**, que l'on peut utiliser pour évaluer la performance de chaque arbre. On peut donc construire pour chaque observation du jeu d'entraînement une prédiction qui agrège uniquement les prédictions des arbres pour lesquels cette observation est _out-of-bag_; cette prédiction n'est pas affectée par le surapprentissage (puisque cette observation n'a jamais été utilisée pour entraîner ces arbres). De cette façon, il est possible d'évaluer correctement la performance de la forêt aléatoire.
+
+La procédure d'estimation de l'erreur OOB se déroule comme ceci:
+
+1. **Entraînement de la forêt aléatoire**: la forêt aléatoire est entraînée sur les données d'entraînement selon la procédure détaillée ci-dessus.
+2. **Prédiction _out-of-bag_** : Pour chaque observation $(x_i, y_i)$ des données d'entraînement, on calcule la prédiction de tous les arbres pour lesquels elle fait partie de l'échantillon _out-of-bag_.
+3. **Agrégation des prédictions** : La prédiction finale est obtenue en agrégeant les prédictions selon la procédure standard détaillée ci-dessus (moyenne pour la régression, vote majoritaire pour la classification).
+4. **Calcul de l'erreur OOB** : L'erreur OOB est ensuite calculée en calculant une métrique (précision, rappel, AUC, erreur quadratique moyenne...) qui compare les prédictions avec la variable-cible $y$ sur toutes les observations.
+
+L'utilisation de l'erreur OOB présente de multiples avantages:
+
+- **Approximation de l'erreur de généralisation**: L'erreur OOB est en général considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée.
+- **Pas besoin de jeu de validation séparé** : L'un des principaux avantages de l'erreur OOB est qu'elle ne nécessite pas de réserver une partie des données pour la validation. Cela est particulièrement utile lorsque la taille du jeu de données est limitée, car toutes les données peuvent être utilisées pour l'entraînement tout en ayant une estimation fiable de la performance. Ceci dit, il est malgré tout recommandé de conserver un ensemble de test si la taille des données le permet, car il arrive que l'erreur OOB sous
+- **Gain de temps** : Contrairement à la validation croisée qui requiert de réentraîner plusieurs fois le modèle pour un jeu donné d'hyperparamètres, l'erreur OOB ne nécessite qu'un seul entraînement du modèle. Cela induit un gain de temps appréciable lors de l'optimisation des hyperparamètres.
+
+
+<!-- 
+ANCIENNE VERSION DU PARAGRAPHE
+
+### Estimation de l'erreur Out-of-Bag (OOB) {#sec-rf-oob}
+
 L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace pour évaluer les performances des forêts aléatoires sans nécessité une **validation croisée** ou de réserver une partie des données pour l'étape du test. Cette technique repose sur le fait que chaque arbre dans une forêt aléatoire est construit à partir d'un échantillon bootstrap du jeu de données d'origine, c'est-à-dire un échantillon tiré avec remise. Or, en moyenne, environ **36 %** des observations ne sont pas inclus dans chaque échantillon bootstrap, ce qui signifie qu'elles ne sont pas utilisées pour entraîner l'arbre correspondant. Ces observations laissées de côté forment un **échantillon out-of-bag**. Chaque arbre peut donc être évalué sur son **échantillon out-of-bag** plutôt que sur un échantillon test.
 
 **Procédure d'Estimation OOB**:
@@ -187,7 +208,7 @@ L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace po
 
 - **Pas besoin de jeu de validation séparé** : L'un des principaux avantages de l'estimation OOB est qu'elle ne nécessite pas de réserver une partie des données pour la validation. Cela est particulièrement utile lorsque la taille du jeu de données est limitée, car toutes les données peuvent être utilisées pour l'entraînement tout en ayant une estimation fiable de la performance.
 - **Estimation directe et efficace** : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l'estimation OOB est disponible "gratuitement" pendant la construction des arbres. Cela permet d'évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle et d'optimiser plus rapidement les hyperparamètres.
-- **Approximation de l'erreur de généralisation** : L'erreur OOB est considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold. 
+- **Approximation de l'erreur de généralisation** : L'erreur OOB est considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold.  -->
 
 
 ### Estimation de l'erreur par validation croisée
