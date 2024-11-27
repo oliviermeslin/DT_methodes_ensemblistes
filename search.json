@@ -364,7 +364,7 @@
     "href": "chapters/chapter3/1-preparation_donnees.html",
     "title": "Introduction aux méthodes ensemblistes",
     "section": "",
-    "text": "Valeurs manquantes : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.\nVariables catégorielles : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c’est possible.\nÉchelle des Variables : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.\n\n\n\n\n\n\n\nPas indispensable pour RF, mais faisable. Indispensable pour GB.",
+    "text": "Valeurs manquantes : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.\nVariables catégorielles : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c’est possible.\nÉchelle des Variables : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.\n\n\n\n\n\n\n\nPas indispensable pour RF, mais souhaitable. Indispensable pour GB.",
     "crumbs": [
       "Comment bien utiliser les algorithmes?",
       "Préparation des données"
@@ -375,7 +375,7 @@
     "href": "chapters/chapter3/1-preparation_donnees.html#préparation-des-données",
     "title": "Introduction aux méthodes ensemblistes",
     "section": "",
-    "text": "Valeurs manquantes : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.\nVariables catégorielles : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c’est possible.\nÉchelle des Variables : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.\n\n\n\n\n\n\n\nPas indispensable pour RF, mais faisable. Indispensable pour GB.",
+    "text": "Valeurs manquantes : Les forêts aléatoires peuvent gérer les données manquantes, mais une imputation préalable peut améliorer les performances.\nVariables catégorielles : Utiliser un encodage adapté (one-hot encoding, ordinal encoding) en fonction de la nature des données. Convertir en variables continues dès que c’est possible.\nÉchelle des Variables : Pas nécessaire de normaliser, les arbres sont invariants aux transformations monotones.\n\n\n\n\n\n\n\nPas indispensable pour RF, mais souhaitable. Indispensable pour GB.",
     "crumbs": [
       "Comment bien utiliser les algorithmes?",
       "Préparation des données"
