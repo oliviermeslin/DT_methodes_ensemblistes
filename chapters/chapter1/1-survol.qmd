@@ -35,24 +35,30 @@ Si les approches de _deep learning_ sont sans conteste très performantes pour l
 
 ## Comment fonctionnent les méthodes ensemblistes?
 
-Ce paragraphe présente d'abord le modèle de base sur lesquelles sont construites les méthodes ensemblistes à base d'arbres: l'arbre de classification et de régression (@sec-cart-intuition). Elle introduit ensuite les deux grandes familles de méthodes ensemblistes décrites dans ce document: le _bagging_ et les forêts aléatoires (@sec-rf-intuition), puis le _gradient boosting_ (@sec-gb-intuition).
+Ce paragraphe présente d'abord le modèle de base sur lesquelles sont construites les méthodes ensemblistes à base d'arbres: l'arbre de classification et de régression (CART) (@sec-cart-intuition). Bien que simples et intuitifs, les arbres CART sont souvent insuffisants en termes de performance lorsqu'ils sont utilisés isolément.
 
-On distingue en effet **deux grandes familles de méthodes ensemblistes** à base d'arbres de décisions, selon qu'elles s'appuient sur des modèles de base entraînés en parallèle indépendamment les uns des autres, ou au contraire entraînés de façon séquentielle. Lorsque les modèles sont _entrainés en parallèle, indépendamment les uns des autres_, on parle de _bagging_ ou de forêt aléatoire (_random forest_). Lorsque les modèles de base sont _entraînés de manière séquentielle_, chaque modèle de base visant à améliorer la prédiction proposée par l'ensemble des modèles de base précédents, on parle de _boosting_. Ce document aborde essentiellement le _gradient boosting_, qui est l'approche de _boosting_ la plus utilisée actuellement. 
+Elle introduit ensuite les **deux grandes familles de méthodes ensemblistes** décrites dans ce document: le _bagging_ (incluant les forêts aléatoires) (@sec-rf-intuition), et le _gradient boosting_ (@sec-gb-intuition).
+
 
 ### Le modèle de base: l'arbre de classification et de régression {#sec-cart-intuition}
 
 #### Qu'est-ce qu'un arbre CART?
 
-Le modèle de base des méthodes ensemblistes est le plus souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif assez simple avec trois caractéristiques essentielles:
+Le modèle de base des méthodes ensemblistes est souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif qui simplifie un problème complexe en le décomposant en une série de décisions simples, organisées de manière hiérarchique. Ces décisions permettent de segmenter progressivement les données pour en extraire des prédictions. Il s'agit d'un outil puissant pour explorer les relations entre les variables explicatives et la variable cible, sans a priori concernant la forme de cette relation.
 
-- L'arbre partitionne l'espace des variables explicatives $X$ en régions (appelées feuilles ou _leaves_) les plus homogènes possible, au sens d'une certaine mesure de l'hétérogénéité;
-- Chaque région est définie par un ensemble de conditions, appelées régles de décision (_splitting rules_), qui portent sur les valeurs des variables explicatives (par exemple, une région peut être définie par la condition: $age > 40 \text{ et } statut = 'Cadre'$);
-- Une fois l'arbre construit, les prédictions de l'arbre pour chaque région se déduisent des données d'entraînement de façon intuitive: il s'agira de la classe la plus fréquente parmi les observations situées dans cette région dans le cas d'une classification, et de la moyenne des observations situées dans cette région dans le cas d'une régression.
 
-La structure de cet algorithme a deux conséquences importantes:
+Trois caractéristiques essentielles définissent un arbre CART :
 
-- L'algorithme CART ne fait **aucune hypothèse _a priori_ sur la relation entre $X$ et $y$** et se laisse au contraire guider par les données. Par exemple, on ne suppose pas qu'il existe une relation linéaire de type $y = \mathbf{X \beta}$.
--  **L'arbre final est une fonction constante par morceaux**: la prédiction est identique pour toutes les observations situées dans la même région, et ne varie que d'une région à l'autre. 
+- L'arbre partitionne l'espace des variables explicatives $X$ en régions (appelées feuilles ou _leaves_) les plus homogènes possible, au sens d'une mesure de l'hétérogénéité (par exemple, l'entropie ou l'erreur quadratique moyenne). Ces divisions vont permettre de regrouper des observations similaires pour faciliter la prédiction;
+- Chaque région est définie par un ensemble de conditions, appelées régles de décision (_splitting rules_), appliquées successivement sur les variables explicatives. Par exemple, une première règle pourrait poser la question : "L'individu est-il en emploi ?", et subdiviser les données en deux groupes (oui/non). Une deuxième règle pourrait alors affiner la segmentation en posant la question : "L'individu est-il diplômé du supérieur ?". Une région spécifique serait ainsi définie par la condition combinée : "l'individu est en emploi et est diplômé du supérieur".
+- Une fois l’arbre construit, chaque feuille produit une prédiction en se basant sur les données de la région correspondante. En classification, la prédiction est généralement la classe la plus fréquente parmi les observations de la région.
+En régression, la prédiction est typiquement la moyenne des valeurs observées dans la région.
+
+
+Deux conséquences importantes découlent de cette construction :
+- L'algorithme CART ne fait **aucune hypothèse _a priori_** sur la relation entre les variables explicatives $\mathbf{X}$ et la variable cible $y$. Ce n'est pas le cas de la régression linéaire, par exemple, qui suppose une relation linéaire du type $E(y) = \mathbf{X \beta}$.
+-  **L'arbre final est une fonction constante par morceaux**: la prédiction est **la même** pour toutes les observations situées dans la même région ; elle ne peut varier qu'entre régions. 
+
 
 Illustration, et représentation graphique (sous forme d'arbre et de graphique).
 
@@ -71,9 +77,15 @@ Troisième difficulté: à quel moment faut-il s'arrêter? => critère d'arrêt,
 
 Les arbres CART présentent plusieurs avantages: leur principe est simple, ils sont aisément interprétables et peuvent faire l'objet de représentations graphiques intuitives. Par ailleurs, la flexibilité offerte par le partitionnement récursif assure que les arbres obtenus reflètent les corrélations observées dans les données d'entraînement. 
 
-Ils souffrent néanmoins de deux limites. D'une part, les arbres CART ont souvent un __pouvoir prédictif faible__ qui en limite l'usage. D'autre part, ils sont __peu robustes et instables__: on dit qu'ils présentent une __variance élevée__. Ainsi, un léger changement dans les données (par exemple l'ajout ou la suppression de quelques observations) peut entraîner des modifications significatives dans la structure de l'arbre et dans la définition des feuilles. Les arbres CART sont notamment sensibles aux valeurs extrêmes, aux points aberrants et au bruit statistique. De plus, les prédictions des arbres CART sont sensibles à de petites fluctuations des données: celles-ci peuvent aboutir à ce qu'une partie des observations change brutalement de feuille et donc de valeur prédite.
+Ils souffrent néanmoins de deux limites. D'une part, les arbres CART ont souvent un __pouvoir prédictif faible__ qui en limite l'usage. D'autre part, ils sont __peu robustes et instables__: on dit qu'ils présentent une __variance élevée__. Ainsi, un léger changement dans les données (par exemple l'ajout ou la suppression de quelques observations) peut entraîner des modifications significatives dans la structure de l'arbre et dans la définition des régions utilisées pour la prédiction (feuilles). Les arbres CART sont notamment sensibles aux valeurs extrêmes, aux points aberrants et au bruit statistique. De plus, les prédictions des arbres CART sont sensibles à de petites fluctuations d'es données d'échantillonage: celles-ci peuvent aboutir à ce qu'une partie des observations change brutalement de feuille et donc de valeur prédite.
 
-Les deux familles de méthodes ensemblistes présentées ci-dessous (_bagging_, _random forests_ et _gradient boosting_) combinent un grand nombre d'arbres de décision pour en surmonter les deux limites: il s'agit d'obtenir un modèle dont le pouvoir prédictif est élevé et dont les prédictions sont stables. La différence essentielle entre ces deux familles portent sur la façon dont les arbres sont entraînés.
+Ces limitations motivent l’utilisation des deux familes de méthodes ensemblistes présentées dans la suite (le _bagging_, dont la _random forests_, et le _gradient boosting_), qui s’appuient sur un grand nombre d’arbres pour accroître à la fois la précision et la stabilité des prédictions. La différence essentielle entre ces deux familles portent sur la façon dont les arbres sont entraînés.
+
+
+::: {.callout-note title="Les familles de méthodes ensemblistes"}
+Les méthodes ensemblistes basées sur des arbres de décision se répartissent en **deux grandes familles**, qui se distinguent selon la manière dont les modèles de base sont construits. Lorsque les modèles de base sont entraînés en parallèle et indépendamment les uns des autres, on parle de _bagging_ (Bootstrap Aggregating). La _forêt aléatoire_ (_random forest_) est une variante particulièrement performante du bagging. Lorsque les modèles de base sont _entraînés de manière séquentielle_, chaque modèle visant à corriger les erreurs des modèles précédents, on parle de _boosting_. Ce document aborde essentiellement le _gradient boosting_, qui est l'approche de _boosting_ la plus utilisée actuellement. 
+:::
+
 
 ### Le _bagging_ (Bootstrap Aggregating) et les forêts aléatoires {#sec-rf-intuition}
 
