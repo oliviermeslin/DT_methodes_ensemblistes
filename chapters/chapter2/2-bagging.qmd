@@ -1,4 +1,4 @@
-# Le bagging
+# Le bagging {#sec-bagging-detail}
 
 Le bagging, ou "bootstrap aggregating", est une méthode ensembliste qui vise à améliorer la stabilité et la précision des algorithmes d'apprentissage automatique en agrégeant plusieurs modèles (@breiman1996bagging). Chaque modèle est entraîné sur un échantillon distinct généré par une technique de rééchantillonnage (_bootstrap_). Ces modèles sont ensuite combinés pour produire une prédiction agrégée, souvent plus robuste et généralisable que celle obtenue par un modèle unique.
 
