@@ -170,9 +170,7 @@ L'objectif de l'entraînement des forêts aléatoires est donc de minimiser la c
  -->
 
 
-## Evaluation des performances du modèle et optimisation des hyper-paramètres
-
-### Estimation de l'erreur Out-of-Bag (OOB) {#sec-rf-oob}
+## Evaluation des performances par l'erreur _Out-of-Bag_ (OOB) {#sec-rf-oob}
 
 La forêt aléatoire présente une particularité intéressante et très utile en pratique: __il est possible d'évaluer les performances d'une forêt aléatoire directement à partir des données d'entraînement__, grâce à l'estimation de l'erreur _Out-of-Bag_ (OOB). Cette technique repose sur le fait que chaque arbre est construit à partir d'un échantillon _bootstrap_, c'est-à-dire un échantillon tiré avec remise. Cela implique qu'une part conséquente des observations ne sont pas utilisées pour entraîner un arbre donné. Ces observations laissées de côté forment un **échantillon dit _out-of-bag_**, que l'on peut utiliser pour évaluer la performance de chaque arbre. On peut donc construire pour chaque observation du jeu d'entraînement une prédiction qui agrège uniquement les prédictions des arbres pour lesquels cette observation est _out-of-bag_; cette prédiction n'est pas affectée par le surapprentissage (puisque cette observation n'a jamais été utilisée pour entraîner ces arbres). De cette façon, il est possible d'évaluer correctement la performance de la forêt aléatoire.
 
@@ -209,67 +207,6 @@ L'estimation **Out-of-Bag (OOB)** est une méthode particulièrement efficace po
 - **Pas besoin de jeu de validation séparé** : L'un des principaux avantages de l'estimation OOB est qu'elle ne nécessite pas de réserver une partie des données pour la validation. Cela est particulièrement utile lorsque la taille du jeu de données est limitée, car toutes les données peuvent être utilisées pour l'entraînement tout en ayant une estimation fiable de la performance.
 - **Estimation directe et efficace** : Contrairement à la validation croisée qui peut être coûteuse en temps de calcul, l'estimation OOB est disponible "gratuitement" pendant la construction des arbres. Cela permet d'évaluer la performance du modèle sans avoir besoin de réentraîner plusieurs fois le modèle et d'optimiser plus rapidement les hyperparamètres.
 - **Approximation de l'erreur de généralisation** : L'erreur OOB est considérée comme une bonne approximation de l'erreur de généralisation, comparable à celle obtenue par une validation croisée 10-fold.  -->
-
-
-### Estimation de l'erreur par validation croisée
-
-La validation croisée est une technique d'évaluation couramment utilisée en apprentissage automatique pour estimer la capacité d'un modèle à généraliser les prédictions à de nouvelles données. Bien que l'évaluation par l'erreur _Out-of-Bag_ (OOB) soit généralement suffisante pour les forêts aléatoires, la validation croisée permet d'obtenir une évaluation plus robuste, car moins sensible à l'échantillon d'entraînement, notamment sur des jeux de données de petite taille.
-
-Concrètement, le jeu de donné est divisé en $k$ sous-ensembles, un modèle est entraîné sur $k-1$ sous-ensembles et testé sur le sous-ensemble restant. L'opération est répétée $k$ fois de manière à ce que chaque observation apparaisse au moins une fois dans l'échantillon test. L'erreur est ensuite moyennée sur l'ensemble des échantillons test.
-
-
-**Procédure de validation croisée**:
-
-La validation croisée la plus courante est la validation croisée en k sous-échantillons (_k-fold cross-validation_):
-
-- **Division des données** : Le jeu de données est divisé en k sous-échantillons égaux, appelés folds. Typiquement, k est choisi entre 5 et 10, mais il peut être ajusté en fonction de la taille des données.
-
-- **Entraînement et test** : Le modèle est entraîné sur k - 1 sous-échantillons et testé sur le sous-échantillon restant. Cette opération est répétée k fois, chaque sous-échantillon jouant à tour de rôle le rôle de jeu de test.
-
-- **Calcul de la performance** : Les k performances obtenues (par exemple, l'erreur quadratique moyenne pour une régression, ou l'accuracy (_exactitude_)  pour une classification) sont moyennées pour obtenir une estimation finale de la performance du modèle.
-
-
-**Avantages de la validation croisée**:
-
-- **Utilisation optimale des données** : En particulier lorsque les données sont limitées, la validation croisée maximise l'utilisation de l'ensemble des données en permettant à chaque échantillon de contribuer à la fois à l'entraînement et au test.
-
-- **Réduction de la variance** : En utilisant plusieurs divisions des données, on obtient une estimation de la performance moins sensible aux particularités d'une seule division.
-
-Bien que plus coûteuse en termes de calcul, la validation croisée est souvent préférée lorsque les données sont limitées ou lorsque l'on souhaite évaluer différents modèles ou hyperparamètres avec précision.
-
-
-**Leave-One-Out Cross-Validation (LOOCV)** : 
-Il s'agit d'un cas particulier où le nombre de sous-échantillons est égal à la taille du jeu de données. En d'autres termes, chaque échantillon est utilisé une fois comme jeu de test, et tous les autres échantillons pour l'entraînement. LOOCV fournit une estimation très précise de la performance, mais est très coûteuse en temps de calcul, surtout pour de grands jeux de données.
-
-
-### Choix des hyper-paramètres du modèle
-
-L'estimation Out-of-Bag (OOB) et la validation croisée sont deux méthodes clés pour optimiser les hyper-paramètres d'une forêt aléatoire. Les deux approches permettent de comparer les performances obtenues pour différentes combinaisons d'hyper-paramètres et de sélectionner celles qui maximisent les performances prédictives, l'OOB étant souvent plus rapide et moins coûteuse, tandis que la validation croisée est plus fiable dans des situations où le surapprentissage est un risque important (@probst2019hyperparameters). 
-
-Il convient de définir une stratégie d'optimisation des hyperparamètres pour ne pas perdre de temps à tester trop de jeux d'hyperparamètres. Plusieurs stratégies existent pour y parvenir, les principales sont exposées dans la section @sec-guide-rf. Les implémentations des forêts aléatoires disponibles en `R` et en Python permettent d'optimiser aisément les principaux hyper-paramètres des forêts aléatoires.
-
-#### Méthodes de recherche exhaustives
-
-- **Recherche sur grille** (Grid Search): Cette approche simple explore toutes les combinaisons possibles d'hyperparamètres définis sur une grille. Les paramètres continus doivent être discrétisés au préalable. La méthode est exhaustive mais coûteuse en calcul, surtout pour un grand nombre d'hyperparamètres.
-
-- **Recherche aléatoire** (Random Search): Plus efficace que la recherche sur grille, cette méthode échantillonne aléatoirement les valeurs des hyperparamètres dans un espace défini. Bergstra et Bengio (2012) ont démontré sa supériorité pour les réseaux neuronaux, et elle est également pertinente pour les forêts aléatoires. La distribution d'échantillonnage est souvent uniforme.
-
-
-#### Optimisation séquentielle/itérative basée sur un modèle (SMBO)
-
-La méthode SMBO (Sequential model-based optimization) est une approche plus efficace que les précédentes car elle s'appuie sur les résultats des évaluations déjà effectuées pour guider la recherche des prochains hyper-paramètres à tester (@probst2019hyperparameters). 
-
-Voici les étapes clés de cette méthode:
-
-- Définition du problème: On spécifie une mesure d'évaluation (ex: AUC pour la classification, MSE pour la régression), une stratégie d'évaluation (ex: validation croisée k-fold), et l'espace des hyperparamètres à explorer.
-
-- Initialisation: échantillonner aléatoirement des points dans l’espace des hyperparamètres et évaluer leurs performances.
-
-- Boucle itérative :
-  - Construction d'un modèle de substitution (surrogate model): un modèle de régression (ex: krigeage ou une forêt aléatoire) est ajusté aux données déjà observées. Ce modèle prédit la performance en fonction des hyperparamètres.
-  - Sélection d'un nouvel hyperparamètre: un critère basé sur le modèle de substitution sélectionne le prochain ensemble d'hyperparamètres à évaluer. Ce critère vise à explorer des régions prometteuses de l'espace des hyperparamètres qui n'ont pas encore été suffisamment explorées.
-  - Évaluer les points proposés et les ajouter à l’ensemble déjà exploré: la performance du nouvel ensemble d'hyperparamètres est évaluée et ajoutée à l'ensemble des données d'apprentissage du modèle de substitution afin d'orienter les recherches vers de nouveaux hyper-paramètres prometteurs.
-
 
 ## Interprétation et importance des variables
 
