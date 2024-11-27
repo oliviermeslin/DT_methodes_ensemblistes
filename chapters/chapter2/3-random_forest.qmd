@@ -129,7 +129,7 @@ Bien qu'elle s'avèrent très performantes en pratique, __il n'est pas prouvé �
 
 Par ailleurs, une propriété importante des forêts aléatoires démontrée par @breiman2001random est que leur erreur de généralisation, c'est-à-dire l'écart entre les prédictions du modèle et les résultats attendus sur des données jamais vues (donc hors de l'échantillon d'entraînement), diminue à mesure que le nombre d'arbres augmente et converge vers une valeur constante. Autrement dit, __la forêt aléatoire ne souffre pas d'un surapprentissage croissant avec le nombre d'arbres__. La conséquence pratique de ce résultat est qu'inclure un (trop) grand nombre d'arbres dans le modèle n'en dégrade pas la qualité, ce qui contribue à la rendre particulièrement robuste. En revanche, une forêt aléatoire peut souffrir de surapprentissage si ses autres hyperparamètres sont mal choisis (des arbres trop profonds par exemple).
 
-### Facteurs influençant l'erreur de généralisation
+### Facteurs influençant l'erreur de généralisation {#sec-facteur-perf-rf}
 
 L'erreur de généralisation des forêts aléatoires est influencée par deux facteurs principaux :
 
