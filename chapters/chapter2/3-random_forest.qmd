@@ -14,15 +14,15 @@ Objectifs:
 
 ## Principe de la forêt aléatoire 
 
-La forêt aléatoire est une extension du _bagging_, présenté dans la section @sec-bagging-detail. Elle introduit un niveau supplémentaire de randomisation dans la construction des arbres, puisqu'à chaque nouvelle division (_noeud_), le critère de séparation est choisi en considérant uniuquement un sous-ensemble de variables **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
+La forêt aléatoire est une extension du _bagging_, présenté dans la section @sec-bagging-detail. Elle introduit un niveau supplémentaire de randomisation dans la construction des arbres, puisqu'à chaque nouvelle division (_noeud_), le critère de séparation est choisi en considérant uniquement un sous-ensemble de variables **sélectionné aléatoirement**. Cette randomisation supplémentaire **réduit la corrélation** entre les arbres, ce qui permet de diminuer la variance des prédiction du modèle agrégé.
 
-Les forêts aléatoires reposent sur quatre éléments essentiels :
+Les forêts aléatoires reposent sur quatre éléments essentiels:
 
 - **Les arbres CART**: Les modèles élémentaires sont des arbres CART non élagués, c'est-à-dire autorisés à pousser jusqu'à l'atteinte d'un critère d'arrêt défini en amont.
 
-- **L'échantillonnage bootstrap**: Chaque arbre est construit à partir d'un échantillon aléatoire tiré avec remise du jeu de données d'entraînement.
+- **L'échantillonnage _bootstrap_**: Chaque arbre est construit à partir d'un échantillon aléatoire du jeu de données d'entraînement tiré avec remise (ou parfois sans remise).
 
-- **La sélection aléatoire de caractéristiques (_variables_)** : Lors de la construction d'un arbre, à chaque nœud de celui-ci, un sous-ensemble aléatoire de variables est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires.
+- **La sélection aléatoire de variables** : Lors de la construction d'un arbre, à chaque nœud de celui-ci, un sous-ensemble aléatoire de variables est sélectionné. La meilleure division est ensuite choisie parmi ces caractéristiques aléatoires.
 
 - **L'agrégation des prédictions** : Comme pour le _bagging_, les prédictions de tous les arbres sont combinées. On procède généralement à la moyenne (ou à la médiane) des prédictions dans le cas de la régression, et au vote majoritaire (ou à la moyenne des probabilités prédites pour chaque classe) dans le cas de la classification.
 
