@@ -1,7 +1,7 @@
 
 # Guide d'entraînement des forêts aléatoires {#sec-guide-rf}
 
-Ce guide d'entraînement des forêts aléatoires rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters. Ce guide comporte un certain nombre de choix méthodologiques forts, comme les implémentations recommandées ou la procédure d'entraînement proposée, et d'autres choix sont évidemment possibles. Les recommandations de ce guide doivent donc être considérées comme un point de départ raisonnable, pas comme un ensemble de règles devant être respectées à tout prix.
+Ce guide d'entraînement des forêts aléatoires rassemble et synthétise des recommandations sur l'entraînement des forêts aléatoires disponibles dans la littérature, en particulier dans @probst2019hyperparameters. Ce guide comporte un certain nombre de choix méthodologiques forts, comme les implémentations recommandées ou la procédure d'entraînement proposée, et d'autres choix pertinents sont évidemment possibles. Les recommandations de ce guide doivent donc être considérées comme un point de départ raisonnable, pas comme un ensemble de règles devant être respectées à tout prix.
 
 
 ## Quelles implémentations utiliser? {#sec-implementation-rf}
@@ -10,7 +10,7 @@ Il existe de multiples implémentations des forêts aléatoires. Le présent doc
 
 ## Les hyperparamètres clés des forêts aléatoires {#sec-hyperparam-rf}
  
-Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des _random forests_, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
+Cette section décrit en détail les principaux hyperparamètres des forêts aléatoires listés dans le tableau `@tbl-hyp-rf`{=typst}. Les noms des hyperparamètres utilisés sont ceux figurant dans le _package_ `R` `ranger`, et dans le _package_ `Python` `scikit-learn`. Il arrive qu'ils portent un nom différent dans d'autres implémentations des forêts aléatoires, mais il est généralement facile de s'y retrouver en lisant attentivement la documentation.
 
 ::: {.content-visible unless-format="html"}
 
