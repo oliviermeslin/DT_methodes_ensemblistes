@@ -5,7 +5,7 @@ __Principe__: Cette section propose une introduction intuitive aux méthodes ens
 
 ## Que sont les méthodes ensemblistes?
 
-Les méthodes ensemblistes sont des techniques d'apprentissage supervisé en machine learning développées depuis le début des années 1990. Leur objectif est de prédire une variable-cible $y$ (appelée _target_) à partir d'un ensemble de variables prédictives $\mathbf{X}$ (appelées _features_), que ce soit pour des tâches de classification (prédire une catégorie) ou de régression (prédire une valeur numérique). Elles peuvent par exemple être utilisées pour prédire le salaire d'un salarié, la probabilité de réponse dans une enquête, le niveau de diplôme...
+Les méthodes ensemblistes sont des techniques d'apprentissage supervisé en _machine learning_ développées depuis le début des années 1990. Leur objectif est de prédire une variable-cible $y$ (appelée _target_) à partir d'un ensemble de variables prédictives $\mathbf{X}$ (appelées _features_), que ce soit pour des tâches de classification (prédire une catégorie) ou de régression (prédire une valeur numérique). Elles peuvent par exemple être utilisées pour prédire le salaire d'un salarié, la probabilité de réponse dans une enquête, le niveau de diplôme...
 
 Plutôt que de s'appuyer sur un seul modèle complexe, les méthodes ensemblistes se caractérisent par la combinaison des prédictions de plusieurs modèles plus simples, appelés "apprenants faibles" (_weak learner_ ou _base learner_), pour créer un "apprenant fort" plus performant. 
 
