@@ -44,7 +44,7 @@ Elle introduit ensuite les **deux grandes familles de méthodes ensemblistes** d
 
 #### Qu'est-ce qu'un arbre CART?
 
-Le modèle de base des méthodes ensemblistes est souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif qui traite un problème complexe en le décomposant en une série de décisions simples, organisées de manière hiérarchique. Ces décisions permettent de segmenter progressivement les données pour en extraire des prédictions. Il s'agit d'un outil puissant pour explorer les relations entre les variables explicatives et la variable cible, sans a priori concernant la forme de cette relation.
+Le modèle de base des méthodes ensemblistes est souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif qui traite un problème de prédiction complexe en le décomposant en une série de décisions simples, organisées de manière hiérarchique. Ces décisions permettent de segmenter progressivement les données en régions homogènes au sein desquelles il est plus simple de faire des prédictions. Il s'agit d'un outil puissant pour explorer les relations entre les variables explicatives et la variable cible, sans recourir à des hypothèses _a priori_ sur la forme de cette relation.
 
 
 Trois caractéristiques essentielles définissent un arbre CART :
