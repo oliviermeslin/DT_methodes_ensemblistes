@@ -55,7 +55,7 @@ Trois caractéristiques essentielles définissent un arbre CART :
 
 
 Deux conséquences importantes découlent de cette construction :
-- L'algorithme CART ne fait **aucune hypothèse _a priori_** sur la relation entre les variables explicatives $\mathbf{X}$ et la variable cible $y$. Ce n'est pas le cas de la régression linéaire, par exemple, qui suppose une relation linéaire du type $E(y) = \mathbf{X \beta}$.
+- L'algorithme CART ne fait **aucune hypothèse _a priori_** sur la relation entre les variables explicatives $\mathbf{X}$ et la variable cible $y$. C'est une différence majeure avec les modèles économétriques standard, tels que la régression linéaire qui suppose une relation linéaire de la forme $E(y) = \mathbf{X \beta}$.
 -  **L'arbre final est une fonction constante par morceaux**: la prédiction est **la même** pour toutes les observations situées dans la même région ; elle ne peut varier qu'entre régions. 
 
 
