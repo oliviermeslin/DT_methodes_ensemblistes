@@ -1,8 +1,13 @@
+# DT: Introduction aux méthodes ensemblistes
+Ce document méthodologique comporterait environ 60 pages, figures et annexes comprises.
+
 # Introduction
+Cette section comporterait environ 1 page.
 
 # 1. Aperçu des méthodes ensemblistes
 
 Introduction intuitive aux méthodes ensemblistes, accessible sans prérequis.
+Cette section comporterait une dizaine de pages, figures comprises.
 
 ## 1.1 Que sont les méthodes ensemblistes ?
 
@@ -56,10 +61,12 @@ Illustration graphique.
 # 2. Présentation formelle des méthodes ensemblistes
 
 Objectif : Présentation formelle des méthodes ensemblistes, pour une compréhension approfondie des algorithmes.
+Cette section comporterait environ 25 pages.
 
 ## 2.1 La brique élémentaire : l'arbre de décision
 
 Présentation formelle des arbres de décision : principe du partitionnement pour prédire, défis du partitionnement optimal. Solution apportée par les arbres de décision (simplification du partitionnement et optimisation gloutonne). Terminologie et structure d'un arbre de décision.
+Cette section comporterait environ 5 pages.
 
 ### 2.1.1 Le principe fondamental : partitionner pour prédire
 
@@ -89,6 +96,7 @@ Limites : surapprentissage, optimatimisation locale, instabilité.
 ## 2.2 Le bagging
 
 Présentation détaillée du bagging : échantillonnage bootstrap, entraînement parallèle, agrégation des prédictions. Explication de son fonctionnement pour la régression (réduction de la variance) et la classification (classificateur presque optimal). Limites du bagging en pratique.
+Cette section comporterait environ 5 pages.
 
 ### 2.2.1 Principe du bagging
 
@@ -106,6 +114,7 @@ Présentation des limites de l'échantillonnage bootstrap : taille effective ré
 ## 2.3 La forêt aléatoire
 
 Présentation détaillée des forêts aléatoires : principe, construction (échantillonnage bootstrap, sélection aléatoire de variables, agrégation des prédictions). Explication de leur performance (réduction de la variance, convergence, facteurs influençant l'erreur de généralisation). Hyperparamètres clés, erreur OOB.
+Cette section comporterait environ 5 pages.
 
 ### 2.3.1 Principe de la forêt aléatoire
 
@@ -134,6 +143,7 @@ Discussion des méthodes d'importance des variables (MDI, MDA, valeurs de Shaple
 ## 2.4 Le boosting
 
 Introduction au boosting, ses principes fondamentaux (approximation d'une fonction inconnue, somme pondérée de modèles simples, modélisation additive par étapes). Présentation des premières approches (AdaBoost, Gradient Boosting Machine). Détail de la mécanique du gradient boosting (fonction objectif, gradient, hessienne, construction de l'arbre). Moyens de lutter contre le surapprentissage. Hyperparamètres et préparation des données.
+Cette section comporterait environ 10 pages.
 
 ### 2.4.1 Introduction
 
@@ -157,9 +167,13 @@ Présentation des fonctions de perte usuelles.
 
 Techniques pour éviter le surapprentissage dans les modèles _boosting_ (_shrinkage_, _subsampling_, régularisation).
 
+
+
 # 3. Mise en pratique
 
 Objectif : Guide pratique pour l'utilisation des forêts aléatoires et du _gradient boosting_.
+Cette section comporterait environ 15 pages.
+
 
 ## 3.1 Préparation des données
 
@@ -173,6 +187,7 @@ Méthodes d'évaluation : validation croisée, estimation OOB. Stratégies d'opt
 ## 3.3 Guide d'entraînement des forêts aléatoires
 
 Recommandations pratiques pour l'entraînement des forêts aléatoires : implémentations à privilégier, hyperparamètres clés, procédures d'entraînement.
+Cette section comporterait environ 5 pages.
 
 ### 3.3.1 Quelles implémentations utiliser ?
 
@@ -194,9 +209,12 @@ Recommandations sur les méthodes d'importance des variables. Privilégier celle
 ## 3.4 Guide d'entraînement des algorithmes de _gradient boosting_
 
 Recommandations pratiques pour l'entraînement des algorithmes de _gradient boosting_ : implémentations à privilégier, hyperparamètres clés, procédures d'entraînement.
-
+Cette section comporterait environ 5 pages.
 
 # 4. Cas d’usage des méthodes ensemblistes dans la statistique publique
+Objectif: présenter des travaux du SSP qui mobilisent, ou qui pourraient mobiliser, des méthodes ensemblistes.
+Liste non exhaustive. Résumés de ces travaux et liens vers les publications de référence.
+Cette section comporterait environ 2 pages.
 
 ## 4.1. Les travaux déjà publiés mobilisant des méthodes ensemblistes
 
