@@ -4,7 +4,7 @@
 
 ### Démarche
 
-- Que pensez-vous l'approche à deux niveaux de lecture (aperçu intuitif, puis présentation plus formalisée)?
+- Que pensez-vous l'approche à trois niveaux de lecture (aperçu intuitif, puis présentation plus formalisée, puis guide d'entraînement pratique)?
 - Que pensez-vous de séparer la présentation des méthodes elles-mêmes, et leur usage?
 
 ### Présentation des algorithmes
