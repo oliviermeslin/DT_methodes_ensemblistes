@@ -195,3 +195,9 @@ Recommandations sur les méthodes d'importance des variables. Privilégier celle
 
 Recommandations pratiques pour l'entraînement des algorithmes de _gradient boosting_ : implémentations à privilégier, hyperparamètres clés, procédures d'entraînement.
 
+
+# 4. Cas d’usage des méthodes ensemblistes dans la statistique publique
+
+## 4.1. Les travaux déjà publiés mobilisant des méthodes ensemblistes
+
+## 4.2. Les travaux et processus actuels qui pourraient mobiliser des méthodes ensemblistes
