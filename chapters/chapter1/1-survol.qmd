@@ -114,7 +114,7 @@ Pour réduire cette corrélation entre arbres, les forêts aléatoires introduis
 
 
 
-#### Les _random forests_
+#### Les forêts aléatoires (_random forests_)
 
 Les forêts aléatoires (_random forests_, @breiman2001random) sont une variante du _bagging_ qui vise à produire des modèles très performants en conciliant deux objectifs: maximiser le pouvoir prédictif des arbres pris isolément, et minimiser la corrélation entre ces arbres (le problème inhérent au _bagging_). 
 
