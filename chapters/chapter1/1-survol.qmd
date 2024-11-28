@@ -82,7 +82,7 @@ Ces limites motivent l'utilisation des deux familles de méthodes ensemblistes p
 
 
 ::: {.callout-note title="Les familles de méthodes ensemblistes"}
-Les méthodes ensemblistes basées sur des arbres de décision se répartissent en **deux grandes familles**, qui se distinguent selon la manière dont les modèles de base sont construits. Lorsque les modèles de base sont entraînés en parallèle et indépendamment les uns des autres, on parle de _bagging_ (Bootstrap Aggregating). La _forêt aléatoire_ (_random forest_) est une variante particulièrement performante du bagging. Lorsque les modèles de base sont _entraînés de manière séquentielle_, chaque modèle visant à corriger les erreurs des modèles précédents, on parle de _boosting_. Ce document aborde essentiellement le _gradient boosting_, qui est l'approche de _boosting_ la plus utilisée actuellement. 
+Les méthodes ensemblistes basées sur des arbres de décision se répartissent en **deux grandes familles**, qui se distinguent selon la manière dont les modèles de base sont construits. Lorsque les modèles de base sont entraînés en parallèle et indépendamment les uns des autres, on parle de _bagging_ (_Bootstrap Aggregating_). La _forêt aléatoire_ (_random forest_) est une variante particulièrement performante du _bagging_. Lorsque les modèles de base sont _entraînés de manière séquentielle_, chaque modèle visant à corriger les erreurs des modèles précédents, on parle de _boosting_. Ce document aborde essentiellement le _gradient boosting_, qui est l'approche de _boosting_ la plus utilisée actuellement. 
 :::
 
 
