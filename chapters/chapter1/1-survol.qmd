@@ -44,7 +44,7 @@ Elle introduit ensuite les **deux grandes familles de méthodes ensemblistes** d
 
 #### Qu'est-ce qu'un arbre CART?
 
-Le modèle de base des méthodes ensemblistes est souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif qui simplifie un problème complexe en le décomposant en une série de décisions simples, organisées de manière hiérarchique. Ces décisions permettent de segmenter progressivement les données pour en extraire des prédictions. Il s'agit d'un outil puissant pour explorer les relations entre les variables explicatives et la variable cible, sans a priori concernant la forme de cette relation.
+Le modèle de base des méthodes ensemblistes est souvent un arbre de classification et de régression (CART, @breiman1984cart). Un arbre CART est un algorithme prédictif qui traite un problème complexe en le décomposant en une série de décisions simples, organisées de manière hiérarchique. Ces décisions permettent de segmenter progressivement les données pour en extraire des prédictions. Il s'agit d'un outil puissant pour explorer les relations entre les variables explicatives et la variable cible, sans a priori concernant la forme de cette relation.
 
 
 Trois caractéristiques essentielles définissent un arbre CART :
@@ -91,7 +91,7 @@ Les méthodes ensemblistes basées sur des arbres de décision se répartissent 
 
 #### Le _bagging_
 
-Le _bagging_ (Bootstrap Aggregating) est une méthode ensembliste qui repose sur l’agrégation des prédictions de plusieurs modèles de individuels, entraînés indépendamment les uns des autres, pour construire un modèle global plus performant (@breiman1996bagging). Cette approche constitue également le socle des forêts aléatoires, qui en sont une version améliorée.
+Le _bagging_ (Bootstrap Aggregating) est une méthode ensembliste qui repose sur l’agrégation des prédictions de plusieurs modèles individuels, entraînés indépendamment les uns des autres, pour construire un modèle global plus performant (@breiman1996bagging). Cette approche constitue également le socle des forêts aléatoires, qui en sont une version améliorée.
 
 Le bagging offre deux avantages majeurs par rapport aux arbres de décision CART : une meilleure capacité prédictive et une plus grande stabilité des prédictions. 
 
@@ -126,7 +126,7 @@ Pour atteindre ce second objectif, la forêt aléatoire introduit une nouvelle s
 
 ![Représentation schématique d'un algorithme de forêt aléatoire](/figures/rf.svg){#fig-rf}
 
-La figure @fig-rf propose une représentation schématique d'une forêt aléatoire. La logique d'ensemble la même que celle du _bagging_. L'échantillonnage bootstrap est inchangé, mais l'étape de construction de chaque arbre est modifiée pour n'utiliser, à chaque nouvelle division, qu'un sous-ensemble aléatoire de variables. L'agrégation des prédictions se fait ensuite de la même manière que pour le bagging.
+La figure @fig-rf propose une représentation schématique d'une forêt aléatoire. La logique d'ensemble reste la même que celle du _bagging_. L'échantillonnage bootstrap est inchangé, mais l'étape de construction de chaque arbre est modifiée pour n'utiliser, à chaque nouvelle division, qu'un sous-ensemble aléatoire de variables. L'agrégation des prédictions se fait ensuite de la même manière que pour le bagging.
 
 <!--Cette restriction de la liste des variables considérées permet de réduire l'utilisation des variables les plus prédictives et de mieux mobiliser l'information disponible dans les variables peu corrélées avec $y$.-->
 
@@ -160,7 +160,7 @@ La logique du *gradient boosting* est illustrée par la figure @fig-gb:
 -   Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
 
 
-Le gradient boosting offre des performances élevées mais exige une attention particulière à la configuration des hyperparamètres et à la prévention du surapprentissage. En particulier, les hyperparamètres sont nombreux et, contrairement aux _forêts aléatoires_, nécessitent un ajustement minutieux pour obtenir des résultats optimaux. Une mauvaise configuration peut conduire à des performances médiocres ou à un surapprentissage. L'utilisation du gradient boosting nécessite donc une bonne connaissance du fonctionnement des algorithmes. En outre, les algorithmes de gradient boosting peuvent être sensibles au bruit dans les données et aux erreurs dans la variable cible. Un prétraitement rigoureux des données est donc essentiel. Enfin, une validation rigoureuse sur un jeu de données de test indépendant (non utilisé pendant l'entraînement) est indispensable pour évaluer la qualité du modèle obtenu par gradient boosting. 
+Le gradient boosting offre des performances élevées mais exige une attention particulière portée sur la configuration des hyperparamètres et sur la prévention du surapprentissage. En particulier, les hyperparamètres sont nombreux et, contrairement aux _forêts aléatoires_, nécessitent un ajustement minutieux pour obtenir des résultats optimaux. Une mauvaise configuration peut conduire à des performances médiocres ou à un surapprentissage. L'utilisation du gradient boosting nécessite donc une bonne connaissance du fonctionnement des algorithmes. En outre, les algorithmes de gradient boosting peuvent être sensibles au bruit dans les données et aux erreurs dans la variable cible. Un prétraitement rigoureux des données est donc essentiel. Enfin, une validation rigoureuse sur un jeu de données de test indépendant (non utilisé pendant l'entraînement) est indispensable pour évaluer la qualité du modèle obtenu par gradient boosting. 
 
 
 
