@@ -104,7 +104,7 @@ Cette amélioration découle de la stratégie d'entraînement. Au lieu d'entraî
 
 La @fig-bagging propose une représentation schématique du _bagging_: d'abord, des sous-échantillons sont générés aléatoires avec remise à partir du jeu de données d'entraînement. Ensuite, des arbres de décision sont entraînés indépendamment sur ces sous-échantillons. Enfin, leurs prédictions sont agrégées pour obtenir les prédictions finales. On procède généralement au vote majoritaire (la classe prédite majoritairement par les arbres) dans un problème de classification, et à la moyenne dans un problème de régression. 
 
-L'efficacité du bagging provient de la réduction de la variance qui découle de l'agrégation des prédictions. Chaque arbre est entraîné sur un sous-échantillon légèrement différent, sujet à des fluctuations aléatoires. L'agrégation des prédictions (par moyenne ou vote majoritaire) de tous les arbres réduit la sensibilité du modèle final aux fluctuations des données d’entraînement. Le modèle final est ainsi plus robuste et plus précis que chacun des arbres pris individuellement.
+L'efficacité du _bagging_ provient de la réduction de la variance qui est permise par l'agrégation des prédictions. Chaque arbre est entraîné sur un sous-échantillon légèrement différent, sujet à des fluctuations aléatoires. L'agrégation des prédictions (par moyenne ou vote majoritaire) de tous les arbres réduit la sensibilité du modèle final aux fluctuations des données d’entraînement. Le modèle final est ainsi plus robuste et plus précis que chacun des arbres pris individuellement.
 
 
 - Illustration avec un cas d'usage de classification en deux dimensions.
