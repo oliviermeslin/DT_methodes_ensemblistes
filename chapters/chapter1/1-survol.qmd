@@ -148,7 +148,9 @@ Le surapprentissage (_overfitting_) est un phénomène fréquent en _machine lea
 
 ### Le _gradient boosting_ {#sec-gb-intuition}
 
-Alors que les forêts aléatoires construisent un ensemble d'arbres complexes et indépendants les uns des autres, le _gradient boosting_ adopte une autre approche, dans laquelle les arbres sont peu complexes et entraînés de façon séquentielle, chaque arbre ayant pour objectif d'améliorer la prédiction de l'ensemble des arbres précédents. Bien qu'elles ressemblent fortement aux forêts aléatoires en apparence, il est important de noter que les approches de _boosting_ reposent sur des fondements théoriques très différents. La logique du *gradient boosting* est illustrée par la figure @fig-gb:
+Contrairement aux forêts aléatoires qui combinent des arbres de décision complexes et indépendants, le _gradient boosting_ construit un ensemble d'arbres plus simples et entraînés de manière séquentielle. Chaque arbre vise à corriger les erreurs commises par les arbres précédents, améliorant progressivement la précision du modèle global. Cette approche repose sur des fondements théoriques très différents de ceux du _bagging_.
+
+La logique du *gradient boosting* est illustrée par la figure @fig-gb:
 
 ![Représentation schématique d'un algorithme de _gradient boosting_](/figures/gb.svg){#fig-gb}
 
@@ -157,8 +159,8 @@ Alors que les forêts aléatoires construisent un ensemble d'arbres complexes et
 -   Ce processus est répété en ajoutant des modèles simples, chaque modèle corrigeant les erreurs commises par l'ensemble des modèles précédents;
 -   Tous ces modèles sont finalement combinés (souvent par une somme pondérée) pour obtenir un modèle complexe et performant.
 
-Il s'avère que le _gradient boosting_ offre des performances prédictives particulièrement élevées. Toutefois, cet avantage incontestable ne doit pas masquer les sérieux inconvénients de cette approche: les algorithmes de _gradient boosting_ comprennent un nombre élevé d'hyperparamètres et sont plus sensibles que les forêts aléatoires aux valeurs de ces hyperparamètres. Par ailleurs, ces algorithmes se caractérisent par un risque élevé de surapprentissage, et sont assez sensibles au bruit statistique et aux éventuelles erreurs sur la variable-cible. Par conséquent, l'usage de ces algorithmes est plus délicat, et l'optimisation de leurs hyperparamètres est une étape importante qui peut prendre un certain temps et demande une bonne connaissance des algorithmes. Enfin, il est indispensable de disposer d'un jeu de données de test (non utilisées pendant l'entraînement) pour évaluer la qualité d'un modèle de _boosting_.
 
+Le gradient boosting offre des performances élevées mais exige une attention particulière à la configuration des hyperparamètres et à la prévention du surapprentissage. En particulier, les hyperparamètres sont nombreux et, contrairement aux _forêts aléatoires_, nécessitent un ajustement minutieux pour obtenir des résultats optimaux. Une mauvaise configuration peut conduire à des performances médiocres ou à un surapprentissage. L'utilisation du gradient boosting nécessite donc une bonne connaissance du fonctionnement des algorithmes. En outre, les algorithmes de gradient boosting peuvent être sensibles au bruit dans les données et aux erreurs dans la variable cible. Un prétraitement rigoureux des données est donc essentiel. Enfin, une validation rigoureuse sur un jeu de données de test indépendant (non utilisé pendant l'entraînement) est indispensable pour évaluer la qualité du modèle obtenu par gradient boosting. 
 
 
 
