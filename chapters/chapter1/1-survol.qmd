@@ -123,7 +123,7 @@ Pour atteindre ce second objectif, la forêt aléatoire introduit une nouvelle s
 
 ![Représentation schématique d'un algorithme de forêt aléatoire](/figures/rf.svg){#fig-rf}
 
-La figure @fig-rf propose une représentation schématique d'une forêt aléatoire. La logique d'ensemble reste la même que celle du _bagging_. L'échantillonnage bootstrap est inchangé, mais l'étape de construction de chaque arbre est modifiée pour n'utiliser, à chaque nouvelle division, qu'un sous-ensemble aléatoire de variables. L'agrégation des prédictions se fait ensuite de la même manière que pour le bagging.
+La figure @fig-rf propose une représentation schématique d'une forêt aléatoire. La logique d'ensemble reste la même que celle du _bagging_. L'échantillonnage _bootstrap_ est inchangé, mais l'étape de construction de chaque arbre est modifiée pour n'utiliser, à chaque nouvelle division, qu'un sous-ensemble aléatoire de variables. L'agrégation des prédictions se fait ensuite de la même manière que pour le _bagging_.
 
 <!--Cette restriction de la liste des variables considérées permet de réduire l'utilisation des variables les plus prédictives et de mieux mobiliser l'information disponible dans les variables peu corrélées avec $y$.-->
 
