@@ -107,7 +107,7 @@ L'efficacité du _bagging_ provient de la réduction de la variance qui est perm
 
 - Illustration avec un cas d'usage de classification en deux dimensions.
 
-Malgré ses avantages, le bagging souffre d'une limite importante qui provient de la corrélation entre les arbres. En effet, malgré le tirage aléatoire, les arbres présentent souvent des structures similaires, car les règles de décision sous-jacentes à chaque arbre restent généralement les mêmes. Cette corrélation réduit l’efficacité de l’agrégation et limite les gains en performance.
+Malgré ses avantages, le _bagging_ souffre d'une limite importante qui provient de la **corrélation entre les arbres**. En effet, malgré le tirage aléatoire des sous-échantillons, les arbres présentent souvent des structures similaires, car les règles de décision sous-jacentes restent généralement assez proches. Cette corrélation réduit l’efficacité de l’agrégation et limite les gains en performance.
 
 Pour réduire cette corrélation entre arbres, les forêts aléatoires introduisent une étape supplémentaire de randomisation. Leur supériorité prédictive explique pourquoi le bagging seul est rarement utilisé en pratique. Néanmoins, les forêts aléatoires tirent leur efficacité des principes fondamentaux du bagging.
 
