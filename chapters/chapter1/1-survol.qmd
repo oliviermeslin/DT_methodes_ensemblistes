@@ -90,11 +90,9 @@ Les méthodes ensemblistes basées sur des arbres de décision se répartissent 
 
 #### Le _bagging_
 
-Le _bagging_ (Bootstrap Aggregating) est une méthode ensembliste qui repose sur l’agrégation des prédictions de plusieurs modèles individuels, entraînés indépendamment les uns des autres, pour construire un modèle global plus performant (@breiman1996bagging). Cette approche constitue également le socle des forêts aléatoires, qui en sont une version améliorée.
+Le _bagging_ (Bootstrap Aggregating) est une méthode ensembliste qui repose sur l’agrégation des prédictions de plusieurs modèles individuels, entraînés indépendamment les uns des autres, pour construire un modèle global plus performant (@breiman1996bagging). Cette approche constitue également le socle des forêts aléatoires, qui en sont une version améliorée. 
 
-Le bagging offre deux avantages majeurs par rapport aux arbres de décision CART : une meilleure capacité prédictive et une plus grande stabilité des prédictions. 
-
-Cette amélioration découle de la stratégie d'entraînement. Au lieu d'entraîner un seul modèle sur l'ensemble des données, le bagging procède en trois étapes principales:
+Le bagging offre deux avantages majeurs par rapport aux arbres de décision CART : une meilleure capacité prédictive et une plus grande stabilité des prédictions. Cette amélioration découle de la stratégie d'entraînement. Au lieu d'entraîner un seul modèle sur l'ensemble des données, le bagging procède en trois étapes principales:
 
 - __Tirage de sous-échantillons aléatoires__: À partir du jeu de données initial, plusieurs sous-échantillons sont générés par échantillonnage aléatoire avec remise (_bootstrapping_). Chaque sous-échantillon a la même taille que le jeu de données original, mais peut contenir des observations répétées, tandis que d'autres peuvent être omises.
 - __Entraînement parallèle__: Un arbre est entraîné sur chaque sous-échantillon de manière indépendante. Ces arbres sont habituellement assez complexes et profonds.
