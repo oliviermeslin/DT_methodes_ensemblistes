@@ -1,13 +1,69 @@
-# DT: Introduction aux méthodes ensemblistes
-Ce document méthodologique comporterait environ 60 pages, figures et annexes comprises.
+---
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "Plan détaillé"
+preview:
+  port: 4200
+  browser: true
+format:
+  ctk-article-typst:
+    include-in-header: ../customisation_template.typ
+    keep-typ: true
+author:
+  - name: Mélina Hillion
+    affiliations:
+      - name: Insee
+        department: Unité SSP-Lab
+    email: melina.hillion@insee.fr
+  - name: Olivier Meslin
+    affiliations:
+      - name: Insee
+        department: Unité SSP-Lab
+    email: olivier.meslin@insee.fr
+fig-cap-location: top
+date: today
+abstract: |
+  A compléter
+keywords:
+  - machine learning
+  - méthodes ensemblistes
+  - formation
+# thanks: "Nous remercions Daffy Duck et Mickey Mouse pour leur contribution."
+papersize: a4
+margins: 1.25in
+mainfont: New Computer Modern
+codefont: New Computer Modern Math
+title-page: false
+toc: true
+toc-depth: 3
+toc-title: "Sommaire"
+blind: false
+linkcolor: "#000000"
+bibliography: /references.bib
+bibliographystyle: ieee
+functions:
+  - "titled-raw-block"
+  - "text"
+bibliography: references.bib
+---
+
+Cette introduction aux méthodes ensemblistes s'adresse aux agents de la statistique publique. Elle prendra deux formes:
+
+- Un document méthodologique comprenant entre 80 et 100 pages, figures et annexes comprises;
+- Un site internet ((lien)[https://oliviermeslin.github.io/DT_methodes_ensemblistes/]).
+
 
 # Introduction
 Cette section comporterait environ 1 page.
 
 # 1. Aperçu des méthodes ensemblistes
 
-Introduction intuitive aux méthodes ensemblistes, accessible sans prérequis.
-Cette section comporterait une dizaine de pages, figures comprises.
+Introduction intuitive aux méthodes ensemblistes, accessible sans prérequis. Cette section comporterait une dizaine de pages, figures comprises.
+
+__Angles éditoriaux__:
+
+- Les méthodes ensemblistes sont des approches de _machine learning_ très performantes sur données tabulaires et relativement simples à comprendre et prendre en main.
+- Elles sont particulièrement bien adaptées à de nombreux cas d'usage de la statistique publique car elles sont conçues pour s'appliquer à des données tabulaires.
+- Les forêts aléatoires sont d'un usage plus simple que le _gradient boosting_.
 
 ## 1.1 Que sont les méthodes ensemblistes ?
 
@@ -21,11 +77,13 @@ Limites : interprétabilité moindre et complexité accrue de l'entraînement et
 
 ## 1.3 Comment fonctionnent les méthodes ensemblistes ?
 
-Présentation du modèle de base (arbre CART) et des deux grandes familles de méthodes ensemblistes : bagging (dont forêts aléatoires) et gradient boosting.
+Présentation du modèle de base (arbre CART) et des deux grandes familles de méthodes ensemblistes : _bagging_ (dont forêts aléatoires) et _gradient boosting_.
 
 ### 1.3.1 Le modèle de base : l'arbre de classification et de régression (CART)
 
-Explication intuitive du fonctionnement d'un arbre CART : partitionnement de l'espace des variables explicatives, règles de décision, prédictions. Avantages et limites des arbres CART (faible pouvoir prédictif et instabilité).
+Explication intuitive du fonctionnement d'un arbre CART : partitionnement de l'espace des variables explicatives, règles de décision, prédictions. 
+
+Avantages et limites des arbres CART (faible pouvoir prédictif et instabilité).
 
 #### 1.3.1.1 Qu'est-ce qu'un arbre CART ?
 
@@ -34,27 +92,32 @@ Définition formelle d'un arbre CART. Caractéristiques essentielles: partitionn
 #### 1.3.1.2 Avantages et limites des arbres CART
 
 Points forts: simplicité, interprétabilité. 
-Faiblesses: faible pouvoir prédictif, instabilité, variance élevée.
 
-### 1.3.2 Le bagging (Bootstrap Aggregating) et les forêts aléatoires
+Points Faibles: faible pouvoir prédictif, instabilité, variance élevée.
 
-Introduction au bagging : principe du bootstrap, entraînement parallèle, agrégation des prédictions. 
-Avantages du bagging : meilleure capacité prédictive et stabilité. 
+### 1.3.2 Le _bagging_ (Bootstrap Aggregating) et les forêts aléatoires
+
+Introduction au _bagging_ : principe de l'échantillonnage bootstrap, entraînement parallèle, agrégation des prédictions. 
+Avantages du _bagging_ : meilleure capacité prédictive et stabilité. 
 Limites : corrélation entre les arbres.
 
-#### 1.3.2.1 Le bagging
+#### 1.3.2.1 Le _bagging_
 
-Détail du processus de bagging : création de sous-échantillons aléatoires avec remise, entraînement parallèle des modèles de base, agrégation des prédictions (moyenne ou vote majoritaire). Illustration graphique.
+Détail du processus de _bagging_ : création de sous-échantillons aléatoires avec remise, entraînement parallèle des modèles de base, agrégation des prédictions (moyenne ou vote majoritaire). 
 
-#### 1.3.2.2 Les random forests
+llustration graphique.
 
-Amélioration du bagging : ajout de la sélection aléatoire des variables. Réduction de la corrélation entre les arbres, amélioration de l'efficacité de l'agrégation. Illustration graphique.
+#### 1.3.2.2 Les _random forests_
 
-### 1.3.3 Le gradient boosting
+Amélioration du _bagging_ : ajout de la sélection aléatoire des variables. Réduction de la corrélation entre les arbres, amélioration de l'efficacité de l'agrégation. 
 
-Présentation du gradient boosting : entraînement séquentiel des arbres, correction des erreurs des arbres précédents. 
+### 1.3.3 Le _gradient boosting_
+
+Présentation du _gradient boosting_ : entraînement séquentiel des arbres, correction des erreurs des arbres précédents. 
 Avantages : performances élevées.
+
 Limites : complexité, sensibilité aux hyper-paramètres, risque de surapprentissage. 
+
 Illustration graphique.
 
 
@@ -62,6 +125,12 @@ Illustration graphique.
 
 Objectif : Présentation formelle des méthodes ensemblistes, pour une compréhension approfondie des algorithmes.
 Cette section comporterait environ 25 pages.
+
+__Angles éditoriaux__:
+
+- Le contenu mathématique est limité à ce qui est indispensable pour des praticiens. En revanche, le document contiendra les références aux articles fondateurs.
+- L'exposé insiste sur les propriétés des algorithmes qui ont un impact sur l'utilisation des algorithmes (exemple: la performance d'une forêt aléatoire finit par plafonner avec le nombre d'arbres, et c'est commode en pratique).
+
 
 ## 2.1 La brique élémentaire : l'arbre de décision
 
@@ -93,18 +162,18 @@ Détail de l'algorithme CART : fonction d'impureté (indice de Gini, entropie, s
 Avantages: interprétabilité, simplicité, flexibilité, gestion des interactions. 
 Limites : surapprentissage, optimatimisation locale, instabilité.
 
-## 2.2 Le bagging
+## 2.2 Le _bagging_
 
-Présentation détaillée du bagging : échantillonnage bootstrap, entraînement parallèle, agrégation des prédictions. Explication de son fonctionnement pour la régression (réduction de la variance) et la classification (classificateur presque optimal). Limites du bagging en pratique.
+Présentation détaillée du _bagging_ : échantillonnage bootstrap, entraînement parallèle, agrégation des prédictions. Explication de son fonctionnement pour la régression (réduction de la variance) et la classification (classificateur presque optimal). Limites du _bagging_ en pratique.
 Cette section comporterait environ 5 pages.
 
-### 2.2.1 Principe du bagging
+### 2.2.1 Principe du _bagging_
 
-Détail des étapes du bagging.
+Détail des étapes du _bagging_.
 
-### 2.2.2 Pourquoi le bagging fonctionne
+### 2.2.2 Pourquoi le _bagging_ fonctionne
 
-Explication du fonctionnement du bagging avec la décomposition biais-variance et l'inégalité de Breiman.
+Explication du fonctionnement du _bagging_ avec la décomposition biais-variance et l'inégalité de Breiman.
 
 ### 2.2.3 L'échantillonnage par bootstrap peut détériorer les performances théoriques du modèle agrégé
 
@@ -114,6 +183,7 @@ Présentation des limites de l'échantillonnage bootstrap : taille effective ré
 ## 2.3 La forêt aléatoire
 
 Présentation détaillée des forêts aléatoires : principe, construction (échantillonnage bootstrap, sélection aléatoire de variables, agrégation des prédictions). Explication de leur performance (réduction de la variance, convergence, facteurs influençant l'erreur de généralisation). Hyperparamètres clés, erreur OOB.
+
 Cette section comporterait environ 5 pages.
 
 ### 2.3.1 Principe de la forêt aléatoire
@@ -126,7 +196,7 @@ Description des étapes de la construction d'une forêt aléatoire.
 
 ### 2.3.3 Pourquoi les forêts aléatoires sont-elles performantes ?
 
-Explication des mécanismes de réduction de variance et des limites théoriques du surapprentissage.
+Explication des mécanismes de réduction de variance et des limites théoriques au surapprentissage.
 
 ### 2.3.4 Les hyperparamètres clés des forêts aléatoires
 
@@ -140,32 +210,33 @@ Détail de la procédure d'estimation OOB, ses avantages et ses limites.
 
 Discussion des méthodes d'importance des variables (MDI, MDA, valeurs de Shapley, CIF, Sobol-MDA), leurs biais et leurs avantages.
 
-## 2.4 Le boosting
 
-Introduction au boosting, ses principes fondamentaux (approximation d'une fonction inconnue, somme pondérée de modèles simples, modélisation additive par étapes). Présentation des premières approches (AdaBoost, Gradient Boosting Machine). Détail de la mécanique du gradient boosting (fonction objectif, gradient, hessienne, construction de l'arbre). Moyens de lutter contre le surapprentissage. Hyperparamètres et préparation des données.
+## 2.4 Le _gradient boosting_
+
+Introduction au boosting, ses principes fondamentaux (approximation d'une fonction inconnue, somme pondérée de modèles simples, modélisation additive par étapes). Présentation des premières approches (AdaBoost, Gradient Boosting Machine). Détail de la mécanique du _gradient boosting_ (fonction objectif, gradient, hessienne, construction de l'arbre, calculs des poids optimaux). Moyens de lutter contre le surapprentissage.
 Cette section comporterait environ 10 pages.
 
 ### 2.4.1 Introduction
 
 Présentation générale du boosting.
 
-### 2.4.2 Les premières approches du boosting
+### 2.4.2 Les premières approches du _boosting_
 
 Présentation d'AdaBoost et de la Gradient Boosting Machine.
 
-### 2.4.3 La mécanique du gradient boosting
+### 2.4.3 La mécanique du _gradient boosting_
 
-Détail de la mécanique du gradient boosting. Fonction objectif, calcul des poids optimaux, construction de l'arbre, choix des splits.
+Détail de la mécanique du _gradient boosting_. Fonction objectif, calcul des poids optimaux, construction de l'arbre, choix des splits. Cette partie reprendrait les équations de @chen2016xgboost.
 
 ### 2.4.4 Les hyperparamètres
-Présentation des hyperparamètres.
+Présentation rapide des hyperparamètres.
 
 ### 2.4.5 Les fonctions de perte
 Présentation des fonctions de perte usuelles.
 
-### 2.4.5 Les moyens de lutter contre l'overfitting
+### 2.4.6 Les moyens de lutter contre l'overfitting
 
-Techniques pour éviter le surapprentissage dans les modèles _boosting_ (_shrinkage_, _subsampling_, régularisation).
+Techniques pour éviter le surapprentissage dans les modèles de _boosting_ (_shrinkage_, _subsampling_, régularisation).
 
 
 
@@ -174,32 +245,37 @@ Techniques pour éviter le surapprentissage dans les modèles _boosting_ (_shrin
 Objectif : Guide pratique pour l'utilisation des forêts aléatoires et du _gradient boosting_.
 Cette section comporterait environ 15 pages.
 
+__Angle éditorial__: cette partie  vise à aider les praticiens à s'approprier rapidement les méthodes. Elle est donc prescriptive:
 
-## 3.1 Préparation des données
+- Elle recommande certaines implémentations plutôt que d'autres;
+- Elle propose une procédure d'entraînement, qui n'est pas nécessairement optimale.
 
-Recommandations pour la préparation des données : gestion des valeurs manquantes, encodage des variables catégorielles, utilisation de pipelines.
-Pipeline Scikit-learn. Division des données en échantillons _train_ et _test_.
+## 3.1.1 Préparation des données
 
-## 3.2 Evaluation des performances du modèle et optimisation des hyperparamètres
+Recommandations pour la préparation des données : gestion des valeurs manquantes, encodage des variables catégorielles, utilisation de pipelines 
+`scikit-learn`. Division des données en échantillons _train_ et _test_.
+
+## 3.1.2 Evaluation des performances du modèle et optimisation des hyperparamètres
 
 Méthodes d'évaluation : validation croisée, estimation OOB. Stratégies d'optimisation des hyperparamètres : recherche exhaustive (grid search, random search), optimisation basée sur modèle séquentiel (SMBO).
 
-## 3.3 Guide d'entraînement des forêts aléatoires
+## 3.2 Guide d'entraînement des forêts aléatoires
 
-Recommandations pratiques pour l'entraînement des forêts aléatoires : implémentations à privilégier, hyperparamètres clés, procédures d'entraînement.
+Recommandations pratiques pour l'entraînement des forêts aléatoires: implémentations à privilégier, hyperparamètres clés, procédures d'entraînement.
 Cette section comporterait environ 5 pages.
 
-### 3.3.1 Quelles implémentations utiliser ?
+### 3.2.1 Quelles implémentations utiliser ?
 
 Recommandations sur les implémentations (ranger en R, scikit-learn en Python).
 
 ### 3.3.2 Les hyperparamètres clés des forêts aléatoires
 
-Détail des hyperparamètres et valeurs par défaus dans les implémentations usuelles.
+Présentation détaillée des hyperparamètres: effet sur les performances, et valeurs par défaut dans les implémentations usuelles.
 
 ### 3.3.3 Comment entraîner une forêt aléatoire ?
 
 Procédure d'entraînement étape par étape.
+
 Recommandations pour l'optimisation des hyper-paramètres: approche exploratoire (grid search et random search) et approches avancées (SMBO).
 
 ### 3.3.4 Mesurer l'importance des variables
@@ -212,9 +288,14 @@ Recommandations pratiques pour l'entraînement des algorithmes de _gradient boos
 Cette section comporterait environ 5 pages.
 
 # 4. Cas d’usage des méthodes ensemblistes dans la statistique publique
+
 Objectif: présenter des travaux du SSP qui mobilisent, ou qui pourraient mobiliser, des méthodes ensemblistes.
-Liste non exhaustive. Résumés de ces travaux et liens vers les publications de référence.
-Cette section comporterait environ 2 pages.
+
+__Angle éditorial__: cette partie  vise à montrer la diversité des usages possibles des méthodes ensemblistes.
+
+Résumés de ces travaux et liens vers les publications de référence.
+
+Cette section comporterait entre 3 et 5 pages.
 
 ## 4.1. Les travaux déjà publiés mobilisant des méthodes ensemblistes
 
