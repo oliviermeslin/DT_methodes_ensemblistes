@@ -4,18 +4,30 @@
 
 ### Démarche
 
-- Que pensez-vous l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), puis présentation plus formalisée (Section 2), puis guide d'entraînement pratique (Section 3) ?
-- Que pensez-vous de séparer la présentation des méthodes elles-mêmes, et leur usage?
-- Un autre plan possible: aperçu intuitif (Section 1) puis présentation des random forests (fonctionnement et guide pratique, Section 2), puis présentation du gradient boosting  (fonctionnement et guide pratique, Section 3)
-- Faut-il dédier une section spécialement à l'interprétabilité ?
+- Que pensez-vous de l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), présentation formalisée (Section 2), guide d'entraînement pratique (Section 3) ? 
+Cette structure est-elle suffisamment claire ?
+- Est-il préférable de séparer complètement la présentation des méthodes (Section 2) de leur guide d'utilisation pratique (Section 3) ? 
+Ou une approche plus intégrée serait-elle plus efficace ?
+Par exemple, un plan alternatif pourrait être: aperçu intuitif (Section 1), forêts aléatoires (fonctionnement et guide pratique, Section 2), gradient boosting (fonctionnement et guide pratique, Section 3).
+
+
+### Contenu des parties rédigées
+Les sections 3.3 et 4.3 présentant les forêts aléatoires sont déjà en partie rédigéee:
+- Sont-elles suffisamment claires ? Y a-t-il des points à éclaircir ? 
+- Le niveau de détail est-il approprié ? 
+- Les choix méthodologiques (implémentations recommandées, etc.) sont-ils justifiés et bien expliqués ? 
+- Le niveau de détail sur l'optimisation des hyperparamètres est-il suffisant ? 
+- Les recommandations sur les méthodes d'interprétation sont-elles adaptées? Comment gérer le fait que certaines sont implémentées en Python mais pas en R ?
 
 ### Présentation des algorithmes
 
-- Veut-on mettre une présentation des algorithmes en pseudocode?
+-  Est-il pertinent d'inclure des présentations des algorithmes en pseudocode ?
 
 ### Interprétabilité
 
-- Les approches d'interprétation doivent-elles être abordées pour chaque algorithme, ou dans une partie à part? => proposition: faire une partie à part, éventuellement avec des éléments spécifiques aux RF ou au GB s'il y en a.
+- Faut-il dédier une section à part entière à l'interprétabilité des modèles ensemblistes ?
+- Les approches d'interprétation doivent-elles être incluses dans les sections déjà dédiées à chaque algorithme? 
+=> proposition: faire une section à part, éventuellement en insistant sur les spécificités liées aux RF ou au GB si besoin.
 
 ### Recommandations
 

@@ -16,13 +16,13 @@ Un exemple avec une tâche de régression (prédire l’âge) et une tâche de c
 
 ## Liste des notebooks
 
-2 applications très simples sont envisagées: prédire l'âge (régression) et prédire le niveau de diplôme (classification) à partir des données individuelles du recensement de la population.
+2 applications très simples sont envisagées: prédire l'âge (**régression**) et prédire le niveau de diplôme (**classification**) à partir des données individuelles du recensement de la population.
 
 - 2 notebooks en R : 
     - régression et classification par **forêt aléatoire** avec la librairie `Ranger`
 - 4 notebooks en Python : 
     - régression et classification par **forêt aléatoire** avec la librairie `Scikit-learn`
-    - régression et classification par **gradient boosting** avec la librairie `Scikit-learn`
+    - régression et classification par **_gradient boosting_** avec la librairie `Scikit-learn`
 
 
 
