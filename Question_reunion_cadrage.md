@@ -7,6 +7,7 @@
 - Que pensez-vous l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), puis présentation plus formalisée (Section 2), puis guide d'entraînement pratique (Section 3) ?
 - Que pensez-vous de séparer la présentation des méthodes elles-mêmes, et leur usage?
 - Un autre plan possible: aperçu intuitif (Section 1) puis présentation des random forests (fonctionnement et guide pratique, Section 2), puis présentation du gradient boosting  (fonctionnement et guide pratique, Section 3)
+- Faut-il dédier une section spécialement à l'interprétabilité ?
 
 ### Présentation des algorithmes
 
