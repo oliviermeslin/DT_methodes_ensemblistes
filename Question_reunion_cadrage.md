@@ -4,51 +4,41 @@
 
 ### Démarche
 
+
 - Que pensez-vous de l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), présentation formalisée (Section 2), guide d'entraînement pratique (Section 3) ? 
-Cette structure est-elle suffisamment claire ?
 
 - Est-il préférable de séparer complètement la présentation des méthodes (Section 2) de leur guide d'utilisation pratique (Section 3) ? 
-Ou une approche plus intégrée serait-elle plus efficace ?
-Par exemple, un plan alternatif pourrait être: aperçu intuitif (Section 1), forêts aléatoires (fonctionnement et guide pratique, Section 2), gradient boosting (fonctionnement et guide pratique, Section 3).
+Ou une approche plus intégrée serait-elle plus efficace ? Un plan alternatif pourrait être: aperçu intuitif (Section 1), forêts aléatoires (fonctionnement et guide pratique, Section 2), gradient boosting (fonctionnement et guide pratique, Section 3).
 
 
 ### Contenu des parties rédigées
-Les sections 3.3 et 4.3 présentant les forêts aléatoires sont déjà en partie rédigéee:
-
-- Sont-elles suffisamment claires ?
-
-- Le niveau de détail est-il approprié ? 
-
-- Les choix méthodologiques (implémentations recommandées, etc.) sont-ils justifiés et bien expliqués ? 
-
+Les sections 3.3 et 4.3 présentant les forêts aléatoires sont déjà en partie rédigées:
+- Sont-elles suffisamment claires ? Y a-t-il des points à éclaircir ?  Le niveau de détail est-il approprié ? 
 - Le niveau de détail sur l'optimisation des hyperparamètres est-il suffisant ? 
-
 
 ### Présentation des algorithmes
 
--  Est-il pertinent d'inclure des présentations des algorithmes en pseudocode ?
+-  Est-il pertinent d'inclure des présentations des algorithmes en pseudocode ? => proposition: ne pas inclure de pseudocode.
 
 ### Interprétabilité
 
-- Faut-il dédier une section à part entière à l'interprétabilité des modèles ensemblistes ?
+- Faut-il dédier une section à part entière à l'interprétabilité des modèles ensemblistes ? Ou les approches d'interprétation doivent-elles plutôt être incluses dans les sections déjà dédiées à chaque algorithme? => proposition: faire une section à part, éventuellement en insistant sur les spécificités liées aux forêts aléatoires ou au _gradient boosting_ si besoin.
 
-- Les approches d'interprétation doivent-elles être incluses dans les sections déjà dédiées à chaque algorithme? 
-=> proposition: faire une section à part, éventuellement en insistant sur les spécificités liées aux RF ou au GB si besoin.
+- La recherche sur l'interprétabilité des modèles est foisonnante, et il ne nous semble pas qu'aucune méthode ne fait consensus. Quelles approches d'interprétabilité doivent-être présentées?
 
 - Les recommandations sur les méthodes d'interprétation sont-elles adaptées? Comment gérer le fait que certaines sont implémentées en R mais pas en Python ?
 
 ### Recommandations
 
-- Probst et al 2019, et S. Da Veiga recommande d'utiliser l'erreur _out-of-bag_ (plutôt que la validation croisée) pour optimiser les hyperparamètres des forêts aléatoires, car c'est plus rapide. Toutefois, cette approche ne peut pas être implémentée de façon standard en Python avec `scikit-learn` (qui ne propose que la validation croisée). Il est possible de trouver un moyen de contournement ([ici](https://stackoverflow.com/questions/34624978/is-there-easy-way-to-grid-search-without-cross-validation-in-python) par exemple), mais ce n'est pas standard. 
-$
-Doit-on recommander l'utilisation de l'erreur OOB ou de la validation croisée pour l'optimisation des hyperparamètres ? 
+- Les implémentations recommandées (`ranger`, `scikit-learn`, `XGBoost` et `lightgbm`) sont-elles bien choisies? Jusqu'à quel point faut-il justifier ces choix?
 
+- Probst et al 2019 et et le cours de S. Da Veiga recommandent d'utiliser l'erreur _out-of-bag_ (plutôt que la validation croisée) pour optimiser les hyperparamètres des forêts aléatoires, car c'est plus rapide. Toutefois, cette approche ne peut pas être implémentée de façon standard en Python avec `scikit-learn` (qui ne propose que la validation croisée). Il est possible de trouver un moyen de contournement ([ici](https://stackoverflow.com/questions/34624978/is-there-easy-way-to-grid-search-without-cross-validation-in-python) par exemple), mais ce n'est pas standard. Que voulons-nous recommander: OOB ou CV? => proposition: on présente les deux approches, en insistant sur le fait que l'approche OOB est spécifique aux forêts aléatoires.
 
-## Les notebooks
-- Faut-il utiliser systématiquement les pipelines scikit-learn dans les notebooks ?
-Faut-il que certains notebooks utilisent les pipelines scikit-learn ?
-Cela améliore-t-il la lisibilité, la reproductibilité et la diffusion des bonnes pratiques, ou cela ajoute-t-il une couche d'abstraction excessive qui nuit à la pédagogie ?
+## Les _notebooks_
 
-- Y a-t-il des cas d'usages intéressants pour la statistique publique qui ne seraient pas couverts par la liste des notebooks proposés?
+- Faut-il proposer des notebooks qui utilisent les _pipelines_ `scikit-learn` afin de sensibiliser/former à leur usage ? Cela ajoute-t-il une couche d'abstraction qui peut nuire à la bonne compréhension des étapes de construction d'un modèle ? => proposition: utiliser les _pipelines_.
 
+- Y a-t-il des cas d'usages majeurs qui ne seraient pas couverts par la liste des notebooks proposés?
+
+- Faut-il couvrir tous les cas d'usage en `R` et en Python?  => proposition: les _notebooks_ `R` ne porteront que sur les forêts aléatoires. Les _notebooks_ de _gradient boosting_ seront uniquement en Python.
 
