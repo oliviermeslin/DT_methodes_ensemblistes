@@ -4,7 +4,8 @@
 
 ### Démarche
 
-- Que pensez-vous de l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), présentation formalisée (Section 2), guide d'entraînement pratique (Section 3) ?
+
+- Que pensez-vous de l'approche à trois niveaux de lecture : aperçu intuitif (Section 1), présentation formalisée (Section 2), guide d'entraînement pratique (Section 3) ? 
 
 - Est-il préférable de séparer complètement la présentation des méthodes (Section 2) de leur guide d'utilisation pratique (Section 3) ? 
 Ou une approche plus intégrée serait-elle plus efficace ? Un plan alternatif pourrait être: aperçu intuitif (Section 1), forêts aléatoires (fonctionnement et guide pratique, Section 2), gradient boosting (fonctionnement et guide pratique, Section 3).
@@ -24,6 +25,8 @@ Les sections 3.3 et 4.3 présentant les forêts aléatoires sont déjà en parti
 - Faut-il dédier une section à part entière à l'interprétabilité des modèles ensemblistes ? Ou les approches d'interprétation doivent-elles plutôt être incluses dans les sections déjà dédiées à chaque algorithme? => proposition: faire une section à part, éventuellement en insistant sur les spécificités liées aux forêts aléatoires ou au _gradient boosting_ si besoin.
 
 - La recherche sur l'interprétabilité des modèles est foisonnante, et il ne nous semble pas qu'aucune méthode ne fait consensus. Quelles approches d'interprétabilité doivent-être présentées?
+
+- Les recommandations sur les méthodes d'interprétation sont-elles adaptées? Comment gérer le fait que certaines sont implémentées en R mais pas en Python ?
 
 ### Recommandations
 
