@@ -10,8 +10,7 @@ Les _notebooks_ devront être conçus pour être indépendants, reproductibles e
 
 - **Diffusion des bonnes pratiques**: utilisation de _pipelines_ `scikit-learn`, choix de librairies performantes et robustes (`ranger`, `scikit-learn`), gestion rigoureuse de l'environnement, des données.
 
-- **Applications concrètes**: Illustrer l'application des méthodes sur des cas d'usage simples basés sur les données individuelles du recensement de la population diffusées au format parquet (prédiction de l'âge et du niveau de diplôme).
-Un exemple avec une tâche de régression (prédire l’âge) et une tâche de classification (prédire le niveau de diplôme).
+- **Applications concrètes**: Illustrer l'application des méthodes sur des cas d'usage simples basés sur des données ouvertes: une tâche de régression (prédire les prix immobilier) et une tâche de classification (prédire le niveau de diplôme).
 
 
 ## Liste des _notebooks_
