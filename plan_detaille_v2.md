@@ -132,7 +132,7 @@ Explication des mécanismes de réduction de variance et des limites théoriques
 
 Détail des principaux hyperparamètres, leur rôle et leur influence sur les performances. Tableau récapitulatif.
 
-### 2.3.5 Estimation de l'erreur Out-of-Bag (OOB)
+### 2.3.5 Evaluation des performances par l'erreur Out-of-Bag (OOB)
 
 Détail de la procédure d'estimation OOB, ses avantages et ses limites.
 
