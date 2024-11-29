@@ -48,7 +48,7 @@ functions:
 Cette introduction aux méthodes ensemblistes s'adresse aux agents de la statistique publique. Elle prendra deux formes:
 
 - Un document méthodologique comprenant entre 80 et 100 pages, figures et annexes comprises;
-- Un site internet ((lien)[https://oliviermeslin.github.io/DT_methodes_ensemblistes/]).
+- Un site internet (`#link("https://oliviermeslin.github.io/DT_methodes_ensemblistes/")[emplacement]`{=typst} temporaire).
 
 
 # Introduction
