@@ -17,7 +17,7 @@ Les _notebooks_ devront être conçus pour être indépendants, reproductibles e
 
 ### _Notebooks_ de base
 
-Deux applications très simples sont envisagées: un problème de **régression** (prédire des prix immobiliers) et un problème de **classification binaire** (prédire le niveau de diplôme à partir des données individuelles du recensement de la population).
+Deux applications très simples sont envisagées: un problème de **régression** (prédire des prix immobiliers) et un problème de **classification binaire** (prédire le fait d'être diplômé du baccalauréat à partir des données individuelles du recensement de la population).
 
 - Deux _notebooks_ en `R` : 
     - régression et classification par **forêt aléatoire** avec la librairie `ranger`.
