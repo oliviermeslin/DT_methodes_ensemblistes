@@ -54,7 +54,7 @@ format:
 - **Délimiter les contours du document** 
 
 
-## Agenda de la Réunion
+## Ordre du jour
 
 1. Présentation du projet
 2. Présentation du plan détaillé
@@ -65,7 +65,7 @@ format:
 7. Prochaines étapes
 
 
-## Présentation du Projet
+## Présentation du projet
 
 **Objectif du Document Méthodologique**
 
