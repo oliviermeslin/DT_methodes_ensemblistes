@@ -2,7 +2,7 @@
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Réunion de cadrage"
 author:
-    - "Olivier Meslin et Mélina Hillion"
+    - "Mélina Hillion et Olivier Meslin"
 date: "2024-12-06"
 date-format: long
 lang: fr-FR
