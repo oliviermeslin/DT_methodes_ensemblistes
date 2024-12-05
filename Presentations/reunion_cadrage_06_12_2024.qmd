@@ -1,0 +1,33 @@
+---
+title: "Introduction aux méthodes ensemblistes"
+subtitle: "Réunion de cadrage"
+author:
+    - "Olivier Meslin et Mélina Hillion"
+date: "2024-12-06"
+date-format: long
+lang: fr-FR
+format:
+  revealjs:
+    pdf-export: true
+    output-file: reunion_cadrage_06_12_2024.html
+    slide-number: true
+    chalkboard: true
+    css: custom.css
+---
+
+
+# Introduction
+
+Bienvenue à cette présentation!
+
+---
+
+# Deuxième Slide
+
+- Point 1
+- Point 2
+- **Point important**
+
+---
+
+
