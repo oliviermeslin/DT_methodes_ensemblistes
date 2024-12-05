@@ -1,7 +1,70 @@
-.green2, .green2 code, .green2 a { color: #008A25!important; }
-.red2, .red2 code, .red2 a { color: #EE0220!important; }
-.blue2, .blue2 code, .blue2 a { color: #4758AB!important; }
-.quarto-title-author-name  {
-    color: #ec6842;
-    font-weight: bold;
+/* Modification des tailles de police pour différents niveaux */
+.reveal h1 {
+  font-size: 1.5em; /* Taille des titres de niveau 1 */
+}
+
+.reveal h2 {
+  font-size: 1em; /* Taille des titres de niveau 2 */
+}
+
+.reveal p {
+  font-size: 0.7em; /* Taille des paragraphes */
+}
+
+/* Ajout des styles personnalisés pour les couleurs */
+.green2, .green2 code, .green2 a { 
+  color: #008A25 !important; 
+}
+
+.red2, .red2 code, .red2 a { 
+  color: #EE0220 !important; 
+}
+
+.blue2, .blue2 code, .blue2 a { 
+  color: #4758AB !important; 
+}
+
+/* Style pour le titre et le nom de l'auteur */
+.quarto-title-author-name {
+  color: #ec6842;
+  font-weight: bold;
+}
+
+/* Ajout d'une classe pour réduire la taille de police sur certaines slides */
+.smaller {
+  font-size: 0.8em;
+}
+
+/* Ajout d'une classe pour augmenter la taille de police si nécessaire */
+.larger {
+  font-size: 1.2em;
+}
+
+/* Ajout d'un style générique pour les liens et les codes dans les slides */
+.reveal a {
+  text-decoration: underline;
+  color: #4758AB; /* Couleur par défaut des liens */
+}
+
+.reveal code {
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+
+.reveal p {
+  margin: 0.5em; /* Définit un espacement vertical de 1em autour des paragraphes */
+}
+
+.reveal ul {
+  margin-top: 0em;    /* Espace au-dessus des listes */
+  margin-bottom: 0.5em; /* Espace en dessous des listes */
+  padding-left: 1em;  /* Indente les listes */
+}
+
+.reveal ul li {
+  margin-bottom: 0em; /* Espace entre les points de la liste */
 }

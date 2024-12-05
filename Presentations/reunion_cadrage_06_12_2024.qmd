@@ -2,7 +2,7 @@
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Réunion de cadrage"
 author:
-    - "Mélina Hillion et Olivier Meslin"
+    - "Olivier Meslin et Mélina Hillion"
 date: "2024-12-06"
 date-format: long
 lang: fr-FR
@@ -16,18 +16,288 @@ format:
 ---
 
 
+
+
 # Introduction
 
-Bienvenue à cette présentation!
+---
+
+**Objectif principal**
+
+- Intégrer les méthodes ensemblistes dans la boîte à outils des statisticiens publics, au même titre que la régression linéaire ou logistique.
+
+. . .
+
+
+**Pourquoi s'y intéresser ?**
+
+- Méthodes devenues standard
+
+- Facilité d'implémentation
+
+- État de l'art
+
+- Performances supérieures
+
+
 
 ---
 
-# Deuxième Slide
+**Pourquoi cette réunion de cadrage ?**
 
-- Point 1
-- Point 2
-- **Point important**
+- **Valider notre approche avec vous** 
+
+- **Collecter vos besoins et vos suggestions**  
+  + Qu'attendez d'un tel document méthodologique? 
+  + Qu'est-ce qui faciliterait l'adoption de ces méthodes ?
+
+- **Délimiter les contours du document** 
+
+
+## Agenda de la Réunion
+
+1. Présentation du projet
+2. Présentation du plan détaillé
+3. Discussion sur les choix éditoriaux
+4. Questions liées au contenu
+5. Vos besoins et attentes
+6. Notebooks et cas d'usage
+7. Prochaines étapes
+
+
+## Présentation du Projet
+
+**Objectif du Document Méthodologique**
+
+- Fournir un guide **complet et accessible** sur les méthodes ensemblistes pour les statisticiens publics.
+
+
+. . .
+
+
+**Bénéfices attendus**
+
+- **Améliorer les compétences** 
+
+- **Améliorer la production de données et d'analyses** 
+
+- **Encourager l'adoption de techniques à l'état de l'art**
+
+
+## Présentation du plan détaillé
+
+**1. Introduction**
+
+- Contexte et objectifs.
+
+. . .
+
+**2. Aperçu des méthodes ensemblistes**
+
+- Présentation intuitive sans formalisme.
+- Pourquoi et comment les utiliser.
+
+. . .
+
+**3.Présentation formelle des méthodes**
+
+- Détails mathématiques essentiels.
+- Références aux travaux fondateurs.
+
+
+## Présentation du plan détaillé
+
+**4. Mise en pratique**
+
+- Guides d'entraînement pour les forêts aléatoires et le gradient boosting.
+- Recommandations et bonnes pratiques.
+
+. . .
+
+**5. Cas d'usage dans la statistique publique**
+
+- Exemples concrets d'applications.
+
+. . .
+
+**6. Annexes et ressources**
+
+- Références, liens utiles.
+
+
+
+## Angles éditoriaux actuels
+- **Approche progressive** : du général au spécifique, sans prérequis techniques.
+
+- **Orientation pratique** : focus sur l'application et l'implémentation.
+
+- **Accessibilité** : illustrations, exemples concrets.
+
+
+
+# Discussion sur les Choix Éditoriaux
 
 ---
 
+**1. Niveaux de lecture et organisation du contenu** :
 
+- Aperçu intuitif
+- Présentation formelle
+- Guide pratique
+
+. . .
+
+- Option A : 
+
+  + Séparation claire entre la présentation des méthodes (théorie) et le guide pratique (application).
+
+- Option B : Approche intégrée par méthode :
+
+  + Section Forêts Aléatoires : Théorie + Pratique
+  
+  + Section Gradient Boosting : Théorie + Pratique
+
+<!--
+**Questions** :
+
+- Quelle option faciliterait la compréhension et l'appropriation des méthodes ?
+
+- Comment structurer le document pour qu'il soit le plus utile possible ?
+
+-->
+
+---  
+
+**2. Contenu des sections rédigées** :
+
+- Les sections existantes sont-elles suffisamment claires ?
+
+- Le niveau de détail vous semble-t-il approprié ?
+
+
+. . .
+
+**3. Optimisation des hyperparamètres** :
+
+- Le niveau de détail sur l'optimisation des hyperparamètres est-il suffisant ?
+
+- Souhaitez-vous plus d'exemples ou de recommandations pratiques sur ce sujet ?
+
+
+. . .
+
+**4. Présentation des algorithmes** :
+
+- Est-il pertinent d'inclure des présentations des algorithmes en pseudocode ? 
+
+- Est-ce que cela nuit à la clarté ?
+
+
+---
+
+**5. Interprétabilité des modèles** :
+
+
+- Faut-il dédier une section entière à l'interprétabilité des modèles ensemblistes ?
+
+- Quelles approches d'interprétation souhaitez-vous voir expliquées ?
+
+- Comment gérer les différences d'implémentation entre R et Python ?
+
+
+. . .
+
+**6. Recommandations d'implémentation** :
+
+- Les implémentations recommandées (`ranger`, `scikit-learn`, `XGBoost`, `LightGBM`) vous conviennent-elles ?
+
+- **Évaluation des performances** :
+ 
+ + Erreur Out-of-Bag (OOB) vs Validation Croisée (CV)
+ 
+ + Présenter les deux approches, en soulignant que l'OOB est spécifique aux forêts aléatoires?
+ 
+ 
+## Vos besoins et attentes
+
+- Qu'attendez-vous de ce document méthodologique ?
+
+  + Formation, référence, guide pratique ?
+  
+- Quels sont les obstacles actuels à l'adoption des méthodes ensemblistes selon vous ?
+
+- Quelles ressources ou outils faciliteraient leur intégration dans la pratique usuelle ?
+
+- Comment pouvons-nous adapter le document pour qu'il réponde au mieux à ces/vos besoins ?
+ 
+ 
+## Notebooks et cas d'usage
+ 
+
+- **Deux applications simples** :
+
+  + Prédire l'âge (régression)
+
+  + Prédire le niveau de diplôme (classification)
+  
+  
+- **Utilisation de données open data** :
+
+  + Données individuelles du recensement de la population.
+ 
+ 
+. . .
+
+
+Langages et librairies :
+
+- En R : Forêts aléatoires avec `ranger` pour régression et classification.
+
+- En Python :
+
+  + Forêts aléatoires avec `scikit-learn`.
+
+  + Gradient boosting avec `scikit-learn`.
+ 
+Cette répartition vous convient-elle ? 
+ 
+ 
+## Notebooks et cas d'usage
+ 
+**Utilisation des pipelines `scikit-learn`** :
+
+- Inclure cette approche pour diffuser les bonnes pratiques ?
+
+- Avantage : Automatisation et reproductibilité.
+
+- Inconvénient : Peut ajouter une couche d'abstraction.
+ 
+
+. . .
+
+**Couverture des cas d'usage** :
+
+- Les exemples proposés sont-ils pertinents ?
+
+- Y a-t-il d'autres cas d'usage que vous aimeriez voir abordés ?
+
+
+
+## Prochaines Étapes
+
+- Synthèse des retours 
+
+- Rédaction et révision
+
+  + Finalisation des sections en cours.
+
+- Développement des notebooks :
+  + Ajout de nouvelles implémentations.
+  + Mise à disposition sur le SSPCloud.
+  
+  
+## Merci pour votre participation ! 
+  
+- Des questions supplémentaires ?
+
+- Des commentaires ou suggestions ?
