@@ -94,31 +94,34 @@ format:
 
 . . .
 
-**2. Aperçu des méthodes ensemblistes**
+**2. Aperçu des méthodes ensemblistes** (environ 10 pages) 
 
 - Présentation intuitive sans formalisme.
 - Pourquoi et comment les utiliser.
 
+
 . . .
 
-**3.Présentation formelle des méthodes**
+**3.Présentation formelle des méthodes** (environ 25 pages) 
 
-- Détails mathématiques essentiels.
+- Détails mathématiques essentiels, propriétés clés.
 - Références aux travaux fondateurs.
 
 
 ## Présentation du plan détaillé
 
-**4. Mise en pratique**
+**4. Mise en pratique** (environ 15 pages) 
 
-- Guides d'entraînement pour les forêts aléatoires et le gradient boosting.
+- Préparation des données, guides d'entraînement
 - Recommandations et bonnes pratiques.
+
 
 . . .
 
-**5. Cas d'usage dans la statistique publique**
+**5. Cas d'usage dans la statistique publique** (environ 2 pages) 
 
 - Exemples concrets d'applications.
+
 
 . . .
 
@@ -128,7 +131,8 @@ format:
 
 
 
-## Angles éditoriaux actuels
+## Angles éditoriaux
+
 - **Approche progressive** : du général au spécifique, sans prérequis techniques.
 
 - **Orientation pratique** : focus sur l'application et l'implémentation.
@@ -141,7 +145,7 @@ format:
 
 ---
 
-**1. Niveaux de lecture et organisation du contenu** :
+**1. Niveaux de lecture** :
 
 - Aperçu intuitif
 - Présentation formelle
@@ -151,7 +155,7 @@ format:
 
 - Option A : 
 
-  + Séparation claire entre la présentation des méthodes (théorie) et le guide pratique (application).
+  + Séparation claire entre présentation des méthodes (théorie) et guide pratique (application).
 
 - Option B : Approche intégrée par méthode :
 
@@ -170,29 +174,29 @@ format:
 
 ---  
 
-**2. Contenu des sections rédigées** :
+**2. Approche pédagogique** :
 
-- Les sections existantes sont-elles suffisamment claires ?
+- Sections existantes suffisamment claires ?
 
-- Le niveau de détail vous semble-t-il approprié ?
+- Niveau de détail approprié ?
 
 
 . . .
 
 **3. Optimisation des hyperparamètres** :
 
-- Le niveau de détail sur l'optimisation des hyperparamètres est-il suffisant ?
+- Niveau de détail suffisant ?
 
-- Souhaitez-vous plus d'exemples ou de recommandations pratiques sur ce sujet ?
+- Ajouter plus d'exemples ou de recommandations pratiques ?
 
 
 . . .
 
 **4. Présentation des algorithmes** :
 
-- Est-il pertinent d'inclure des présentations des algorithmes en pseudocode ? 
+- Inclure une présentation des algorithmes en pseudocode ? 
 
-- Est-ce que cela nuit à la clarté ?
+- Susceptible de nuire à la clarté ?
 
 
 ---
@@ -200,7 +204,7 @@ format:
 **5. Interprétabilité des modèles** :
 
 
-- Faut-il dédier une section entière à l'interprétabilité des modèles ensemblistes ?
+- Dédier une section entière à l'interprétabilité des modèles ?
 
 - Quelles approches d'interprétation souhaitez-vous voir expliquées ?
 
@@ -228,7 +232,7 @@ format:
   
 - Quels sont les obstacles actuels à l'adoption des méthodes ensemblistes selon vous ?
 
-- Quelles ressources ou outils faciliteraient leur intégration dans la pratique usuelle ?
+- Quelles ressources ou outils faciliteraient leur intégration ?
 
 - Comment pouvons-nous adapter le document pour qu'il réponde au mieux à ces/vos besoins ?
  
@@ -247,6 +251,7 @@ format:
 
   + Données individuelles du recensement de la population.
  
+- Question: l'accompagnement est-il suffisant ? 
  
 . . .
 
