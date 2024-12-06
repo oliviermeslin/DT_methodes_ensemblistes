@@ -69,12 +69,14 @@ format:
 
 ---
 
-**Objectif du Document Méthodologique**
+**Objectif du document méthodologique**
 
 - Fournir un guide **complet et accessible** sur les méthodes ensemblistes pour les statisticiens publics.
-- Format: $\approx$ 80-100 pages + 6 _Notebooks_ (voire plus)
+- Deux livrables: 
+    - un document pdf ($\approx$ 80-100 pages) et un site web (avec le même contenu)
+    - 6 _notebooks_ (voire plus)
 
-. . .
+---
 
 
 **Bénéfices attendus**
