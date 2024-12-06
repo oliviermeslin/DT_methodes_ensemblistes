@@ -60,8 +60,8 @@ format:
 1. Présentation du projet
 2. Présentation du plan détaillé
 3. Discussion sur les choix éditoriaux
-4. Vos besoins et attentes
-5. Notebooks et cas d'usage
+4. Notebooks et cas d'usage
+5. Vos besoins et attentes
 6. Prochaines étapes
 
 
