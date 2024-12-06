@@ -31,13 +31,16 @@ format:
 
 **Pourquoi s'y intéresser ?**
 
-- Méthodes devenues standard
+- État de l'art: méthodes devenues standard
+
+- Pertinence pour la statistique publique
+
+- Performance souvent supérieure
 
 - Facilité d'implémentation
+ 
 
-- État de l'art
 
-- Performances supérieures
 
 
 
@@ -45,7 +48,7 @@ format:
 
 **Pourquoi cette réunion de cadrage ?**
 
-- **Valider notre approche avec vous** 
+- **Valider l'approche** 
 
 - **Collecter vos besoins et vos suggestions**  
   + Qu'attendez d'un tel document méthodologique? 
@@ -59,10 +62,9 @@ format:
 1. Présentation du projet
 2. Présentation du plan détaillé
 3. Discussion sur les choix éditoriaux
-4. Questions liées au contenu
-5. Vos besoins et attentes
-6. Notebooks et cas d'usage
-7. Prochaines étapes
+4. Vos besoins et attentes
+5. Notebooks et cas d'usage
+6. Prochaines étapes
 
 
 ## Présentation du projet
@@ -70,7 +72,7 @@ format:
 **Objectif du Document Méthodologique**
 
 - Fournir un guide **complet et accessible** sur les méthodes ensemblistes pour les statisticiens publics.
-
+- Format: $\approx$ 60 pages + 6 notebooks
 
 . . .
 
