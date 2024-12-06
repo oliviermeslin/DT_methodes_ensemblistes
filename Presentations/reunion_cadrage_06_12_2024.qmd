@@ -79,7 +79,7 @@ format:
 
 **Bénéfices attendus**
 
-- **Améliorer les compétences** 
+- **Acquérir de nouvelles compétences** 
 
 - **Améliorer la production de données et d'analyses** 
 
@@ -104,7 +104,7 @@ format:
 
 . . .
 
-**3.Présentation formelle des méthodes** (environ 25 pages) 
+**3. Présentation formelle des méthodes** (environ 25 pages) 
 
 - Détails mathématiques essentiels, propriétés clés.
 - Références aux travaux fondateurs.
