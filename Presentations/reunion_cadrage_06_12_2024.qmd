@@ -47,10 +47,10 @@ format:
 - **Valider les choix éditoriaux et pédagogiques** 
 
 - **Collecter vos besoins et vos suggestions**  
-  + Qu'attendez d'un tel document méthodologique? 
+  + Qu'attendez-vous d'un tel document méthodologique? 
   + Qu'est-ce qui faciliterait l'adoption de ces méthodes ?
 
-- **Délimiter les contours du document** 
+- **Délimiter les contours du document**
 
 
 ---
@@ -138,7 +138,7 @@ format:
 
 ## Angles éditoriaux
 
-- **Approche progressive** : du général au spécifique, sans prérequis techniques.
+- **Approche progressive** : du général au spécifique, avec peu de prérequis techniques.
 
 - **Orientation pratique** : focus sur l'application et l'implémentation.
 
@@ -151,7 +151,9 @@ Ce que cette introduction n'est pas:
 - une introduction générale au _machine learning_;
 - une formation aux outils standard (`scikit-learn`).
 
-# Discussion sur les Choix éditoriaux
+Cette introduction requiert donc un bagage minimal en _machine learning_.
+
+# Discussion sur les choix éditoriaux
 
 ---
 
@@ -201,8 +203,7 @@ Ce que cette introduction n'est pas:
 
 - Ajouter plus d'exemples ou de recommandations pratiques ?
 
-
-. . .
+---
 
 **4. Présentation des algorithmes** :
 
@@ -210,8 +211,7 @@ Ce que cette introduction n'est pas:
 
 - Susceptible de nuire à la clarté ?
 
-
----
+. . .
 
 **5. Interprétabilité des modèles** :
 
@@ -271,7 +271,7 @@ Ce que cette introduction n'est pas:
 
   - éventuellement des _notebooks_ avancés (gestion des variables catégorielles, interpolation spatiale...)
 
-
+  - __Choix__: le _gradient boosting_ se fait uniquement en Python.
  
  
 ## _Notebooks_ et cas d'usage
@@ -282,7 +282,7 @@ Ce que cette introduction n'est pas:
 
 - Avantage : Automatisation et reproductibilité, acculturation aux bonnes pratiques.
 
-- Inconvénient : rend les _Notebooks_ moins accessibles.
+- Inconvénient : rend les _notebooks_ moins accessibles.
  
 
 . . .
@@ -311,7 +311,7 @@ Ce que cette introduction n'est pas:
 
 
 
-## Prochaines Étapes
+## Prochaines étapes
 
 - Synthèse des retours 
 
@@ -319,7 +319,7 @@ Ce que cette introduction n'est pas:
 
   + Finalisation des sections en cours.
 
-- Développement des _Notebooks_
+- Développement des _notebooks_
   + Ajout de nouvelles implémentations.
   + Mise à disposition sur le SSPCloud.
   
