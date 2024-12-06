@@ -2,7 +2,7 @@
 title: "Introduction aux méthodes ensemblistes"
 subtitle: "Réunion de cadrage"
 author:
-    - "Olivier Meslin et Mélina Hillion"
+    - "Mélina Hillion et Olivier Meslin"
 date: "2024-12-06"
 date-format: long
 lang: fr-FR
@@ -44,7 +44,7 @@ format:
 
 ## Pourquoi cette réunion de cadrage ?
 
-- **Valider l'approche** 
+- **Valider les choix éditoriaux et pédagogiques** 
 
 - **Collecter vos besoins et vos suggestions**  
   + Qu'attendez d'un tel document méthodologique? 
@@ -60,7 +60,7 @@ format:
 1. Présentation du projet
 2. Présentation du plan détaillé
 3. Discussion sur les choix éditoriaux
-4. Notebooks et cas d'usage
+4. _Notebooks_ et cas d'usage
 5. Vos besoins et attentes
 6. Prochaines étapes
 
@@ -72,7 +72,7 @@ format:
 **Objectif du Document Méthodologique**
 
 - Fournir un guide **complet et accessible** sur les méthodes ensemblistes pour les statisticiens publics.
-- Format: $\approx$ 60 pages + 6 notebooks
+- Format: $\approx$ 80-100 pages + 6 _Notebooks_ (voire plus)
 
 . . .
 
@@ -96,7 +96,7 @@ format:
 
 . . .
 
-**2. Aperçu des méthodes ensemblistes** (environ 10 pages) 
+**2. Aperçu des méthodes ensemblistes** (10-15 pages) 
 
 - Présentation intuitive sans formalisme.
 - Pourquoi et comment les utiliser.
@@ -104,18 +104,19 @@ format:
 
 . . .
 
-**3. Présentation formelle des méthodes** (environ 25 pages) 
+**3. Présentation formelle des méthodes** (25-30 pages) 
 
-- Détails mathématiques essentiels, propriétés clés.
 - Références aux travaux fondateurs.
-
+- Détails mathématiques essentiels, propriétés clés.
+- Points avancés (variables catégorielles, fonctions de perte...)
 
 
 ---
 
 **4. Mise en pratique** (environ 15 pages) 
 
-- Préparation des données, guides d'entraînement
+- Préparation des données
+- Guides d'entraînement
 - Recommandations et bonnes pratiques.
 
 
@@ -143,9 +144,14 @@ format:
 
 - **Accessibilité** : illustrations, exemples concrets.
 
+## Angles éditoriaux
 
+Ce que cette introduction n'est pas:
 
-# Discussion sur les Choix Éditoriaux
+- une introduction générale au _machine learning_;
+- une formation aux outils standard (`scikit-learn`).
+
+# Discussion sur les Choix éditoriaux
 
 ---
 
@@ -191,6 +197,8 @@ format:
 
 - Niveau de détail suffisant ?
 
+- Approuvez-vous l'idée de proposer une procédure d'entraînement?
+
 - Ajouter plus d'exemples ou de recommandations pratiques ?
 
 
@@ -222,18 +230,17 @@ format:
 - Les implémentations recommandées (`ranger`, `scikit-learn`, `XGBoost`, `LightGBM`) vous conviennent-elles ?
 
 - **Évaluation des performances** :
+
+    - Erreur Out-of-Bag (OOB) vs Validation Croisée (CV)
+    - Présenter les deux approches, en soulignant que l'OOB est spécifique aux forêts aléatoires?
  
- + Erreur Out-of-Bag (OOB) vs Validation Croisée (CV)
  
- + Présenter les deux approches, en soulignant que l'OOB est spécifique aux forêts aléatoires?
- 
- 
-## Notebooks et cas d'usage
+## _Notebooks_ et cas d'usage
  
 
 - **Deux applications simples** :
 
-  + Prédire l'âge (régression)
+  + Prédire les prix immobiliers (régression)
 
   + Prédire le niveau de diplôme (classification)
   
@@ -243,40 +250,39 @@ format:
 - **Utilisation de données open data** :
 
   + Données individuelles du recensement de la population.
- 
+  + Données sur les transactions immobilières
 
 . . . 
  
 - **Question**: L'accompagnement est-il suffisant ? 
 
 
-## Notebooks et cas d'usage
+## _Notebooks_ et cas d'usage
 
 - **Langages et librairies** :
 
-  - En R : Forêts aléatoires avec `ranger` pour régression et classification.
+  - En R : Forêts aléatoires avec `ranger`.
 
   - En Python :
 
       + Forêts aléatoires avec `scikit-learn`.
     
-      + Gradient boosting avec `scikit-learn`.
- 
-. . .  
+      + Gradient boosting avec `xgboost` ou `lightgbm`.
 
-- **Question**: Cette répartition vous convient-elle ? 
+  - éventuellement des _notebooks_ avancés (gestion des variables catégorielles, interpolation spatiale...)
+
+
  
  
+## _Notebooks_ et cas d'usage
  
-## Notebooks et cas d'usage
- 
-**Utilisation des pipelines `scikit-learn`** :
+**Utilisation des _pipelines_ `scikit-learn`** :
 
 - Inclure cette approche pour diffuser les bonnes pratiques ?
 
-- Avantage : Automatisation et reproductibilité.
+- Avantage : Automatisation et reproductibilité, acculturation aux bonnes pratiques.
 
-- Inconvénient : Peut ajouter une couche d'abstraction.
+- Inconvénient : rend les _Notebooks_ moins accessibles.
  
 
 . . .
@@ -313,7 +319,7 @@ format:
 
   + Finalisation des sections en cours.
 
-- Développement des notebooks
+- Développement des _Notebooks_
   + Ajout de nouvelles implémentations.
   + Mise à disposition sur le SSPCloud.
   
